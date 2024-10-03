@@ -1,9 +1,11 @@
+import { StyledLogin } from "./style"
+
 export function CardLogin() {
     return (
         <>
-            <div>
-                teste
-            </div>
+            <StyledLogin>
+            
+            </StyledLogin>
 
         </>
 

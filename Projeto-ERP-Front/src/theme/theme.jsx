@@ -1,4 +1,4 @@
-export const themes = {
+export const theme = {
     cores: {
         branco: "#fff",
         preto: "#000",
