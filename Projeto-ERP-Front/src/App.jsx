@@ -1,9 +1,10 @@
+import { CardLogin } from "./componets/Cards/CardLogin"
 
 function App() {
   
   return (
     <>
-     <h1>Teste</h1>
+     <CardLogin />
     </>
   )
 }
