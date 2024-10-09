@@ -1,13 +1,13 @@
 import React from 'react';
 import Label from '../Label';
-import { InputComponent } from './style';
+import { ContainerInput, InputComponent } from './style';
 
 function Input({ reference, label, value, onChange }) {
   return (
-    <div>
+    <ContainerInput>
       <Label reference={reference} labelName={label} />
       <InputComponent name={reference} onChange={onChange} id={reference} />
-    </div>
+    </ContainerInput>
   );
 }
 
