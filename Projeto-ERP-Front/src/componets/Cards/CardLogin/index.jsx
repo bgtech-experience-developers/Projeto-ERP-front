@@ -5,19 +5,16 @@ import { FormLogin } from "../../Formulario/Login"
 import { BotaoLogin } from "../../Botao/BotaoLogin"
 
 
-export function CardLogin() {
+export const CardLogin = () => {
     return (
         <>
-            <StyledLogin>
-                <TituloLogin/>
-                <Paragrafo/>
-                <FormLogin/>
-                <BotaoLogin/>
-                <Paragrafo/>
-            </StyledLogin>
-
+          <StyledLogin>
+               <TituloLogin/>
+               <Paragrafo/>
+               <FormLogin/>
+               <BotaoLogin/>
+               <Paragrafo/>
+           </StyledLogin>
         </>
-
     )
-
 }
