@@ -7,6 +7,12 @@ const variants = {
     width: "100%",
     marginBottom: "10px",
   },
+  inputDuplo: {
+    display: "flex",
+    width: "100%",
+    marginBottom: "10px",
+    gap: "1rem",
+  }
 };
 
 export const StyledFormField = styled.div`
@@ -14,4 +20,5 @@ export const StyledFormField = styled.div`
   flex-direction: ${(props) => variants[props.$variant]?.flexDirection};
   width: ${(props) => variants[props.$variant]?.width};
   margin-bottom: ${(props) => variants[props.$variant]?.marginBottom};
+  gap: ${(props) => variants[props.$variant]?.gap};
 `;

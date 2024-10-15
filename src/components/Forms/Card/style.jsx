@@ -5,7 +5,7 @@ const getDivStyles = (theme, variant) => {
     default: {
       border: "none",
       backgroundColor: theme.cores.secondary,
-      borderRadius: `4px`,
+      borderRadius: "0 0 0.8rem 0.8rem",
       color: theme.cores.preto,
       display: "flex",
       flexDirection: "column",
@@ -13,6 +13,28 @@ const getDivStyles = (theme, variant) => {
       justifyContent: "center",
       padding: "2.5rem",
       margin: "0 auto",
+      minWidth: "5rem",
+    },
+    cardRegister: {
+      border: "none",
+      backgroundColor: theme.cores.cardRegister,
+      borderRadius: "0 0 0.8rem 0.8rem",
+      color: theme.cores.preto,
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      padding: "2.5rem",
+      margin: "0 auto",
+      minWidth: "5rem",
+    },
+    titleRegister: {
+      border: "none",
+      backgroundColor: theme.cores.azul,
+      borderRadius: "0.8rem 0.8rem 0 0",
+      color: theme.cores.fonte,
+      padding: "3rem 3rem 3rem 6rem",
+      margin: "5rem auto auto",
       minWidth: "5rem",
     },
   };
@@ -29,11 +51,14 @@ export const StyledDiv = styled.div`
   justify-content: ${(props) =>
     getDivStyles(props.theme, props.$variant).justifyContent};
   padding: ${(props) => getDivStyles(props.theme, props.$variant).padding};
+  border-radius: ${(props) => getDivStyles(props.theme, props.$variant).borderRadius};
   margin: ${(props) => getDivStyles(props.theme, props.$variant).margin};
   min-width: ${(props) => getDivStyles(props.theme, props.$variant).minWidth};
   background-color: ${(props) =>
     getDivStyles(props.theme, props.$variant).backgroundColor};
+  color: ${(props) => getDivStyles(props.theme, props.$variant).color};
   width: ${(props) => props.width};
+  height: ${(props) => props.height};
 `;
 
 export const StyledH1 = styled.h1`
