@@ -1,18 +1,15 @@
-import Accordion from "./componets/Accordion/Accordion"
-import { CardLogin } from "./componets/Cards/CardLogin";
 import { ThemeProvider } from "styled-components";
 import { theme } from "./theme/theme";
+import { AppRoutes } from "./routes";
 
 function App() {
-  
   return (
-    <>    
+    <>
       <ThemeProvider theme={theme}>
-        <Accordion />
-        <CardLogin />
+        <AppRoutes />
       </ThemeProvider>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
