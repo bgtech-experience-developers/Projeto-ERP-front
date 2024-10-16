@@ -37,6 +37,19 @@ const getDivStyles = (theme, variant) => {
       margin: "5rem auto auto",
       minWidth: "5rem",
     },
+    cardSucess: {
+      border: "none",
+      backgroundColor: theme.cores.cardRegister,
+      borderRadius: "0 0 0.8rem 0.8rem",
+      color: theme.cores.preto,
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      padding: "2.5rem",
+      margin: "0 auto",
+      minWidth: "5rem",
+    },
   };
 
   return variants[variant] || variants.default;
@@ -70,7 +83,9 @@ export const StyledH1 = styled.h1`
 
 export const StyledH3 = styled.h3`
   width: 90%;
-  margin-bottom: 1rem;
+  display: flex;  
+  justify-content: center;
+  margin: 2rem;
   font-weight: 600;
   font-size: 1.6rem;
 `;

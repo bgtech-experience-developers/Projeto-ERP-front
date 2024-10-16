@@ -14,6 +14,36 @@ const getButtonStyles = (theme, variant) => {
       hoverColor: theme.cores.marinho,
       hoverSpacing: "1px",
     },
+    returnHome: {
+      border: "solid 0.2rem #13141E",
+      backgroundColor: theme.cores.cardRegister,
+      borderRadius: "0.4rem",
+      color: theme.cores.azul,
+      width: "16.2rem",
+      heigth: "4.8rem",
+      fontSize: "1.6rem",
+      fontWeight: "600",
+      padding: "1rem 0.2rem",
+      gap: "1rem",
+      hoverColor: theme.cores.marinho,
+      hoverFonteColor: theme.cores.fonte,
+      hoverSpacing: "1px",
+    },
+    returnRegister: {
+      border: "none",
+      backgroundColor: theme.cores.azul,
+      borderRadius: "0.4rem",
+      color: theme.cores.fonte,
+      width: "16.2rem",
+      heigth: "4.8rem",
+      fontSize: "1.6rem",
+      fontWeight: "600",
+      padding: "1rem 0.2rem",
+      gap: "1rem",
+      hoverColor: theme.cores.fonte,
+      hoverFonteColor: theme.cores.marinho,
+      hoverSpacing: "1px",
+    },
   };
 
   return variants[variant] || variants.default;
@@ -33,6 +63,10 @@ export const StyledButton = styled.button`
     background-color: ${(props) =>
     props.$hover
       ? getButtonStyles(props.theme, props.$variant).hoverColor
+      : "inherit"};
+    color: ${(props) =>
+    props.$hover
+      ? getButtonStyles(props.theme, props.$variant).hoverFonteColor
       : "inherit"};
     letter-spacing: ${(props) =>
     props.hover
