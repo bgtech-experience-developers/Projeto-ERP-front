@@ -108,6 +108,7 @@ export const RegisterClient = () => {
             setFormValues({
                 nome: '',
                 email: '',
+                rg: '',
                 cpf: '',
                 nascimento: '',
                 cep: '',
