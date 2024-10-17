@@ -25,3 +25,16 @@ export const StyledInput = styled.input`
   font-size: 1.5rem;
   padding: 1rem;
 `;
+
+export const StyledSelect = styled.select`
+  width: 100%;
+  height: ${(props) => props.height || "3.75rem"};
+  border-radius: ${(props) =>
+    getInputStyles(props.theme, props.$variante).borderRadius};
+  border: ${(props) => getInputStyles(props.theme, props.$variant).border};
+  background-color: ${(props) =>
+    getInputStyles(props.theme, props.$variant).backgroundColor};
+  color: ${(props) => getInputStyles(props.theme, props.$variant).color};
+  font-size: 1.5rem;
+  padding: 1rem;
+`;
