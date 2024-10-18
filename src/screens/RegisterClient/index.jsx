@@ -111,7 +111,6 @@ export const RegisterClient = () => {
     );
 
     if (allFieldsReceived && validateFields()) {
-      setShowSucess(true);
       // Fazer a lógica da integração aqui, coloquei o alert genérico pra testar
 
       postClient({
@@ -129,27 +128,33 @@ export const RegisterClient = () => {
         complemento: formValues.complemento,
         bairro: formValues.bairro,
         cidade: formValues.cidade,
-      });
+      }).then(({ response }) => {
+        if (response.status === 409) {
+          console.log(response.data.message);
+          return;
+        }
 
-      // Limpa o formulário após o envio
-      setFormValues({
-        nome: '',
-        email: '',
-        rg: '',
-        cpf: '',
-        nascimento: '',
-        cep: '',
-        logradouro: '',
-        numero: '',
-        complemento: '',
-        bairro: '',
-        cidade: '',
-        telefone: '',
-        celular: '',
-      });
+        setShowSucess(true);
+        // Limpa o formulário após o envio
+        setFormValues({
+          nome: '',
+          email: '',
+          rg: '',
+          cpf: '',
+          nascimento: '',
+          cep: '',
+          logradouro: '',
+          numero: '',
+          complemento: '',
+          bairro: '',
+          cidade: '',
+          telefone: '',
+          celular: '',
+        });
 
-      // Limpa os erros
-      setErrors({});
+        // Limpa os erros
+        setErrors({});
+      });
     }
   };
 

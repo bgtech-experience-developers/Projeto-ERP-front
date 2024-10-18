@@ -2,9 +2,13 @@ import React from 'react';
 import { client } from '../services/instance';
 
 function useClients() {
-  const postClient = async (data) => {
-    const response = client.post('/clientes/cadastro', data);
-    console.log(data);
+  const postClient = async (info) => {
+    try {
+      const data = await client.post('/clientes/cadastro', info);
+      return data;
+    } catch (error) {
+      return error;
+    }
   };
   return {
     postClient,
