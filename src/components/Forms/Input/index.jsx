@@ -4,7 +4,12 @@ export const Input = ({ variant = "default", height, type = "text", options, ...
   return (
     <>
       {type === "select" ? (
-        <StyledSelect $variant={variant} height={height} {...props}>
+        <StyledSelect
+          $variant={variant}
+          height={height}
+          {...props}
+          onChange={(event) => props.onChange(event)} >
+
           {options && options.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}
@@ -12,7 +17,11 @@ export const Input = ({ variant = "default", height, type = "text", options, ...
           ))}
         </StyledSelect>
       ) : (
-        <StyledInput $variant={variant} height={height} type={type} {...props} />
+        <StyledInput
+          $variant={variant}
+          height={height}
+          type={type}
+          {...props} />
       )}
     </>
   );
