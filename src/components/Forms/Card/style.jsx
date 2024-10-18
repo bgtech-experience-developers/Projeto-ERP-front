@@ -25,7 +25,7 @@ const getDivStyles = (theme, variant) => {
       alignItems: "center",
       justifyContent: "center",
       padding: "2.5rem",
-      margin: "0 auto",
+      margin: "auto",
       minWidth: "5rem",
     },
     titleRegister: {
@@ -34,7 +34,7 @@ const getDivStyles = (theme, variant) => {
       borderRadius: "0.8rem 0.8rem 0 0",
       color: theme.cores.fonte,
       padding: "3rem 3rem 3rem 6rem",
-      margin: "5rem auto auto",
+      margin: "0 auto auto",
       minWidth: "5rem",
     },
     cardSucess: {

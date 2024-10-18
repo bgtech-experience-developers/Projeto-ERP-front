@@ -19,6 +19,8 @@ export const RegisterClient = () => {
         rg: '',
         cpf: '',
         nascimento: '',
+        tipo: '',
+        situacao: '',
         cep: '',
         logradouro: '',
         numero: '',
@@ -110,6 +112,8 @@ export const RegisterClient = () => {
                 rg: '',
                 cpf: '',
                 nascimento: '',
+                tipo: '',
+                situacao: '',
                 cep: '',
                 logradouro: '',
                 numero: '',
@@ -192,6 +196,37 @@ export const RegisterClient = () => {
                                 id={"nascimento"}
                                 type={"date"}
                                 value={formValues.nascimento}
+                                onChange={handleInputChange}
+                            />
+                        </FormFieldContainer>
+                    </FormFieldContainer>
+
+                    <FormFieldContainer variant="inputDuplo">
+                        <FormFieldContainer>
+                            <Label htmlFor={"tipo"}>Tipo</Label>
+                            <Input
+                                type="select"
+                                options={[
+                                    { value: "", label: "Seleciona..." },
+                                    // Opções genéricas, no figma não tem especificado o que tem que ser, apenas entendi que deveria ser um select
+                                    { value: "opcao1", label: "Opção 1" },
+                                    { value: "opcao2", label: "Opção 2" }
+                                ]}
+                                value={formValues.tipo}
+                                onChange={handleInputChange}
+                            />
+                        </FormFieldContainer>
+
+                        <FormFieldContainer>
+                            <Label htmlFor={"situacao"}>Situação</Label>
+                            <Input
+                                type="select"
+                                options={[
+                                    { value: "", label: "Selecione..." },
+                                    { value: "opcao1", label: "Opção 1" },
+                                    { value: "opcao2", label: "Opção 2" }
+                                ]}
+                                value={formValues.situacao}
                                 onChange={handleInputChange}
                             />
                         </FormFieldContainer>
