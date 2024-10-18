@@ -1,10 +1,5 @@
-import { StyledParagrafo } from "./style"
-export function Paragrafo () {
-    return(
-        <>
-        <StyledParagrafo>
-            Quer ser um colaborador? <a href="#">Se inscreva</a>
-        </StyledParagrafo>
-        </>
-    )
+import { Text } from "./style";
+
+export const Paragrafo = ({textProp, cursorProp}) => {
+    return <Text cursor = {cursorProp}>{textProp}</Text>
 }
