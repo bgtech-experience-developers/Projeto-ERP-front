@@ -1,6 +1,6 @@
 export const theme = {
   cores: {
-    branco: "#fff",
+    
     hamburguer: "#2c3e50",
     accordion: "#34495e",
     fonte: "#ecf0f1",

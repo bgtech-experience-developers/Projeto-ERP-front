@@ -6,23 +6,23 @@ export const AccordionContainer = styled.div`
   width: 100%;
   max-width: 18rem;
   background-color: #2C3E50;
-  padding: 1.8rem;
+  padding: 2rem;
   height: 100dvh;
   overflow-y: scroll;
 
 `;
 
 export const AccordionItem = styled.div`
-  border-bottom: 1px solid #ddd;
+  border-bottom: 0.1rem solid #ddd;
 `;
 
 export const AccordionTitle = styled.div`
   cursor: pointer;
   background-color: ${({ isActive }) => (isActive ? "#475D71" : "#2C3E50")};
-  padding: 15px;
+  padding: 1.5rem;
   h3 {
     margin: 0;
-    font-size: 18px;
+    font-size: 1.8rem;
     color: ${({ isActive }) => (isActive ? "#fff" : "#FFF")};
   }
 `;
@@ -37,5 +37,6 @@ export const AccordionContent = styled.div`
   p {
     margin: 0;
     padding: 10px 0;
+    font-size: 1.5rem;
   }
 `;
