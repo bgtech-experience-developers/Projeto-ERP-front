@@ -213,6 +213,7 @@ export const RegisterSupplier = () => {
                             <Label htmlFor={"tipo"}>Tipo</Label>
                             <Input
                                 type="select"
+                                id={'tipo'}
                                 options={[
                                     { value: "", label: "Seleciona..." },
                                     // Opções genéricas, no figma não tem especificado o que tem que ser, apenas entendi que deveria ser um select
@@ -228,6 +229,7 @@ export const RegisterSupplier = () => {
                             <Label htmlFor={"situacao"}>Situação</Label>
                             <Input
                                 type="select"
+                                id={'situacao'}
                                 options={[
                                     { value: "", label: "Selecione..." },
                                     { value: "opcao1", label: "Opção 1" },
@@ -287,7 +289,7 @@ export const RegisterSupplier = () => {
                             <Input
                                 id={"bairro"}
                                 type={"text"}
-                                value={formValues.tipo}
+                                value={formValues.bairro}
                                 onChange={handleInputChange}
                             />
                         </FormFieldContainer>
