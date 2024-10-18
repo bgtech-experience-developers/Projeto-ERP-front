@@ -5,7 +5,7 @@ import { Paragrafo } from "../Textos/Paragrafo";
 
 export const Accordion = () => {
   const [activeIndex, setActiveIndex] = useState(null);
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const toggleAccordion = (index) => {
     setActiveIndex(activeIndex === index ? null : index);
   };
@@ -14,17 +14,17 @@ export const Accordion = () => {
     { title: "Cadastro", links: [
       {
        tituloLink: "Clientes",
-       link: "/cadastrar-cliente",
+       link: "/register-client",
        
       },
       {
         tituloLink: "Fornecedores",
-        link: "/cadastrar-fornecedor",
+        link: "/register-supplier",
        },
 
        {
         tituloLink: "Funcionários",
-        link: "/cadastrar-funcionarios",
+        link: "/register-employee",
        }
     ] },
     // { title: "Produtos", links: links.produtos },
@@ -39,9 +39,9 @@ export const Accordion = () => {
     // { title: "Atendimento", links: links.atendimento },
     // { title: "Relatório", links: links.relatorio },
   ];
-  // function handleLink (link) {
-  //   navigate(link)
-  // }
+  function handleLink (link) {
+    navigate(link)
+  }
   return (
     <AccordionContainer>
       {accordionItems.map((item, index) => (

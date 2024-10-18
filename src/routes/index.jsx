@@ -9,8 +9,9 @@ import { RegisterSucess } from "../screens/RegisterSucess";
 export const AppRoutes = () => {
   return (
     <BrowserRouter>
+      <Accordion />
       <Routes>
-      <Route path="/aside" element={<Accordion />} />
+      {/* <Route path="/aside" element={} /> */}
       <Route path="/form" element={<Forms />} />
       <Route path="/register-client" element={<RegisterClient />} />
       <Route path="/register-supplier" element={<RegisterSupplier />} />
