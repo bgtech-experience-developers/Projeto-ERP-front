@@ -20,6 +20,8 @@ export const RegisterClient = () => {
     rg: '',
     cpf: '',
     nascimento: '',
+    tipo: '',
+    situacao: '',
     cep: '',
     logradouro: '',
     numero: '',
@@ -134,7 +136,8 @@ export const RegisterClient = () => {
           return;
         }
 
-        setShowSucess(true);
+        navigate('/register-sucess', { state: { formType: 'client' }, replace: true });
+
         // Limpa o formulário após o envio
         setFormValues({
           nome: '',
@@ -160,10 +163,6 @@ export const RegisterClient = () => {
 
   return (
     <>
-      {showSucess ? (
-        <RegisterSucess />
-      ) : (
-        <>
           <Card
             variant={'titleRegister'}
             title="Cadastrar Cliente"
@@ -342,7 +341,5 @@ export const RegisterClient = () => {
             </StyledForm>
           </Card>
         </>
-      )}
-    </>
   );
 };
