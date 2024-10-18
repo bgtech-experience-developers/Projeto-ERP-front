@@ -5,6 +5,7 @@ function useClients() {
   const postClient = async (info) => {
     try {
       const data = await client.post('/clientes/cadastro', info);
+      console.log(data);
       return data;
     } catch (error) {
       return error;
