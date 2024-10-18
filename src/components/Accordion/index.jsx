@@ -39,9 +39,12 @@ export const Accordion = () => {
     // { title: "Atendimento", links: links.atendimento },
     // { title: "Relatório", links: links.relatorio },
   ];
-  function handleLink (link) {
+  function handleLink(link) {
+    console.log("clicou");
+    
     navigate(link)
   }
+  
   return (
     <AccordionContainer>
       {accordionItems.map((item, index) => (
@@ -54,7 +57,7 @@ export const Accordion = () => {
           </AccordionTitle>
           <AccordionContent isActive={activeIndex === index}>
             {item.links.map((link, i) => (
-              <Paragrafo onClick={()=> handleLink(link.link)} textProp ={link.tituloLink} cursorProp={"pointer"} key={i}/>
+              <Paragrafo handleClick={() => handleLink(link.link)} textProp ={link.tituloLink} cursorProp={"pointer"} key={i}/>
             ))}
           </AccordionContent>
         </AccordionItem>

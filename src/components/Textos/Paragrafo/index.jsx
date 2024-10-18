@@ -1,5 +1,5 @@
 import { Text } from "./style";
 
-export const Paragrafo = ({textProp, cursorProp}) => {
-    return <Text cursor = {cursorProp}>{textProp}</Text>
+export const Paragrafo = ({textProp, cursorProp, handleClick}) => {
+    return <Text onClick={() => handleClick()} cursor = {cursorProp}>{textProp}</Text>
 }
