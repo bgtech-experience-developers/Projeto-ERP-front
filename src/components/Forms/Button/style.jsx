@@ -44,6 +44,20 @@ const getButtonStyles = (theme, variant) => {
       hoverFonteColor: theme.cores.marinho,
       hoverSpacing: "1px",
     },
+    deleteRegister: {
+      border: "none",
+      backgroundColor: theme.cores.delete,
+      borderRadius: "0.4rem",
+      color: theme.cores.branco,
+      width: "9rem",
+      heigth: "3rem",
+      fontSize: "1rem",
+      fontWeight: "600",
+      padding: "1rem 0.5rem",
+      hoverColor: theme.cores.hoverDelete,
+      hoverFonteColor: theme.cores.branco,
+      hoverSpacing: "1px",
+    }
   };
 
   return variants[variant] || variants.default;
@@ -56,6 +70,7 @@ export const StyledButton = styled.button`
   height: ${(props) => getButtonStyles(props.theme, props.$variant).heigth};
   font-size: ${(props) => getButtonStyles(props.theme, props.$variant).fontSize};
   font-weight: ${(props) => getButtonStyles(props.theme, props.$variant).fontWeight};
+  padding: ${(props) => getButtonStyles(props.theme, props.$variant).padding};
   width: ${(props) => props.width || getButtonStyles(props.theme, props.$variant).width};
   transition-duration: 0.5s;
 

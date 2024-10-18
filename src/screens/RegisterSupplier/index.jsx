@@ -117,8 +117,8 @@ export const RegisterSupplier = () => {
             setFormValues({
                 nome: '',
                 email: '',
-                cpf: '',
                 rg: '',
+                cpf: '',
                 nascimento: '',
                 tipo: '',
                 situacao: '',

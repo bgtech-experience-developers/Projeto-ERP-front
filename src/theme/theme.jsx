@@ -1,3 +1,4 @@
+
 export const theme = {
   cores: {
     hamburguer: "#2c3e50",
@@ -14,6 +15,8 @@ export const theme = {
     marinho: "#13141E",
     azul: "#223548",
     cardRegister: "#E4E4E4",
+    delete: "#f41d1d",
+    hoverDelete: "#c80202"
   },
 
   fonte: {
