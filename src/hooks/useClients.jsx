@@ -11,8 +11,26 @@ function useClients() {
       return error;
     }
   };
+  const getClient = async () => {
+    try {
+      const data = await client.get('/clientes/todos-clientes');
+      return data;
+    } catch (error) {
+      return error;
+    }
+  };
+
+  const deleteClient = async (cpf) => {
+    try {
+      const data = await client.delete(`/clientes/deletar/${cpf}`);
+      
+      return data;
+    } catch (error) {
+      return error;
+    }
+  };
   return {
-    postClient,
+    postClient, getClient, deleteClient
   };
 }
 
