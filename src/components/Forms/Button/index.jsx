@@ -1,15 +1,10 @@
-import { StyledButton } from "./style";
+import * as S from "./style.jsx";
 
-export const Button = ({
-  width,
-  children,
-  variant,
-  hover = true,
-  ...props
-}) => {
+export const Button = ({ width, children, variant = "disabled", ...props }) => {
   return (
-    <StyledButton width={width} $variant={variant} {...props} $hover={hover}>
+    <S.Button width={width} $variant={variant} {...props}>
       {children}
-    </StyledButton>
+      Botão
+    </S.Button>
   );
 };
