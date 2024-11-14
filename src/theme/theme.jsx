@@ -4,8 +4,10 @@ export const theme = {
     secondary: "#D6F27B",
     tertiary: "#EFF3E3",
 
-    darkgray: "#474747",
-    darkgray2: "#5B5B5B",
+    darkgray: "#383838",
+    darkgray2: "#474747",
+    darkgray3: "#5B5B5B",
+
     lightGray: "#8B8B8B",
     lightGray2: "#969696",
     lightgray3: "#D1D1D1",
@@ -23,8 +25,17 @@ export const theme = {
     white: "#FFFFFF",
   },
 
-  font: {
+  fontFamily: {
     default: "Inter",
+  },
+
+  media: {
+    xs: "480px", // Extra Small - mobile
+    sm: "767px", // Small - extra small devices
+    md: "991px", // Medium - small tablets
+    lg: "1199px", // Large - large tablets
+    xl: "1919px", // Extra Large - desktops
+    xxl: "1920px", // Extra Extra Large - extra large desktops
   },
 };
 

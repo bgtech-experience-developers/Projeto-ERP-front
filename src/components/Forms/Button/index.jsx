@@ -1,10 +1,16 @@
+// Importa todos os arquivos de style.jsx com um alias "S"
 import * as S from "./style.jsx";
 
-export const Button = ({ width, children, variant = "disabled", ...props }) => {
+export const Button = ({
+  width,
+  children,
+  variant = "primary",
+  disabled = false,
+  ...props
+}) => {
   return (
-    <S.Button width={width} $variant={variant} {...props}>
+    <S._Button width={width} $variant={variant} disabled={disabled} {...props}>
       {children}
-      Botão
-    </S.Button>
+    </S._Button>
   );
 };
