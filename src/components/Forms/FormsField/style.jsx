@@ -2,7 +2,6 @@ import styled, { css } from "styled-components";
 
 const triple = css`
   display: flex;
-  align-items: center;
   width: 100%;
   gap: 10px;
 `;
@@ -14,6 +13,23 @@ const double = css`
   width: 100%;
 `;
 
+const file = css`
+  display: flex;
+  align-items: center;
+  gap: 30px;
+
+  div:nth-child(1) {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+  }
+
+  div:nth-child(2) {
+    align-self: ${({ $alignSelf }) => $alignSelf || "flex-end"};
+  }
+`;
+
 export const _FormsField = styled.div`
   ${({ $variant }) => {
     switch ($variant) {
@@ -21,6 +37,8 @@ export const _FormsField = styled.div`
         return double;
       case "triple":
         return triple;
+      case "file":
+        return file;
       default:
         return null;
     }

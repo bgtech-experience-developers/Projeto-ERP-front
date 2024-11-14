@@ -25,6 +25,7 @@ export const _Input = styled.input`
 `;
 
 export const InputContainer = styled.div`
+  width: 100%;
   label {
     width: inherit;
     height: inherit;

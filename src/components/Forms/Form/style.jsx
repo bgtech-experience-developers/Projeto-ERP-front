@@ -2,9 +2,7 @@ import styled, { css } from "styled-components";
 import { theme } from "../../../theme/theme";
 
 const primary = css`
-  border: 1pt solid red;
-  width: 87.8rem;
-
+  width: 100%;
   padding: 5px 49px;
   background-color: ${theme.colors.lightgray4};
   display: flex;
@@ -19,4 +17,5 @@ export const _Form = styled.form`
         return primary;
     }
   }}
+  width: ${({ $width }) => $width};
 `;

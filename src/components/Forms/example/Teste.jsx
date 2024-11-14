@@ -4,6 +4,7 @@ import { Input } from "../components/Forms/Inputs/Input/index";
 import { Card } from "../components/Forms/Card/index";
 import { Form } from "../components/Forms/Form";
 import { File } from "../components/Forms/Inputs/File";
+import { Title } from "../components/Texts/Title";
 
 // Caso eu tenha me esquecido de apagar isso, esse componente é apenas para testes
 
@@ -16,7 +17,7 @@ export const Teste = () => {
         justifyContent: "center",
       }}
     >
-      {/* <Form title="Cadastro Fornecedor">
+      <Form title="Cadastro Fornecedor" width="87.8rem">
         <Card>
           <FormsField variant="triple">
             <Input height="5rem">Nome</Input>
@@ -47,8 +48,26 @@ export const Teste = () => {
           </FormsField>
           <Input height="5rem">Teste</Input>
         </Card>
-      </Form> */}
-      <File />
+        <Card title="Aoba">
+          <FormsField variant="file" align="flex-end">
+            <FormsField>
+              <Input id="nome" height="5rem" width="100%">
+                Nome:
+              </Input>
+              <Input id="email" height="5rem" width="100%">
+                Email:{" "}
+              </Input>
+            </FormsField>
+            <File />
+          </FormsField>
+          <File />
+          <Input height="5rem" />
+        </Card>
+      </Form>
+
+      <Title variant="large" bold="600">
+        Aoba{" "}
+      </Title>
     </div>
   );
 };
