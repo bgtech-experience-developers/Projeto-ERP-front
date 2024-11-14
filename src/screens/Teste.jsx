@@ -3,6 +3,7 @@ import { FormsField } from "../components/Forms/FormsField";
 import { Input } from "../components/Forms/Inputs/Input/index";
 import { Card } from "../components/Forms/Card/index";
 import { Form } from "../components/Forms/Form";
+import { File } from "../components/Forms/Inputs/File";
 
 // Caso eu tenha me esquecido de apagar isso, esse componente é apenas para testes
 
@@ -15,7 +16,7 @@ export const Teste = () => {
         justifyContent: "center",
       }}
     >
-      <Form title="Cadastro Fornecedor">
+      {/* <Form title="Cadastro Fornecedor">
         <Card>
           <FormsField variant="triple">
             <Input height="5rem">Nome</Input>
@@ -32,6 +33,7 @@ export const Teste = () => {
           </FormsField>
           <Input height="5rem">Teste</Input>
         </Card>
+
         <Card title="Endereço da empresa">
           <FormsField variant="triple">
             <Input height="5rem">Nome</Input>
@@ -45,7 +47,8 @@ export const Teste = () => {
           </FormsField>
           <Input height="5rem">Teste</Input>
         </Card>
-      </Form>
+      </Form> */}
+      <File />
     </div>
   );
 };

@@ -3,8 +3,8 @@ import styled, { css } from "styled-components";
 const triple = css`
   display: flex;
   align-items: center;
-  justify-content: space-between;
   width: 100%;
+  gap: 10px;
 `;
 const double = css`
   display: flex;
