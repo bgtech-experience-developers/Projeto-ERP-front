@@ -1,13 +1,21 @@
-import { StyledDiv, StyledH1, StyledH3 } from "./style.jsx";
+import React from "react";
+import { Title } from "../../Texts/Title/index";
 
-export const Card = ({ children, title, width, height, desc = false, variant }) => {
+import * as S from "./style";
+
+export const Card = ({
+  variant = "form-container",
+  width,
+  height,
+  children,
+  title,
+}) => {
   return (
-    <>
-      <StyledDiv $variant={variant} width={width} height={height}>
-        <StyledH1>{title}</StyledH1>
-        {desc ? <StyledH3>{desc}</StyledH3> : null}
-        {children}
-      </StyledDiv>
-    </>
+    <S._Card $variant={variant} $width={width} $height={height}>
+      <Title variant="x-small" bold="600">
+        {title}
+      </Title>
+      {children}
+    </S._Card>
   );
 };

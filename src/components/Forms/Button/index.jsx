@@ -1,15 +1,16 @@
-import { StyledButton } from "./style";
+// Importa todos os arquivos de style.jsx com um alias "S"
+import * as S from "./style.jsx";
 
 export const Button = ({
   width,
   children,
-  variant,
-  hover = true,
+  variant = "primary",
+  disabled = false,
   ...props
 }) => {
   return (
-    <StyledButton width={width} $variant={variant} {...props} $hover={hover}>
+    <S._Button width={width} $variant={variant} disabled={disabled} {...props}>
       {children}
-    </StyledButton>
+    </S._Button>
   );
 };
