@@ -1,13 +1,14 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { RegisterClients } from "../screens/RegisterClients";
 // import { Accordion } from "../components/Accordion";
 // import { RegisterClient } from "../screens/RegisterClient";
 // import { RegisterSupplier } from "../screens/RegisterSupplier";
 // import { RegisterEmployee } from "../screens/RegisterEmployee";
 // import { RegisterSucess } from "../screens/RegisterSucess";
-import { ViewTableClients } from "../screens/ViewClient";
-import { ViewTableEmployee } from "../screens/ViewEmployee";
-import { ViewTableSupplier } from "../screens/ViewSupplier";
-import { Teste } from "../components/Forms/example/Teste";
+// import { ViewTableClients } from "../screens/ViewClient";
+// import { ViewTableEmployee } from "../screens/ViewEmployee";
+// import { ViewTableSupplier } from "../screens/ViewSupplier";
+// import { Teste } from "../components/Forms/example/Teste";
 
 export const AppRoutes = () => {
   return (
@@ -23,12 +24,14 @@ export const AppRoutes = () => {
         {/* <Route path="/register-supplier" element={<RegisterSupplier />} /> */}
         {/* <Route path="/register-employee" element={<RegisterEmployee />} /> */}
         {/* <Route path="/register-sucess" element={<RegisterSucess />} /> */}
-        <Route path="/view-clients" element={<ViewTableClients />} />
+        {/* <Route path="/view-clients" element={<ViewTableClients />} />
         <Route path="/view-employee" element={<ViewTableEmployee />} />
-        <Route path="/view-supplier" element={<ViewTableSupplier />} />
+        <Route path="/view-supplier" element={<ViewTableSupplier />} /> */}
 
         {/*  Rota para teste do formulário */}
-        <Route path="/teste" element={<Teste />} />
+        {/* <Route path="/teste" element={<Teste />} /> */}
+
+        <Route path="/cadastrar/cliente" element={<RegisterClients />} /> 
       </Routes>
     </BrowserRouter>
   );

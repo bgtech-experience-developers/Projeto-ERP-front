@@ -3,7 +3,7 @@ import { theme } from "../../../theme/theme";
 
 const primary = css`
   border: none;
-  width: 71.6rem;
+  width: 78rem;
   height: 4.3rem;
   font-size: 16px;
   font-weight: 600;
