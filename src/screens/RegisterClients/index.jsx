@@ -91,7 +91,7 @@ export const RegisterClients = () => {
                                 )}
                             </Input>
                         </FormsField>
-                        <File />
+                        <File text="Adicionar foto" />
                     </FormsField>
 
                     <Input id="ramoAtuacao" height="4.8rem">
@@ -184,7 +184,7 @@ export const RegisterClients = () => {
                                 Email
                             </Input>
                         </FormsField>
-                        <File />
+                        <File text="Adicionar foto" />
                     </FormsField>
 
                     <FormsField variant="double">
@@ -216,7 +216,7 @@ export const RegisterClients = () => {
                                 Email
                             </Input>
                         </FormsField>
-                        <File />
+                        <File text="Adicionar foto" />
                     </FormsField>
 
                     <FormsField variant="double">
@@ -248,7 +248,7 @@ export const RegisterClients = () => {
                                 Email
                             </Input>
                         </FormsField>
-                        <File />
+                        <File text="Adicionar foto" />
                     </FormsField>
 
                     <FormsField variant="double">

@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { RegisterClients } from "../screens/RegisterClients";
+import { RegisterSupplierPF, RegisterSupplierPJ } from "../screens/RegisterSuppliers";
 // import { Accordion } from "../components/Accordion";
 // import { RegisterClient } from "../screens/RegisterClient";
 // import { RegisterSupplier } from "../screens/RegisterSupplier";
@@ -32,6 +33,8 @@ export const AppRoutes = () => {
         {/* <Route path="/teste" element={<Teste />} /> */}
 
         <Route path="/cadastrar/cliente" element={<RegisterClients />} /> 
+        <Route path="/cadastrar/fornecedor/pf" element={<RegisterSupplierPF />} /> 
+        <Route path="/cadastrar/fornecedor/pj" element={<RegisterSupplierPJ />} /> 
       </Routes>
     </BrowserRouter>
   );
