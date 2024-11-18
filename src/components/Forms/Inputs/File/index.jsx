@@ -4,13 +4,13 @@ import * as S from "./style";
 import { Text } from "../../../Texts/Text";
 import { theme } from "../../../../theme/theme";
 
-export const File = ({ variant = "primary" }) => {
+export const File = ({ variant = "primary", text }) => {
   return (
     <S.FileContainer $variant={variant}>
       <BiSmile />
       <S._File />
       <Text bold="600" color={theme.colors.lightGray}>
-        Adicionar foto
+        {text}
       </Text>
     </S.FileContainer>
   );

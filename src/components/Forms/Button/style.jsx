@@ -3,7 +3,19 @@ import { theme } from "../../../theme/theme";
 
 const primary = css`
   border: none;
-  width: 71.6rem;
+  width: 78rem;
+  height: 4.3rem;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  border-radius: 4px;
+  color: ${theme.colors.white};
+  background-color: ${theme.colors.primary};
+`;
+
+const secondary = css`
+  border: none;
+  width: 68.6rem;
   height: 4.3rem;
   font-size: 16px;
   font-weight: 600;
@@ -30,6 +42,8 @@ export const _Button = styled.button`
     switch ($variant) {
       case "primary":
         return primary;
+      case "secondary":
+        return secondary;
       case "disabled":
         return disabled;
       default:
