@@ -17,7 +17,10 @@ export const RegisterSupplierPF = () => {
         >
             <Form title="Cadastrar Fornecedor" width="78rem">
                 <Card>
-                    <File variant="secondary" text="Foto do Produto" />
+                    <File
+                        variant="secondary"
+                        text="Foto do Produto"
+                        smileSize={65} />
                     <Input
                         id="nomeFornecedor"
                         height="4.8rem"
@@ -92,9 +95,13 @@ export const RegisterSupplierPF = () => {
                     </FormsField>
 
                     <Input
+                        type="select"
                         id="produto"
                         height="4.8rem"
-                        placeholder="Selecione"
+                        options={[
+                            { value: "opcao2", label: "Produto 1" },
+                            { value: "opcao3", label: "Produto 2" },
+                        ]}
                     >
                         Produto
                     </Input>
@@ -125,7 +132,8 @@ export const RegisterSupplierPF = () => {
                 {/* Interessante rever, pois tem duas vezes campos para logradouro, número e cep */}
                 <Card title="Endereço do fornecedor">
                     <FormsField variant="triple">
-                        <Input id="logradouroEntrega" height="4.8rem">
+                        <Input 
+                        id="logradouroEntrega" height="4.8rem">
                             Logradouro
                         </Input>
                         <Input id="numeroEntrega" height="4.8rem">
@@ -171,7 +179,10 @@ export const RegisterSupplierPJ = () => {
         >
             <Form title="Cadastrar Fornecedor" width="78rem">
                 <Card>
-                    <File variant="secondary" text="Foto do Produto" />
+                    <File
+                        variant="secondary"
+                        text="Foto do Produto"
+                        smileSize={65} />
                     <Input
                         id="nomeFantasia"
                         height="4.8rem"
@@ -268,13 +279,16 @@ export const RegisterSupplierPJ = () => {
                     </FormsField>
 
                     <Input
+                        type="select"
                         id="produto"
                         height="4.8rem"
-                        placeholder="Selecione"
+                        options={[
+                            { value: "opcao2", label: "Produto 1" },
+                            { value: "opcao3", label: "Produto 2" },
+                        ]}
                     >
                         Produto
                     </Input>
-
                     <FormsField variant="double">
                         <Input
                             id="precoProduto"

@@ -13,6 +13,7 @@ export const Input = ({
   width,
   type = "text",
   id,
+  options = [],
   ...props
 }) => {
   return (
@@ -20,16 +21,37 @@ export const Input = ({
       <Text bold="600">
         <label htmlFor={id}>{children}</label>
       </Text>
-      <S._Input
-        type={type}
-        $variant={variant}
-        onChange={onChange}
-        id={id}
-        value={value}
-        placeholder={placeholder}
-        $height={height}
-        {...props}
-      />
+      {type === "select" ? (
+        <S.Select
+          $variant={variant}
+          id={id}
+          value={value}
+          onChange={onChange}
+          $height={height}
+          {...props}
+        >
+          <option value="" disabled selected>
+            Selecione
+          </option>
+          {options &&
+            options.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+        </S.Select>
+      ) : (
+        <S._Input
+          type={type}
+          $variant={variant}
+          onChange={onChange}
+          id={id}
+          value={value}
+          placeholder={placeholder}
+          $height={height}
+          {...props}
+        />
+      )}
     </S.InputContainer>
   );
 };

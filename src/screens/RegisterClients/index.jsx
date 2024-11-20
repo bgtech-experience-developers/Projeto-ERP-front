@@ -115,7 +115,15 @@ export const RegisterClients = () => {
                         </Input>
                     </FormsField>
 
-                    <Input id="tipoContribuinte" height="4.8rem" placeholder="Selecione">
+                    <Input
+                        type="select"
+                        id="tipoContribuinte"
+                        height="4.8rem"
+                        options={[
+                            { value: "opcao2", label: "Opção 1" },
+                            { value: "opcao3", label: "Opção 2" },
+                        ]}
+                    >
                         Tipo de contribuinte
                     </Input>
                 </Card>
