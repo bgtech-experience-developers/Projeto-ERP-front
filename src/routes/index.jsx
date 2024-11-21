@@ -6,18 +6,11 @@ import { RegisterSupplierPF, RegisterSupplierPJ } from "../screens/RegisterSuppl
 // import { RegisterSupplier } from "../screens/RegisterSupplier";
 // import { RegisterEmployee } from "../screens/RegisterEmployee";
 // import { RegisterSucess } from "../screens/RegisterSucess";
-<<<<<<< HEAD
+
 import { ViewTableClients } from "../screens/ViewClient";
 import { ViewTableEmployee } from "../screens/ViewEmployee";
 import { ViewTableSupplier } from "../screens/ViewSupplier";
 import UserLogin from "../screens/Login";
-
-=======
-// import { ViewTableClients } from "../screens/ViewClient";
-// import { ViewTableEmployee } from "../screens/ViewEmployee";
-// import { ViewTableSupplier } from "../screens/ViewSupplier";
->>>>>>> 6ae22d61c3af0b1ba834934d100a88ad5252fd6c
-// import { Teste } from "../components/Forms/example/Teste";
 
 export const AppRoutes = () => {
   return (
@@ -33,24 +26,17 @@ export const AppRoutes = () => {
         {/* <Route path="/register-supplier" element={<RegisterSupplier />} /> */}
         {/* <Route path="/register-employee" element={<RegisterEmployee />} /> */}
         {/* <Route path="/register-sucess" element={<RegisterSucess />} /> */}
-        {/* <Route path="/view-clients" element={<ViewTableClients />} />
+        {/* <Route path="/view-clients" element={<ViewTableClients />} /> */}
+
         <Route path="/view-employee" element={<ViewTableEmployee />} />
-<<<<<<< HEAD
+
         <Route path="/view-supplier" element={<ViewTableSupplier />} />
         <Route path="/login" element={<UserLogin/>}/>
-
-        {/*  Rota para teste do formulário */}
-        {/* <Route path="/teste" element={<Teste />} /> */}
-=======
-        <Route path="/view-supplier" element={<ViewTableSupplier />} /> */}
-
-        {/*  Rota para teste do formulário */}
-        {/* <Route path="/teste" element={<Teste />} /> */}
+        <Route path="/view-supplier" element={<ViewTableSupplier />} /> 
 
         <Route path="/cadastrar/cliente" element={<RegisterClients />} /> 
         <Route path="/cadastrar/fornecedor/pf" element={<RegisterSupplierPF />} /> 
         <Route path="/cadastrar/fornecedor/pj" element={<RegisterSupplierPJ />} /> 
->>>>>>> 6ae22d61c3af0b1ba834934d100a88ad5252fd6c
       </Routes>
     </BrowserRouter>
   );
