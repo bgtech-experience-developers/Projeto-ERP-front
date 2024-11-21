@@ -9,6 +9,12 @@ const primary = css`
   border-radius: 4px;
   border: 1px solid ${theme.colors.lightgray3};
   font-size: 20px;
+
+    // Estilo de foco
+    &:focus {
+    border-color: ${theme.colors.lightGray};
+    outline: none;
+  }
 `;
 
 const secondary = css`
@@ -28,6 +34,19 @@ export const _Input = styled.input`
         return primary;
       case "secondary":
         return secondary;
+      default:
+        return null;
+    }
+  }}
+  height: ${({ $height }) => $height};
+`;
+
+// Estilo para o Select
+export const Select = styled.select`
+  ${({ $variant }) => {
+    switch ($variant) {
+      case "primary":
+        return primary;
       default:
         return null;
     }
