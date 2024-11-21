@@ -9,10 +9,11 @@ export const Card = ({
   height,
   children,
   title,
+  backgroundColor,
 }) => {
   return (
-    <S._Card $variant={variant} $width={width} $height={height}>
-      <Title variant="x-small" bold="600">
+    <S._Card $variant={variant} $width={width} $height={height} backgroundColor={backgroundColor}>
+      <Title variant="x-small" bold="600" >
         {title}
       </Title>
       {children}

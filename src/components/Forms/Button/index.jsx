@@ -5,11 +5,12 @@ export const Button = ({
   width,
   children,
   variant = "primary",
+  fontSize,
   disabled = false,
   ...props
 }) => {
   return (
-    <S._Button width={width} $variant={variant} disabled={disabled} {...props}>
+    <S._Button width={width} $variant={variant} disabled={disabled} fontSize={fontSize} {...props}>
       {children}
     </S._Button>
   );

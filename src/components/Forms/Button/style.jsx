@@ -3,9 +3,9 @@ import { theme } from "../../../theme/theme";
 
 const primary = css`
   border: none;
-  width: 71.6rem;
-  height: 4.3rem;
-  font-size: 16px;
+  width: ${(props) => props.width || '71.6rem'} ;
+  height: ${(props) => props.height || '4.3rem'};
+  font-size: ${(props) => props.fontSize || '16px' } ;
   font-weight: 600;
   text-align: center;
   border-radius: 4px;
@@ -15,8 +15,8 @@ const primary = css`
 
 const disabled = css`
   border: none;
-  width: 71.6rem;
-  height: 4.3rem;
+  width: ${(props) => props.width || '71.6rem'} ;;
+  height: ${(props) => props.height || '4.3rem'};
   text-align: center;
   font-size: 16px;
   font-weight: 600;

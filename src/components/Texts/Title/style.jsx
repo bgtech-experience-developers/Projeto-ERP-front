@@ -33,7 +33,7 @@ const xSmall = css`
   font-size: 28px;
   font-weight: 400;
   line-height: 36px;
-  letter-spacing: 2px;
+  letter-spacing: ${(props) => props.letterSpacing || '2px'};
   text-align: left;
 `;
 

@@ -11,12 +11,23 @@ const primary = css`
   font-size: 20px;
 `;
 
+const secondary = css`
+  padding: 1.5rem;
+  width: 100%;
+  outline: none;
+  border-radius: 4px;
+  border: none;
+  font-size: 14px;
+`
+
 // Principais
 export const _Input = styled.input`
   ${({ $variant }) => {
     switch ($variant) {
       case "primary":
         return primary;
+      case "secondary":
+        return secondary;
       default:
         return null;
     }

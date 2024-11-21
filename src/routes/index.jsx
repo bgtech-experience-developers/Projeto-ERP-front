@@ -7,7 +7,9 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ViewTableClients } from "../screens/ViewClient";
 import { ViewTableEmployee } from "../screens/ViewEmployee";
 import { ViewTableSupplier } from "../screens/ViewSupplier";
-import { Teste } from "../components/Forms/example/Teste";
+import UserLogin from "../screens/Login";
+
+// import { Teste } from "../components/Forms/example/Teste";
 
 export const AppRoutes = () => {
   return (
@@ -26,9 +28,10 @@ export const AppRoutes = () => {
         <Route path="/view-clients" element={<ViewTableClients />} />
         <Route path="/view-employee" element={<ViewTableEmployee />} />
         <Route path="/view-supplier" element={<ViewTableSupplier />} />
+        <Route path="/login" element={<UserLogin/>}/>
 
         {/*  Rota para teste do formulário */}
-        <Route path="/teste" element={<Teste />} />
+        {/* <Route path="/teste" element={<Teste />} /> */}
       </Routes>
     </BrowserRouter>
   );

@@ -5,6 +5,7 @@ import { Text } from "../../../Texts/Text";
 
 export const Input = ({
   variant = "primary",
+  style,
   placeholder,
   children,
   onChange,
@@ -17,8 +18,8 @@ export const Input = ({
 }) => {
   return (
     <S.InputContainer $width={width}>
-      <Text bold="600">
-        <label htmlFor={id}>{children}</label>
+      <Text bold="600" >
+        <label style={style} htmlFor={id}>{children}</label>
       </Text>
       <S._Input
         type={type}
