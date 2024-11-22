@@ -1,6 +1,16 @@
 import styled from "styled-components";
 import { theme } from "../../../theme/theme";
 
+export const OptionContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
+
+export const SubOptionContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
+
 export const StyledNavItem = styled.div`
     display: flex;
     width: 25rem;
@@ -70,11 +80,13 @@ export const OptionText = styled.button`
 
     &:hover {
         color: ${({ theme }) => theme.colors.black};
-        filter: ${({ theme }) => theme.colors.filterBlack};
+        
+        & img {
+            filter: ${({ theme }) => theme.colors.filterBlack};
+        }
     }
 
 `
-
 export const SubOptions = styled.div`
     display: flex;
     flex-direction: column;

@@ -1,6 +1,6 @@
 
 import { useNavigate } from "react-router-dom";
-import { Logo } from "../Logo";
+import { Logo } from "../LogoSidebar";
 import ImgLogo from "../../assets/logo.svg";
 import { Navbar } from "../Navbar";
 import { StyledSidebar } from "./style";
