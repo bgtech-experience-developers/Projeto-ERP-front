@@ -1,7 +1,8 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { RegisterClients } from "../screens/RegisterClients";
 import { RegisterSupplierPF, RegisterSupplierPJ } from "../screens/RegisterSuppliers";
-// import { Accordion } from "../components/Accordion";
+import { Accordion } from "../components/Accordion";
+import { Sidebar } from "../components/Sidebar";
 // import { RegisterClient } from "../screens/RegisterClient";
 // import { RegisterSupplier } from "../screens/RegisterSupplier";
 // import { RegisterEmployee } from "../screens/RegisterEmployee";
@@ -20,7 +21,8 @@ export const AppRoutes = () => {
       future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
     >
       <Routes>
-        {/* <Route path="/aside" element={<Accordion />} /> */}
+        <Route path="/aside" element={<Accordion />} />
+        <Route path="/" element={<Sidebar />} />
         {/* <Route path="/register-client" element={<RegisterClient />} /> */}
         {/* <Route path="/register-supplier" element={<RegisterSupplier />} /> */}
         {/* <Route path="/register-employee" element={<RegisterEmployee />} /> */}
