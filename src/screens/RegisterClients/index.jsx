@@ -5,6 +5,13 @@ import { Form } from "../../components/Forms/Form";
 import { File } from "../../components/Forms/Inputs/File";
 import { Button } from "../../components/Forms/Button";
 import { useState } from "react";
+import { FormsField } from "../../components/Forms/FormsField";
+import { Input } from "../../components/Forms/Inputs/Input";
+import { Card } from "../../components/Forms/Card";
+import { Form } from "../../components/Forms/Form";
+import { File } from "../../components/Forms/Inputs/File";
+import { Button } from "../../components/Forms/Button";
+import { useState } from "react";
 
 export const RegisterClients = () => {
   const [formValues, setFormValues] = useState({
@@ -64,6 +71,7 @@ export const RegisterClients = () => {
   });
 
   const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState({});
 
   // Função chamada quando o usuário digita nos campos obrigatórios
   const handleInputChange = (field) => (event) => {
@@ -84,31 +92,59 @@ export const RegisterClients = () => {
   const handleBlur = (event) => {
     const { id } = event.target;
     const newErrors = { ...errors };
+    // Validação quando o usuário sai do campo obrigatório sem preencher
+    const handleBlur = (event) => {
+      const { id } = event.target;
+      const newErrors = { ...errors };
 
-    if (id === "razaoSocial") {
-      if (!formValues.razaoSocial) {
-        newErrors.razaoSocial = "*o preenchimento desse campo é obrigatório";
-      } else {
-        delete newErrors.razaoSocial;
+      if (id === "razaoSocial") {
+        if (!formValues.razaoSocial) {
+          newErrors.razaoSocial = "*o preenchimento desse campo é obrigatório";
+        } else {
+          delete newErrors.razaoSocial;
+        }
       }
+
+      if (id === "nomeFantasia") {
+        if (!formValues.nomeFantasia) {
+          newErrors.nomeFantasia = "*o preenchimento desse campo é obrigatório";
+        } else {
+          delete newErrors.nomeFantasia;
+        }
+      }
+
+      if (id === "cnpj") {
+        if (!formValues.cnpj) {
+          newErrors.cnpj = "*o preenchimento desse campo é obrigatório";
+        } else {
+          delete newErrors.cnpj;
+        }
+      }
+
+      setErrors(newErrors);
+    };
+
+    function handleSubmit(event) {
+      event.preventDefault();
+      console.log(formValues);
     }
 
-    if (id === "nomeFantasia") {
-      if (!formValues.nomeFantasia) {
-        newErrors.nomeFantasia = "*o preenchimento desse campo é obrigatório";
-      } else {
-        delete newErrors.nomeFantasia;
-      }
-    }
+    function handleImage({ target }) {
+      const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
+      const file = target.files[0];
+      const id = target.id;
+      console.log(file);
 
-    if (id === "cnpj") {
-      if (!formValues.cnpj) {
-        newErrors.cnpj = "*o preenchimento desse campo é obrigatório";
-      } else {
-        delete newErrors.cnpj;
+      if (!allowedTypes.includes(file.type)) {
+        setErrorImage(true);
+        setTimeout(() => {
+          setErrorImage(false);
+        }, 2000);
+        return;
       }
-    }
 
+      setFormValues({ ...formValues, [id]: file });
+    }
     setErrors(newErrors);
   };
 
