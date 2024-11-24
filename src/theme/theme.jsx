@@ -1,44 +1,46 @@
 export const theme = {
   colors: {
-    primary: "#BBE33D",
-    secondary: "#D6F27B",
-    tertiary: "#EFF3E3",
+    primary: '#BBE33D',
+    secondary: '#D6F27B',
+    tertiary: '#EFF3E3',
 
-    darkgray: "#383838",
-    darkgray2: "#474747",
-    darkgray3: "#5B5B5B",
+    darkgray: '#383838',
+    darkgray2: '#474747',
+    darkgray3: '#5B5B5B',
 
-    lightGray: "#8B8B8B",
-    lightGray2: "#969696",
-    lightgray3: "#D1D1D1",
-    lightgray4: "#EFEFEF",
+    lightGray: '#8B8B8B',
+    lightGray2: '#969696',
+    lightgray3: '#D1D1D1',
+    lightgray4: '#EFEFEF',
 
-    darkblue: "#2C3E50",
+    darkblue: '#2C3E50',
 
-    yellow: "#735800",
-    yellow2: "#FFDB64",
+    yellow: '#735800',
+    yellow2: '#FFDB64',
 
-    green: "#64FF80",
-    gree2: "#006212",
+    green: '#64FF80',
+    gree2: '#006212',
 
-    black: "#000000",
-    white: "#FFFFFF",
+    black: '#000000',
+    white: '#FFFFFF',
+
+    delete: '#f41d1d',
 
     filter: 'brightness(0) saturate(100%) invert(100%)',
     filterBlack: 'brightness(0) saturate(100%) invert(0%)',
   },
 
   fontFamily: {
-    default: "Inter",
+    default: 'Inter',
   },
 
   media: {
-    xs: "480px", // Extra Small - mobile
-    sm: "767px", // Small - extra small devices
-    md: "991px", // Medium - small tablets
-    lg: "1199px", // Large - large tablets
-    xl: "1919px", // Extra Large - desktops
-    xxl: "1920px", // Extra Extra Large - extra large desktops
+    xs: '480px', // Extra Small - mobile
+    sm: '767px', // Small - extra small devices
+    md: '991px', // Medium - small tablets
+    lg: '1199px', // Large - large tablets
+    xl: '1919px', // Extra Large - desktops
+    xxl: '1920px', // Extra Extra Large - extra large desktops
   },
 };
 
