@@ -23,6 +23,9 @@ export const theme = {
 
     black: "#000000",
     white: "#FFFFFF",
+
+    filter: 'brightness(0) saturate(100%) invert(100%)',
+    filterBlack: 'brightness(0) saturate(100%) invert(0%)',
   },
 
   fontFamily: {

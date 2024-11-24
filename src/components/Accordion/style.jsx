@@ -1,29 +1,43 @@
+
 import styled from "styled-components";
 
-
-
 export const AccordionContainer = styled.div`
-  width: 100%;
-  max-width: 18rem;
-  background-color: #2C3E50;
+  width: 30rem;
+  background-color: #EFF3E3;
   padding: 2rem;
-  height: 100dvh;
-  overflow-y: scroll;
-
+  height: 100vh;
 `;
 
 export const AccordionItem = styled.div`
-  border-bottom: 0.1rem solid #ddd;
+  padding: 0.6rem;
+ 
+  a {
+    margin: 0;
+    padding: 2rem;
+    font-size: 1.5rem;
+    color: #969696
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 export const AccordionTitle = styled.div`
+  border-radius: 1rem;
   cursor: pointer;
-  background-color: ${({ isActive }) => (isActive ? "#475D71" : "#2C3E50")};
+  background-color: ${({ isActive }) => (isActive ? "#BBE33D" : "#EFF3E3")};
   padding: 1.5rem;
+
   h3 {
     margin: 0;
     font-size: 1.8rem;
-    color: ${({ isActive }) => (isActive ? "#fff" : "#FFF")};
+    color: ${({ isActive }) => (isActive ? "#fff" : "#969696")};
+  }
+
+  &:hover {
+    background-color: #BBE33D;
+    color: #FFFFFF
   }
 `;
 
@@ -33,10 +47,6 @@ export const AccordionContent = styled.div`
   overflow: hidden;
   transition: max-height 0.3s ease-out;
   /* padding: ${({ isActive }) => (isActive ? "15px" : "0")}; */
-  padding-left: 1.5rem;
-  p {
-    margin: 0;
-    padding: 10px 0;
-    font-size: 1.5rem;
-  }
+  /* padding-left: 1.5rem; */
+
 `;
