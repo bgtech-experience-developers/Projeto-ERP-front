@@ -19,8 +19,10 @@ export const Input = ({
 }) => {
   return (
     <S.InputContainer $width={width}>
-      <Text bold="600" >
-        <label style={style} htmlFor={id}>{children}</label>
+      <Text bold="600">
+        <label style={style} htmlFor={id}>
+          {children}
+        </label>
       </Text>
       {type === "select" ? (
         <S.Select
@@ -31,7 +33,7 @@ export const Input = ({
           $height={height}
           {...props}
         >
-          <option value="" disabled selected>
+          <option disabled selected>
             Selecione
           </option>
           {options &&

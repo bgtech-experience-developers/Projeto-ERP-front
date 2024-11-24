@@ -1,10 +1,10 @@
 import React from "react";
-import { FormsField } from "../components/Forms/FormsField";
-import { Input } from "../components/Forms/Inputs/Input/index";
-import { Card } from "../components/Forms/Card/index";
-import { Form } from "../components/Forms/Form";
-import { File } from "../components/Forms/Inputs/File";
-import { Title } from "../components/Texts/Title";
+import { FormsField } from "../FormsField/index";
+import { Input } from "../Inputs/Input/index";
+import { Card } from "../Card/index";
+import { Form } from "../Form/index";
+import { File } from "../Inputs/File/index";
+import { Title } from "../../Texts/Title";
 
 // Caso eu tenha me esquecido de apagar isso, esse componente é apenas para testes
 
@@ -48,6 +48,7 @@ export const Teste = () => {
           </FormsField>
           <Input height="5rem">Teste</Input>
         </Card>
+
         <Card title="Aoba">
           <FormsField variant="file" align="flex-end">
             <FormsField>

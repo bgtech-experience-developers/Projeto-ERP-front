@@ -1,6 +1,9 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { RegisterClients } from "../screens/RegisterClients";
-import { RegisterSupplierPF, RegisterSupplierPJ } from "../screens/RegisterSuppliers";
+import {
+  RegisterSupplierPF,
+  RegisterSupplierPJ,
+} from "../screens/RegisterSuppliers";
 import { Accordion } from "../components/Accordion";
 import { Sidebar } from "../components/Sidebar";
 // import { RegisterClient } from "../screens/RegisterClient";
@@ -12,6 +15,8 @@ import { ViewTableClients } from "../screens/ViewClient";
 import { ViewTableEmployee } from "../screens/ViewEmployee";
 import { ViewTableSupplier } from "../screens/ViewSupplier";
 import UserLogin from "../screens/Login";
+
+import { Teste } from "../components/Forms/example/Teste";
 
 export const AppRoutes = () => {
   return (
@@ -33,12 +38,20 @@ export const AppRoutes = () => {
         <Route path="/view-employee" element={<ViewTableEmployee />} />
 
         <Route path="/view-supplier" element={<ViewTableSupplier />} />
-        <Route path="/login" element={<UserLogin/>}/>
-        <Route path="/view-supplier" element={<ViewTableSupplier />} /> 
+        <Route path="/login" element={<UserLogin />} />
+        <Route path="/view-supplier" element={<ViewTableSupplier />} />
 
-        <Route path="/cadastrar/cliente" element={<RegisterClients />} /> 
-        <Route path="/cadastrar/fornecedor/pf" element={<RegisterSupplierPF />} /> 
-        <Route path="/cadastrar/fornecedor/pj" element={<RegisterSupplierPJ />} /> 
+        <Route path="/cadastrar/cliente" element={<RegisterClients />} />
+        <Route
+          path="/cadastrar/fornecedor/pf"
+          element={<RegisterSupplierPF />}
+        />
+        <Route
+          path="/cadastrar/fornecedor/pj"
+          element={<RegisterSupplierPJ />}
+        />
+
+        <Route path="/teste" element={<Teste />} />
       </Routes>
     </BrowserRouter>
   );
