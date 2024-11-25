@@ -5,6 +5,7 @@ import { Form } from "../../components/Forms/Form";
 import { File } from "../../components/Forms/Inputs/File";
 import { Button } from "../../components/Forms/Button";
 import React, { useState } from "react";
+import useClients from "../../hooks/useClients";
 
 export const RegisterClients = () => {
   const [formValues, setFormValues] = useState({
@@ -39,6 +40,7 @@ export const RegisterClients = () => {
       cell_phone: "",
       rg: "",
       email: "",
+      cpf: "",
     },
     comercial: {
       name: "",
@@ -46,6 +48,7 @@ export const RegisterClients = () => {
       cell_phone: "",
       rg: "",
       email: "",
+      cpf: "",
     },
     contabil: {
       name: "",
@@ -53,6 +56,7 @@ export const RegisterClients = () => {
       cell_phone: "",
       rg: "",
       email: "",
+      cpf: "",
     },
     socio: {
       name: "",
@@ -60,6 +64,7 @@ export const RegisterClients = () => {
       cell_phone: "",
       rg: "",
       email: "",
+      cpf: "",
     },
   });
   const [photos, setPhotos] = useState({
@@ -69,6 +74,7 @@ export const RegisterClients = () => {
     file4: { file: null, status: false },
     file5: { file: null, status: false },
   });
+  const { postClient } = useClients();
 
   const [formPhotos, setFormPhotos] = useState([]);
 
@@ -132,14 +138,76 @@ export const RegisterClients = () => {
       return;
     }
 
-    setPhotos((prevData) => ({
-      ...prevData,
+    setPhotos((prevPhotos) => ({
+      ...prevPhotos,
       [key]: { file, status: !!file },
     }));
+    setFormPhotos((prevFile) => [...prevFile, file]);
   }
 
   function handleSubmit(event) {
     event.preventDefault();
+    postClient(formValues, formPhotos);
+    // Limpar Os Campos dos inputs
+    setFormValues({
+      imagens: [],
+      cliente: {
+        corporate_reason: "",
+        fantasy_name: "",
+        cnpj: "",
+        state_registration: "",
+        type_contribuition: "titulo",
+        branch_activity: "",
+      },
+      endereco_empresa: {
+        cep: "",
+        street: "",
+        number: "",
+        complement: "",
+        city: "",
+        neighborhood: "",
+      },
+      endereco_entrega: {
+        cep: "",
+        street: "",
+        number: "",
+        complement: "",
+        city: "",
+        neighborhood: "",
+      },
+      financeiro: {
+        name: "",
+        phone: "",
+        cell_phone: "",
+        rg: "",
+        email: "",
+        cpf: "",
+      },
+      comercial: {
+        name: "",
+        phone: "",
+        cell_phone: "",
+        rg: "",
+        email: "",
+        cpf: "",
+      },
+      contabil: {
+        name: "",
+        phone: "",
+        cell_phone: "",
+        rg: "",
+        email: "",
+        cpf: "",
+      },
+      socio: {
+        name: "",
+        phone: "",
+        cell_phone: "",
+        rg: "",
+        email: "",
+        cpf: "",
+      },
+    });
   }
 
   // Controla os status das imagens
@@ -148,9 +216,6 @@ export const RegisterClients = () => {
     setFormValues({ ...formValues, imagens: statusArray });
   }, [photos]);
 
-  React.useEffect(() => {
-    console.log(photos);
-  }, [photos]);
   return (
     <div
       style={{
