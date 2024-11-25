@@ -28,7 +28,7 @@ export const AppRoutes = () => {
         {/* <Route path="/register-supplier" element={<RegisterSupplier />} /> */}
         {/* <Route path="/register-employee" element={<RegisterEmployee />} /> */}
         {/* <Route path="/register-sucess" element={<RegisterSucess />} /> */}
-        {/* <Route path="/view-clients" element={<ViewTableClients />} /> */}
+        { <Route path="/view-clients" element={<ViewTableClients />} /> }
 
         <Route path="/view-employee" element={<ViewTableEmployee />} />
 

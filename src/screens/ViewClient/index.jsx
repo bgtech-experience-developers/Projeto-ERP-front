@@ -15,9 +15,15 @@ export const ViewTableClients = () => {
   // Função para buscar clientes
   const fetchClients = async () => {
     try {
-      const { data } = await getClient();
-      setClients(data); // Atualiza o estado com os dados recebidos
-      console.log(data); // Confirma que os dados estão sendo recebidos
+      const data = await getClient();
+      console.log(data)
+      // Adiciona um status inicial se não vier da API
+      const updatedData = data.map((client) => {
+        console.log(client.id)
+        return{...client,
+        status: client.situation || "Ativa"} // Adiciona "Ativa" como padrão, se não existir
+      });
+      setClients(updatedData);
     } catch (error) {
       console.error("Erro ao buscar clientes:", error);
     }
@@ -28,22 +34,30 @@ export const ViewTableClients = () => {
     fetchClients();
   }, []);
 
-  const handleDelete = async (cpf) => {
+  const handleDelete = async (id) => {
     const confirmDelete = window.confirm(
       "Tem certeza que deseja excluir esse cadastro?"
     );
     if (confirmDelete) {
       try {
-        // Requisição DELETE para o servidor utilizando o CPF
-        await deleteClient(cpf); // Função que envia o CPF para o servidor
+        await deleteClient(id);
 
-        // Atualiza a lista local de clientes removendo o cliente deletado
-        const updatedClients = clients.filter((client) => client.cpf !== cpf);
-        setClients(updatedClients); // Atualiza o estado com a lista filtrada
+        const updatedClients = clients.filter((client) => client.id !== id);
+        setClients(updatedClients);
       } catch (error) {
         console.error("Erro ao deletar cliente:", error);
       }
     }
+  };
+
+  // Alternar entre "Ativa" e "Inativa"
+  const toggleStatus = (id) => {
+    const updatedClients = clients.map((client) =>
+      client.id === id
+        ? { ...client, status: client.status === "Ativa" ? "Inativa" : "Ativa" }
+        : client
+    );
+    setClients(updatedClients);
   };
 
   // Colunas da tabela
@@ -52,6 +66,7 @@ export const ViewTableClients = () => {
     { header: "Email", accessorKey: "email" },
     { header: "RG", accessorKey: "rg" },
     { header: "CPF", accessorKey: "cpf" },
+    { header: "CNPJ", accessorKey: "cnpj" },
     { header: "Nascimento", accessorKey: "date_birth" },
     { header: "CEP", accessorKey: "cep" },
     { header: "Logradouro", accessorKey: "logradouro" },
@@ -60,23 +75,43 @@ export const ViewTableClients = () => {
     { header: "Cidade", accessorKey: "cidade" },
     { header: "Telefone", accessorKey: "telefone" },
     { header: "Celular", accessorKey: "celular" },
-    {
-      header: "Actions",
+    { 
+      header: "Situação", 
+      accessorKey: "status",
       Cell: ({ row }) => (
-        <Button
-          variant={"deleteRegister"}
-          onClick={() => handleDelete(row.original.cpf)}
+        <span
+          style={{
+            color: row.original.status === "Ativa" ? "green" : "red",
+            fontWeight: "bold",
+          }}
         >
-          Excluir cadastro
-        </Button>
+          {row.original.status}
+        </span>
+      ),
+    },
+    {
+      header: "Ação",
+      Cell: ({ row }) => (
+        <div style={{ display: "flex", gap: "10px" }}>
+          <Button
+            variant={"deleteRegister"}
+            onClick={() => handleDelete(row.original.id)}
+          >
+            Excluir
+          </Button>
+          <Button
+            variant={"toggleStatus"}
+            onClick={() => toggleStatus(row.original.id)}
+          >
+            {row.original.status === "Ativa" ? "Desativar" : "Ativar"}
+          </Button>
+        </div>
       ),
     },
   ];
 
   return (
     <StyledTableContainer>
-      {/* Aqui */}
-      {/* <StyledH1>Clientes cadastrados</StyledH1> */}
       <MaterialReactTable
         columns={columns}
         data={clients}
@@ -84,15 +119,15 @@ export const ViewTableClients = () => {
         state={{ pagination }}
         muiTableHeadCellProps={{
           sx: {
-            backgroundColor: "#223548",
-            color: "white",
+            backgroundColor: "#ECF5FF",
+            color: "black",
             fontSize: "5.2rem",
           },
         }}
         muiTableBodyCellProps={{
           sx: {
             backgroundColor: "#ECF5FF",
-            color: "#223548",
+            color: "#edf1f5",
             padding: "12px 15px",
             fontSize: "1.1rem",
             fontWeight: "500",
