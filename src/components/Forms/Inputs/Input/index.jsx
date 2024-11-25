@@ -33,12 +33,13 @@ export const Input = ({
           $height={height}
           {...props}
         >
-          <option disabled selected>
-            Selecione
-          </option>
           {options &&
             options.map((option) => (
-              <option key={option.value} value={option.value}>
+              <option
+                key={option.value}
+                value={option.value}
+                disabled={option.disabled}
+              >
                 {option.label}
               </option>
             ))}

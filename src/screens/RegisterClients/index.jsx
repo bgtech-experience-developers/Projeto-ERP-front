@@ -14,7 +14,7 @@ export const RegisterClients = () => {
       fantasy_name: "",
       cnpj: "",
       state_registration: "",
-      type_contribuition: "",
+      type_contribuition: "titulo",
       branch_activity: "",
     },
     endereco_empresa: {
@@ -70,19 +70,21 @@ export const RegisterClients = () => {
     file5: { file: null, status: false },
   });
 
+  const [formPhotos, setFormPhotos] = useState([]);
+
   const [errorImage, setErrorImage] = useState(false);
 
   // const [errors, setErrors] = useState({});
 
   // Função chamada quando o usuário digita nos campos obrigatórios
   const handleInputChange = (field) => (event) => {
-    const { id, value } = event.target;
+    const { name, value } = event.target;
     // Esse estado manipula os campos para estarem dentro dos objetos corretos
     setFormValues({
       ...formValues,
       [field]: {
         ...formValues[field],
-        [id]: value,
+        [name]: value,
       },
     });
   };
@@ -120,10 +122,6 @@ export const RegisterClients = () => {
   //   setErrors(newErrors);
   // };
 
-  function handleSubmit(event) {
-    event.preventDefault();
-  }
-
   function handleImage(key, { target }) {
     const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
     const file = target.files[0];
@@ -140,15 +138,19 @@ export const RegisterClients = () => {
     }));
   }
 
+  function handleSubmit(event) {
+    event.preventDefault();
+  }
+
+  // Controla os status das imagens
   React.useEffect(() => {
     const statusArray = Object.values(photos).map((photo) => photo.status);
-    // console.log("statusarray ", statusArray);
-
     setFormValues({ ...formValues, imagens: statusArray });
-    // console.log("Fotos ", photos);
-    // console.log("Status ", formValues);
   }, [photos]);
 
+  React.useEffect(() => {
+    console.log(photos);
+  }, [photos]);
   return (
     <div
       style={{
@@ -162,7 +164,8 @@ export const RegisterClients = () => {
           <FormsField variant="file" align="flex-end">
             <FormsField>
               <Input
-                id="corporate_reason"
+                id="cliente_corporate_reason"
+                name="corporate_reason"
                 height="4.8rem"
                 value={formValues.cliente.corporate_reason}
                 onChange={handleInputChange("cliente")}
@@ -170,7 +173,8 @@ export const RegisterClients = () => {
                 Razão social
               </Input>
               <Input
-                id="fantasy_name"
+                id="cliente_fantasy_name"
+                name="fantasy_name"
                 height="4.8rem"
                 value={formValues.cliente.fantasy_name}
                 onChange={handleInputChange("cliente")}
@@ -179,7 +183,7 @@ export const RegisterClients = () => {
               </Input>
             </FormsField>
             <File
-              id={"fotoCliente"}
+              name={"fotoCliente"}
               error={errorImage}
               image={photos.file1.file}
               onChange={(event) => handleImage("file1", event)}
@@ -188,7 +192,8 @@ export const RegisterClients = () => {
           </FormsField>
 
           <Input
-            id="branch_activity"
+            id="cliente_branch_activity"
+            name="branch_activity"
             height="4.8rem"
             value={formValues.cliente.branch_activity}
             onChange={handleInputChange("cliente")}
@@ -198,7 +203,8 @@ export const RegisterClients = () => {
 
           <FormsField variant="double">
             <Input
-              id="cnpj"
+              id="cliente_cnpj"
+              name="cnpj"
               height="4.8rem"
               value={formValues.cliente.cnpj}
               onChange={handleInputChange("cliente")}
@@ -206,7 +212,8 @@ export const RegisterClients = () => {
               CNPJ
             </Input>
             <Input
-              id="state_registration"
+              id="cliente_state_registration"
+              name="state_registration"
               height="4.8rem"
               value={formValues.cliente.state_registration}
               onChange={handleInputChange("cliente")}
@@ -217,11 +224,15 @@ export const RegisterClients = () => {
 
           <Input
             type="select"
-            id="tipoContribuinte"
+            id="cliente_type_contribuition"
+            name="type_contribuition"
             height="4.8rem"
+            value={formValues.cliente.type_contribuition}
+            onChange={handleInputChange("cliente")}
             options={[
-              { value: "opcao2", label: "Opção 1" },
-              { value: "opcao3", label: "Opção 2" },
+              { value: "titulo", label: "Selecione", disabled: true },
+              { value: "pj", label: "Pessoa Jurídica" },
+              { value: "opcao3", label: "Pessoa Fisíca" },
             ]}
           >
             Tipo de contribuinte
@@ -231,7 +242,8 @@ export const RegisterClients = () => {
         <Card title="Endereço da Empresa">
           <FormsField variant="triple">
             <Input
-              id="street"
+              name="street"
+              id="endereco_empresa_street"
               height="4.8rem"
               value={formValues.endereco_empresa.street}
               onChange={handleInputChange("endereco_empresa")}
@@ -239,7 +251,8 @@ export const RegisterClients = () => {
               Logradouro
             </Input>
             <Input
-              id="number"
+              id="endereco_empresa_number"
+              name="number"
               height="4.8rem"
               value={formValues.endereco_empresa.number}
               onChange={handleInputChange("endereco_empresa")}
@@ -247,7 +260,8 @@ export const RegisterClients = () => {
               Número
             </Input>
             <Input
-              id="cep"
+              id="endereco_empresa_cep"
+              name="cep"
               height="4.8rem"
               value={formValues.endereco_empresa.cep}
               onChange={handleInputChange("endereco_empresa")}
@@ -257,7 +271,8 @@ export const RegisterClients = () => {
           </FormsField>
 
           <Input
-            id="complement"
+            id="endereco_empresa_complement"
+            name="complement"
             height="4.8rem"
             value={formValues.endereco_empresa.complement}
             onChange={handleInputChange("endereco_empresa")}
@@ -267,15 +282,17 @@ export const RegisterClients = () => {
 
           <FormsField variant="double">
             <Input
-              id="bairro"
+              id="endereco_empresa_neighborhood"
+              name="neighborhood"
               height="4.8rem"
-              value={formValues.endereco_empresa.bairro}
+              value={formValues.endereco_empresa.neighborhood}
               onChange={handleInputChange("endereco_empresa")}
             >
               Bairro
             </Input>
             <Input
-              id="city"
+              id="endereco_empresa_city"
+              name="city"
               height="4.8rem"
               value={formValues.endereco_empresa.city}
               onChange={handleInputChange("endereco_empresa")}
@@ -288,7 +305,8 @@ export const RegisterClients = () => {
         <Card title="Endereço de Entrega">
           <FormsField variant="triple">
             <Input
-              id="street"
+              id="endereco_entrega_street"
+              name="street"
               height="4.8rem"
               value={formValues.endereco_entrega.street}
               onChange={handleInputChange("endereco_entrega")}
@@ -296,7 +314,8 @@ export const RegisterClients = () => {
               Logradouro
             </Input>
             <Input
-              id="number"
+              id="endereco_entrega_number"
+              name="number"
               height="4.8rem"
               value={formValues.endereco_entrega.number}
               onChange={handleInputChange("endereco_entrega")}
@@ -304,7 +323,8 @@ export const RegisterClients = () => {
               Número
             </Input>
             <Input
-              id="cep"
+              id="endereco_entrega_cep"
+              name="cep"
               height="4.8rem"
               value={formValues.endereco_entrega.cep}
               onChange={handleInputChange("endereco_entrega")}
@@ -314,7 +334,8 @@ export const RegisterClients = () => {
           </FormsField>
 
           <Input
-            id="complement"
+            id="endereco_entrega_complement"
+            name="complement"
             height="4.8rem"
             value={formValues.endereco_entrega.complement}
             onChange={handleInputChange("endereco_entrega")}
@@ -324,7 +345,8 @@ export const RegisterClients = () => {
 
           <FormsField variant="double">
             <Input
-              id="neighborhood"
+              id="endereco_entrega_neighborhood"
+              name="neighborhood"
               height="4.8rem"
               value={formValues.endereco_entrega.neighborhood}
               onChange={handleInputChange("endereco_entrega")}
@@ -332,7 +354,8 @@ export const RegisterClients = () => {
               Bairro
             </Input>
             <Input
-              id="city"
+              id="endereco_entrega_city"
+              name="city"
               height="4.8rem"
               value={formValues.endereco_entrega.city}
               onChange={handleInputChange("endereco_entrega")}
@@ -346,7 +369,8 @@ export const RegisterClients = () => {
           <FormsField variant="file" align="flex-end">
             <FormsField>
               <Input
-                id="name"
+                id="socio_name"
+                name="name"
                 height="4.8rem"
                 value={formValues.socio.name}
                 onChange={handleInputChange("socio")}
@@ -354,7 +378,8 @@ export const RegisterClients = () => {
                 Nome
               </Input>
               <Input
-                id="email"
+                id="socio_email"
+                name="email"
                 height="4.8rem"
                 type="email"
                 value={formValues.socio.email}
@@ -364,7 +389,6 @@ export const RegisterClients = () => {
               </Input>
             </FormsField>
             <File
-              id={"fotoProprietario"}
               error={errorImage}
               image={photos.file2.file}
               onChange={(event) => handleImage("file2", event)}
@@ -374,7 +398,8 @@ export const RegisterClients = () => {
 
           <FormsField variant="double">
             <Input
-              id="phone"
+              id="socio_phone"
+              name="phone"
               height="4.8rem"
               value={formValues.socio.phone}
               onChange={handleInputChange("socio")}
@@ -382,7 +407,8 @@ export const RegisterClients = () => {
               Telefone
             </Input>
             <Input
-              id="cell_phone"
+              id="socio_cell_phone"
+              name="cell_phone"
               height="4.8rem"
               value={formValues.socio.cell_phone}
               onChange={handleInputChange("socio")}
@@ -393,7 +419,8 @@ export const RegisterClients = () => {
 
           <FormsField variant="double">
             <Input
-              id="rg"
+              id="socio_rg"
+              name="rg"
               height="4.8rem"
               value={formValues.socio.rg}
               onChange={handleInputChange("socio")}
@@ -401,7 +428,8 @@ export const RegisterClients = () => {
               RG
             </Input>
             <Input
-              id="cpf"
+              id="socio_cpf"
+              name="cpf"
               height="4.8rem"
               value={formValues.socio.cpf}
               onChange={handleInputChange("socio")}
@@ -415,7 +443,8 @@ export const RegisterClients = () => {
           <FormsField variant="file" align="flex-end">
             <FormsField>
               <Input
-                id="name"
+                id="comercial_name"
+                name="name"
                 height="4.8rem"
                 value={formValues.comercial.name}
                 onChange={handleInputChange("comercial")}
@@ -423,7 +452,8 @@ export const RegisterClients = () => {
                 Nome
               </Input>
               <Input
-                id="email"
+                id="comercial_email"
+                name="email"
                 height="4.8rem"
                 type="email"
                 value={formValues.comercial.email}
@@ -433,7 +463,6 @@ export const RegisterClients = () => {
               </Input>
             </FormsField>
             <File
-              id={"fotoComercial"}
               error={errorImage}
               image={photos.file3.file}
               onChange={(event) => handleImage("file3", event)}
@@ -443,7 +472,8 @@ export const RegisterClients = () => {
 
           <FormsField variant="double">
             <Input
-              id="phone"
+              id="comercial_phone"
+              name="phone"
               height="4.8rem"
               value={formValues.comercial.phone}
               onChange={handleInputChange("comercial")}
@@ -451,7 +481,8 @@ export const RegisterClients = () => {
               Telefone
             </Input>
             <Input
-              id="cell_phone"
+              id="comercial_cell_phone"
+              name="cell_phone"
               height="4.8rem"
               value={formValues.comercial.cell_phone}
               onChange={handleInputChange("comercial")}
@@ -462,7 +493,8 @@ export const RegisterClients = () => {
 
           <FormsField variant="double">
             <Input
-              id="rg"
+              id="comercial_rg"
+              name="rg"
               height="4.8rem"
               value={formValues.comercial.rg}
               onChange={handleInputChange("comercial")}
@@ -470,7 +502,8 @@ export const RegisterClients = () => {
               RG
             </Input>
             <Input
-              id="cpf"
+              id="comercial_cpf"
+              name="cpf"
               height="4.8rem"
               value={formValues.comercial.cpf}
               onChange={handleInputChange("comercial")}
@@ -484,7 +517,8 @@ export const RegisterClients = () => {
           <FormsField variant="file" align="flex-end">
             <FormsField>
               <Input
-                id="name"
+                id="financeiro_name"
+                name="name"
                 height="4.8rem"
                 value={formValues.financeiro.name}
                 onChange={handleInputChange("financeiro")}
@@ -492,7 +526,8 @@ export const RegisterClients = () => {
                 Nome
               </Input>
               <Input
-                id="email"
+                id="financeiro_email"
+                name="email"
                 height="4.8rem"
                 type="email"
                 value={formValues.financeiro.email}
@@ -502,7 +537,6 @@ export const RegisterClients = () => {
               </Input>
             </FormsField>
             <File
-              id={"fotoFinanceiro"}
               error={errorImage}
               image={photos.file4.file}
               onChange={(event) => handleImage("file4", event)}
@@ -512,7 +546,8 @@ export const RegisterClients = () => {
 
           <FormsField variant="double">
             <Input
-              id="phone"
+              id="financeiro_phone"
+              name="phone"
               height="4.8rem"
               value={formValues.financeiro.phone}
               onChange={handleInputChange("financeiro")}
@@ -520,7 +555,8 @@ export const RegisterClients = () => {
               Telefone
             </Input>
             <Input
-              id="cell_phone"
+              id="financeiro_cell_phone"
+              name="cell_phone"
               height="4.8rem"
               value={formValues.financeiro.cell_phone}
               onChange={handleInputChange("financeiro")}
@@ -531,7 +567,8 @@ export const RegisterClients = () => {
 
           <FormsField variant="double">
             <Input
-              id="rg"
+              id="financeiro_rg"
+              name="rg"
               height="4.8rem"
               value={formValues.financeiro.rg}
               onChange={handleInputChange("financeiro")}
@@ -539,7 +576,8 @@ export const RegisterClients = () => {
               RG
             </Input>
             <Input
-              id="cpf"
+              id="financeiro_cpf"
+              name="cpf"
               height="4.8rem"
               value={formValues.financeiro.cpf}
               onChange={handleInputChange("financeiro")}
@@ -553,7 +591,8 @@ export const RegisterClients = () => {
           <FormsField variant="file" align="flex-end">
             <FormsField>
               <Input
-                id="name"
+                id="contabil_name"
+                name="name"
                 height="4.8rem"
                 value={formValues.contabil.name}
                 onChange={handleInputChange("contabil")}
@@ -561,7 +600,8 @@ export const RegisterClients = () => {
                 Nome
               </Input>
               <Input
-                id="email"
+                id="contabil_email"
+                name="email"
                 height="4.8rem"
                 type="email"
                 value={formValues.contabil.email}
@@ -571,7 +611,6 @@ export const RegisterClients = () => {
               </Input>
             </FormsField>
             <File
-              id={"fotoContabil"}
               error={errorImage}
               image={photos.file5.file}
               onChange={(event) => handleImage("file5", event)}
@@ -581,7 +620,8 @@ export const RegisterClients = () => {
 
           <FormsField variant="double">
             <Input
-              id="phone"
+              id="contabil_phone"
+              name="phone"
               height="4.8rem"
               value={formValues.contabil.phone}
               onChange={handleInputChange("contabil")}
@@ -589,7 +629,8 @@ export const RegisterClients = () => {
               Telefone
             </Input>
             <Input
-              id="cell_phone"
+              id="contabil_cell_phone"
+              name="cell_phone"
               height="4.8rem"
               value={formValues.contabil.cell_phone}
               onChange={handleInputChange("contabil")}
@@ -600,7 +641,8 @@ export const RegisterClients = () => {
 
           <FormsField variant="double">
             <Input
-              id="rg"
+              id="contabil_rg"
+              name="rg"
               height="4.8rem"
               value={formValues.contabil.rg}
               onChange={handleInputChange("contabil")}
@@ -608,7 +650,8 @@ export const RegisterClients = () => {
               RG
             </Input>
             <Input
-              id="cpf"
+              id="contabil_cpf"
+              name="cpf"
               height="4.8rem"
               value={formValues.contabil.cpf}
               onChange={handleInputChange("contabil")}
