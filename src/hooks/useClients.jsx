@@ -1,20 +1,46 @@
+
 import React from 'react';
 import { client } from '../services/instance';
 import axios from 'axios';
 
 function useClients() {
-  const postClient = async (info) => {
+  const postClient = async (json, formPhotos) => {
     try {
-      const data = await client.post('/clientes/cadastro', info);
-      console.log(data);
-      return data;
+      // Lógica de guardar a imagem
+      const formData = new FormData();
+
+      formPhotos?.forEach((photo) => {
+        formData.append("photos", photo);
+      });
+
+      // const photos = formData.getAll("photos");
+
+      // Lógica de guardar o JSON
+      formData.append("json", JSON.stringify(json));
+
+      // json = formData.get("json");
+
+      // const body = {
+      //   json,
+      //   photos,
+      // };
+
+      // console.log(body);
+      console.log(formData.getAll("photos"));
+
+      const response = await client.post("/cliente/criarCliente", formData);
+
+      console.log(response);
     } catch (error) {
+      console.error(error);
+
       return error;
     }
   };
 
   const getClient = async () => {
     try {
+
       const { data } = await client.get('/cliente');
       console.log(data)
       return data;
@@ -51,7 +77,7 @@ function useClients() {
     postClient,
     getClient,
     deleteClient,
-    patchClient, 
+    patchClient,
   };
 }
 
