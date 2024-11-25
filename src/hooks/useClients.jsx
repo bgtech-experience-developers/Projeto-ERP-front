@@ -1,7 +1,5 @@
-
-import React from 'react';
-import { client } from '../services/instance';
-import axios from 'axios';
+import React from "react";
+import { client } from "../services/instance";
 
 function useClients() {
   const postClient = async (json, formPhotos) => {
@@ -40,9 +38,8 @@ function useClients() {
 
   const getClient = async () => {
     try {
-
-      const { data } = await client.get('/cliente');
-      console.log(data)
+      const { data } = await client.get("/cliente");
+      console.log(data);
       return data;
     } catch (error) {
       return error;
