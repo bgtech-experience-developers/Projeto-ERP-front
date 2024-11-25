@@ -6,4 +6,5 @@ export const StyledTableContainer = styled.div`
   padding: 2rem;
   background-color: #f7f7f7;
   margin: auto;
+  padding-top: 5rem;
 `;
