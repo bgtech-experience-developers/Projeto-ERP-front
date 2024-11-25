@@ -1,13 +1,18 @@
 import { StyledIconLogo, StyledLogo } from "./style";
+import { useNavigate } from "react-router-dom";
 
 export const Logo = ({ img }) => {
-    const LogoReload = () => {
+    const navigate = useNavigate();
+
+    const logoReload = () => {
+        navigate('/home');
         window.location.reload();
     }
+
     return (
         <>
             <StyledLogo>
-                <StyledIconLogo onClick={LogoReload} src={img} />
+                <StyledIconLogo onClick={logoReload} src={img} />
             </StyledLogo>
         </>
     )

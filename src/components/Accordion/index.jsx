@@ -13,7 +13,7 @@ export const Accordion = () => {
         {
             title: "Cadastro",
             links: [
-                { tituloLink: "Clientes", link: "/cadastrar-cliente" },
+                { tituloLink: "Clientes", link: "/cadastrar/cliente" },
                 { tituloLink: "Fornecedores", link: "/cadastrar-fornecedor" },
                 { tituloLink: "Funcionários", link: "/cadastrar-funcionarios" }
             ]

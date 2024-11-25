@@ -6,6 +6,8 @@ import { MRT_Localization_PT_BR } from "material-react-table/locales/pt-BR";
 import { StyledTableContainer } from "../../components/Tables";
 import { Button } from "../../components/Forms/Button";
 import useClients from "../../hooks/useClients";
+import { Text } from "../../components/Texts/Text";
+import { Link } from "react-router-dom";
 
 export const ViewTableClients = () => {
   const [clients, setClients] = useState([]);
@@ -20,8 +22,10 @@ export const ViewTableClients = () => {
       // Adiciona um status inicial se não vier da API
       const updatedData = data.map((client) => {
         console.log(client.id)
-        return{...client,
-        status: client.situation || "Ativa"} // Adiciona "Ativa" como padrão, se não existir
+        return {
+          ...client,
+          status: client.situation || "Ativa"
+        } // Adiciona "Ativa" como padrão, se não existir
       });
       setClients(updatedData);
     } catch (error) {
@@ -75,8 +79,8 @@ export const ViewTableClients = () => {
     { header: "Cidade", accessorKey: "cidade" },
     { header: "Telefone", accessorKey: "telefone" },
     { header: "Celular", accessorKey: "celular" },
-    { 
-      header: "Situação", 
+    {
+      header: "Situação",
       accessorKey: "status",
       Cell: ({ row }) => (
         <span
@@ -112,6 +116,11 @@ export const ViewTableClients = () => {
 
   return (
     <StyledTableContainer>
+      {/* Div criada apenas para testar a funcionalidade, quem tiver com a tabela precisa ajustar */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '2rem', marginBottom: '2rem' }}>
+        <Text variant="large">Meus Clientes</Text>
+        <Link to="/cadastrar/cliente/novo">Cadastrar novo</Link>
+      </div>
       <MaterialReactTable
         columns={columns}
         data={clients}
