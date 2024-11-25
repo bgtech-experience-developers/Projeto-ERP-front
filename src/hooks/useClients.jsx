@@ -16,7 +16,7 @@ function useClients() {
   const getClient = async () => {
     try {
       const { data } = await client.get('/cliente');
-      console.log(data)
+      console.log("getClient: ", data)
       return data;
     } catch (error) {
       return error;
