@@ -8,7 +8,7 @@ import React, { useState } from "react";
 
 export const RegisterClients = () => {
   const [formValues, setFormValues] = useState({
-    imagens: [false, false, false, false, false],
+    imagens: [],
     cliente: {
       corporate_reason: "",
       fantasy_name: "",
@@ -62,21 +62,22 @@ export const RegisterClients = () => {
       email: "",
     },
   });
-  const [photo, setPhoto] = useState({
-    fotoCliente: "",
-    fotoProprietario: "",
-    fotoComercial: "",
-    fotoFinanceiro: "",
-    fotoContabil: "",
+  const [photos, setPhotos] = useState({
+    file1: { file: null, status: false },
+    file2: { file: null, status: false },
+    file3: { file: null, status: false },
+    file4: { file: null, status: false },
+    file5: { file: null, status: false },
   });
 
   const [errorImage, setErrorImage] = useState(false);
 
-  const [errors, setErrors] = useState({});
+  // const [errors, setErrors] = useState({});
 
   // Função chamada quando o usuário digita nos campos obrigatórios
   const handleInputChange = (field) => (event) => {
     const { id, value } = event.target;
+    // Esse estado manipula os campos para estarem dentro dos objetos corretos
     setFormValues({
       ...formValues,
       [field]: {
@@ -86,72 +87,67 @@ export const RegisterClients = () => {
     });
   };
 
+  // Removido para futura validação
   // Validação quando o usuário sai do campo obrigatório sem preencher
-  const handleBlur = (event) => {
-    const { id } = event.target;
-    const newErrors = { ...errors };
+  // const handleBlur = (event) => {
+  //   const { id } = event.target;
+  //   const newErrors = { ...errors };
 
-    // if (id === "razaoSocial") {
-    //   if (!formValues.razaoSocial) {
-    //     newErrors.razaoSocial = "*o preenchimento desse campo é obrigatório";
-    //   } else {
-    //     delete newErrors.razaoSocial;
-    //   }
-    // }
+  //   if (id === "razaoSocial") {
+  //     if (!formValues.razaoSocial) {
+  //       newErrors.razaoSocial = "*o preenchimento desse campo é obrigatório";
+  //     } else {
+  //       delete newErrors.razaoSocial;
+  //     }
+  //   }
 
-    // if (id === "nomeFantasia") {
-    //   if (!formValues.nomeFantasia) {
-    //     newErrors.nomeFantasia = "*o preenchimento desse campo é obrigatório";
-    //   } else {
-    //     delete newErrors.nomeFantasia;
-    //   }
-    // }
+  //   if (id === "nomeFantasia") {
+  //     if (!formValues.nomeFantasia) {
+  //       newErrors.nomeFantasia = "*o preenchimento desse campo é obrigatório";
+  //     } else {
+  //       delete newErrors.nomeFantasia;
+  //     }
+  //   }
 
-    // if (id === "cnpj") {
-    //   if (!formValues.cnpj) {
-    //     newErrors.cnpj = "*o preenchimento desse campo é obrigatório";
-    //   } else {
-    //     delete newErrors.cnpj;
-    //   }
-    // }
+  //   if (id === "cnpj") {
+  //     if (!formValues.cnpj) {
+  //       newErrors.cnpj = "*o preenchimento desse campo é obrigatório";
+  //     } else {
+  //       delete newErrors.cnpj;
+  //     }
+  //   }
 
-    // setErrors(newErrors);
-  };
+  //   setErrors(newErrors);
+  // };
 
   function handleSubmit(event) {
     event.preventDefault();
-
-    console.log("Valores do forms:", formValues.imagens);
-    console.log("Fotos:", photo);
   }
 
-  function handleImage({ target }) {
+  function handleImage(key, { target }) {
     const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
     const file = target.files[0];
-    const id = target.id;
 
     if (!allowedTypes.includes(file.type)) {
       setErrorImage(true);
-      setTimeout(() => {
-        setErrorImage(false);
-      }, 2000);
+      setTimeout(() => setErrorImage(false), 2000);
       return;
     }
 
-    for (const propriedade in photo) {
-      if (photo[propriedade]) {
-        console.log("aoba");
-        console.log(i);
-
-        controle.splice(i, 1, file);
-      } else {
-        console.log("Caiu");
-      }
-      i++;
-    }
-
-    setPhoto({ ...photo, [id]: file });
+    setPhotos((prevData) => ({
+      ...prevData,
+      [key]: { file, status: !!file },
+    }));
   }
+
+  React.useEffect(() => {
+    const statusArray = Object.values(photos).map((photo) => photo.status);
+    // console.log("statusarray ", statusArray);
+
+    setFormValues({ ...formValues, imagens: statusArray });
+    // console.log("Fotos ", photos);
+    // console.log("Status ", formValues);
+  }, [photos]);
 
   return (
     <div
@@ -170,47 +166,23 @@ export const RegisterClients = () => {
                 height="4.8rem"
                 value={formValues.cliente.corporate_reason}
                 onChange={handleInputChange("cliente")}
-                onBlur={handleBlur}
               >
                 Razão social
-                {errors.razaoSocial && (
-                  <span
-                    style={{
-                      color: "red",
-                      fontSize: "1rem",
-                      paddingLeft: "21rem",
-                    }}
-                  >
-                    {errors.razaoSocial}
-                  </span>
-                )}
               </Input>
               <Input
                 id="fantasy_name"
                 height="4.8rem"
                 value={formValues.cliente.fantasy_name}
                 onChange={handleInputChange("cliente")}
-                onBlur={handleBlur}
               >
                 Nome fantasia
-                {errors.nomeFantasia && (
-                  <span
-                    style={{
-                      color: "red",
-                      fontSize: "1rem",
-                      paddingLeft: "20rem",
-                    }}
-                  >
-                    {errors.nomeFantasia}
-                  </span>
-                )}
               </Input>
             </FormsField>
             <File
               id={"fotoCliente"}
               error={errorImage}
-              image={photo.fotoCliente}
-              onChange={handleImage}
+              image={photos.file1.file}
+              onChange={(event) => handleImage("file1", event)}
               text="Adicionar foto"
             />
           </FormsField>
@@ -230,20 +202,8 @@ export const RegisterClients = () => {
               height="4.8rem"
               value={formValues.cliente.cnpj}
               onChange={handleInputChange("cliente")}
-              onBlur={handleBlur}
             >
               CNPJ
-              {errors.cnpj && (
-                <span
-                  style={{
-                    color: "red",
-                    fontSize: "1rem",
-                    paddingLeft: "8rem",
-                  }}
-                >
-                  {errors.cnpj}
-                </span>
-              )}
             </Input>
             <Input
               id="state_registration"
@@ -406,9 +366,8 @@ export const RegisterClients = () => {
             <File
               id={"fotoProprietario"}
               error={errorImage}
-              value={photo.fotoProprietario}
-              image={photo.fotoProprietario}
-              onChange={handleImage}
+              image={photos.file2.file}
+              onChange={(event) => handleImage("file2", event)}
               text="Adicionar foto"
             />
           </FormsField>
@@ -476,9 +435,8 @@ export const RegisterClients = () => {
             <File
               id={"fotoComercial"}
               error={errorImage}
-              image={photo.fotoComercial}
-              value={photo.fotoComercial}
-              onChange={handleImage}
+              image={photos.file3.file}
+              onChange={(event) => handleImage("file3", event)}
               text="Adicionar foto"
             />
           </FormsField>
@@ -546,9 +504,8 @@ export const RegisterClients = () => {
             <File
               id={"fotoFinanceiro"}
               error={errorImage}
-              image={photo.fotoFinanceiro}
-              value={photo.fotoFinanceiro}
-              onChange={handleImage}
+              image={photos.file4.file}
+              onChange={(event) => handleImage("file4", event)}
               text="Adicionar foto"
             />
           </FormsField>
@@ -616,9 +573,8 @@ export const RegisterClients = () => {
             <File
               id={"fotoContabil"}
               error={errorImage}
-              image={photo.fotoContabil}
-              value={photo.fotoContabil}
-              onChange={handleImage}
+              image={photos.file5.file}
+              onChange={(event) => handleImage("file5", event)}
               text="Adicionar foto"
             />
           </FormsField>
