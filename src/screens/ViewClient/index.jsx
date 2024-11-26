@@ -15,17 +15,17 @@ export const ViewTableClients = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { getClient, deleteClient } = useClients();
 
-  
+
   // Função para buscar clientes
   const fetchClients = async () => {
     setIsLoading(true);
     try {
       const data = await getClient();
-      
+
       const updatedData = data.map((client) => ({
         ...client,
         status: client.situtation ? "Ativo" : "Inativo", // Define status 
-       }));
+      }));
       setClients(updatedData);
     } catch (error) {
       toast.error("Erro ao buscar clientes.");
@@ -127,14 +127,13 @@ export const ViewTableClients = () => {
 
   return (
     <StyledTableContainer>
+      <StyledTitleTable>
+          <Text variant="large" bold="bold">Meus clientes</Text>
+          <Link to="/cadastrar/cliente/novo">Cadastrar novo</Link>
+        </StyledTitleTable>
       {isLoading ? (
         <p>Carregando...</p>
       ) : (
-      {/* Div criada apenas para testar a funcionalidade, quem tiver com a tabela precisa ajustar */}
-      <StyledTitleTable>
-        <Text variant="large" bold="bold">Meus clientes</Text>
-        <Link to="/cadastrar/cliente/novo">Cadastrar novo</Link>
-      </StyledTitleTable>
       <MaterialReactTable
         columns={columns}
         data={clients}
@@ -158,6 +157,7 @@ export const ViewTableClients = () => {
         }}
         onPaginationChange={(newState) => setPagination(newState)}
       />
+      )};
     </StyledTableContainer>
   );
 };
