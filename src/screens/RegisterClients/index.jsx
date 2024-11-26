@@ -1,70 +1,70 @@
-import { FormsField } from "../../components/Forms/FormsField";
-import { Input } from "../../components/Forms/Inputs/Input";
-import { Card } from "../../components/Forms/Card";
-import { Form } from "../../components/Forms/Form";
-import { File } from "../../components/Forms/Inputs/File";
-import { Button } from "../../components/Forms/Button";
-import React, { useState } from "react";
-import useClients from "../../hooks/useClients";
+import { FormsField } from '../../components/Forms/FormsField';
+import { Input } from '../../components/Forms/Inputs/Input';
+import { Card } from '../../components/Forms/Card';
+import { Form } from '../../components/Forms/Form';
+import { File } from '../../components/Forms/Inputs/File';
+import { Button } from '../../components/Forms/Button';
+import React, { useState } from 'react';
+import useClients from '../../hooks/useClients';
 
 export const RegisterClients = () => {
   const [formValues, setFormValues] = useState({
     imagens: [],
     cliente: {
-      corporate_reason: "",
-      fantasy_name: "",
-      cnpj: "",
-      state_registration: "",
-      type_contribuition: "titulo",
-      branch_activity: "",
+      corporate_reason: '',
+      fantasy_name: '',
+      cnpj: '',
+      state_registration: '',
+      type_contribuition: 'titulo',
+      branch_activity: '',
     },
     endereco_empresa: {
-      cep: "",
-      street: "",
-      number: "",
-      complement: "",
-      city: "",
-      neighborhood: "",
+      cep: '',
+      street: '',
+      number: '',
+      complement: '',
+      city: '',
+      neighborhood: '',
     },
     endereco_entrega: {
-      cep: "",
-      street: "",
-      number: "",
-      complement: "",
-      city: "",
-      neighborhood: "",
+      cep: '',
+      street: '',
+      number: '',
+      complement: '',
+      city: '',
+      neighborhood: '',
     },
     financeiro: {
-      name: "",
-      phone: "",
-      cell_phone: "",
-      rg: "",
-      email: "",
-      cpf: "",
+      name: '',
+      phone: '',
+      cell_phone: '',
+      rg: '',
+      email: '',
+      cpf: '',
     },
     comercial: {
-      name: "",
-      phone: "",
-      cell_phone: "",
-      rg: "",
-      email: "",
-      cpf: "",
+      name: '',
+      phone: '',
+      cell_phone: '',
+      rg: '',
+      email: '',
+      cpf: '',
     },
     contabil: {
-      name: "",
-      phone: "",
-      cell_phone: "",
-      rg: "",
-      email: "",
-      cpf: "",
+      name: '',
+      phone: '',
+      cell_phone: '',
+      rg: '',
+      email: '',
+      cpf: '',
     },
     socio: {
-      name: "",
-      phone: "",
-      cell_phone: "",
-      rg: "",
-      email: "",
-      cpf: "",
+      name: '',
+      phone: '',
+      cell_phone: '',
+      rg: '',
+      email: '',
+      cpf: '',
     },
   });
   const [photos, setPhotos] = useState({
@@ -80,12 +80,12 @@ export const RegisterClients = () => {
 
   const [errorImage, setErrorImage] = useState(false);
 
-  // const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState({});
 
   // Função chamada quando o usuário digita nos campos obrigatórios
   const handleInputChange = (field) => (event) => {
     const { name, value } = event.target;
-    // Esse estado manipula os campos para estarem dentro dos objetos corretos
+
     setFormValues({
       ...formValues,
       [field]: {
@@ -93,43 +93,36 @@ export const RegisterClients = () => {
         [name]: value,
       },
     });
+
+    setErrors((prev) => ({
+      ...prev,
+      [field]: {
+        ...prev[field],
+        [name]: value.trim() !== '' ? null : prev[field]?.[name],
+      },
+    }));
   };
 
   // Removido para futura validação
   // Validação quando o usuário sai do campo obrigatório sem preencher
-  // const handleBlur = (event) => {
-  //   const { id } = event.target;
-  //   const newErrors = { ...errors };
+  const handleBlur = (section) => (e) => {
+    const { id, value } = e.target; // Corrigido para usar 'e'
 
-  //   if (id === "razaoSocial") {
-  //     if (!formValues.razaoSocial) {
-  //       newErrors.razaoSocial = "*o preenchimento desse campo é obrigatório";
-  //     } else {
-  //       delete newErrors.razaoSocial;
-  //     }
-  //   }
+    if (value.trim() === '') {
+      setErrors((prev) => ({
+        ...prev,
+        [section]: {
+          ...prev[section],
+          [id]: 'Preencha este campo',
+        },
+      }));
+    }
+  };
 
-  //   if (id === "nomeFantasia") {
-  //     if (!formValues.nomeFantasia) {
-  //       newErrors.nomeFantasia = "*o preenchimento desse campo é obrigatório";
-  //     } else {
-  //       delete newErrors.nomeFantasia;
-  //     }
-  //   }
-
-  //   if (id === "cnpj") {
-  //     if (!formValues.cnpj) {
-  //       newErrors.cnpj = "*o preenchimento desse campo é obrigatório";
-  //     } else {
-  //       delete newErrors.cnpj;
-  //     }
-  //   }
-
-  //   setErrors(newErrors);
-  // };
+  console.log(errors);
 
   function handleImage(key, { target }) {
-    const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
     const file = target.files[0];
 
     if (!allowedTypes.includes(file.type)) {
@@ -152,60 +145,60 @@ export const RegisterClients = () => {
     setFormValues({
       imagens: [],
       cliente: {
-        corporate_reason: "",
-        fantasy_name: "",
-        cnpj: "",
-        state_registration: "",
-        type_contribuition: "titulo",
-        branch_activity: "",
+        corporate_reason: '',
+        fantasy_name: '',
+        cnpj: '',
+        state_registration: '',
+        type_contribuition: 'titulo',
+        branch_activity: '',
       },
       endereco_empresa: {
-        cep: "",
-        street: "",
-        number: "",
-        complement: "",
-        city: "",
-        neighborhood: "",
+        cep: '',
+        street: '',
+        number: '',
+        complement: '',
+        city: '',
+        neighborhood: '',
       },
       endereco_entrega: {
-        cep: "",
-        street: "",
-        number: "",
-        complement: "",
-        city: "",
-        neighborhood: "",
+        cep: '',
+        street: '',
+        number: '',
+        complement: '',
+        city: '',
+        neighborhood: '',
       },
       financeiro: {
-        name: "",
-        phone: "",
-        cell_phone: "",
-        rg: "",
-        email: "",
-        cpf: "",
+        name: '',
+        phone: '',
+        cell_phone: '',
+        rg: '',
+        email: '',
+        cpf: '',
       },
       comercial: {
-        name: "",
-        phone: "",
-        cell_phone: "",
-        rg: "",
-        email: "",
-        cpf: "",
+        name: '',
+        phone: '',
+        cell_phone: '',
+        rg: '',
+        email: '',
+        cpf: '',
       },
       contabil: {
-        name: "",
-        phone: "",
-        cell_phone: "",
-        rg: "",
-        email: "",
-        cpf: "",
+        name: '',
+        phone: '',
+        cell_phone: '',
+        rg: '',
+        email: '',
+        cpf: '',
       },
       socio: {
-        name: "",
-        phone: "",
-        cell_phone: "",
-        rg: "",
-        email: "",
-        cpf: "",
+        name: '',
+        phone: '',
+        cell_phone: '',
+        rg: '',
+        email: '',
+        cpf: '',
       },
     });
   }
@@ -219,9 +212,9 @@ export const RegisterClients = () => {
   return (
     <div
       style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
       }}
     >
       <Form onSubmit={handleSubmit} title="Cadastrar Cliente" width="87.8rem">
@@ -233,25 +226,37 @@ export const RegisterClients = () => {
                 name="corporate_reason"
                 height="4.8rem"
                 value={formValues.cliente.corporate_reason}
-                onChange={handleInputChange("cliente")}
+                onChange={handleInputChange('cliente')}
+                onBlur={handleBlur('cliente')}
               >
-                Razão social
+                Razão Social
+                {errors.cliente?.cliente_corporate_reason && (
+                  <span
+                    style={{
+                      color: 'red',
+                      fontSize: '0.9rem',
+                      marginLeft: '1rem',
+                    }}
+                  >
+                    * {errors.cliente.cliente_corporate_reason}
+                  </span>
+                )}
               </Input>
               <Input
                 id="cliente_fantasy_name"
                 name="fantasy_name"
                 height="4.8rem"
                 value={formValues.cliente.fantasy_name}
-                onChange={handleInputChange("cliente")}
+                onChange={handleInputChange('cliente')}
               >
                 Nome fantasia
               </Input>
             </FormsField>
             <File
-              name={"fotoCliente"}
+              name={'fotoCliente'}
               error={errorImage}
               image={photos.file1.file}
-              onChange={(event) => handleImage("file1", event)}
+              onChange={(event) => handleImage('file1', event)}
               text="Adicionar foto"
             />
           </FormsField>
@@ -261,7 +266,7 @@ export const RegisterClients = () => {
             name="branch_activity"
             height="4.8rem"
             value={formValues.cliente.branch_activity}
-            onChange={handleInputChange("cliente")}
+            onChange={handleInputChange('cliente')}
           >
             Ramo de atuação
           </Input>
@@ -272,7 +277,7 @@ export const RegisterClients = () => {
               name="cnpj"
               height="4.8rem"
               value={formValues.cliente.cnpj}
-              onChange={handleInputChange("cliente")}
+              onChange={handleInputChange('cliente')}
             >
               CNPJ
             </Input>
@@ -281,7 +286,7 @@ export const RegisterClients = () => {
               name="state_registration"
               height="4.8rem"
               value={formValues.cliente.state_registration}
-              onChange={handleInputChange("cliente")}
+              onChange={handleInputChange('cliente')}
             >
               Inscrição estadual
             </Input>
@@ -293,11 +298,11 @@ export const RegisterClients = () => {
             name="type_contribuition"
             height="4.8rem"
             value={formValues.cliente.type_contribuition}
-            onChange={handleInputChange("cliente")}
+            onChange={handleInputChange('cliente')}
             options={[
-              { value: "titulo", label: "Selecione", disabled: true },
-              { value: "pj", label: "Pessoa Jurídica" },
-              { value: "opcao3", label: "Pessoa Fisíca" },
+              { value: 'titulo', label: 'Selecione', disabled: true },
+              { value: 'pj', label: 'Pessoa Jurídica' },
+              { value: 'opcao3', label: 'Pessoa Fisíca' },
             ]}
           >
             Tipo de contribuinte
@@ -311,7 +316,7 @@ export const RegisterClients = () => {
               id="endereco_empresa_street"
               height="4.8rem"
               value={formValues.endereco_empresa.street}
-              onChange={handleInputChange("endereco_empresa")}
+              onChange={handleInputChange('endereco_empresa')}
             >
               Logradouro
             </Input>
@@ -320,7 +325,7 @@ export const RegisterClients = () => {
               name="number"
               height="4.8rem"
               value={formValues.endereco_empresa.number}
-              onChange={handleInputChange("endereco_empresa")}
+              onChange={handleInputChange('endereco_empresa')}
             >
               Número
             </Input>
@@ -329,7 +334,7 @@ export const RegisterClients = () => {
               name="cep"
               height="4.8rem"
               value={formValues.endereco_empresa.cep}
-              onChange={handleInputChange("endereco_empresa")}
+              onChange={handleInputChange('endereco_empresa')}
             >
               CEP
             </Input>
@@ -340,7 +345,7 @@ export const RegisterClients = () => {
             name="complement"
             height="4.8rem"
             value={formValues.endereco_empresa.complement}
-            onChange={handleInputChange("endereco_empresa")}
+            onChange={handleInputChange('endereco_empresa')}
           >
             Complemento
           </Input>
@@ -351,7 +356,7 @@ export const RegisterClients = () => {
               name="neighborhood"
               height="4.8rem"
               value={formValues.endereco_empresa.neighborhood}
-              onChange={handleInputChange("endereco_empresa")}
+              onChange={handleInputChange('endereco_empresa')}
             >
               Bairro
             </Input>
@@ -360,7 +365,7 @@ export const RegisterClients = () => {
               name="city"
               height="4.8rem"
               value={formValues.endereco_empresa.city}
-              onChange={handleInputChange("endereco_empresa")}
+              onChange={handleInputChange('endereco_empresa')}
             >
               Cidade
             </Input>
@@ -374,7 +379,7 @@ export const RegisterClients = () => {
               name="street"
               height="4.8rem"
               value={formValues.endereco_entrega.street}
-              onChange={handleInputChange("endereco_entrega")}
+              onChange={handleInputChange('endereco_entrega')}
             >
               Logradouro
             </Input>
@@ -383,7 +388,7 @@ export const RegisterClients = () => {
               name="number"
               height="4.8rem"
               value={formValues.endereco_entrega.number}
-              onChange={handleInputChange("endereco_entrega")}
+              onChange={handleInputChange('endereco_entrega')}
             >
               Número
             </Input>
@@ -392,7 +397,7 @@ export const RegisterClients = () => {
               name="cep"
               height="4.8rem"
               value={formValues.endereco_entrega.cep}
-              onChange={handleInputChange("endereco_entrega")}
+              onChange={handleInputChange('endereco_entrega')}
             >
               CEP
             </Input>
@@ -403,7 +408,7 @@ export const RegisterClients = () => {
             name="complement"
             height="4.8rem"
             value={formValues.endereco_entrega.complement}
-            onChange={handleInputChange("endereco_entrega")}
+            onChange={handleInputChange('endereco_entrega')}
           >
             Complemento
           </Input>
@@ -414,7 +419,7 @@ export const RegisterClients = () => {
               name="neighborhood"
               height="4.8rem"
               value={formValues.endereco_entrega.neighborhood}
-              onChange={handleInputChange("endereco_entrega")}
+              onChange={handleInputChange('endereco_entrega')}
             >
               Bairro
             </Input>
@@ -423,7 +428,7 @@ export const RegisterClients = () => {
               name="city"
               height="4.8rem"
               value={formValues.endereco_entrega.city}
-              onChange={handleInputChange("endereco_entrega")}
+              onChange={handleInputChange('endereco_entrega')}
             >
               Cidade
             </Input>
@@ -438,7 +443,7 @@ export const RegisterClients = () => {
                 name="name"
                 height="4.8rem"
                 value={formValues.socio.name}
-                onChange={handleInputChange("socio")}
+                onChange={handleInputChange('socio')}
               >
                 Nome
               </Input>
@@ -448,7 +453,7 @@ export const RegisterClients = () => {
                 height="4.8rem"
                 type="email"
                 value={formValues.socio.email}
-                onChange={handleInputChange("socio")}
+                onChange={handleInputChange('socio')}
               >
                 Email
               </Input>
@@ -456,7 +461,7 @@ export const RegisterClients = () => {
             <File
               error={errorImage}
               image={photos.file2.file}
-              onChange={(event) => handleImage("file2", event)}
+              onChange={(event) => handleImage('file2', event)}
               text="Adicionar foto"
             />
           </FormsField>
@@ -467,7 +472,7 @@ export const RegisterClients = () => {
               name="phone"
               height="4.8rem"
               value={formValues.socio.phone}
-              onChange={handleInputChange("socio")}
+              onChange={handleInputChange('socio')}
             >
               Telefone
             </Input>
@@ -476,7 +481,7 @@ export const RegisterClients = () => {
               name="cell_phone"
               height="4.8rem"
               value={formValues.socio.cell_phone}
-              onChange={handleInputChange("socio")}
+              onChange={handleInputChange('socio')}
             >
               Celular
             </Input>
@@ -488,7 +493,7 @@ export const RegisterClients = () => {
               name="rg"
               height="4.8rem"
               value={formValues.socio.rg}
-              onChange={handleInputChange("socio")}
+              onChange={handleInputChange('socio')}
             >
               RG
             </Input>
@@ -497,7 +502,7 @@ export const RegisterClients = () => {
               name="cpf"
               height="4.8rem"
               value={formValues.socio.cpf}
-              onChange={handleInputChange("socio")}
+              onChange={handleInputChange('socio')}
             >
               CPF
             </Input>
@@ -512,7 +517,7 @@ export const RegisterClients = () => {
                 name="name"
                 height="4.8rem"
                 value={formValues.comercial.name}
-                onChange={handleInputChange("comercial")}
+                onChange={handleInputChange('comercial')}
               >
                 Nome
               </Input>
@@ -522,7 +527,7 @@ export const RegisterClients = () => {
                 height="4.8rem"
                 type="email"
                 value={formValues.comercial.email}
-                onChange={handleInputChange("comercial")}
+                onChange={handleInputChange('comercial')}
               >
                 Email
               </Input>
@@ -530,7 +535,7 @@ export const RegisterClients = () => {
             <File
               error={errorImage}
               image={photos.file3.file}
-              onChange={(event) => handleImage("file3", event)}
+              onChange={(event) => handleImage('file3', event)}
               text="Adicionar foto"
             />
           </FormsField>
@@ -541,7 +546,7 @@ export const RegisterClients = () => {
               name="phone"
               height="4.8rem"
               value={formValues.comercial.phone}
-              onChange={handleInputChange("comercial")}
+              onChange={handleInputChange('comercial')}
             >
               Telefone
             </Input>
@@ -550,7 +555,7 @@ export const RegisterClients = () => {
               name="cell_phone"
               height="4.8rem"
               value={formValues.comercial.cell_phone}
-              onChange={handleInputChange("comercial")}
+              onChange={handleInputChange('comercial')}
             >
               Celular
             </Input>
@@ -562,7 +567,7 @@ export const RegisterClients = () => {
               name="rg"
               height="4.8rem"
               value={formValues.comercial.rg}
-              onChange={handleInputChange("comercial")}
+              onChange={handleInputChange('comercial')}
             >
               RG
             </Input>
@@ -571,7 +576,7 @@ export const RegisterClients = () => {
               name="cpf"
               height="4.8rem"
               value={formValues.comercial.cpf}
-              onChange={handleInputChange("comercial")}
+              onChange={handleInputChange('comercial')}
             >
               CPF
             </Input>
@@ -586,7 +591,7 @@ export const RegisterClients = () => {
                 name="name"
                 height="4.8rem"
                 value={formValues.financeiro.name}
-                onChange={handleInputChange("financeiro")}
+                onChange={handleInputChange('financeiro')}
               >
                 Nome
               </Input>
@@ -596,7 +601,7 @@ export const RegisterClients = () => {
                 height="4.8rem"
                 type="email"
                 value={formValues.financeiro.email}
-                onChange={handleInputChange("financeiro")}
+                onChange={handleInputChange('financeiro')}
               >
                 Email
               </Input>
@@ -604,7 +609,7 @@ export const RegisterClients = () => {
             <File
               error={errorImage}
               image={photos.file4.file}
-              onChange={(event) => handleImage("file4", event)}
+              onChange={(event) => handleImage('file4', event)}
               text="Adicionar foto"
             />
           </FormsField>
@@ -615,7 +620,7 @@ export const RegisterClients = () => {
               name="phone"
               height="4.8rem"
               value={formValues.financeiro.phone}
-              onChange={handleInputChange("financeiro")}
+              onChange={handleInputChange('financeiro')}
             >
               Telefone
             </Input>
@@ -624,7 +629,7 @@ export const RegisterClients = () => {
               name="cell_phone"
               height="4.8rem"
               value={formValues.financeiro.cell_phone}
-              onChange={handleInputChange("financeiro")}
+              onChange={handleInputChange('financeiro')}
             >
               Celular
             </Input>
@@ -636,7 +641,7 @@ export const RegisterClients = () => {
               name="rg"
               height="4.8rem"
               value={formValues.financeiro.rg}
-              onChange={handleInputChange("financeiro")}
+              onChange={handleInputChange('financeiro')}
             >
               RG
             </Input>
@@ -645,7 +650,7 @@ export const RegisterClients = () => {
               name="cpf"
               height="4.8rem"
               value={formValues.financeiro.cpf}
-              onChange={handleInputChange("financeiro")}
+              onChange={handleInputChange('financeiro')}
             >
               CPF
             </Input>
@@ -660,7 +665,7 @@ export const RegisterClients = () => {
                 name="name"
                 height="4.8rem"
                 value={formValues.contabil.name}
-                onChange={handleInputChange("contabil")}
+                onChange={handleInputChange('contabil')}
               >
                 Nome
               </Input>
@@ -670,7 +675,7 @@ export const RegisterClients = () => {
                 height="4.8rem"
                 type="email"
                 value={formValues.contabil.email}
-                onChange={handleInputChange("contabil")}
+                onChange={handleInputChange('contabil')}
               >
                 Email
               </Input>
@@ -678,7 +683,7 @@ export const RegisterClients = () => {
             <File
               error={errorImage}
               image={photos.file5.file}
-              onChange={(event) => handleImage("file5", event)}
+              onChange={(event) => handleImage('file5', event)}
               text="Adicionar foto"
             />
           </FormsField>
@@ -689,7 +694,7 @@ export const RegisterClients = () => {
               name="phone"
               height="4.8rem"
               value={formValues.contabil.phone}
-              onChange={handleInputChange("contabil")}
+              onChange={handleInputChange('contabil')}
             >
               Telefone
             </Input>
@@ -698,7 +703,7 @@ export const RegisterClients = () => {
               name="cell_phone"
               height="4.8rem"
               value={formValues.contabil.cell_phone}
-              onChange={handleInputChange("contabil")}
+              onChange={handleInputChange('contabil')}
             >
               Celular
             </Input>
@@ -710,7 +715,7 @@ export const RegisterClients = () => {
               name="rg"
               height="4.8rem"
               value={formValues.contabil.rg}
-              onChange={handleInputChange("contabil")}
+              onChange={handleInputChange('contabil')}
             >
               RG
             </Input>
@@ -719,7 +724,7 @@ export const RegisterClients = () => {
               name="cpf"
               height="4.8rem"
               value={formValues.contabil.cpf}
-              onChange={handleInputChange("contabil")}
+              onChange={handleInputChange('contabil')}
             >
               CPF
             </Input>
