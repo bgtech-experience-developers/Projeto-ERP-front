@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { MaterialReactTable } from "material-react-table";
 import { MRT_Localization_PT_BR } from "material-react-table/locales/pt-BR";
-// import { StyledH1 } from '../../components/Forms/Card/style';
-import { StyledTableContainer } from "../../components/Tables";
+import { StyledTableContainer, StyledTitleTable } from "../../components/Tables";
 import { Button } from "../../components/Forms/Button";
 import useClients from "../../hooks/useClients";
 import { Text } from "../../components/Texts/Text";
@@ -117,10 +116,10 @@ export const ViewTableClients = () => {
   return (
     <StyledTableContainer>
       {/* Div criada apenas para testar a funcionalidade, quem tiver com a tabela precisa ajustar */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '2rem', marginBottom: '2rem' }}>
-        <Text variant="large">Meus Clientes</Text>
+      <StyledTitleTable>
+        <Text variant="large" bold="bold">Meus clientes</Text>
         <Link to="/cadastrar/cliente/novo">Cadastrar novo</Link>
-      </div>
+      </StyledTitleTable>
       <MaterialReactTable
         columns={columns}
         data={clients}
