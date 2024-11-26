@@ -84,7 +84,16 @@ export const RegisterClients = () => {
 
   // Função chamada quando o usuário digita nos campos obrigatórios
   const handleInputChange = (field) => (event) => {
-    const { name, value } = event.target;
+    const { id, name, value } = event.target;
+    // Limpa o erro ao corrigir o campo
+    setErrors((prev) => ({
+      ...prev,
+      [field]: {
+        ...prev[field],
+        [name]: '',
+      },
+    }));
+    console.log(id, value);
 
     setFormValues({
       ...formValues,
@@ -93,33 +102,10 @@ export const RegisterClients = () => {
         [name]: value,
       },
     });
-
-    setErrors((prev) => ({
-      ...prev,
-      [field]: {
-        ...prev[field],
-        [name]: value.trim() !== '' ? null : prev[field]?.[name],
-      },
-    }));
+    console.log(name, value);
   };
 
-  // Removido para futura validação
-  // Validação quando o usuário sai do campo obrigatório sem preencher
-  const handleBlur = (section) => (e) => {
-    const { id, value } = e.target; // Corrigido para usar 'e'
-
-    if (value.trim() === '') {
-      setErrors((prev) => ({
-        ...prev,
-        [section]: {
-          ...prev[section],
-          [id]: 'Preencha este campo',
-        },
-      }));
-    }
-  };
-
-  console.log(errors);
+  console.log(errors.cliente);
 
   function handleImage(key, { target }) {
     const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
@@ -227,20 +213,8 @@ export const RegisterClients = () => {
                 height="4.8rem"
                 value={formValues.cliente.corporate_reason}
                 onChange={handleInputChange('cliente')}
-                onBlur={handleBlur('cliente')}
               >
                 Razão Social
-                {errors.cliente?.cliente_corporate_reason && (
-                  <span
-                    style={{
-                      color: 'red',
-                      fontSize: '0.9rem',
-                      marginLeft: '1rem',
-                    }}
-                  >
-                    * {errors.cliente.cliente_corporate_reason}
-                  </span>
-                )}
               </Input>
               <Input
                 id="cliente_fantasy_name"
@@ -281,6 +255,7 @@ export const RegisterClients = () => {
             >
               CNPJ
             </Input>
+
             <Input
               id="cliente_state_registration"
               name="state_registration"
