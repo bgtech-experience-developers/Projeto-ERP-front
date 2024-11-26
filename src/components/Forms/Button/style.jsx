@@ -30,8 +30,6 @@ export const _Button = styled.button`
     switch ($variant) {
       case "primary":
         return primary;
-      case "secondary":
-        return secondary;
       case "disabled":
         return disabled;
       default:
