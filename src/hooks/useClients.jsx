@@ -4,34 +4,20 @@ import { client } from "../services/instance";
 function useClients() {
   const postClient = async (json, formPhotos) => {
     try {
-      // Lógica de guardar a imagem
+      // Lógica de guardar a imagem e o json
       const formData = new FormData();
 
       formPhotos?.forEach((photo) => {
         formData.append("photos", photo);
       });
 
-      // const photos = formData.getAll("photos");
-
-      // Lógica de guardar o JSON
       formData.append("json", JSON.stringify(json));
-
-      // json = formData.get("json");
-
-      // const body = {
-      //   json,
-      //   photos,
-      // };
-
-      // console.log(body);
-      console.log(formData.getAll("photos"));
 
       const response = await client.post("/cliente/criarCliente", formData);
 
-      console.log(response);
+      return response;
     } catch (error) {
       console.error(error);
-
       return error;
     }
   };
@@ -42,6 +28,17 @@ function useClients() {
       console.log(data);
       return data;
     } catch (error) {
+      console.error(error);
+      return error;
+    }
+  };
+
+  const getClientById = async (id) => {
+    try {
+      const { data } = await client.get(`/client/${id}`);
+      return data;
+    } catch (error) {
+      console.error(error);
       return error;
     }
   };
@@ -51,18 +48,25 @@ function useClients() {
       const data = await client.delete(`/cliente/deletar/${cpf}`);
       return data;
     } catch (error) {
+      console.error(error);
       return error;
     }
   };
 
   // Novo método PATCH com suporte para CPF e CNPJ
-  const patchClient = async (identifier, updatedInfo, isCNPJ = false) => {
+  const patchClient = async (id, json, formPhotos) => {
     try {
-      const endpoint = isCNPJ
-        ? `/cliente/atualizar?contribuinte=${identifier}` // Endpoint para CNPJ
-        : `/cliente/atualizar?contribuinte=${identifier}`; // Endpoint para CPF
+      // const formData = new FormData();
 
-      const data = await client.patch(endpoint, updatedInfo);
+      // formPhotos?.forEach((photo) => {
+      //   formData.append("photos", photo);
+      // });
+
+      // formData.append("json", JSON.stringify(json));
+      console.log(id);
+
+      const { data } = await client.put(`/client/${id}`, json);
+
       console.log(data);
       return data;
     } catch (error) {
@@ -72,6 +76,7 @@ function useClients() {
 
   return {
     postClient,
+    getClientById,
     getClient,
     deleteClient,
     patchClient,

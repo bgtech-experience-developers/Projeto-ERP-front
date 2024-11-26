@@ -10,6 +10,7 @@ import { ViewTableClients } from "../screens/ViewClient";
 import { Content, Layout } from "../components/Sidebar/style";
 import { ViewTableSupplier } from "../screens/ViewSupplier";
 import { RegisterClients } from "../screens/RegisterClients";
+import { UpdateClient } from "../screens/UpdateClient";
 
 export const AppRoutes = () => {
   return (
@@ -79,21 +80,13 @@ export const AppRoutes = () => {
                       </h1>
                     }
                   />
+
+                  <Route path="/atualizar/cliente" element={<UpdateClient />} />
                   <Route path="*" element={<Navigate to="/home" />} />
                 </Routes>
               </Content>
             </Layout>
           }
-        />
-
-        <Route path="/cadastrar/clientes" element={<RegisterClients />} />
-        <Route
-          path="/cadastrar/fornecedor/pf"
-          element={<RegisterSupplierPF />}
-        />
-        <Route
-          path="/cadastrar/fornecedor/pj"
-          element={<RegisterSupplierPJ />}
         />
       </Routes>
     </BrowserRouter>
