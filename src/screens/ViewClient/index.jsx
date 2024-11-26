@@ -127,6 +127,10 @@ export const ViewTableClients = () => {
 
   return (
     <StyledTableContainer>
+      <StyledTitleTable>
+          <Text variant="large" bold="bold">Meus clientes</Text>
+          <Link to="/cadastrar/cliente/novo">Cadastrar novo</Link>
+        </StyledTitleTable>
       {isLoading ? (
         <p>Carregando...</p>
       ) : (
