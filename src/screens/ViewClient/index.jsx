@@ -2,42 +2,45 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { MaterialReactTable } from "material-react-table";
 import { MRT_Localization_PT_BR } from "material-react-table/locales/pt-BR";
-// import { StyledH1 } from '../../components/Forms/Card/style';
-import { StyledTableContainer } from "../../components/Tables";
+import { StyledTableContainer, StyledTitleTable } from "../../components/Tables";
 import { Button } from "../../components/Forms/Button";
 import useClients from "../../hooks/useClients";
+import { toast } from "react-toastify";
 import { Text } from "../../components/Texts/Text";
 import { Link } from "react-router-dom";
 
 export const ViewTableClients = () => {
   const [clients, setClients] = useState([]);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
+  const [isLoading, setIsLoading] = useState(false);
   const { getClient, deleteClient } = useClients();
+
 
   // Função para buscar clientes
   const fetchClients = async () => {
+    setIsLoading(true);
     try {
       const data = await getClient();
-      console.log(data)
-      // Adiciona um status inicial se não vier da API
-      const updatedData = data.map((client) => {
-        console.log(client.id)
-        return {
-          ...client,
-          status: client.situation || "Ativa"
-        } // Adiciona "Ativa" como padrão, se não existir
-      });
+
+      const updatedData = data.map((client) => ({
+        ...client,
+        status: client.situtation ? "Ativo" : "Inativo", // Define status 
+      }));
       setClients(updatedData);
     } catch (error) {
+      toast.error("Erro ao buscar clientes.");
       console.error("Erro ao buscar clientes:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  // useEffect para carregar os cadastros ao montar o componente
+  // useEffect para carregar os clientes ao montar o componente
   useEffect(() => {
     fetchClients();
   }, []);
 
+  // Função para deletar cliente
   const handleDelete = async (id) => {
     const confirmDelete = window.confirm(
       "Tem certeza que deseja excluir esse cadastro?"
@@ -45,47 +48,55 @@ export const ViewTableClients = () => {
     if (confirmDelete) {
       try {
         await deleteClient(id);
-
-        const updatedClients = clients.filter((client) => client.id !== id);
-        setClients(updatedClients);
+        setClients((prev) => prev.filter((client) => client.id !== id));
+        toast.success("Cliente excluído com sucesso!");
       } catch (error) {
+        toast.error("Erro ao excluir cliente.");
         console.error("Erro ao deletar cliente:", error);
       }
     }
   };
 
-  // Alternar entre "Ativa" e "Inativa"
-  const toggleStatus = (id) => {
-    const updatedClients = clients.map((client) =>
-      client.id === id
-        ? { ...client, status: client.status === "Ativa" ? "Inativa" : "Ativa" }
-        : client
-    );
-    setClients(updatedClients);
+  // Alternar status entre "Ativa" e "Inativa"
+  const toggleStatus = async (id) => {
+    const client = clients.find((c) => c.id === id);
+    const newStatus = client.status === "Ativa" ? "Inativa" : "Ativa";
+
+    try {
+      await axios.patch(`/api/clients/${id}`, { status: newStatus });
+      setClients((prev) =>
+        prev.map((c) => (c.id === id ? { ...c, status: newStatus } : c))
+      );
+      toast.success("Status atualizado com sucesso!");
+    } catch (error) {
+      toast.error("Erro ao atualizar status.");
+      console.error("Erro ao alternar status:", error);
+    }
   };
 
   // Colunas da tabela
   const columns = [
-    { header: "Nome", accessorKey: "name" },
+    { header: "Nome da Empresa", accessorKey: "corporate_reason" },
+    // { header: "Nome Fantasia", accessorKey: "fantasy_name" },
     { header: "Email", accessorKey: "email" },
-    { header: "RG", accessorKey: "rg" },
-    { header: "CPF", accessorKey: "cpf" },
-    { header: "CNPJ", accessorKey: "cnpj" },
-    { header: "Nascimento", accessorKey: "date_birth" },
-    { header: "CEP", accessorKey: "cep" },
-    { header: "Logradouro", accessorKey: "logradouro" },
-    { header: "Número", accessorKey: "numero" },
-    { header: "Bairro", accessorKey: "bairro" },
-    { header: "Cidade", accessorKey: "cidade" },
-    { header: "Telefone", accessorKey: "telefone" },
-    { header: "Celular", accessorKey: "celular" },
+    // { header: "RG", accessorKey: "state_registration" },
+    // { header: "CPF", accessorKey: "cpf" },
+    // { header: "CNPJ", accessorKey: "cnpj" },
+    { header: "Tipo de Contribuinte", accessorKey: "type_contribuition" },
+    // { header: "CEP", accessorKey: "cep" },
+    // { header: "Logradouro", accessorKey: "street" },
+    // { header: "Número", accessorKey: "number" },
+    // { header: "Bairro", accessorKey: "bairro" },
+    // { header: "Cidade", accessorKey: "city" },
+    // { header: "Telefone", accessorKey: "phone" },
+    { header: "Celular", accessorKey: "cell_phone" },
     {
       header: "Situação",
       accessorKey: "status",
       Cell: ({ row }) => (
         <span
           style={{
-            color: row.original.status === "Ativa" ? "green" : "red",
+            color: row.original.status === "Ativa" ? "red" : "green",
             fontWeight: "bold",
           }}
         >
@@ -116,11 +127,13 @@ export const ViewTableClients = () => {
 
   return (
     <StyledTableContainer>
-      {/* Div criada apenas para testar a funcionalidade, quem tiver com a tabela precisa ajustar */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '2rem', marginBottom: '2rem' }}>
-        <Text variant="large">Meus Clientes</Text>
-        <Link to="/cadastrar/cliente/novo">Cadastrar novo</Link>
-      </div>
+      <StyledTitleTable>
+          <Text variant="large" bold="bold">Meus clientes</Text>
+          <Link to="/cadastrar/cliente/novo">Cadastrar novo</Link>
+        </StyledTitleTable>
+      {isLoading ? (
+        <p>Carregando...</p>
+      ) : (
       <MaterialReactTable
         columns={columns}
         data={clients}
@@ -128,15 +141,15 @@ export const ViewTableClients = () => {
         state={{ pagination }}
         muiTableHeadCellProps={{
           sx: {
-            backgroundColor: "#ECF5FF",
+            backgroundColor: "#FFFFFF",
             color: "black",
             fontSize: "5.2rem",
           },
         }}
         muiTableBodyCellProps={{
           sx: {
-            backgroundColor: "#ECF5FF",
-            color: "#edf1f5",
+            backgroundColor: "#FFFFFF",
+            color: "#0e0f0f",
             padding: "12px 15px",
             fontSize: "1.1rem",
             fontWeight: "500",
@@ -144,6 +157,7 @@ export const ViewTableClients = () => {
         }}
         onPaginationChange={(newState) => setPagination(newState)}
       />
+      )}
     </StyledTableContainer>
-  );
+  )
 };
