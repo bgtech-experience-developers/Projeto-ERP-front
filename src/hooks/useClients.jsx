@@ -42,7 +42,7 @@ function useClients() {
     try {
 
       const { data } = await client.get('/cliente');
-      console.log(data)
+      console.log("getClient: ", data)
       return data;
     } catch (error) {
       return error;
