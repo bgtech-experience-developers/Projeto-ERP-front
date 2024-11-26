@@ -1,17 +1,24 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { RegisterClients } from "../screens/RegisterClients";
-import { RegisterSupplierPF, RegisterSupplierPJ } from "../screens/RegisterSuppliers";
+import {
+  RegisterSupplierPF,
+  RegisterSupplierPJ,
+} from "../screens/RegisterSuppliers";
 import { Accordion } from "../components/Accordion";
-import { Sidebar } from "../components/Sidebar";
-// import { RegisterClient } from "../screens/RegisterClient";
-// import { RegisterSupplier } from "../screens/RegisterSupplier";
-// import { RegisterEmployee } from "../screens/RegisterEmployee";
-// import { RegisterSucess } from "../screens/RegisterSucess";
-
-import { ViewTableClients } from "../screens/ViewClient";
-import { ViewTableEmployee } from "../screens/ViewEmployee";
-import { ViewTableSupplier } from "../screens/ViewSupplier";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import UserLogin from "../screens/Login";
+import { Sidebar } from "../components/Sidebar";
+// import { RegisterClients } from "../screens/RegisterClients";
+// import { RegisterSupplierPF, RegisterSupplierPJ } from "../screens/RegisterSuppliers";
+import { ViewTableClients } from "../screens/ViewClient";
+// import { ViewTableSupplier } from "../screens/ViewSupplier";
+// import { Accordion } from "../components/Accordion";
+import { Content, Layout } from "../components/Sidebar/style";
+import { ViewTableSupplier } from "../screens/ViewSupplier";
+import { RegisterClients } from "../screens/RegisterClients";
+
+
+import { Teste } from "../components/Forms/example/Teste";
 
 export const AppRoutes = () => {
   return (
@@ -22,23 +29,42 @@ export const AppRoutes = () => {
       future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
     >
       <Routes>
-        <Route path="/aside" element={<Accordion />} />
-        <Route path="/" element={<Sidebar />} />
-        {/* <Route path="/register-client" element={<RegisterClient />} /> */}
-        {/* <Route path="/register-supplier" element={<RegisterSupplier />} /> */}
-        {/* <Route path="/register-employee" element={<RegisterEmployee />} /> */}
-        {/* <Route path="/register-sucess" element={<RegisterSucess />} /> */}
-        { <Route path="/view-clients" element={<ViewTableClients />} /> }
+        <Route path="/" element={<UserLogin />} />
 
-        <Route path="/view-employee" element={<ViewTableEmployee />} />
+        <Route
+          path="/*"
+          element={
+            <Layout>
+              <Sidebar />
+              <Content>
+                <Routes>
+                  {/* Falta criar o component de dashboard, deixei o h1 só para testar */}
+                  <Route path="home" element={<h1 style={{ fontSize: "2rem" }}> Aqui é o Dashboard!</h1>} />
+                  <Route path="cadastrar/cliente" element={<ViewTableClients />} />
+                  <Route path="cadastrar/cliente/novo" element={<RegisterClients />} />
+                  <Route path="cadastrar/fornecedor/pessoa/fisica" element={<ViewTableSupplier />} />
+                  <Route path="cadastrar/fornecedor/pessoa/juridica" element={<ViewTableSupplier />} />
+                  <Route path="cadastrar/produtos" element={<h1 style={{ fontSize: "2rem" }}> Aqui é a aba de cadastro de produtos!</h1>} />
+                  <Route path="servico/venda" element={<h1 style={{ fontSize: "2rem" }}> Aqui é a aba de venda de produtos!</h1>} />
+                  <Route path="servico/alocacao" element={<h1 style={{ fontSize: "2rem" }}> Aqui é a aba de alocação de produtos!</h1>} />
+                  <Route path="*" element={<Navigate to="/home" />} />
+                </Routes>
+              </Content>
+            </Layout>
+          }
+        />
 
-        <Route path="/view-supplier" element={<ViewTableSupplier />} />
-        <Route path="/login" element={<UserLogin/>}/>
-        <Route path="/view-supplier" element={<ViewTableSupplier />} /> 
+        <Route path="/cadastrar/clientes" element={<RegisterClients />} />
+        <Route
+          path="/cadastrar/fornecedor/pf"
+          element={<RegisterSupplierPF />}
+        />
+        <Route
+          path="/cadastrar/fornecedor/pj"
+          element={<RegisterSupplierPJ />}
+        />
 
-        <Route path="/cadastrar/cliente" element={<RegisterClients />} /> 
-        <Route path="/cadastrar/fornecedor/pf" element={<RegisterSupplierPF />} /> 
-        <Route path="/cadastrar/fornecedor/pj" element={<RegisterSupplierPJ />} /> 
+        <Route path="/teste" element={<Teste />} />
       </Routes>
     </BrowserRouter>
   );

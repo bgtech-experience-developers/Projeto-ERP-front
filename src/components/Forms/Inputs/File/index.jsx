@@ -1,27 +1,29 @@
-import React from 'react';
-import BiSmile from '../../../../../public/BiSmile';
-import * as S from './style';
-import { Text } from '../../../Texts/Text';
-import { theme } from '../../../../theme/theme';
+import React from "react";
+import BiSmile from "../../../../../public/BiSmile";
+import * as S from "./style";
+import { Text } from "../../../Texts/Text";
+import { theme } from "../../../../theme/theme";
 
 export const File = ({
-  variant = 'primary',
+  variant = "primary",
   text,
   smileSize = 52,
   onChange,
   image,
-  error,
+  error = false,
   value,
   id,
 }) => {
   return (
     <S.FileContainer
-      error={error}
-      image={!image ? '' : URL.createObjectURL(image)}
+      // Comentado, isso adiciona um erro no console, pois tenta renderizar um booleano no DOM
+      // Essa modificação parece não ter afetado no funcionamento padrão do componente
+      // error={error}
+      $image={!image ? "" : URL.createObjectURL(image)}
       $variant={variant}
     >
       {!error ? (
-        <S.CenterBlock image={image}>
+        <S.CenterBlock $image={image}>
           <BiSmile size={smileSize} />
           <Text bold="600" color={theme.colors.lightGray}>
             {text}
@@ -36,21 +38,21 @@ export const File = ({
         </>
       )}
       <S._File
-        value={value ?? ''}
+        value={value ?? ""}
         accept="image/*"
         id={id}
         onChange={onChange}
       />
 
       <input
-        value={value ?? ''}
+        value={value ?? ""}
         onChange={onChange}
         accept="image/*"
         type="file"
-        style={{ display: 'none' }}
+        style={{ display: "none" }}
       />
 
-      <S.Overlay image={image}>
+      <S.Overlay $image={image}>
         <BiSmile size={smileSize} />
         <Text bold="600" color={theme.colors.lightGray}>
           Trocar foto

@@ -6,6 +6,8 @@ import { StyledTableContainer } from "../../components/Tables";
 import { Button } from "../../components/Forms/Button";
 import useClients from "../../hooks/useClients";
 import { toast } from "react-toastify";
+import { Text } from "../../components/Texts/Text";
+import { Link } from "react-router-dom";
 
 export const ViewTableClients = () => {
   const [clients, setClients] = useState([]);
@@ -19,12 +21,11 @@ export const ViewTableClients = () => {
     setIsLoading(true);
     try {
       const data = await getClient();
-
+      
       const updatedData = data.map((client) => ({
         ...client,
         status: client.situtation ? "Ativo" : "Inativo", // Define status 
        }));
-
       setClients(updatedData);
     } catch (error) {
       toast.error("Erro ao buscar clientes.");
@@ -129,6 +130,11 @@ export const ViewTableClients = () => {
       {isLoading ? (
         <p>Carregando...</p>
       ) : (
+      {/* Div criada apenas para testar a funcionalidade, quem tiver com a tabela precisa ajustar */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '2rem', marginBottom: '2rem' }}>
+        <Text variant="large">Meus Clientes</Text>
+        <Link to="/cadastrar/cliente/novo">Cadastrar novo</Link>
+      </div>
         <MaterialReactTable
           columns={columns}
           data={clients}

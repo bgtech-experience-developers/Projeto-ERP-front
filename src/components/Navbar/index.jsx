@@ -1,7 +1,8 @@
 import { StyledNavbar } from "./style";
 import { NavItem } from "./NavItem";
-import { OptionContainer, SubOptionContainer, Options, SubOptions, OptionText } from "./NavItem/style";
+import { OptionContainer, Options, SubOptions, OptionText } from "./NavItem/style";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Dashboard from "../../assets/dashboard.svg"
 import Register from "../../assets/register.svg"
 import Service from "../../assets/services.svg"
@@ -14,6 +15,7 @@ const navItems = [
         id: "Dashboard",
         img: Dashboard,
         span: "Dashboard",
+        route: "/home",
         options: [],
     },
     {
@@ -25,7 +27,8 @@ const navItems = [
             {
                 id: "Cliente",
                 img: Client,
-                label: "Cliente"
+                label: "Cliente",
+                route: "/cadastrar/cliente",
             },
             {
                 id: "Fornecedor",
@@ -35,12 +38,15 @@ const navItems = [
                     {
                         id: "Pessoa Física",
                         img: Client,
-                        label: "Pessoa Física"
+                        label: "Pessoa Física",
+                        route: "/cadastrar/fornecedor/pessoa/fisica",
+
                     },
                     {
                         id: "Pessoa Jurídica",
                         img: Client,
-                        label: "Pessoa Jurídica"
+                        label: "Pessoa Jurídica",
+                        route: "/cadastrar/fornecedor/pessoa/juridica",
                     },
                 ]
             },
@@ -48,6 +54,7 @@ const navItems = [
                 id: "Produtos",
                 img: Cart,
                 label: "Produtos",
+                route: "/cadastrar/produtos",
             },
         ],
     },
@@ -61,17 +68,21 @@ const navItems = [
                 id: "Venda",
                 img: Cart,
                 label: "Venda",
+                route: "/servico/venda",
+
             },
             {
                 id: "Alocação",
                 img: Cart,
-                label: "Alocação"
+                label: "Alocação",
+                route: "/servico/alocacao",
             },
         ],
     },
 ];
 
 export const Navbar = () => {
+    const navigate = useNavigate();
 
     const [navState, setNavState] = useState({
         ativo: '', // Controla o item principal ativo
@@ -92,8 +103,12 @@ export const Navbar = () => {
         }));
     };
 
+    const handleNavigation = (route) => {
+        if (route) navigate(route);
+    }
+
     return (
-          <StyledNavbar>
+        <StyledNavbar>
             {navItems.map((item) => (
                 <OptionContainer key={item.id}>
                     {/* NavItem são os itens principais do sidebar */}
@@ -101,7 +116,10 @@ export const Navbar = () => {
                         img={item.img}
                         span={item.span}
                         ativo={navState.ativo === item.id}
-                        onClick={() => openItem(item.id)}
+                        onClick={() => {
+                            openItem(item.id);
+                            handleNavigation(item.route)
+                        }}
                         arrowImg={item.arrowImg}
                     />
 
@@ -111,7 +129,10 @@ export const Navbar = () => {
                             {item.options.map((option) => (
                                 <OptionContainer key={option.id}>
                                     <OptionText
-                                        onClick={() => openOption(option.id)}
+                                        onClick={() => {
+                                            openOption(option.id);
+                                            handleNavigation(option.route)
+                                        }}
                                         ativo={navState.optionAtivo === option.id}
                                     >
                                         <img src={option.img} alt={`Ícone representando a aba ${option.label}`} />
@@ -122,7 +143,10 @@ export const Navbar = () => {
                                     {navState.optionAtivo === option.id && option.subOptions && (
                                         <SubOptions>
                                             {option.subOptions.map((subOption) => (
-                                                <OptionText key={subOption.id}>
+                                                <OptionText
+                                                    key={subOption.id}
+                                                    onClick={() => handleNavigation(subOption.route)}
+                                                >
                                                     <img src={subOption.img} alt={`Ícone representando a aba ${subOption.label}`} />
                                                     {subOption.label}
                                                 </OptionText>
