@@ -8,6 +8,7 @@ import React, { useState } from 'react';
 import useClients from '../../hooks/useClients';
 
 export const RegisterClients = () => {
+  const cnpj = useForm('cnpj');
   const [formValues, setFormValues] = useState({
     imagens: [],
     cliente: {
