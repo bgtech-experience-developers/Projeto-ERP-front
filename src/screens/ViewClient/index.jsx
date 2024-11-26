@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { MaterialReactTable } from "material-react-table";
 import { MRT_Localization_PT_BR } from "material-react-table/locales/pt-BR";
-import { StyledTableContainer } from "../../components/Tables";
+import { StyledTableContainer, StyledTitleTable } from "../../components/Tables";
 import { Button } from "../../components/Forms/Button";
 import useClients from "../../hooks/useClients";
 import { toast } from "react-toastify";
@@ -131,34 +131,33 @@ export const ViewTableClients = () => {
         <p>Carregando...</p>
       ) : (
       {/* Div criada apenas para testar a funcionalidade, quem tiver com a tabela precisa ajustar */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '2rem', marginBottom: '2rem' }}>
-        <Text variant="large">Meus Clientes</Text>
+      <StyledTitleTable>
+        <Text variant="large" bold="bold">Meus clientes</Text>
         <Link to="/cadastrar/cliente/novo">Cadastrar novo</Link>
-      </div>
-        <MaterialReactTable
-          columns={columns}
-          data={clients}
-          localization={MRT_Localization_PT_BR}
-          state={{ pagination }}
-          muiTableHeadCellProps={{
-            sx: {
-              backgroundColor: "#ECF5FF",
-              color: "black",
-              fontSize: "5.2rem",
-            },
-          }}
-          muiTableBodyCellProps={{
-            sx: {
-              backgroundColor: "#ECF5FF",
-              color: "#0e0f0f",
-              padding: "12px 15px",
-              fontSize: "1.1rem",
-              fontWeight: "500",
-            },
-          }}
-          onPaginationChange={(newState) => setPagination(newState)}
-        />
-      )}
+      </StyledTitleTable>
+      <MaterialReactTable
+        columns={columns}
+        data={clients}
+        localization={MRT_Localization_PT_BR}
+        state={{ pagination }}
+        muiTableHeadCellProps={{
+          sx: {
+            backgroundColor: "#ECF5FF",
+            color: "black",
+            fontSize: "5.2rem",
+          },
+        }}
+        muiTableBodyCellProps={{
+          sx: {
+            backgroundColor: "#ECF5FF",
+            color: "#edf1f5",
+            padding: "12px 15px",
+            fontSize: "1.1rem",
+            fontWeight: "500",
+          },
+        }}
+        onPaginationChange={(newState) => setPagination(newState)}
+      />
     </StyledTableContainer>
   );
 };

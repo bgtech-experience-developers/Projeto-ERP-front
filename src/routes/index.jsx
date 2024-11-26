@@ -1,24 +1,11 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { RegisterClients } from "../screens/RegisterClients";
-import {
-  RegisterSupplierPF,
-  RegisterSupplierPJ,
-} from "../screens/RegisterSuppliers";
-import { Accordion } from "../components/Accordion";
+
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import UserLogin from "../screens/Login";
 import { Sidebar } from "../components/Sidebar";
-// import { RegisterClients } from "../screens/RegisterClients";
-// import { RegisterSupplierPF, RegisterSupplierPJ } from "../screens/RegisterSuppliers";
 import { ViewTableClients } from "../screens/ViewClient";
-// import { ViewTableSupplier } from "../screens/ViewSupplier";
-// import { Accordion } from "../components/Accordion";
 import { Content, Layout } from "../components/Sidebar/style";
 import { ViewTableSupplier } from "../screens/ViewSupplier";
 import { RegisterClients } from "../screens/RegisterClients";
-
-
-import { Teste } from "../components/Forms/example/Teste";
 
 export const AppRoutes = () => {
   return (
@@ -53,18 +40,6 @@ export const AppRoutes = () => {
             </Layout>
           }
         />
-
-        <Route path="/cadastrar/clientes" element={<RegisterClients />} />
-        <Route
-          path="/cadastrar/fornecedor/pf"
-          element={<RegisterSupplierPF />}
-        />
-        <Route
-          path="/cadastrar/fornecedor/pj"
-          element={<RegisterSupplierPJ />}
-        />
-
-        <Route path="/teste" element={<Teste />} />
       </Routes>
     </BrowserRouter>
   );
