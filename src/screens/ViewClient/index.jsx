@@ -15,17 +15,17 @@ export const ViewTableClients = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { getClient, deleteClient } = useClients();
 
-  
+
   // Função para buscar clientes
   const fetchClients = async () => {
     setIsLoading(true);
     try {
       const data = await getClient();
-      
+
       const updatedData = data.map((client) => ({
         ...client,
         status: client.situtation ? "Ativo" : "Inativo", // Define status 
-       }));
+      }));
       setClients(updatedData);
     } catch (error) {
       toast.error("Erro ao buscar clientes.");
@@ -77,18 +77,18 @@ export const ViewTableClients = () => {
   // Colunas da tabela
   const columns = [
     { header: "Nome da Empresa", accessorKey: "corporate_reason" },
-    { header: "Nome Fantasia", accessorKey: "fantasy_name" },
+    // { header: "Nome Fantasia", accessorKey: "fantasy_name" },
     { header: "Email", accessorKey: "email" },
-    { header: "RG", accessorKey: "state_registration" },
-    { header: "CPF", accessorKey: "cpf" },
-    { header: "CNPJ", accessorKey: "cnpj" },
+    // { header: "RG", accessorKey: "state_registration" },
+    // { header: "CPF", accessorKey: "cpf" },
+    // { header: "CNPJ", accessorKey: "cnpj" },
     { header: "Tipo de Contribuinte", accessorKey: "type_contribuition" },
-    { header: "CEP", accessorKey: "cep" },
-    { header: "Logradouro", accessorKey: "street" },
-    { header: "Número", accessorKey: "number" },
-    { header: "Bairro", accessorKey: "bairro" },
-    { header: "Cidade", accessorKey: "city" },
-    { header: "Telefone", accessorKey: "phone" },
+    // { header: "CEP", accessorKey: "cep" },
+    // { header: "Logradouro", accessorKey: "street" },
+    // { header: "Número", accessorKey: "number" },
+    // { header: "Bairro", accessorKey: "bairro" },
+    // { header: "Cidade", accessorKey: "city" },
+    // { header: "Telefone", accessorKey: "phone" },
     { header: "Celular", accessorKey: "cell_phone" },
     {
       header: "Situação",
@@ -130,11 +130,6 @@ export const ViewTableClients = () => {
       {isLoading ? (
         <p>Carregando...</p>
       ) : (
-      {/* Div criada apenas para testar a funcionalidade, quem tiver com a tabela precisa ajustar */}
-      <StyledTitleTable>
-        <Text variant="large" bold="bold">Meus clientes</Text>
-        <Link to="/cadastrar/cliente/novo">Cadastrar novo</Link>
-      </StyledTitleTable>
       <MaterialReactTable
         columns={columns}
         data={clients}
@@ -142,15 +137,15 @@ export const ViewTableClients = () => {
         state={{ pagination }}
         muiTableHeadCellProps={{
           sx: {
-            backgroundColor: "#ECF5FF",
+            backgroundColor: "#FFFFFF",
             color: "black",
             fontSize: "5.2rem",
           },
         }}
         muiTableBodyCellProps={{
           sx: {
-            backgroundColor: "#ECF5FF",
-            color: "#edf1f5",
+            backgroundColor: "#FFFFFF",
+            color: "#0e0f0f",
             padding: "12px 15px",
             fontSize: "1.1rem",
             fontWeight: "500",
@@ -158,6 +153,7 @@ export const ViewTableClients = () => {
         }}
         onPaginationChange={(newState) => setPagination(newState)}
       />
+      )}
     </StyledTableContainer>
-  );
+  )
 };
