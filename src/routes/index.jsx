@@ -5,6 +5,7 @@ import { ViewTableClients } from "../screens/ViewClient";
 import { Content, Layout } from "../components/Sidebar/style";
 import { ViewTableSupplier } from "../screens/ViewSupplier";
 import { RegisterClients } from "../screens/RegisterClients";
+import { RegisterSupplierPF} from "../screens/RegisterSuppliers"
 
 export const AppRoutes = () => {
   return (
@@ -75,6 +76,7 @@ export const AppRoutes = () => {
                     }
                   />
                   <Route path="*" element={<Navigate to="/home" />} />
+                  <Route path="cadastrar/fornecedor/pf" element={<RegisterSupplierPF/>} />
                 </Routes>
               </Content>
             </Layout>
