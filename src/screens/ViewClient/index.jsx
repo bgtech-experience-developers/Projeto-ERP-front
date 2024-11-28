@@ -8,13 +8,31 @@ import useClients from "../../hooks/useClients";
 import { toast } from "react-toastify";
 import { Text } from "../../components/Texts/Text";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
+import { HiEye, HiTrash, HiPencilAlt } from "react-icons/hi"; // Importando o novo ícone HiPencilAlt
+
+// Estilo para os ícones
+const IconContainer = styled.div`
+  display: flex;
+  gap: 10px;
+
+  .icon {
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #969696;
+    ;
+
+    &:hover {
+      color: #000000;
+    }
+  }
+`;
 
 export const ViewTableClients = () => {
   const [clients, setClients] = useState([]);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
   const [isLoading, setIsLoading] = useState(false);
   const { getClient, deleteClient } = useClients();
-
 
   // Função para buscar clientes
   const fetchClients = async () => {
@@ -24,7 +42,8 @@ export const ViewTableClients = () => {
 
       const updatedData = data.map((client) => ({
         ...client,
-        status: client.situtation ? "Ativo" : "Inativo", // Define status 
+        status: client.situtation ? "Ativo" : "Inativo", // Define status
+        cnpj: client.cnpj || "Não informado", // Inclui o CNPJ
       }));
       setClients(updatedData);
     } catch (error) {
@@ -57,10 +76,10 @@ export const ViewTableClients = () => {
     }
   };
 
-  // Alternar status entre "Ativa" e "Inativa"
+  // Alternar status entre "Ativo" e "Inativo"
   const toggleStatus = async (id) => {
     const client = clients.find((c) => c.id === id);
-    const newStatus = client.status === "Ativa" ? "Inativa" : "Ativa";
+    const newStatus = client.status === "Ativo" ? "Inativo" : "Ativo";
 
     try {
       await axios.patch(`/api/clients/${id}`, { status: newStatus });
@@ -76,55 +95,29 @@ export const ViewTableClients = () => {
 
   // Colunas da tabela
   const columns = [
-    { header: "Nome da Empresa", accessorKey: "corporate_reason", size:150 },
-    { header: "Serviço", accessorKey: "branch_activity", size:100 },
+    { header: "Nome da Empresa", accessorKey: "fantasy_name", size: 150 },
+    { header: "Serviço", accessorKey: "branch_activity", size: 100 },
     { header: "Responsável", accessorKey: "name", size: 100 },
-    { header: "Email", accessorKey: "email", size: 100},
-    { header: "Celular", accessorKey: "cell_phone", size:100 },
-    
-   
-    // { header: "RG", accessorKey: "state_registration" },
-    // { header: "CPF", accessorKey: "cpf" },
-    // { header: "CNPJ", accessorKey: "cnpj" },
-    // { header: "Tipo de Contribuinte", accessorKey: "type_contribuition" },
-    // { header: "CEP", accessorKey: "cep" },
-    // { header: "Logradouro", accessorKey: "street" },
-    // { header: "Número", accessorKey: "number" },
-    // { header: "Bairro", accessorKey: "bairro" },
-    // { header: "Cidade", accessorKey: "city" },
-    {
-      header: "Situação",
-      accessorKey: "status",
-      size: 50,
-      Cell: ({ row }) => (
-        <span
-          style={{
-            color: row.original.status === "Ativa" ? "red" : "green",
-            fontWeight: "bold",
-          }}
-        >
-          {row.original.status}
-        </span>
-      ),
-    },
+    { header: "Email", accessorKey: "email", size: 100 },
+    { header: "Celular", accessorKey: "telefone", size: 100 },
     {
       header: "Opções",
       size: 50,
       Cell: ({ row }) => (
-        <div style={{ display: "flex", gap: "10px" }}>
-          <Button
-            variant={"deleteRegister"}
+        <IconContainer>
+          <HiEye
+            className="icon"
+            onClick={() => console.log("Visualizar", row.original.id)}
+          />
+          <HiTrash
+            className="icon"
             onClick={() => handleDelete(row.original.id)}
-          >
-            Excluir
-          </Button>
-          <Button
-            variant={"toggleStatus"}
+          />
+          <HiPencilAlt
+            className="icon"
             onClick={() => toggleStatus(row.original.id)}
-          >
-            {row.original.status === "Ativa" ? "Desativar" : "Ativar"}
-          </Button>
-        </div>
+          />
+        </IconContainer>
       ),
     },
   ];
@@ -132,36 +125,38 @@ export const ViewTableClients = () => {
   return (
     <StyledTableContainer>
       <StyledTitleTable>
-          <Text variant="large" bold="bold">Meus clientes</Text>
-          <Link to="/cadastrar/cliente/novo">Cadastrar novo</Link>
-        </StyledTitleTable>
+        <Text variant="large" bold="bold">
+          Meus clientes
+        </Text>
+        <Link to="/cadastrar/cliente/novo">Cadastrar novo</Link>
+      </StyledTitleTable>
       {isLoading ? (
         <p>Carregando...</p>
       ) : (
-      <MaterialReactTable
-        columns={columns}
-        data={clients}
-        localization={MRT_Localization_PT_BR}
-        state={{ pagination }}
-        muiTableHeadCellProps={{
-          sx: {
-            backgroundColor: "#FFFFFF",
-            color: "black",
-            fontSize: "5.2rem",
-          },
-        }}
-        muiTableBodyCellProps={{
-          sx: {
-            backgroundColor: "#FFFFFF",
-            color: "#0e0f0f",
-            padding: "12px 15px",
-            fontSize: "1.1rem",
-            fontWeight: "500",
-          },
-        }}
-        onPaginationChange={(newState) => setPagination(newState)}
-      />
+        <MaterialReactTable
+          columns={columns}
+          data={clients}
+          localization={MRT_Localization_PT_BR}
+          state={{ pagination }}
+          muiTableHeadCellProps={{
+            sx: {
+              backgroundColor: "#FFFFFF",
+              color: "black",
+              fontSize: "5.2rem",
+            },
+          }}
+          muiTableBodyCellProps={{
+            sx: {
+              backgroundColor: "#FFFFFF",
+              color: "#0e0f0f",
+              padding: "12px 15px",
+              fontSize: "1.1rem",
+              fontWeight: "500",
+            },
+          }}
+          onPaginationChange={(newState) => setPagination(newState)}
+        />
       )}
     </StyledTableContainer>
-  )
+  );
 };
