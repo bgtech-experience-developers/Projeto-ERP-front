@@ -6,6 +6,7 @@ const container = css`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  background-color: inherit;
 `;
 
 const containerLogin = css`

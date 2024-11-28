@@ -15,7 +15,9 @@ export const Burger = ({
   return (
     <S._Burger
       $variant={variant}
-      className={`${isActive && "active"} ${isHover && "hover"}`}
+      className={`${isActive && "active "} ${
+        isHover ? "hover " : "hover-closed"
+      } `}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >

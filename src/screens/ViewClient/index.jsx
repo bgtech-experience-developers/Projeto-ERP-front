@@ -28,6 +28,7 @@ export const ViewTableClients = () => {
         ...client,
         status: client.situtation ? "Ativo" : "Inativo", // Define status
       }));
+
       setClients(updatedData);
     } catch (error) {
       toast.error("Erro ao buscar clientes.");

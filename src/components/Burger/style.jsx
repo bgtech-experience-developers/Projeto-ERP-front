@@ -19,6 +19,7 @@ const navBurger = css`
     transition-duration: 0.2s;
     cursor: pointer;
   }
+
   svg:nth-child(1) {
     position: absolute;
     fill: ${theme.colors.lightGray};
@@ -53,6 +54,24 @@ const navBurger = css`
 
     svg:nth-child(2) {
       opacity: 1;
+    }
+  }
+
+  @media (max-width: ${theme.media.md}) {
+    display: flex;
+    svg:nth-child(2) {
+      transform: rotate(180deg);
+    }
+
+    &.hover-closed {
+      svg:nth-child(1) {
+        opacity: 1;
+      }
+
+      svg:nth-child(2) {
+        transform: rotate(180deg);
+        opacity: 0;
+      }
     }
   }
 `;

@@ -3,9 +3,9 @@ import { theme } from "../../../theme/theme";
 
 const primary = css`
   border: none;
-  width: ${(props) => props.width || "71.6rem"};
-  height: ${(props) => props.height || "4.3rem"};
-  font-size: ${(props) => props.fontSize || "16px"};
+  width: 100%;
+  height: 100%;
+  font-size: 16px;
   font-weight: 600;
   text-align: center;
   border-radius: 4px;
@@ -15,8 +15,8 @@ const primary = css`
 
 const disabled = css`
   border: none;
-  width: ${(props) => props.width || "71.6rem"};
-  height: ${(props) => props.height || "4.3rem"};
+  width: 100%;
+  height: 100%;
   text-align: center;
   font-size: 16px;
   font-weight: 600;
@@ -36,4 +36,6 @@ export const _Button = styled.button`
         return null;
     }
   }}
+  width: ${({ $width }) => $width};
+  height: ${({ $height }) => $height};
 `;

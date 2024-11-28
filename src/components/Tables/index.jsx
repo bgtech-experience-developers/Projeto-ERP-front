@@ -2,10 +2,10 @@ import styled from "styled-components";
 import { theme } from "../../theme/theme";
 
 export const StyledTableContainer = styled.div`
-  width: 100%;
+  width: 90%;
   padding: 2rem;
+  align-self: center;
   background-color: #f7f7f7;
-  margin: auto;
   padding-top: 5rem;
 `;
 
