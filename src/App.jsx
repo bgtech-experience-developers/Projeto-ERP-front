@@ -1,12 +1,15 @@
 import { ThemeProvider } from "styled-components";
 import { theme } from "./theme/theme";
 import { AppRoutes } from "./routes";
+import { SidebarProvider } from "./contexts/SidebarContext";
 
 function App() {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <AppRoutes />  
+        <SidebarProvider>
+          <AppRoutes />
+        </SidebarProvider>
       </ThemeProvider>
     </>
   );

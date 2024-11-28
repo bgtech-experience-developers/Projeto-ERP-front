@@ -11,7 +11,7 @@ export const Login = () => {
   return (
     <>
       <S._ContentWrapper>
-        <Card variant="form-container-login" width="38%" letterSpacing="0px">
+        <Card variant="form-container-login">
           <Form variant="secondary">
             <S._DivWrapper>
               {/* <FormsField $variant="file"> */}
@@ -41,9 +41,8 @@ export const Login = () => {
             </S._DivWrapper>
 
             <S._DivWrapper $margin="1.4rem 0 0 0">
-              <Button fontSize="14px" width="100%">
-                Entrar
-              </Button>
+              {/* Me diga a diferença de 14 pixeis para 16 bea, me diga a difrença */}
+              <Button height="4.8rem">Entrar</Button>
 
               <Text
                 variant="x-small"

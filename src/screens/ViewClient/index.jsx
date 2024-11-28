@@ -2,19 +2,40 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { MaterialReactTable } from "material-react-table";
 import { MRT_Localization_PT_BR } from "material-react-table/locales/pt-BR";
-import { StyledTableContainer, StyledTitleTable } from "../../components/Tables";
+import {
+  StyledTableContainer,
+  StyledTitleTable,
+} from "../../components/Tables";
 import { Button } from "../../components/Forms/Button";
 import useClients from "../../hooks/useClients";
 import { toast } from "react-toastify";
 import { Text } from "../../components/Texts/Text";
-import { Link } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import { HiEye, HiTrash, HiPencilAlt } from "react-icons/hi"; // Importando o novo ícone HiPencilAlt
+import { Navigate } from "react-router-dom";
+
+// Estilo para os ícones
+const IconContainer = styled.div`
+  display: flex;
+  gap: 10px;
+
+  .icon {
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #969696;
+    &:hover {
+      color: #000000;
+    }
+  }
+`;
 
 export const ViewTableClients = () => {
   const [clients, setClients] = useState([]);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
   const [isLoading, setIsLoading] = useState(false);
   const { getClient, deleteClient } = useClients();
-
+  const navigate = useNavigate();
 
   // Função para buscar clientes
   const fetchClients = async () => {
@@ -24,8 +45,10 @@ export const ViewTableClients = () => {
 
       const updatedData = data.map((client) => ({
         ...client,
-        status: client.situtation ? "Ativo" : "Inativo", // Define status 
+        status: client.situtation ? "Ativo" : "Inativo", // Define status
+        cnpj: client.cnpj || "Não informado", // Inclui o CNPJ - Ranyer
       }));
+
       setClients(updatedData);
     } catch (error) {
       toast.error("Erro ao buscar clientes.");
@@ -57,10 +80,10 @@ export const ViewTableClients = () => {
     }
   };
 
-  // Alternar status entre "Ativa" e "Inativa"
+  // Alternar status entre "Ativo" e "Inativo"
   const toggleStatus = async (id) => {
     const client = clients.find((c) => c.id === id);
-    const newStatus = client.status === "Ativa" ? "Inativa" : "Ativa";
+    const newStatus = client.status === "Ativo" ? "Inativo" : "Ativo";
 
     try {
       await axios.patch(`/api/clients/${id}`, { status: newStatus });
@@ -73,16 +96,24 @@ export const ViewTableClients = () => {
       console.error("Erro ao alternar status:", error);
     }
   };
-
+  // Função para o botão de editar encaminhar para o form de cadastro com os dados do cliente
+  const handleEdit = (row) => {
+    navigate("/cadastrar/cliente/editar", { state: { clients: row.original } });
+  };
   // Colunas da tabela
   const columns = [
-    { header: "Nome da Empresa", accessorKey: "corporate_reason", size:150 },
-    { header: "Serviço", accessorKey: "branch_activity", size:100 },
-    { header: "Responsável", accessorKey: "name", size: 100 },
-    { header: "Email", accessorKey: "email", size: 100},
-    { header: "Celular", accessorKey: "cell_phone", size:100 },
-    
-   
+    //     { header: "Nome da Empresa", accessorKey: "fantasy_name", size: 150 },
+    //     { header: "Serviço", accessorKey: "branch_activity", size: 100 },
+    //     { header: "Responsável", accessorKey: "name", size: 100 },
+    //     { header: "Email", accessorKey: "email", size: 100 },
+    //     { header: "Celular", accessorKey: "telefone", size: 100 },
+
+    { header: "Nome da Empresa", accessorKey: "corporate_reason", size: 150 }, // Carlos - responsividade
+    { header: "Serviço", accessorKey: "branch_activity", size: 100 }, // Carlos - responsividade
+    { header: "Responsável", accessorKey: "name", size: 100 }, // Carlos - responsividade
+    { header: "Email", accessorKey: "email", size: 100 },
+    { header: "Celular", accessorKey: "cell_phone", size: 100 }, // Carlos - responsividade
+
     // { header: "RG", accessorKey: "state_registration" },
     // { header: "CPF", accessorKey: "cpf" },
     // { header: "CNPJ", accessorKey: "cnpj" },
@@ -111,57 +142,60 @@ export const ViewTableClients = () => {
       header: "Opções",
       size: 50,
       Cell: ({ row }) => (
-        <div style={{ display: "flex", gap: "10px" }}>
-          <Button
-            variant={"deleteRegister"}
+        <IconContainer>
+          <NavLink to="/cadastrar/cliente/visualizar">
+            <HiEye
+              className="icon"
+              onClick={() => console.log("Visualizar", row.original.id)}
+            />
+          </NavLink>
+          <HiTrash
+            className="icon"
             onClick={() => handleDelete(row.original.id)}
-          >
-            Excluir
-          </Button>
-          <Button
-            variant={"toggleStatus"}
-            onClick={() => toggleStatus(row.original.id)}
-          >
-            {row.original.status === "Ativa" ? "Desativar" : "Ativar"}
-          </Button>
-        </div>
+          />
+          <HiPencilAlt className="icon" onClick={() => handleEdit(row)} />
+        </IconContainer>
       ),
     },
   ];
 
   return (
-    <StyledTableContainer>
-      <StyledTitleTable>
-          <Text variant="large" bold="bold">Meus clientes</Text>
+    <>
+      <StyledTableContainer>
+        <StyledTitleTable>
+          <Text variant="large" bold="bold">
+            Meus clientes
+          </Text>
           <Link to="/cadastrar/cliente/novo">Cadastrar novo</Link>
         </StyledTitleTable>
-      {isLoading ? (
-        <p>Carregando...</p>
-      ) : (
-      <MaterialReactTable
-        columns={columns}
-        data={clients}
-        localization={MRT_Localization_PT_BR}
-        state={{ pagination }}
-        muiTableHeadCellProps={{
-          sx: {
-            backgroundColor: "#FFFFFF",
-            color: "black",
-            fontSize: "5.2rem",
-          },
-        }}
-        muiTableBodyCellProps={{
-          sx: {
-            backgroundColor: "#FFFFFF",
-            color: "#0e0f0f",
-            padding: "12px 15px",
-            fontSize: "1.1rem",
-            fontWeight: "500",
-          },
-        }}
-        onPaginationChange={(newState) => setPagination(newState)}
-      />
-      )}
-    </StyledTableContainer>
-  )
+        {isLoading ? (
+          <p>Carregando...</p>
+        ) : (
+          <MaterialReactTable
+            columns={columns}
+            data={clients}
+            localization={MRT_Localization_PT_BR}
+            state={{ pagination }}
+            muiTableHeadCellProps={{
+              sx: {
+                backgroundColor: "#FFFFFF",
+                color: "black",
+                fontSize: "5.2rem",
+              },
+            }}
+            muiTableBodyCellProps={{
+              sx: {
+                backgroundColor: "#FFFFFF",
+                color: "#0e0f0f",
+                padding: "12px 15px",
+                fontSize: "1.1rem",
+                fontWeight: "500",
+              },
+            }}
+            onPaginationChange={(newState) => setPagination(newState)}
+          />
+        )}
+      </StyledTableContainer>
+    </>
+  );
 };
