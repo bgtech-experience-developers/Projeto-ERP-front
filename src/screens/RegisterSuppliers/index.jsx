@@ -38,22 +38,26 @@ export const RegisterSupplierPF = () => {
     >
       <Form title="Cadastrar Fornecedor" width="78rem">
         <Card>
-          <File
-            id={'fotoProduto'}
-            error={errorImage}
-            image={formValues.fotoProduto}
-            onChange={handleImage}
-            variant="secondary"
-            text="Foto do Produto"
-            smileSize={65}
-          />
-          <Input id="nomeFornecedor" height="4.8rem">
-            Nome do fornecedor
-          </Input>
+          <FormsField variant="file" align="flex-end">
+            <FormsField>
+              <Input id="nomeFornecedor" height="4.8rem">
+                Nome do fornecedor
+              </Input>
 
-          <Input id="codigoFornecedor" height="4.8rem">
-            Código do fornecedor
-          </Input>
+              <Input id="codigoFornecedor" height="4.8rem">
+                Código do fornecedor
+              </Input>
+            </FormsField>
+            <File
+              id={'fotoProduto'}
+              error={errorImage}
+              image={formValues.fotoProduto}
+              onChange={handleImage}
+              variant="secondary"
+              text="Foto do Produto"
+              smileSize={55}
+            />
+          </FormsField>
 
           <FormsField variant="double">
             <Input id="emailFornecedor" height="4.8rem" type="email">
@@ -73,18 +77,6 @@ export const RegisterSupplierPF = () => {
             </Input>
             <Input id="nascimentoFornecedor" height="4.8rem" type="date">
               Data de nascimento
-            </Input>
-          </FormsField>
-
-          <FormsField variant="triple">
-            <Input id="cepFornecedor" height="4.8rem">
-              CEP
-            </Input>
-            <Input id="numeroFornecedor" height="4.8rem">
-              Número
-            </Input>
-            <Input id="logradouroFornecedor" height="4.8rem">
-              Logradouro
             </Input>
           </FormsField>
 
@@ -182,22 +174,26 @@ export const RegisterSupplierPJ = () => {
     >
       <Form title="Cadastrar Fornecedor" width="78rem">
         <Card>
-          <File
-            id={'fotoProduto'}
-            error={errorImage}
-            image={formValues.fotoProduto}
-            onChange={handleImage}
-            variant="secondary"
-            text="Foto do Produto"
-            smileSize={65}
-          />
-          <Input id="nomeFantasia" height="4.8rem">
-            Nome fantasia
-          </Input>
+          <FormsField variant='file' align="flex-end">
+            <FormsField>
+              <Input id="nomeFantasia" height="4.8rem">
+                Nome fantasia
+              </Input>
 
-          <Input id="responsavelFornecedor" height="4.8rem">
-            Responsável
-          </Input>
+              <Input id="responsavelFornecedor" height="4.8rem">
+                Responsável
+              </Input>
+            </FormsField>
+            <File
+              id={'fotoProduto'}
+              error={errorImage}
+              image={formValues.fotoProduto}
+              onChange={handleImage}
+              variant="secondary"
+              text="Foto do Produto"
+              smileSize={55}
+            />
+          </FormsField>
 
           <Input id="cnpjFornecedor" height="4.8rem">
             CNPJ
@@ -233,18 +229,6 @@ export const RegisterSupplierPJ = () => {
             </Input>
           </FormsField>
 
-          <FormsField variant="triple">
-            <Input id="cepFornecedor" height="4.8rem">
-              CEP
-            </Input>
-            <Input id="numeroFornecedor" height="4.8rem">
-              Número
-            </Input>
-            <Input id="logradouroFornecedor" height="4.8rem">
-              Logradouro
-            </Input>
-          </FormsField>
-
           <Input
             type="select"
             id="produto"
@@ -260,17 +244,8 @@ export const RegisterSupplierPJ = () => {
             <Input id="precoProduto" height="4.8rem">
               Preço
             </Input>
-            <Input id="impostoProduto" height="4.8rem">
-              Imposto sobre compra
-            </Input>
-          </FormsField>
-
-          <FormsField variant="double">
             <Input id="freteProduto" height="4.8rem">
               Frete
-            </Input>
-            <Input id="ncmProduto" height="4.8rem">
-              NCM
             </Input>
           </FormsField>
 

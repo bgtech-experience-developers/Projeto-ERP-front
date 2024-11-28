@@ -7,6 +7,7 @@ export const StyledTableContainer = styled.div`
   align-self: center;
   background-color: #f7f7f7;
   padding-top: 5rem;
+  
 `;
 
 export const StyledTitleTable = styled.div`

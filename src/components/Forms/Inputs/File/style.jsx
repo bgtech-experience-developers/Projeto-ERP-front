@@ -20,8 +20,8 @@ const primary = css`
 
 const secondary = css`
   width: 23.6rem;
-  height: 19.5rem;
-  border: 4px dashed ${theme.colors.lightGray};
+  height: 15rem;
+  border: 3px dashed ${theme.colors.lightGray};
   position: relative;
   display: flex;
   align-items: center;

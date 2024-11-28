@@ -1,14 +1,19 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import UserLogin from "../screens/Login";
 import { Sidebar } from "../components/Sidebar";
-import { ViewTableClients } from "../screens/ViewClient";
 import { Content, InnerContent, Layout } from "../components/Sidebar/style";
-import { ViewTableSupplier } from "../screens/ViewSupplier";
-import { RegisterClients } from "../screens/RegisterClients";
-import { RegisterSupplierPF } from "../screens/RegisterSuppliers";
 import { Burger } from "../components/Burger";
 import { SidebarContext, SidebarProvider } from "../contexts/SidebarContext";
 import React from "react";
+import {
+  ViewTableSupplierPF,
+  ViewTableSupplierPJ,
+} from "../screens/ViewSupplier";
+
+import {
+  RegisterSupplierPF,
+  RegisterSupplierPJ,
+} from "../screens/RegisterSuppliers/index";
 
 export const AppRoutes = () => {
   const { isActive, isHover } = React.useContext(SidebarContext);
@@ -56,6 +61,24 @@ export const AppRoutes = () => {
                       path="cadastrar/fornecedor/pessoa/juridica"
                       element={<ViewTableSupplier />}
                     />
+                    <Route
+                      path="cadastrar/fornecedor/pessoa/juridica"
+                      element={<ViewTableSupplierPJ />}
+                    />
+                    <Route
+                      path="cadastrar/fornecedor/pessoa/juridica/novo"
+                      element={<RegisterSupplierPJ />}
+                    />
+
+                    <Route
+                      path="cadastrar/fornecedor/pessoa/fisica"
+                      element={<ViewTableSupplierPF />}
+                    />
+                    <Route
+                      path="cadastrar/fornecedor/pessoa/fisica/novo"
+                      element={<RegisterSupplierPF />}
+                    />
+
                     <Route
                       path="cadastrar/produtos"
                       element={
