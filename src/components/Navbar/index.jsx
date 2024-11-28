@@ -136,7 +136,7 @@ export const Navbar = () => {
                       openOption(option.id);
                       handleNavigation(option.route);
                     }}
-                    ativo={navState.optionAtivo === option.id}
+                    $ativo={navState.optionAtivo === option.id}
                   >
                     <img
                       src={option.img}

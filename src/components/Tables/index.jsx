@@ -13,8 +13,10 @@ export const StyledTitleTable = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   margin-bottom: 1rem;
   font-weight: bold;
+
   & a {
     color: ${theme.colors.darkblue};
     font-size: 1.2rem;
@@ -24,5 +26,4 @@ export const StyledTitleTable = styled.div`
       color: ${theme.colors.lightGray};
     }
   }
-
-`
+`;

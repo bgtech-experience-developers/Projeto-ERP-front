@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { MaterialReactTable } from "material-react-table";
 import { MRT_Localization_PT_BR } from "material-react-table/locales/pt-BR";
-import { StyledTableContainer, StyledTitleTable } from "../../components/Tables";
+import {
+  StyledTableContainer,
+  StyledTitleTable,
+} from "../../components/Tables";
 import { Button } from "../../components/Forms/Button";
 import useClients from "../../hooks/useClients";
 import { toast } from "react-toastify";
@@ -15,7 +18,6 @@ export const ViewTableClients = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { getClient, deleteClient } = useClients();
 
-
   // Função para buscar clientes
   const fetchClients = async () => {
     setIsLoading(true);
@@ -24,7 +26,7 @@ export const ViewTableClients = () => {
 
       const updatedData = data.map((client) => ({
         ...client,
-        status: client.situtation ? "Ativo" : "Inativo", // Define status 
+        status: client.situtation ? "Ativo" : "Inativo", // Define status
       }));
       setClients(updatedData);
     } catch (error) {
@@ -76,13 +78,12 @@ export const ViewTableClients = () => {
 
   // Colunas da tabela
   const columns = [
-    { header: "Nome da Empresa", accessorKey: "corporate_reason", size:150 },
-    { header: "Serviço", accessorKey: "branch_activity", size:100 },
+    { header: "Nome da Empresa", accessorKey: "corporate_reason", size: 150 },
+    { header: "Serviço", accessorKey: "branch_activity", size: 100 },
     { header: "Responsável", accessorKey: "name", size: 100 },
-    { header: "Email", accessorKey: "email", size: 100},
-    { header: "Celular", accessorKey: "cell_phone", size:100 },
-    
-   
+    { header: "Email", accessorKey: "email", size: 100 },
+    { header: "Celular", accessorKey: "cell_phone", size: 100 },
+
     // { header: "RG", accessorKey: "state_registration" },
     // { header: "CPF", accessorKey: "cpf" },
     // { header: "CNPJ", accessorKey: "cnpj" },
@@ -130,38 +131,42 @@ export const ViewTableClients = () => {
   ];
 
   return (
-    <StyledTableContainer>
-      <StyledTitleTable>
-          <Text variant="large" bold="bold">Meus clientes</Text>
+    <>
+      <StyledTableContainer>
+        <StyledTitleTable>
+          <Text variant="large" bold="bold">
+            Meus clientes
+          </Text>
           <Link to="/cadastrar/cliente/novo">Cadastrar novo</Link>
         </StyledTitleTable>
-      {isLoading ? (
-        <p>Carregando...</p>
-      ) : (
-      <MaterialReactTable
-        columns={columns}
-        data={clients}
-        localization={MRT_Localization_PT_BR}
-        state={{ pagination }}
-        muiTableHeadCellProps={{
-          sx: {
-            backgroundColor: "#FFFFFF",
-            color: "black",
-            fontSize: "5.2rem",
-          },
-        }}
-        muiTableBodyCellProps={{
-          sx: {
-            backgroundColor: "#FFFFFF",
-            color: "#0e0f0f",
-            padding: "12px 15px",
-            fontSize: "1.1rem",
-            fontWeight: "500",
-          },
-        }}
-        onPaginationChange={(newState) => setPagination(newState)}
-      />
-      )}
-    </StyledTableContainer>
-  )
+        {isLoading ? (
+          <p>Carregando...</p>
+        ) : (
+          <MaterialReactTable
+            columns={columns}
+            data={clients}
+            localization={MRT_Localization_PT_BR}
+            state={{ pagination }}
+            muiTableHeadCellProps={{
+              sx: {
+                backgroundColor: "#FFFFFF",
+                color: "black",
+                fontSize: "5.2rem",
+              },
+            }}
+            muiTableBodyCellProps={{
+              sx: {
+                backgroundColor: "#FFFFFF",
+                color: "#0e0f0f",
+                padding: "12px 15px",
+                fontSize: "1.1rem",
+                fontWeight: "500",
+              },
+            }}
+            onPaginationChange={(newState) => setPagination(newState)}
+          />
+        )}
+      </StyledTableContainer>
+    </>
+  );
 };

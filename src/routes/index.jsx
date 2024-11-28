@@ -5,9 +5,13 @@ import { ViewTableClients } from "../screens/ViewClient";
 import { Content, Layout } from "../components/Sidebar/style";
 import { ViewTableSupplier } from "../screens/ViewSupplier";
 import { RegisterClients } from "../screens/RegisterClients";
-import { RegisterSupplierPF} from "../screens/RegisterSuppliers"
+import { RegisterSupplierPF } from "../screens/RegisterSuppliers";
+import { Burger } from "../components/Burger";
+import { SidebarContext, SidebarProvider } from "../contexts/SidebarContext";
+import React from "react";
 
 export const AppRoutes = () => {
+  const { isActive, isHover } = React.useContext(SidebarContext);
   return (
     /* o objeto future foi adicionado pois a dependência do router foi atualizada.
        Adicionar esse objeto com essas propriedades remove os avisos no console.
@@ -21,9 +25,9 @@ export const AppRoutes = () => {
         <Route
           path="/*"
           element={
-            <Layout>
+            <Layout $isSidebarClosed={isActive}>
               <Sidebar />
-              <Content>
+              <Content className={`${isHover && "open-hover"}`}>
                 <Routes>
                   {/* Falta criar o component de dashboard, deixei o h1 só para testar */}
                   <Route
@@ -76,7 +80,10 @@ export const AppRoutes = () => {
                     }
                   />
                   <Route path="*" element={<Navigate to="/home" />} />
-                  <Route path="cadastrar/fornecedor/pf" element={<RegisterSupplierPF/>} />
+                  <Route
+                    path="cadastrar/fornecedor/pf"
+                    element={<RegisterSupplierPF />}
+                  />
                 </Routes>
               </Content>
             </Layout>
