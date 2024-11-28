@@ -3,9 +3,15 @@ import UserLogin from '../screens/Login';
 import { Sidebar } from '../components/Sidebar';
 import { ViewTableClients } from '../screens/ViewClient';
 import { Content, Layout } from '../components/Sidebar/style';
-import { ViewTableSupplier } from '../screens/ViewSupplier';
+import {
+  ViewTableSupplierPF,
+  ViewTableSupplierPJ,
+} from '../screens/ViewSupplier';
 import { RegisterClients } from '../screens/RegisterClients';
-import { RegisterSupplierPF } from '../screens/RegisterSuppliers';
+import {
+  RegisterSupplierPF,
+  RegisterSupplierPJ,
+} from '../screens/RegisterSuppliers/index';
 
 export const AppRoutes = () => {
   return (
@@ -42,11 +48,19 @@ export const AppRoutes = () => {
                   />
                   <Route
                     path="cadastrar/fornecedor/pessoa/fisica"
-                    element={<ViewTableSupplier />}
+                    element={<ViewTableSupplierPF />}
+                  />
+                  <Route
+                    path="cadastrar/fornecedor/pessoa/fisica/novo"
+                    element={<RegisterSupplierPF />}
                   />
                   <Route
                     path="cadastrar/fornecedor/pessoa/juridica"
-                    element={<ViewTableSupplier />}
+                    element={<ViewTableSupplierPJ />}
+                  />
+                  <Route
+                    path="cadastrar/fornecedor/pessoa/juridica/novo"
+                    element={<RegisterSupplierPJ />}
                   />
                   <Route
                     path="cadastrar/produtos"
@@ -76,10 +90,6 @@ export const AppRoutes = () => {
                     }
                   />
                   <Route path="*" element={<Navigate to="/home" />} />
-                  <Route
-                    path="cadastrar/fornecedor/pf"
-                    element={<RegisterSupplierPF />}
-                  />
                 </Routes>
               </Content>
             </Layout>

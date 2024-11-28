@@ -2,11 +2,97 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { MaterialReactTable } from "material-react-table";
 import { MRT_Localization_PT_BR } from "material-react-table/locales/pt-BR";
-// import { StyledH1 } from '../../components/Forms/Card/style';
-import { StyledTableContainer } from "../../components/Tables";
+import { StyledTableContainer, StyledTitleTable } from "../../components/Tables";
 import { Button } from "../../components/Forms/Button";
+import { Text } from "../../components/Texts/Text";
+import { Link } from "react-router-dom";
 
-export const ViewTableSupplier = () => {
+export const ViewTableSupplierPF = () => {
+  const [supplierPF, setSupplierPF] = useState([]);
+  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
+
+  // Fetch usando o arquivo json como teste
+  const fetchSupplierPF = async () => {
+    try {
+      const { data } = await axios.get("/fornecedorespf.json");
+      setSupplierPF(data);
+    } catch (error) {
+      console.error("Erro na busca de fornecedores: ", error);
+    }
+  };
+
+  // useEffect para carregar os cadastros
+  useEffect(() => {
+    fetchSupplierPF();
+  }, []);
+
+  // Deletar um cadastro
+  const handleDelete = (id) => {
+    const confirmDelete = window.confirm(
+      "Tem certeza que deseja excluir esse cadastro?"
+    );
+    if (confirmDelete) {
+      // Atualizar a lista sem o usuário deletado
+      const updateSupplier = supplierPF.filter((supplier) => supplier.id !== id);
+      setSupplierPF([...updateSupplier]); // vai atualizar a lista sem o usuário excluído
+    }
+  };
+
+  const columns = [
+    { header: "Nome do fornecedor", accessorKey: "nomeFornecedor", size: 200 },
+    { header: "Produto", accessorKey: "produto", size: 50 },
+    { header: "Email", accessorKey: "emailFornecedor", size: 200 },
+    { header: "Telefone", accessorKey: "telefoneFornecedor", size: 100 },
+    {
+      header: "Opções", size: 150,
+      Cell: ({ row }) => (
+        <div>
+          <Link to="/cadastrar/fornecedor/pessoa/fisica/novo"><img style={{paddingRight: "2rem"}} src="/src/assets/view.svg" alt="" /></Link>
+          <Link onClick={() => handleDelete(row.original.id)}><img style={{paddingRight: "2rem"}}  src="/src/assets/delete.svg" alt="" /></Link>
+          <Link to="/cadastrar/fornecedor/pessoa/fisica/novo"><img src="/src/assets/edit.svg" alt="" /></Link>
+
+        </div>
+      )
+    },
+  ];
+
+  return (
+    <StyledTableContainer>
+      <StyledTitleTable>
+        <Text variant="large" bold="bold">Meus fornecedores - pessoa física</Text>
+        <Link to="/cadastrar/fornecedor/pessoa/fisica/novo">Cadastrar novo</Link>
+      </StyledTitleTable>
+      <MaterialReactTable
+        columns={columns}
+        data={supplierPF}
+        localization={MRT_Localization_PT_BR}
+        state={{ pagination }}
+        defaultColumn={
+          {sx: {
+            color: "#000",
+            fontSize: "5.2rem",
+          },}
+        }
+        muiTableHeadCellProps={{
+          sx: {
+            color: "#000",
+            fontSize: "5.2rem",
+          },
+        }}
+        muiTableBodyCellProps={{
+          sx: {
+            padding: "12px 15px",
+            fontSize: "1.1rem",
+            fontWeight: "500",
+          },
+        }}
+        onPaginationChange={(newState) => setPagination(newState)}
+      />
+    </StyledTableContainer>
+  );
+};
+
+export const ViewTableSupplierPJ = () => {
   const [supplier, setSupplier] = useState([]);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
 
@@ -66,8 +152,10 @@ export const ViewTableSupplier = () => {
 
   return (
     <StyledTableContainer>
-      {/* Aqui */}
-      {/* <StyledH1>Fornecedores cadastrados</StyledH1> */}
+      <StyledTitleTable>
+        <Text variant="large" bold="bold">Meus fornecedores - pessoa jurídica</Text>
+        <Link to="/cadastrar/fornecedor/pessoa/juridica/novo">Novo cadastro</Link>
+      </StyledTitleTable>
       <MaterialReactTable
         columns={columns}
         data={supplier}
@@ -75,15 +163,12 @@ export const ViewTableSupplier = () => {
         state={{ pagination }}
         muiTableHeadCellProps={{
           sx: {
-            backgroundColor: "#223548",
-            color: "white",
+            color: "#000",
             fontSize: "5.2rem",
           },
         }}
         muiTableBodyCellProps={{
           sx: {
-            backgroundColor: "#ECF5FF",
-            color: "223548",
             padding: "12px 15px",
             fontSize: "1.1rem",
             fontWeight: "500",
