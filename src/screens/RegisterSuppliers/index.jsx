@@ -1,18 +1,18 @@
-import { FormsField } from '../../components/Forms/FormsField';
-import { Input } from '../../components/Forms/Inputs/Input';
-import { Card } from '../../components/Forms/Card';
-import { Form } from '../../components/Forms/Form';
-import { File } from '../../components/Forms/Inputs/File';
-import { Button } from '../../components/Forms/Button';
-import { useState } from 'react';
+import { FormsField } from "../../components/Forms/FormsField";
+import { Input } from "../../components/Forms/Inputs/Input";
+import { Card } from "../../components/Forms/Card";
+import { Form } from "../../components/Forms/Form";
+import { File } from "../../components/Forms/Inputs/File";
+import { Button } from "../../components/Forms/Button";
+import { useState } from "react";
 
 export const RegisterSupplierPF = () => {
   const [formValues, setFormValues] = useState({
-    fotoProduto: '',
+    fotoProduto: "",
   });
   const [errorImage, setErrorImage] = useState(false);
   function handleImage({ target }) {
-    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+    const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
     const file = target.files[0];
     const id = target.id;
     console.log(file);
@@ -29,126 +29,119 @@ export const RegisterSupplierPF = () => {
     setFormValues({ ...formValues, [id]: file });
   }
   return (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-    >
-      <Form title="Cadastrar Fornecedor" width="78rem">
-        <Card>
-          <FormsField variant="file" align="flex-end">
-            <FormsField>
-              <Input id="nomeFornecedor" height="4.8rem">
-                Nome do fornecedor
-              </Input>
-
-              <Input id="codigoFornecedor" height="4.8rem">
-                Código do fornecedor
-              </Input>
-            </FormsField>
-            <File
-              id={'fotoProduto'}
-              error={errorImage}
-              image={formValues.fotoProduto}
-              onChange={handleImage}
-              variant="secondary"
-              text="Foto do Produto"
-              smileSize={55}
-            />
-          </FormsField>
-
-          <FormsField variant="double">
-            <Input id="emailFornecedor" height="4.8rem" type="email">
-              Email
+    <Form title="Cadastrar Fornecedor">
+      <Card>
+        <FormsField variant="file" align="flex-end">
+          <FormsField>
+            <Input id="nomeFornecedor" height="4.8rem">
+              Nome do fornecedor
             </Input>
-            <Input id="telefoneFornecedor" height="4.8rem">
-              Telefone
+
+            <Input id="codigoFornecedor" height="4.8rem">
+              Código do fornecedor
             </Input>
           </FormsField>
+          <File
+            id={"fotoProduto"}
+            error={errorImage}
+            image={formValues.fotoProduto}
+            onChange={handleImage}
+            variant="secondary"
+            text="Foto do Produto"
+            smileSize={55}
+          />
+        </FormsField>
 
-          <FormsField variant="triple">
-            <Input id="rgFornecedor" height="4.8rem">
-              RG
-            </Input>
-            <Input id="cpfFornecedor" height="4.8rem">
-              CPF
-            </Input>
-            <Input id="nascimentoFornecedor" height="4.8rem" type="date">
-              Data de nascimento
-            </Input>
-          </FormsField>
-
-          <Input
-            type="select"
-            id="produto"
-            height="4.8rem"
-            options={[
-              { value: 'opcao2', label: 'Produto 1' },
-              { value: 'opcao3', label: 'Produto 2' },
-            ]}
-          >
-            Produto
+        <FormsField variant="double">
+          <Input id="emailFornecedor" height="4.8rem" type="email">
+            Email
           </Input>
-
-          <FormsField variant="double">
-            <Input id="precoProduto" height="4.8rem">
-              Preço
-            </Input>
-            <Input id="impostoProduto" height="4.8rem">
-              Imposto sobre compra
-            </Input>
-          </FormsField>
-
-          <Input id="tempoEntrega" height="4.8rem">
-            Tempo de entrega
+          <Input id="telefoneFornecedor" height="4.8rem">
+            Telefone
           </Input>
-        </Card>
+        </FormsField>
 
-        {/* Interessante rever, pois tem duas vezes campos para logradouro, número e cep */}
-        <Card title="Endereço do fornecedor">
-          <FormsField variant="triple">
-            <Input id="logradouroEntrega" height="4.8rem">
-              Logradouro
-            </Input>
-            <Input id="numeroEntrega" height="4.8rem">
-              Número
-            </Input>
-            <Input id="cepEntrega" height="4.8rem">
-              CEP
-            </Input>
-          </FormsField>
-
-          <Input id="complementoEntrega" height="4.8rem">
-            Complemento
+        <FormsField variant="triple">
+          <Input id="rgFornecedor" height="4.8rem">
+            RG
           </Input>
+          <Input id="cpfFornecedor" height="4.8rem">
+            CPF
+          </Input>
+          <Input id="nascimentoFornecedor" height="4.8rem" type="date">
+            Data de nascimento
+          </Input>
+        </FormsField>
 
-          <FormsField variant="double">
-            <Input id="bairroEntrega" height="4.8rem">
-              Bairro
-            </Input>
-            <Input id="cidadeEntrega" height="4.8rem">
-              Cidade
-            </Input>
-          </FormsField>
-        </Card>
+        <Input
+          type="select"
+          id="produto"
+          height="4.8rem"
+          options={[
+            { value: "opcao2", label: "Produto 1" },
+            { value: "opcao3", label: "Produto 2" },
+          ]}
+        >
+          Produto
+        </Input>
 
-        <Button variant="secondary" type="submit">
+        <FormsField variant="double">
+          <Input id="precoProduto" height="4.8rem">
+            Preço
+          </Input>
+          <Input id="impostoProduto" height="4.8rem">
+            Imposto sobre compra
+          </Input>
+        </FormsField>
+
+        <Input id="tempoEntrega" height="4.8rem">
+          Tempo de entrega
+        </Input>
+      </Card>
+
+      {/* Interessante rever, pois tem duas vezes campos para logradouro, número e cep */}
+      <Card title="Endereço do fornecedor">
+        <FormsField variant="triple">
+          <Input id="logradouroEntrega" height="4.8rem">
+            Logradouro
+          </Input>
+          <Input id="numeroEntrega" height="4.8rem">
+            Número
+          </Input>
+          <Input id="cepEntrega" height="4.8rem">
+            CEP
+          </Input>
+        </FormsField>
+
+        <Input id="complementoEntrega" height="4.8rem">
+          Complemento
+        </Input>
+
+        <FormsField variant="double">
+          <Input id="bairroEntrega" height="4.8rem">
+            Bairro
+          </Input>
+          <Input id="cidadeEntrega" height="4.8rem">
+            Cidade
+          </Input>
+        </FormsField>
+      </Card>
+      <Card>
+        <Button variant="secondary" type="submit" height="4.8rem">
           Cadastrar
         </Button>
-      </Form>
-    </div>
+      </Card>
+    </Form>
   );
 };
 
 export const RegisterSupplierPJ = () => {
   const [formValues, setFormValues] = useState({
-    fotoProduto: '',
+    fotoProduto: "",
   });
   const [errorImage, setErrorImage] = useState(false);
   function handleImage({ target }) {
-    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+    const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
     const file = target.files[0];
     const id = target.id;
     console.log(file);
@@ -165,127 +158,121 @@ export const RegisterSupplierPJ = () => {
     setFormValues({ ...formValues, [id]: file });
   }
   return (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-    >
-      <Form title="Cadastrar Fornecedor" width="78rem">
-        <Card>
-          <FormsField variant='file' align="flex-end">
-            <FormsField>
-              <Input id="nomeFantasia" height="4.8rem">
-                Nome fantasia
-              </Input>
+    <Form title="Cadastrar Fornecedor">
+      <Card>
+        <FormsField variant="file" align="flex-end">
+          <FormsField>
+            <Input id="nomeFantasia" height="4.8rem">
+              Nome fantasia
+            </Input>
 
-              <Input id="responsavelFornecedor" height="4.8rem">
-                Responsável
-              </Input>
-            </FormsField>
-            <File
-              id={'fotoProduto'}
-              error={errorImage}
-              image={formValues.fotoProduto}
-              onChange={handleImage}
-              variant="secondary"
-              text="Foto do Produto"
-              smileSize={55}
-            />
+            <Input id="responsavelFornecedor" height="4.8rem">
+              Responsável
+            </Input>
           </FormsField>
+          <File
+            id={"fotoProduto"}
+            error={errorImage}
+            image={formValues.fotoProduto}
+            onChange={handleImage}
+            variant="secondary"
+            text="Foto do Produto"
+            smileSize={55}
+          />
+        </FormsField>
 
-          <Input id="cnpjFornecedor" height="4.8rem">
-            CNPJ
+        <Input id="cnpjFornecedor" height="4.8rem">
+          CNPJ
+        </Input>
+
+        <FormsField variant="double">
+          <Input id="razaoSocial" height="4.8rem">
+            Razão Social
           </Input>
-
-          <FormsField variant="double">
-            <Input id="razaoSocial" height="4.8rem">
-              Razão Social
-            </Input>
-            <Input id="inscricaoEstadual" height="4.8rem">
-              Inscrição estadual
-            </Input>
-          </FormsField>
-
-          <FormsField variant="double">
-            <Input id="emailFornecedor" height="4.8rem" type="email">
-              Email
-            </Input>
-            <Input id="telefoneFornecedor" height="4.8rem" type="tel">
-              Telefone
-            </Input>
-          </FormsField>
-
-          <FormsField variant="triple">
-            <Input id="inscricaoMunicipal" height="4.8rem">
-              Inscrição municipal
-            </Input>
-            <Input id="tipoContribuinte" height="4.8rem">
-              Tipo de contribuinte
-            </Input>
-            <Input id="inscricaoSuframa" height="4.8rem">
-              Inscrição SUFRAMA
-            </Input>
-          </FormsField>
-
-          <Input
-            type="select"
-            id="produto"
-            height="4.8rem"
-            options={[
-              { value: 'opcao2', label: 'Produto 1' },
-              { value: 'opcao3', label: 'Produto 2' },
-            ]}
-          >
-            Produto
+          <Input id="inscricaoEstadual" height="4.8rem">
+            Inscrição estadual
           </Input>
-          <FormsField variant="double">
-            <Input id="precoProduto" height="4.8rem">
-              Preço
-            </Input>
-            <Input id="freteProduto" height="4.8rem">
-              Frete
-            </Input>
-          </FormsField>
+        </FormsField>
 
-          <Input id="tempoEntrega" height="4.8rem">
-            Tempo de entrega
+        <FormsField variant="double">
+          <Input id="emailFornecedor" height="4.8rem" type="email">
+            Email
           </Input>
-        </Card>
-
-        {/* Interessante rever, pois tem duas vezes campos para logradouro, número e cep */}
-        <Card title="Endereço do fornecedor">
-          <FormsField variant="triple">
-            <Input id="logradouroEntrega" height="4.8rem">
-              Logradouro
-            </Input>
-            <Input id="numeroEntrega" height="4.8rem">
-              Número
-            </Input>
-            <Input id="cepEntrega" height="4.8rem">
-              CEP
-            </Input>
-          </FormsField>
-
-          <Input id="complementoEntrega" height="4.8rem">
-            Complemento
+          <Input id="telefoneFornecedor" height="4.8rem" type="tel">
+            Telefone
           </Input>
+        </FormsField>
 
-          <FormsField variant="double">
-            <Input id="bairroEntrega" height="4.8rem">
-              Bairro
-            </Input>
-            <Input id="cidadeEntrega" height="4.8rem">
-              Cidade
-            </Input>
-          </FormsField>
-        </Card>
+        <FormsField variant="triple">
+          <Input id="inscricaoMunicipal" height="4.8rem">
+            Inscrição municipal
+          </Input>
+          <Input id="tipoContribuinte" height="4.8rem">
+            Tipo de contribuinte
+          </Input>
+          <Input id="inscricaoSuframa" height="4.8rem">
+            Inscrição SUFRAMA
+          </Input>
+        </FormsField>
 
-        <Button variant="secondary" type="submit">
+        <Input
+          type="select"
+          id="produto"
+          height="4.8rem"
+          options={[
+            { value: "opcao2", label: "Produto 1" },
+            { value: "opcao3", label: "Produto 2" },
+          ]}
+        >
+          Produto
+        </Input>
+        <FormsField variant="double">
+          <Input id="precoProduto" height="4.8rem">
+            Preço
+          </Input>
+          <Input id="freteProduto" height="4.8rem">
+            Frete
+          </Input>
+        </FormsField>
+
+        <Input id="tempoEntrega" height="4.8rem">
+          Tempo de entrega
+        </Input>
+      </Card>
+
+      {/* Interessante rever, pois tem duas vezes campos para logradouro, número e cep */}
+      <Card title="Endereço do fornecedor">
+        <FormsField variant="triple">
+          <Input id="logradouroEntrega" height="4.8rem">
+            Logradouro
+          </Input>
+          <Input id="numeroEntrega" height="4.8rem">
+            Número
+          </Input>
+          <Input id="cepEntrega" height="4.8rem">
+            CEP
+          </Input>
+        </FormsField>
+
+        <Input id="complementoEntrega" height="4.8rem">
+          Complemento
+        </Input>
+
+        <FormsField variant="double">
+          <Input id="bairroEntrega" height="4.8rem">
+            Bairro
+          </Input>
+          <Input id="cidadeEntrega" height="4.8rem">
+            Cidade
+          </Input>
+        </FormsField>
+      </Card>
+
+      <Card>
+        <Button type="submit" height="4.8rem">
           Cadastrar
         </Button>
-      </Form>
-    </div>
+      </Card>
+    </Form>
   );
 };
