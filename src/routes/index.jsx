@@ -64,6 +64,16 @@ export const AppRoutes = () => {
                       path="cadastrar/fornecedor/pessoa/juridica/novo"
                       element={<RegisterSupplierPJ />}
                     />
+                    <Route
+                      path="cadastrar/fornecedor/pessoa/juridica/visualizar"
+                      element={<h1 style={{ fontSize: "2rem" }}>
+                        Aqui é o dashboard do fornecedor!
+                      </h1>}
+                    />
+                    <Route
+                      path="cadastrar/fornecedor/pessoa/juridica/editar"
+                      element={<RegisterSupplierPJ />}
+                    />
 
                     <Route
                       path="cadastrar/fornecedor/pessoa/fisica"
@@ -71,6 +81,16 @@ export const AppRoutes = () => {
                     />
                     <Route
                       path="cadastrar/fornecedor/pessoa/fisica/novo"
+                      element={<RegisterSupplierPF />}
+                    />
+                    <Route
+                      path="cadastrar/fornecedor/pessoa/fisica/visualizar"
+                      element={<h1 style={{ fontSize: "2rem" }}>
+                        Aqui é o dashboard do fornecedor!
+                      </h1>}
+                    />
+                     <Route
+                      path="cadastrar/fornecedor/pessoa/fisica/editar"
                       element={<RegisterSupplierPF />}
                     />
 

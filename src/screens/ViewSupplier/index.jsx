@@ -3,9 +3,9 @@ import axios from "axios";
 import { MaterialReactTable } from "material-react-table";
 import { MRT_Localization_PT_BR } from "material-react-table/locales/pt-BR";
 import { StyledTableContainer, StyledTitleTable } from "../../components/Tables";
-import { Button } from "../../components/Forms/Button";
 import { Text } from "../../components/Texts/Text";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 export const ViewTableSupplierPF = () => {
   const [supplierPF, setSupplierPF] = useState([]);
@@ -47,10 +47,9 @@ export const ViewTableSupplierPF = () => {
       header: "Opções", size: 150,
       Cell: ({ row }) => (
         <div>
-          <Link to="/cadastrar/fornecedor/pessoa/fisica/novo"><img style={{paddingRight: "2rem"}} src="/src/assets/view.svg" alt="" /></Link>
-          <Link onClick={() => handleDelete(row.original.id)}><img style={{paddingRight: "2rem"}}  src="/src/assets/delete.svg" alt="" /></Link>
+          <Link to="/cadastrar/fornecedor/pessoa/fisica/visualizar"><img style={{ paddingRight: "2rem" }} src="/src/assets/view.svg" alt="" /></Link>
+          <Link onClick={() => handleDelete(row.original.id)}><img style={{ paddingRight: "2rem" }} src="/src/assets/delete.svg" alt="" /></Link>
           <Link to="/cadastrar/fornecedor/pessoa/fisica/novo"><img src="/src/assets/edit.svg" alt="" /></Link>
-
         </div>
       )
     },
@@ -68,10 +67,12 @@ export const ViewTableSupplierPF = () => {
         localization={MRT_Localization_PT_BR}
         state={{ pagination }}
         defaultColumn={
-          {sx: {
-            color: "#000",
-            fontSize: "5.2rem",
-          },}
+          {
+            sx: {
+              color: "#000",
+              fontSize: "5.2rem",
+            },
+          }
         }
         muiTableHeadCellProps={{
           sx: {
@@ -95,11 +96,12 @@ export const ViewTableSupplierPF = () => {
 export const ViewTableSupplierPJ = () => {
   const [supplier, setSupplier] = useState([]);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
+  const navigate = useNavigate();
 
   // Fetch clientes usando o arquivo json como teste
   const fetchSupplier = async () => {
     try {
-      const { data } = await axios.get("/clientes.json");
+      const { data } = await axios.get("/fornecedorespj.json");
       setSupplier(data);
     } catch (error) {
       console.error("Erro na busca de fornecedores: ", error);
@@ -122,30 +124,27 @@ export const ViewTableSupplierPJ = () => {
     }
   };
 
+  // Função para o botão de editar encaminhar para o form de cadastro com os dados do fornecedor
+  const handleEdit = (row) => {
+    navigate('/cadastrar/fornecedor/pessoa/juridica/editar', {
+      state: { supplier: row.original }
+    });
+  }
+
   const columns = [
-    { header: "Nome", accessorKey: "nome" },
-    { header: "Email", accessorKey: "email" },
-    { header: "RG", accessorKey: "rg" },
-    { header: "CPF", accessorKey: "cpf" },
-    { header: "Nascimento", accessorKey: "nascimento" },
-    { header: "Tipo", accessorKey: "tipo" },
-    { header: "Situação", accessorKey: "situacao" },
-    { header: "CEP", accessorKey: "cep" },
-    { header: "Logradouro", accessorKey: "logradouro" },
-    { header: "Número", accessorKey: "numero" },
-    { header: "Bairro", accessorKey: "bairro" },
-    { header: "Cidade", accessorKey: "cidade" },
-    { header: "Telefone", accessorKey: "telefone" },
-    { header: "Celular", accessorKey: "celular" },
+    { header: "Fornecedor", accessorKey: "nomeFantasia", size: 200 },
+    { header: "Produto", accessorKey: "produto", size: 100 },
+    { header: "Responsável", accessorKey: "responsavelEmpresa", size: 100 },
+    { header: "Email", accessorKey: "emailEmpresa", size: 100 },
+    { header: "Telefone", accessorKey: "telefoneEmpresa", size: 150 },
     {
-      header: "Actions",
+      header: "Opções", size: 200,
       Cell: ({ row }) => (
-        <Button
-          variant={"deleteRegister"}
-          onClick={() => handleDelete(row.original.id)}
-        >
-          Excluir cadastro
-        </Button>
+        <div>
+          <Link to="/cadastrar/fornecedor/pessoa/juridica/visualizar"><img style={{ paddingRight: "2rem" }} src="/src/assets/view.svg" alt="" /></Link>
+          <Link onClick={() => handleDelete(row.original.id)}><img style={{ paddingRight: "2rem" }} src="/src/assets/delete.svg" alt="" /></Link>
+          <button onClick={() => handleEdit(row)}><img src="/src/assets/edit.svg" alt="" /></button>
+        </div>
       ),
     },
   ];
@@ -164,14 +163,15 @@ export const ViewTableSupplierPJ = () => {
         muiTableHeadCellProps={{
           sx: {
             color: "#000",
-            fontSize: "5.2rem",
+            fontSize: "5.5rem",
+            padding: '1rem',
           },
         }}
         muiTableBodyCellProps={{
           sx: {
-            padding: "12px 15px",
-            fontSize: "1.1rem",
-            fontWeight: "500",
+            padding: "1rem",
+            fontSize: "1.2rem",
+            fontWeight: "400",
           },
         }}
         onPaginationChange={(newState) => setPagination(newState)}
