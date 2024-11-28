@@ -11,50 +11,58 @@ const types = {
     message: 'Email inválido',
   },
   cnpj: {
-    regex: /^\d{2}\.?\d{3}\.?\d{3}\/?\d{4}-?\d{2}$/,
+    regex: /^\d{3}\.?\d{3}\.?\d{3}-?\d{2}$/,
     message: 'CNPJ inválido',
   },
-  inscricaoEstadual: {
+  cpf: {
+    regex: /^\d{3}\.\d{3}\.\d{3}-\d{2}$/,
+    message: 'CPF inválido',
+  },
+  rg: {
+    regex: /^[0-9A-Za-z.-\s]{7,15}$/,
+    message: 'RG inválido',
+  },
+  state_registration: {
     regex: /^\d{2,14}$/,
     message: 'Inscrição inválido',
   },
-  telefone: {
+  cell_phone: {
     regex: /^\(?\d{2}\)?\s?\d{4,5}-\d{4}$/,
     message: 'Telefone inválido',
   },
 };
 
 const useForm = () => {
-  const [value, setValue] = React.useState('');
-  const [error, setError] = React.useState(null);
+  const [error, setError] = React.useState({});
 
-  function validate(value, type) {
-    if (type === false) return true;
+  function validate(field, value) {
     if (value.length === 0) {
-      setError('Preencha um valor');
-      return false;
-    } else if (types[type] && !types[type].regex.test(value)) {
-      setError(types[type].message);
-      return false;
+      setError({ ...error, [field]: 'Preencha o campo' });
+    } else if (types[field] && !types[field].regex.test(value)) {
+      setError({ ...error, [field]: types[field].message });
     } else {
-      setError(null);
-      return true;
+      setError((prevErrors) => {
+        const updatedErrors = { ...prevErrors };
+        delete updatedErrors[field]; // Remove o erro se o campo estiver válido
+        return updatedErrors;
+      });
     }
   }
 
-  function onChange({ target }) {
-    if (error) validate(target.value);
-    setValue(target.value);
+  function onChange(field) {
+    setError((prevErrors) => {
+      const updatedErrors = { ...prevErrors };
+      delete updatedErrors[field]; // Remove apenas o erro do campo específico
+      return updatedErrors;
+    });
   }
 
-  return {
-    value,
-    setValue,
-    error,
-    onChange,
-    onBlur: (type) => validate(value, type),
-    validate: (type) => validate(value, type),
-  };
+  function onBlur({ target }) {
+    const { name, value } = target;
+    validate(name, value);
+  }
+
+  return [onBlur, onChange, error, setError];
 };
 
 export default useForm;

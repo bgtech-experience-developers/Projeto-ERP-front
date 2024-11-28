@@ -6,9 +6,11 @@ import { File } from '../../components/Forms/Inputs/File';
 import { Button } from '../../components/Forms/Button';
 import React, { useState } from 'react';
 import useClients from '../../hooks/useClients';
+import useForm from '../../hooks/useForm';
+import { SpanError } from './style';
 
 export const RegisterClients = () => {
-  const cnpj = useForm('cnpj');
+  const [onBlur, onChange, error, setError] = useForm();
   const [formValues, setFormValues] = useState({
     imagens: [],
     cliente: {
@@ -81,20 +83,11 @@ export const RegisterClients = () => {
 
   const [errorImage, setErrorImage] = useState(false);
 
-  const [errors, setErrors] = useState({});
-
   // Função chamada quando o usuário digita nos campos obrigatórios
   const handleInputChange = (field) => (event) => {
     const { id, name, value } = event.target;
-    // Limpa o erro ao corrigir o campo
-    setErrors((prev) => ({
-      ...prev,
-      [field]: {
-        ...prev[field],
-        [name]: '',
-      },
-    }));
-    console.log(id, value);
+
+    onChange(name);
 
     setFormValues({
       ...formValues,
@@ -103,10 +96,7 @@ export const RegisterClients = () => {
         [name]: value,
       },
     });
-    console.log(name, value);
   };
-
-  console.log(errors.cliente);
 
   function handleImage(key, { target }) {
     const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
@@ -214,8 +204,12 @@ export const RegisterClients = () => {
                 height="4.8rem"
                 value={formValues.cliente.corporate_reason}
                 onChange={handleInputChange('cliente')}
+                onBlur={onBlur}
               >
                 Razão Social
+                {error.corporate_reason && (
+                  <SpanError>* {error.corporate_reason}</SpanError>
+                )}
               </Input>
               <Input
                 id="cliente_fantasy_name"
@@ -223,8 +217,12 @@ export const RegisterClients = () => {
                 height="4.8rem"
                 value={formValues.cliente.fantasy_name}
                 onChange={handleInputChange('cliente')}
+                onBlur={onBlur}
               >
                 Nome fantasia
+                {error.fantasy_name && (
+                  <SpanError>* {error.fantasy_name}</SpanError>
+                )}
               </Input>
             </FormsField>
             <File
@@ -242,8 +240,12 @@ export const RegisterClients = () => {
             height="4.8rem"
             value={formValues.cliente.branch_activity}
             onChange={handleInputChange('cliente')}
+            onBlur={onBlur}
           >
             Ramo de atuação
+            {error.branch_activity && (
+              <SpanError>* {error.branch_activity}</SpanError>
+            )}
           </Input>
 
           <FormsField variant="double">
@@ -253,8 +255,10 @@ export const RegisterClients = () => {
               height="4.8rem"
               value={formValues.cliente.cnpj}
               onChange={handleInputChange('cliente')}
+              onBlur={onBlur}
             >
               CNPJ
+              {error.cnpj && <SpanError>* {error.cnpj}</SpanError>}
             </Input>
 
             <Input
@@ -293,8 +297,10 @@ export const RegisterClients = () => {
               height="4.8rem"
               value={formValues.endereco_empresa.street}
               onChange={handleInputChange('endereco_empresa')}
+              onBlur={onBlur}
             >
               Logradouro
+              {error.street && <SpanError>* {error.street}</SpanError>}
             </Input>
             <Input
               id="endereco_empresa_number"
@@ -302,8 +308,10 @@ export const RegisterClients = () => {
               height="4.8rem"
               value={formValues.endereco_empresa.number}
               onChange={handleInputChange('endereco_empresa')}
+              onBlur={onBlur}
             >
               Número
+              {error.number && <SpanError>* {error.number}</SpanError>}
             </Input>
             <Input
               id="endereco_empresa_cep"
@@ -311,8 +319,10 @@ export const RegisterClients = () => {
               height="4.8rem"
               value={formValues.endereco_empresa.cep}
               onChange={handleInputChange('endereco_empresa')}
+              onBlur={onBlur}
             >
               CEP
+              {error.cep && <SpanError>* {error.cep}</SpanError>}
             </Input>
           </FormsField>
 
@@ -333,8 +343,12 @@ export const RegisterClients = () => {
               height="4.8rem"
               value={formValues.endereco_empresa.neighborhood}
               onChange={handleInputChange('endereco_empresa')}
+              onBlur={onBlur}
             >
               Bairro
+              {error.neighborhood && (
+                <SpanError>* {error.neighborhood}</SpanError>
+              )}
             </Input>
             <Input
               id="endereco_empresa_city"
@@ -342,8 +356,10 @@ export const RegisterClients = () => {
               height="4.8rem"
               value={formValues.endereco_empresa.city}
               onChange={handleInputChange('endereco_empresa')}
+              onBlur={onBlur}
             >
               Cidade
+              {error.city && <SpanError>* {error.city}</SpanError>}
             </Input>
           </FormsField>
         </Card>
@@ -420,8 +436,10 @@ export const RegisterClients = () => {
                 height="4.8rem"
                 value={formValues.socio.name}
                 onChange={handleInputChange('socio')}
+                onBlur={onBlur}
               >
                 Nome
+                {error.name && <SpanError>* {error.name}</SpanError>}
               </Input>
               <Input
                 id="socio_email"
@@ -430,8 +448,10 @@ export const RegisterClients = () => {
                 type="email"
                 value={formValues.socio.email}
                 onChange={handleInputChange('socio')}
+                onBlur={onBlur}
               >
                 Email
+                {error.email && <SpanError>* {error.email}</SpanError>}
               </Input>
             </FormsField>
             <File
@@ -458,8 +478,10 @@ export const RegisterClients = () => {
               height="4.8rem"
               value={formValues.socio.cell_phone}
               onChange={handleInputChange('socio')}
+              onBlur={onBlur}
             >
               Celular
+              {error.cell_phone && <SpanError>* {error.cell_phone}</SpanError>}
             </Input>
           </FormsField>
 
@@ -470,8 +492,10 @@ export const RegisterClients = () => {
               height="4.8rem"
               value={formValues.socio.rg}
               onChange={handleInputChange('socio')}
+              onBlur={onBlur}
             >
               RG
+              {error.rg && <SpanError>* {error.rg}</SpanError>}
             </Input>
             <Input
               id="socio_cpf"
@@ -479,8 +503,10 @@ export const RegisterClients = () => {
               height="4.8rem"
               value={formValues.socio.cpf}
               onChange={handleInputChange('socio')}
+              onBlur={onBlur}
             >
               CPF
+              {error.cpf && <SpanError>* {error.cpf}</SpanError>}
             </Input>
           </FormsField>
         </Card>
