@@ -7,9 +7,10 @@ import { Button } from "../../components/Forms/Button";
 import useClients from "../../hooks/useClients";
 import { toast } from "react-toastify";
 import { Text } from "../../components/Texts/Text";
-import { Link } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { HiEye, HiTrash, HiPencilAlt } from "react-icons/hi"; // Importando o novo ícone HiPencilAlt
+import { Navigate } from "react-router-dom";
 
 // Estilo para os ícones
 const IconContainer = styled.div`
@@ -33,6 +34,7 @@ export const ViewTableClients = () => {
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
   const [isLoading, setIsLoading] = useState(false);
   const { getClient, deleteClient } = useClients();
+  const navigate = useNavigate();
 
   // Função para buscar clientes
   const fetchClients = async () => {
@@ -92,7 +94,10 @@ export const ViewTableClients = () => {
       console.error("Erro ao alternar status:", error);
     }
   };
-
+ // Função para o botão de editar encaminhar para o form de cadastro com os dados do cliente
+  const handleEdit = (row) => {
+    navigate('/cadastrar/cliente/editar', { state: { clients: row.original } });
+  }
   // Colunas da tabela
   const columns = [
     { header: "Nome da Empresa", accessorKey: "fantasy_name", size: 150 },
@@ -105,18 +110,20 @@ export const ViewTableClients = () => {
       size: 50,
       Cell: ({ row }) => (
         <IconContainer>
-          <HiEye
-            className="icon"
-            onClick={() => console.log("Visualizar", row.original.id)}
-          />
+          <NavLink to="/cadastrar/cliente/visualizar">
+            <HiEye
+              className="icon"
+              onClick={() => console.log("Visualizar", row.original.id)}
+            />
+          </NavLink>
           <HiTrash
             className="icon"
             onClick={() => handleDelete(row.original.id)}
           />
           <HiPencilAlt
-            className="icon"
-            onClick={() => toggleStatus(row.original.id)}
-          />
+              className="icon"
+              onClick={() => handleEdit(row)}
+            />
         </IconContainer>
       ),
     },

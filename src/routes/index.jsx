@@ -30,6 +30,8 @@ export const AppRoutes = () => {
                   <Route path="home" element={<h1 style={{ fontSize: "2rem" }}> Aqui é o Dashboard!</h1>} />
                   <Route path="cadastrar/cliente" element={<ViewTableClients />} />
                   <Route path="cadastrar/cliente/novo" element={<RegisterClients />} />
+                  < Route path ="cadastrar/cliente/visualizar" element={<h1 style={{ fontSize: "2rem" }}>Aqui é o dashboard do cliente</h1>}/>
+                  <Route path ="cadastrar/cliente/editar" element={<RegisterClients/>}/>
                   <Route path="cadastrar/fornecedor/pessoa/fisica" element={<ViewTableSupplierPF />} />
                   <Route path="cadastrar/fornecedor/pessoa/fisica/novo" element={<RegisterSupplierPF />} />
                   <Route path="cadastrar/fornecedor/pessoa/juridica" element={<ViewTableSupplierPJ />} />
