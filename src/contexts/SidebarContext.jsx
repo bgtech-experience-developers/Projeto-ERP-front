@@ -1,6 +1,7 @@
 import React from "react";
 import { theme } from "../theme/theme";
 
+// Esse contexto passa as informações do aside para os componentes de layout
 export const SidebarContext = React.createContext();
 
 export const SidebarProvider = ({ children }) => {

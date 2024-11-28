@@ -2,6 +2,8 @@ import styled, { css } from "styled-components";
 import { theme } from "../../theme/theme";
 
 const navBurger = css`
+  border: none;
+  background-color: transparent;
   position: relative;
   position: fixed;
   width: 6rem;
@@ -76,7 +78,7 @@ const navBurger = css`
   }
 `;
 
-export const _Burger = styled.div`
+export const _Burger = styled.button`
   ${({ $variant }) => {
     switch ($variant) {
       case "nav-burger":

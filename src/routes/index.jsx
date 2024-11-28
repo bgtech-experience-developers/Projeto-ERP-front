@@ -1,10 +1,11 @@
+import React from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import UserLogin from "../screens/Login";
 import { Sidebar } from "../components/Sidebar";
 import { Content, InnerContent, Layout } from "../components/Sidebar/style";
-import { Burger } from "../components/Burger";
-import { SidebarContext, SidebarProvider } from "../contexts/SidebarContext";
-import React from "react";
+import { SidebarContext } from "../contexts/SidebarContext";
+import { ViewTableClients } from "../screens/ViewClient";
+import { RegisterClients } from "../screens/RegisterClients";
 import {
   ViewTableSupplierPF,
   ViewTableSupplierPJ,
@@ -53,14 +54,7 @@ export const AppRoutes = () => {
                       path="cadastrar/cliente/novo"
                       element={<RegisterClients />}
                     />
-                    <Route
-                      path="cadastrar/fornecedor/pessoa/fisica"
-                      element={<ViewTableSupplier />}
-                    />
-                    <Route
-                      path="cadastrar/fornecedor/pessoa/juridica"
-                      element={<ViewTableSupplier />}
-                    />
+
                     <Route
                       path="cadastrar/fornecedor/pessoa/juridica"
                       element={<ViewTableSupplierPJ />}

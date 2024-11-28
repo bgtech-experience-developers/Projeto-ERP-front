@@ -14,9 +14,9 @@ import { Burger } from "../Burger";
 import { SidebarContext } from "../../contexts/SidebarContext";
 import { theme } from "../../theme/theme";
 
+// Não está perfeito porém foi o que saiu, boa sorte
 export const Sidebar = () => {
   const navigate = useNavigate();
-  const sidebarRef = React.useRef(null);
   const { isActive, setIsActive, isHover, setIsHover } =
     React.useContext(SidebarContext);
 
@@ -25,7 +25,6 @@ export const Sidebar = () => {
   };
 
   function openSidebar(e) {
-    console.log(e.currentTarget);
     if (window.innerWidth <= parseInt(theme.media.md)) {
       setIsHover(!isHover);
     } else {
@@ -44,11 +43,7 @@ export const Sidebar = () => {
         onMouseEnter={() => setIsHover(true)}
         onMouseLeave={() => setIsHover(false)}
       />
-
-      <StyledSidebarContainer
-        className={`${isActive && "closed"}`}
-        ref={sidebarRef}
-      >
+      <StyledSidebarContainer className={`${isActive && "closed"}`}>
         <StyledSidebar
           className={`${isHover && "open-hover"}  ${isActive && "transform"}`}
           onMouseEnter={isActive ? () => setIsHover(true) : () => {}}
@@ -61,6 +56,8 @@ export const Sidebar = () => {
           <DobleArrow onClick={() => setIsActive(true)} />
         </ArrowContainer>
       </StyledSidebarContainer>
+
+      {/* Sidebar responsiva */}
       <StyledResponsiveSidebar
         onMouseEnter={() => setIsHover(true)}
         onMouseLeave={() => setIsHover(false)}

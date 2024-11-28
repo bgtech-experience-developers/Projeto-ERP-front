@@ -11,11 +11,15 @@ const container = css`
 
 const containerLogin = css`
   display: flex;
+  width: 50%;
+  max-width: 54.4rem;
+  min-width: 40rem;
+  border: 1pt soolid green;
   flex-direction: column;
-  gap: ${(props) => props.gap};
-  padding: ${(props) => props.padding || "9.5rem 8.5rem"};
+  gap: ${(props) => props.$gap};
+  padding: ${(props) => props.$padding || "9.5rem 8.5rem"};
   background-color: ${(props) =>
-    props.backgroundColor || props.theme.colors.tertiary};
+    props.$backgroundColor || props.theme.colors.tertiary};
   border-radius: 20px;
 `;
 
