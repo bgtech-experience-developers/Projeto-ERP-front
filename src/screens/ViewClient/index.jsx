@@ -24,8 +24,6 @@ const IconContainer = styled.div`
     font-size: 1.5rem;
     cursor: pointer;
     color: #969696;
-    ;
-
     &:hover {
       color: #000000;
     }
@@ -98,18 +96,17 @@ export const ViewTableClients = () => {
       console.error("Erro ao alternar status:", error);
     }
   };
- // Função para o botão de editar encaminhar para o form de cadastro com os dados do cliente
+  // Função para o botão de editar encaminhar para o form de cadastro com os dados do cliente
   const handleEdit = (row) => {
-    navigate('/cadastrar/cliente/editar', { state: { clients: row.original } });
-  }
+    navigate("/cadastrar/cliente/editar", { state: { clients: row.original } });
+  };
   // Colunas da tabela
   const columns = [
-    
-//     { header: "Nome da Empresa", accessorKey: "fantasy_name", size: 150 },
-//     { header: "Serviço", accessorKey: "branch_activity", size: 100 },
-//     { header: "Responsável", accessorKey: "name", size: 100 },
-//     { header: "Email", accessorKey: "email", size: 100 },
-//     { header: "Celular", accessorKey: "telefone", size: 100 },
+    //     { header: "Nome da Empresa", accessorKey: "fantasy_name", size: 150 },
+    //     { header: "Serviço", accessorKey: "branch_activity", size: 100 },
+    //     { header: "Responsável", accessorKey: "name", size: 100 },
+    //     { header: "Email", accessorKey: "email", size: 100 },
+    //     { header: "Celular", accessorKey: "telefone", size: 100 },
 
     { header: "Nome da Empresa", accessorKey: "corporate_reason", size: 150 }, // Carlos - responsividade
     { header: "Serviço", accessorKey: "branch_activity", size: 100 }, // Carlos - responsividade
@@ -126,8 +123,6 @@ export const ViewTableClients = () => {
     // { header: "Número", accessorKey: "number" },
     // { header: "Bairro", accessorKey: "bairro" },
     // { header: "Cidade", accessorKey: "city" },
-    
-    // Ranier
     {
       header: "Situação",
       accessorKey: "status",
@@ -143,78 +138,30 @@ export const ViewTableClients = () => {
         </span>
       ),
     },
-
-      
-    // Carlos - Responsividade
-//     {
-//       header: "Opções",
-//       size: 50,
-//       Cell: ({ row }) => (
-//         <IconContainer>
-//           <NavLink to="/cadastrar/cliente/visualizar">
-//             <HiEye
-//               className="icon"
-//               onClick={() => console.log("Visualizar", row.original.id)}
-//             />
-//           </NavLink>
-//           <HiTrash
-//             className="icon"
-//             onClick={() => handleDelete(row.original.id)}
-//           />
-//           <HiPencilAlt
-//               className="icon"
-//               onClick={() => handleEdit(row)}
-//             />
-//         </IconContainer>
-//       ),
-//     },
-//   ];
+    {
+      header: "Opções",
+      size: 50,
+      Cell: ({ row }) => (
+        <IconContainer>
+          <NavLink to="/cadastrar/cliente/visualizar">
+            <HiEye
+              className="icon"
+              onClick={() => console.log("Visualizar", row.original.id)}
+            />
+          </NavLink>
+          <HiTrash
+            className="icon"
+            onClick={() => handleDelete(row.original.id)}
+          />
+          <HiPencilAlt className="icon" onClick={() => handleEdit(row)} />
+        </IconContainer>
+      ),
+    },
+  ];
 
   return (
-    <StyledTableContainer> // Ranyer
-    
-    
-//       <StyledTitleTable>
-//         <Text variant="large" bold="bold">
-//           Meus clientes
-//         </Text>
-//         <Link to="/cadastrar/cliente/novo">Cadastrar novo</Link>
-//       </StyledTitleTable>
-//       {isLoading ? (
-//         <p>Carregando...</p>
-//       ) : (
-//         <MaterialReactTable
-//           columns={columns}
-//           data={clients}
-//           localization={MRT_Localization_PT_BR}
-//           state={{ pagination }}
-//           muiTableHeadCellProps={{
-//             sx: {
-//               backgroundColor: "#FFFFFF",
-//               color: "black",
-//               fontSize: "5.2rem",
-//             },
-//           }}
-//           muiTableBodyCellProps={{
-//             sx: {
-//               backgroundColor: "#FFFFFF",
-//               color: "#0e0f0f",
-//               padding: "12px 15px",
-//               fontSize: "1.1rem",
-//               fontWeight: "500",
-//             },
-//           }}
-//           onPaginationChange={(newState) => setPagination(newState)}
-//         />
-//       )}
-      
-  
-    </StyledTableContainer> // Carlos - responsividade
-    
     <>
-      <StyledTableContainer> // Carlos - responsividade
-      
-      
+      <StyledTableContainer>
         <StyledTitleTable>
           <Text variant="large" bold="bold">
             Meus clientes
@@ -248,7 +195,6 @@ export const ViewTableClients = () => {
             onPaginationChange={(newState) => setPagination(newState)}
           />
         )}
-        
       </StyledTableContainer>
     </>
   );
