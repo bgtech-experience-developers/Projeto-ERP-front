@@ -13,6 +13,18 @@ const primary = css`
   background-color: ${theme.colors.primary};
 `;
 
+const secondary = css`
+  border: none;
+  width: ${(props) => props.width || "68rem"};
+  height: ${(props) => props.height || "4.3rem"};
+  font-size: ${(props) => props.fontSize || "16px"};
+  font-weight: 600;
+  text-align: center;
+  border-radius: 4px;
+  color: ${theme.colors.white};
+  background-color: ${theme.colors.primary};
+`;
+
 const disabled = css`
   border: none;
   width: ${(props) => props.width || "71.6rem"};
