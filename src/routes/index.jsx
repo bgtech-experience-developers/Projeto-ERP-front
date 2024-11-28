@@ -33,6 +33,24 @@ export const AppRoutes = () => {
           element={
             <Layout $isSidebarClosed={isActive}>
               <Sidebar />
+//               <Content>
+//                 <Routes>
+//                   {/* Falta criar o component de dashboard, deixei o h1 só para testar */}
+//                   <Route path="home" element={<h1 style={{ fontSize: "2rem" }}> Aqui é o Dashboard!</h1>} />
+//                   <Route path="cadastrar/cliente" element={<ViewTableClients />} />
+//                   <Route path="cadastrar/cliente/novo" element={<RegisterClients />} />
+//                   < Route path ="cadastrar/cliente/visualizar" element={<h1 style={{ fontSize: "2rem" }}>Aqui é o dashboard do cliente</h1>}/>
+//                   <Route path ="cadastrar/cliente/editar" element={<RegisterClients/>}/>
+//                   <Route path="cadastrar/fornecedor/pessoa/fisica" element={<ViewTableSupplierPF />} />
+//                   <Route path="cadastrar/fornecedor/pessoa/fisica/novo" element={<RegisterSupplierPF />} />
+//                   <Route path="cadastrar/fornecedor/pessoa/juridica" element={<ViewTableSupplierPJ />} />
+//                   <Route path="cadastrar/fornecedor/pessoa/juridica/novo" element={<RegisterSupplierPJ />} />
+//                   <Route path="cadastrar/produtos" element={<h1 style={{ fontSize: "2rem" }}> Aqui é a aba de cadastro de produtos!</h1>} />
+//                   <Route path="servico/venda" element={<h1 style={{ fontSize: "2rem" }}> Aqui é a aba de venda de produtos!</h1>} />
+//                   <Route path="servico/alocacao" element={<h1 style={{ fontSize: "2rem" }}> Aqui é a aba de alocação de produtos!</h1>} />
+//                   <Route path="*" element={<Navigate to="/home" />} />  
+//                 </Routes>
+
               <Content className={`${isHover && "open-hover"}`}>
                 <InnerContent>
                   <Routes>
