@@ -3,9 +3,9 @@ import { theme } from "../../../theme/theme";
 
 const primary = css`
   border: none;
-  width: ${(props) => props.width || "71.6rem"};
-  height: ${(props) => props.height || "4.3rem"};
-  font-size: ${(props) => props.fontSize || "16px"};
+  width: 100%;
+  height: 100%;
+  font-size: 16px;
   font-weight: 600;
   text-align: center;
   border-radius: 4px;
@@ -13,11 +13,13 @@ const primary = css`
   background-color: ${theme.colors.primary};
 `;
 
+// Não vou excluir :D
 const secondary = css`
   border: none;
-  width: ${(props) => props.width || "68rem"};
-  height: ${(props) => props.height || "4.3rem"};
-  font-size: ${(props) => props.fontSize || "16px"};
+  //Recomendo não utilizar dessa forma, é melhor deixar o prŕoprio elemento pai definir o taamanho do button
+  width: 100%;
+  height: 100%;
+  font-size: 16px;
   font-weight: 600;
   text-align: center;
   border-radius: 4px;
@@ -27,8 +29,8 @@ const secondary = css`
 
 const disabled = css`
   border: none;
-  width: ${(props) => props.width || "71.6rem"};
-  height: ${(props) => props.height || "4.3rem"};
+  width: 100%;
+  height: 100%;
   text-align: center;
   font-size: 16px;
   font-weight: 600;
@@ -50,4 +52,8 @@ export const _Button = styled.button`
         return null;
     }
   }}
+  // Caso queira passar props que sejam modificadas passe elas diretamente aqui, assim todas as variants terão acesso a elas
+  width: ${({ $width }) => $width};
+  height: ${({ $height }) => $height};
+  font-size: ${({ $fontSize }) => $fontSize};
 `;

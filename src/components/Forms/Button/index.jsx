@@ -3,6 +3,7 @@ import * as S from "./style.jsx";
 
 export const Button = ({
   width,
+  height,
   children,
   variant = "primary",
   fontSize,
@@ -10,7 +11,14 @@ export const Button = ({
   ...props
 }) => {
   return (
-    <S._Button width={width} $variant={variant} disabled={disabled} fontSize={fontSize} {...props}>
+    <S._Button
+      $width={width}
+      $height={height}
+      $variant={variant}
+      disabled={disabled}
+      fontSize={fontSize}
+      {...props}
+    >
       {children}
     </S._Button>
   );

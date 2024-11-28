@@ -217,517 +217,512 @@ export const RegisterClients = () => {
   }, [photos]);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <Form onSubmit={handleSubmit} title="Cadastrar Cliente" width="87.8rem">
-        <Card>
-          <FormsField variant="file" align="flex-end">
-            <FormsField>
-              <Input
-                id="cliente_corporate_reason"
-                name="corporate_reason"
-                height="4.8rem"
-                value={formValues.cliente.corporate_reason}
-                onChange={handleInputChange("cliente")}
-              >
-                Razão social
-              </Input>
-              <Input
-                id="cliente_fantasy_name"
-                name="fantasy_name"
-                height="4.8rem"
-                value={formValues.cliente.fantasy_name}
-                onChange={handleInputChange("cliente")}
-              >
-                Nome fantasia
-              </Input>
-            </FormsField>
-            <File
-              name={"fotoCliente"}
-              error={errorImage}
-              image={photos.file1.file}
-              onChange={(event) => handleImage("file1", event)}
-              text="Adicionar foto"
-            />
-          </FormsField>
-
-          <Input
-            id="cliente_branch_activity"
-            name="branch_activity"
-            height="4.8rem"
-            value={formValues.cliente.branch_activity}
-            onChange={handleInputChange("cliente")}
-          >
-            Ramo de atuação
-          </Input>
-
-          <FormsField variant="double">
+    <Form onSubmit={handleSubmit} title="Cadastrar Cliente">
+      <Card>
+        <FormsField variant="file" align="flex-end">
+          <FormsField>
             <Input
-              id="cliente_cnpj"
-              name="cnpj"
+              id="cliente_corporate_reason"
+              name="corporate_reason"
               height="4.8rem"
-              value={formValues.cliente.cnpj}
+              value={formValues.cliente.corporate_reason}
               onChange={handleInputChange("cliente")}
             >
-              CNPJ
+              Razão social
             </Input>
             <Input
-              id="cliente_state_registration"
-              name="state_registration"
+              id="cliente_fantasy_name"
+              name="fantasy_name"
               height="4.8rem"
-              value={formValues.cliente.state_registration}
+              value={formValues.cliente.fantasy_name}
               onChange={handleInputChange("cliente")}
             >
-              Inscrição estadual
+              Nome fantasia
             </Input>
           </FormsField>
+          <File
+            name={"fotoCliente"}
+            error={errorImage}
+            image={photos.file1.file}
+            onChange={(event) => handleImage("file1", event)}
+            text="Adicionar foto"
+          />
+        </FormsField>
 
+        <Input
+          id="cliente_branch_activity"
+          name="branch_activity"
+          height="4.8rem"
+          value={formValues.cliente.branch_activity}
+          onChange={handleInputChange("cliente")}
+        >
+          Ramo de atuação
+        </Input>
+
+        <FormsField variant="double">
           <Input
-            type="select"
-            id="cliente_type_contribuition"
-            name="type_contribuition"
+            id="cliente_cnpj"
+            name="cnpj"
             height="4.8rem"
-            value={formValues.cliente.type_contribuition}
+            value={formValues.cliente.cnpj}
             onChange={handleInputChange("cliente")}
-            options={[
-              { value: "titulo", label: "Selecione", disabled: true },
-              { value: "pj", label: "Pessoa Jurídica" },
-              { value: "opcao3", label: "Pessoa Fisíca" },
-            ]}
           >
-            Tipo de contribuinte
+            CNPJ
           </Input>
-        </Card>
-
-        <Card title="Endereço da Empresa">
-          <FormsField variant="triple">
-            <Input
-              name="street"
-              id="endereco_empresa_street"
-              height="4.8rem"
-              value={formValues.endereco_empresa.street}
-              onChange={handleInputChange("endereco_empresa")}
-            >
-              Logradouro
-            </Input>
-            <Input
-              id="endereco_empresa_number"
-              name="number"
-              height="4.8rem"
-              value={formValues.endereco_empresa.number}
-              onChange={handleInputChange("endereco_empresa")}
-            >
-              Número
-            </Input>
-            <Input
-              id="endereco_empresa_cep"
-              name="cep"
-              height="4.8rem"
-              value={formValues.endereco_empresa.cep}
-              onChange={handleInputChange("endereco_empresa")}
-            >
-              CEP
-            </Input>
-          </FormsField>
-
           <Input
-            id="endereco_empresa_complement"
-            name="complement"
+            id="cliente_state_registration"
+            name="state_registration"
             height="4.8rem"
-            value={formValues.endereco_empresa.complement}
+            value={formValues.cliente.state_registration}
+            onChange={handleInputChange("cliente")}
+          >
+            Inscrição estadual
+          </Input>
+        </FormsField>
+
+        <Input
+          type="select"
+          id="cliente_type_contribuition"
+          name="type_contribuition"
+          height="4.8rem"
+          value={formValues.cliente.type_contribuition}
+          onChange={handleInputChange("cliente")}
+          options={[
+            { value: "titulo", label: "Selecione", disabled: true },
+            { value: "pj", label: "Pessoa Jurídica" },
+            { value: "opcao3", label: "Pessoa Fisíca" },
+          ]}
+        >
+          Tipo de contribuinte
+        </Input>
+      </Card>
+
+      <Card title="Endereço da Empresa">
+        <FormsField variant="triple">
+          <Input
+            name="street"
+            id="endereco_empresa_street"
+            height="4.8rem"
+            value={formValues.endereco_empresa.street}
             onChange={handleInputChange("endereco_empresa")}
           >
-            Complemento
+            Logradouro
           </Input>
-
-          <FormsField variant="double">
-            <Input
-              id="endereco_empresa_neighborhood"
-              name="neighborhood"
-              height="4.8rem"
-              value={formValues.endereco_empresa.neighborhood}
-              onChange={handleInputChange("endereco_empresa")}
-            >
-              Bairro
-            </Input>
-            <Input
-              id="endereco_empresa_city"
-              name="city"
-              height="4.8rem"
-              value={formValues.endereco_empresa.city}
-              onChange={handleInputChange("endereco_empresa")}
-            >
-              Cidade
-            </Input>
-          </FormsField>
-        </Card>
-
-        <Card title="Endereço de Entrega">
-          <FormsField variant="triple">
-            <Input
-              id="endereco_entrega_street"
-              name="street"
-              height="4.8rem"
-              value={formValues.endereco_entrega.street}
-              onChange={handleInputChange("endereco_entrega")}
-            >
-              Logradouro
-            </Input>
-            <Input
-              id="endereco_entrega_number"
-              name="number"
-              height="4.8rem"
-              value={formValues.endereco_entrega.number}
-              onChange={handleInputChange("endereco_entrega")}
-            >
-              Número
-            </Input>
-            <Input
-              id="endereco_entrega_cep"
-              name="cep"
-              height="4.8rem"
-              value={formValues.endereco_entrega.cep}
-              onChange={handleInputChange("endereco_entrega")}
-            >
-              CEP
-            </Input>
-          </FormsField>
-
           <Input
-            id="endereco_entrega_complement"
-            name="complement"
+            id="endereco_empresa_number"
+            name="number"
             height="4.8rem"
-            value={formValues.endereco_entrega.complement}
+            value={formValues.endereco_empresa.number}
+            onChange={handleInputChange("endereco_empresa")}
+          >
+            Número
+          </Input>
+          <Input
+            id="endereco_empresa_cep"
+            name="cep"
+            height="4.8rem"
+            value={formValues.endereco_empresa.cep}
+            onChange={handleInputChange("endereco_empresa")}
+          >
+            CEP
+          </Input>
+        </FormsField>
+
+        <Input
+          id="endereco_empresa_complement"
+          name="complement"
+          height="4.8rem"
+          value={formValues.endereco_empresa.complement}
+          onChange={handleInputChange("endereco_empresa")}
+        >
+          Complemento
+        </Input>
+
+        <FormsField variant="double">
+          <Input
+            id="endereco_empresa_neighborhood"
+            name="neighborhood"
+            height="4.8rem"
+            value={formValues.endereco_empresa.neighborhood}
+            onChange={handleInputChange("endereco_empresa")}
+          >
+            Bairro
+          </Input>
+          <Input
+            id="endereco_empresa_city"
+            name="city"
+            height="4.8rem"
+            value={formValues.endereco_empresa.city}
+            onChange={handleInputChange("endereco_empresa")}
+          >
+            Cidade
+          </Input>
+        </FormsField>
+      </Card>
+
+      <Card title="Endereço de Entrega">
+        <FormsField variant="triple">
+          <Input
+            id="endereco_entrega_street"
+            name="street"
+            height="4.8rem"
+            value={formValues.endereco_entrega.street}
             onChange={handleInputChange("endereco_entrega")}
           >
-            Complemento
+            Logradouro
           </Input>
+          <Input
+            id="endereco_entrega_number"
+            name="number"
+            height="4.8rem"
+            value={formValues.endereco_entrega.number}
+            onChange={handleInputChange("endereco_entrega")}
+          >
+            Número
+          </Input>
+          <Input
+            id="endereco_entrega_cep"
+            name="cep"
+            height="4.8rem"
+            value={formValues.endereco_entrega.cep}
+            onChange={handleInputChange("endereco_entrega")}
+          >
+            CEP
+          </Input>
+        </FormsField>
 
-          <FormsField variant="double">
-            <Input
-              id="endereco_entrega_neighborhood"
-              name="neighborhood"
-              height="4.8rem"
-              value={formValues.endereco_entrega.neighborhood}
-              onChange={handleInputChange("endereco_entrega")}
-            >
-              Bairro
-            </Input>
-            <Input
-              id="endereco_entrega_city"
-              name="city"
-              height="4.8rem"
-              value={formValues.endereco_entrega.city}
-              onChange={handleInputChange("endereco_entrega")}
-            >
-              Cidade
-            </Input>
-          </FormsField>
-        </Card>
+        <Input
+          id="endereco_entrega_complement"
+          name="complement"
+          height="4.8rem"
+          value={formValues.endereco_entrega.complement}
+          onChange={handleInputChange("endereco_entrega")}
+        >
+          Complemento
+        </Input>
 
-        <Card title="Sócio Proprietário">
-          <FormsField variant="file" align="flex-end">
-            <FormsField>
-              <Input
-                id="socio_name"
-                name="name"
-                height="4.8rem"
-                value={formValues.socio.name}
-                onChange={handleInputChange("socio")}
-              >
-                Nome
-              </Input>
-              <Input
-                id="socio_email"
-                name="email"
-                height="4.8rem"
-                type="email"
-                value={formValues.socio.email}
-                onChange={handleInputChange("socio")}
-              >
-                Email
-              </Input>
-            </FormsField>
-            <File
-              error={errorImage}
-              image={photos.file2.file}
-              onChange={(event) => handleImage("file2", event)}
-              text="Adicionar foto"
-            />
-          </FormsField>
+        <FormsField variant="double">
+          <Input
+            id="endereco_entrega_neighborhood"
+            name="neighborhood"
+            height="4.8rem"
+            value={formValues.endereco_entrega.neighborhood}
+            onChange={handleInputChange("endereco_entrega")}
+          >
+            Bairro
+          </Input>
+          <Input
+            id="endereco_entrega_city"
+            name="city"
+            height="4.8rem"
+            value={formValues.endereco_entrega.city}
+            onChange={handleInputChange("endereco_entrega")}
+          >
+            Cidade
+          </Input>
+        </FormsField>
+      </Card>
 
-          <FormsField variant="double">
+      <Card title="Sócio Proprietário">
+        <FormsField variant="file" align="flex-end">
+          <FormsField>
             <Input
-              id="socio_phone"
-              name="phone"
+              id="socio_name"
+              name="name"
               height="4.8rem"
-              value={formValues.socio.phone}
+              value={formValues.socio.name}
               onChange={handleInputChange("socio")}
             >
-              Telefone
+              Nome
             </Input>
             <Input
-              id="socio_cell_phone"
-              name="cell_phone"
+              id="socio_email"
+              name="email"
               height="4.8rem"
-              value={formValues.socio.cell_phone}
+              type="email"
+              value={formValues.socio.email}
               onChange={handleInputChange("socio")}
             >
-              Celular
+              Email
             </Input>
           </FormsField>
+          <File
+            error={errorImage}
+            image={photos.file2.file}
+            onChange={(event) => handleImage("file2", event)}
+            text="Adicionar foto"
+          />
+        </FormsField>
 
-          <FormsField variant="double">
-            <Input
-              id="socio_rg"
-              name="rg"
-              height="4.8rem"
-              value={formValues.socio.rg}
-              onChange={handleInputChange("socio")}
-            >
-              RG
-            </Input>
-            <Input
-              id="socio_cpf"
-              name="cpf"
-              height="4.8rem"
-              value={formValues.socio.cpf}
-              onChange={handleInputChange("socio")}
-            >
-              CPF
-            </Input>
-          </FormsField>
-        </Card>
+        <FormsField variant="double">
+          <Input
+            id="socio_phone"
+            name="phone"
+            height="4.8rem"
+            value={formValues.socio.phone}
+            onChange={handleInputChange("socio")}
+          >
+            Telefone
+          </Input>
+          <Input
+            id="socio_cell_phone"
+            name="cell_phone"
+            height="4.8rem"
+            value={formValues.socio.cell_phone}
+            onChange={handleInputChange("socio")}
+          >
+            Celular
+          </Input>
+        </FormsField>
 
-        <Card title="Contato Comercial">
-          <FormsField variant="file" align="flex-end">
-            <FormsField>
-              <Input
-                id="comercial_name"
-                name="name"
-                height="4.8rem"
-                value={formValues.comercial.name}
-                onChange={handleInputChange("comercial")}
-              >
-                Nome
-              </Input>
-              <Input
-                id="comercial_email"
-                name="email"
-                height="4.8rem"
-                type="email"
-                value={formValues.comercial.email}
-                onChange={handleInputChange("comercial")}
-              >
-                Email
-              </Input>
-            </FormsField>
-            <File
-              error={errorImage}
-              image={photos.file3.file}
-              onChange={(event) => handleImage("file3", event)}
-              text="Adicionar foto"
-            />
-          </FormsField>
+        <FormsField variant="double">
+          <Input
+            id="socio_rg"
+            name="rg"
+            height="4.8rem"
+            value={formValues.socio.rg}
+            onChange={handleInputChange("socio")}
+          >
+            RG
+          </Input>
+          <Input
+            id="socio_cpf"
+            name="cpf"
+            height="4.8rem"
+            value={formValues.socio.cpf}
+            onChange={handleInputChange("socio")}
+          >
+            CPF
+          </Input>
+        </FormsField>
+      </Card>
 
-          <FormsField variant="double">
+      <Card title="Contato Comercial">
+        <FormsField variant="file" align="flex-end">
+          <FormsField>
             <Input
-              id="comercial_phone"
-              name="phone"
+              id="comercial_name"
+              name="name"
               height="4.8rem"
-              value={formValues.comercial.phone}
+              value={formValues.comercial.name}
               onChange={handleInputChange("comercial")}
             >
-              Telefone
+              Nome
             </Input>
             <Input
-              id="comercial_cell_phone"
-              name="cell_phone"
+              id="comercial_email"
+              name="email"
               height="4.8rem"
-              value={formValues.comercial.cell_phone}
+              type="email"
+              value={formValues.comercial.email}
               onChange={handleInputChange("comercial")}
             >
-              Celular
+              Email
             </Input>
           </FormsField>
+          <File
+            error={errorImage}
+            image={photos.file3.file}
+            onChange={(event) => handleImage("file3", event)}
+            text="Adicionar foto"
+          />
+        </FormsField>
 
-          <FormsField variant="double">
-            <Input
-              id="comercial_rg"
-              name="rg"
-              height="4.8rem"
-              value={formValues.comercial.rg}
-              onChange={handleInputChange("comercial")}
-            >
-              RG
-            </Input>
-            <Input
-              id="comercial_cpf"
-              name="cpf"
-              height="4.8rem"
-              value={formValues.comercial.cpf}
-              onChange={handleInputChange("comercial")}
-            >
-              CPF
-            </Input>
-          </FormsField>
-        </Card>
+        <FormsField variant="double">
+          <Input
+            id="comercial_phone"
+            name="phone"
+            height="4.8rem"
+            value={formValues.comercial.phone}
+            onChange={handleInputChange("comercial")}
+          >
+            Telefone
+          </Input>
+          <Input
+            id="comercial_cell_phone"
+            name="cell_phone"
+            height="4.8rem"
+            value={formValues.comercial.cell_phone}
+            onChange={handleInputChange("comercial")}
+          >
+            Celular
+          </Input>
+        </FormsField>
 
-        <Card title="Contato Financeiro">
-          <FormsField variant="file" align="flex-end">
-            <FormsField>
-              <Input
-                id="financeiro_name"
-                name="name"
-                height="4.8rem"
-                value={formValues.financeiro.name}
-                onChange={handleInputChange("financeiro")}
-              >
-                Nome
-              </Input>
-              <Input
-                id="financeiro_email"
-                name="email"
-                height="4.8rem"
-                type="email"
-                value={formValues.financeiro.email}
-                onChange={handleInputChange("financeiro")}
-              >
-                Email
-              </Input>
-            </FormsField>
-            <File
-              error={errorImage}
-              image={photos.file4.file}
-              onChange={(event) => handleImage("file4", event)}
-              text="Adicionar foto"
-            />
-          </FormsField>
+        <FormsField variant="double">
+          <Input
+            id="comercial_rg"
+            name="rg"
+            height="4.8rem"
+            value={formValues.comercial.rg}
+            onChange={handleInputChange("comercial")}
+          >
+            RG
+          </Input>
+          <Input
+            id="comercial_cpf"
+            name="cpf"
+            height="4.8rem"
+            value={formValues.comercial.cpf}
+            onChange={handleInputChange("comercial")}
+          >
+            CPF
+          </Input>
+        </FormsField>
+      </Card>
 
-          <FormsField variant="double">
+      <Card title="Contato Financeiro">
+        <FormsField variant="file" align="flex-end">
+          <FormsField>
             <Input
-              id="financeiro_phone"
-              name="phone"
+              id="financeiro_name"
+              name="name"
               height="4.8rem"
-              value={formValues.financeiro.phone}
+              value={formValues.financeiro.name}
               onChange={handleInputChange("financeiro")}
             >
-              Telefone
+              Nome
             </Input>
             <Input
-              id="financeiro_cell_phone"
-              name="cell_phone"
+              id="financeiro_email"
+              name="email"
               height="4.8rem"
-              value={formValues.financeiro.cell_phone}
+              type="email"
+              value={formValues.financeiro.email}
               onChange={handleInputChange("financeiro")}
             >
-              Celular
+              Email
             </Input>
           </FormsField>
+          <File
+            error={errorImage}
+            image={photos.file4.file}
+            onChange={(event) => handleImage("file4", event)}
+            text="Adicionar foto"
+          />
+        </FormsField>
 
-          <FormsField variant="double">
-            <Input
-              id="financeiro_rg"
-              name="rg"
-              height="4.8rem"
-              value={formValues.financeiro.rg}
-              onChange={handleInputChange("financeiro")}
-            >
-              RG
-            </Input>
-            <Input
-              id="financeiro_cpf"
-              name="cpf"
-              height="4.8rem"
-              value={formValues.financeiro.cpf}
-              onChange={handleInputChange("financeiro")}
-            >
-              CPF
-            </Input>
-          </FormsField>
-        </Card>
+        <FormsField variant="double">
+          <Input
+            id="financeiro_phone"
+            name="phone"
+            height="4.8rem"
+            value={formValues.financeiro.phone}
+            onChange={handleInputChange("financeiro")}
+          >
+            Telefone
+          </Input>
+          <Input
+            id="financeiro_cell_phone"
+            name="cell_phone"
+            height="4.8rem"
+            value={formValues.financeiro.cell_phone}
+            onChange={handleInputChange("financeiro")}
+          >
+            Celular
+          </Input>
+        </FormsField>
 
-        <Card title="Contato Contábil">
-          <FormsField variant="file" align="flex-end">
-            <FormsField>
-              <Input
-                id="contabil_name"
-                name="name"
-                height="4.8rem"
-                value={formValues.contabil.name}
-                onChange={handleInputChange("contabil")}
-              >
-                Nome
-              </Input>
-              <Input
-                id="contabil_email"
-                name="email"
-                height="4.8rem"
-                type="email"
-                value={formValues.contabil.email}
-                onChange={handleInputChange("contabil")}
-              >
-                Email
-              </Input>
-            </FormsField>
-            <File
-              error={errorImage}
-              image={photos.file5.file}
-              onChange={(event) => handleImage("file5", event)}
-              text="Adicionar foto"
-            />
-          </FormsField>
+        <FormsField variant="double">
+          <Input
+            id="financeiro_rg"
+            name="rg"
+            height="4.8rem"
+            value={formValues.financeiro.rg}
+            onChange={handleInputChange("financeiro")}
+          >
+            RG
+          </Input>
+          <Input
+            id="financeiro_cpf"
+            name="cpf"
+            height="4.8rem"
+            value={formValues.financeiro.cpf}
+            onChange={handleInputChange("financeiro")}
+          >
+            CPF
+          </Input>
+        </FormsField>
+      </Card>
 
-          <FormsField variant="double">
+      <Card title="Contato Contábil">
+        <FormsField variant="file" align="flex-end">
+          <FormsField>
             <Input
-              id="contabil_phone"
-              name="phone"
+              id="contabil_name"
+              name="name"
               height="4.8rem"
-              value={formValues.contabil.phone}
+              value={formValues.contabil.name}
               onChange={handleInputChange("contabil")}
             >
-              Telefone
+              Nome
             </Input>
             <Input
-              id="contabil_cell_phone"
-              name="cell_phone"
+              id="contabil_email"
+              name="email"
               height="4.8rem"
-              value={formValues.contabil.cell_phone}
+              type="email"
+              value={formValues.contabil.email}
               onChange={handleInputChange("contabil")}
             >
-              Celular
+              Email
             </Input>
           </FormsField>
+          <File
+            error={errorImage}
+            image={photos.file5.file}
+            onChange={(event) => handleImage("file5", event)}
+            text="Adicionar foto"
+          />
+        </FormsField>
 
-          <FormsField variant="double">
-            <Input
-              id="contabil_rg"
-              name="rg"
-              height="4.8rem"
-              value={formValues.contabil.rg}
-              onChange={handleInputChange("contabil")}
-            >
-              RG
-            </Input>
-            <Input
-              id="contabil_cpf"
-              name="cpf"
-              height="4.8rem"
-              value={formValues.contabil.cpf}
-              onChange={handleInputChange("contabil")}
-            >
-              CPF
-            </Input>
-          </FormsField>
-        </Card>
+        <FormsField variant="double">
+          <Input
+            id="contabil_phone"
+            name="phone"
+            height="4.8rem"
+            value={formValues.contabil.phone}
+            onChange={handleInputChange("contabil")}
+          >
+            Telefone
+          </Input>
+          <Input
+            id="contabil_cell_phone"
+            name="cell_phone"
+            height="4.8rem"
+            value={formValues.contabil.cell_phone}
+            onChange={handleInputChange("contabil")}
+          >
+            Celular
+          </Input>
+        </FormsField>
 
-        <Button type="submit">Cadastrar</Button>
-      </Form>
-    </div>
+        <FormsField variant="double">
+          <Input
+            id="contabil_rg"
+            name="rg"
+            height="4.8rem"
+            value={formValues.contabil.rg}
+            onChange={handleInputChange("contabil")}
+          >
+            RG
+          </Input>
+          <Input
+            id="contabil_cpf"
+            name="cpf"
+            height="4.8rem"
+            value={formValues.contabil.cpf}
+            onChange={handleInputChange("contabil")}
+          >
+            CPF
+          </Input>
+        </FormsField>
+      </Card>
+      <Card>
+        <Button type="submit" height="4.8rem">
+          Cadastrar
+        </Button>
+      </Card>
+    </Form>
   );
 };
