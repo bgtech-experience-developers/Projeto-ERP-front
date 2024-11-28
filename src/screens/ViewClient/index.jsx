@@ -76,23 +76,26 @@ export const ViewTableClients = () => {
 
   // Colunas da tabela
   const columns = [
-    { header: "Nome da Empresa", accessorKey: "corporate_reason" },
-    { header: "Nome Fantasia", accessorKey: "fantasy_name" },
-    { header: "Email", accessorKey: "email" },
-    { header: "RG", accessorKey: "state_registration" },
-    { header: "CPF", accessorKey: "cpf" },
-    { header: "CNPJ", accessorKey: "cnpj" },
-    { header: "Tipo de Contribuinte", accessorKey: "type_contribuition" },
-    { header: "CEP", accessorKey: "cep" },
-    { header: "Logradouro", accessorKey: "street" },
-    { header: "Número", accessorKey: "number" },
-    { header: "Bairro", accessorKey: "bairro" },
-    { header: "Cidade", accessorKey: "city" },
-    { header: "Telefone", accessorKey: "phone" },
-    { header: "Celular", accessorKey: "cell_phone" },
+    { header: "Nome da Empresa", accessorKey: "corporate_reason", size:150 },
+    { header: "Serviço", accessorKey: "branch_activity", size:100 },
+    { header: "Responsável", accessorKey: "name", size: 100 },
+    { header: "Email", accessorKey: "email", size: 100},
+    { header: "Celular", accessorKey: "cell_phone", size:100 },
+    
+   
+    // { header: "RG", accessorKey: "state_registration" },
+    // { header: "CPF", accessorKey: "cpf" },
+    // { header: "CNPJ", accessorKey: "cnpj" },
+    // { header: "Tipo de Contribuinte", accessorKey: "type_contribuition" },
+    // { header: "CEP", accessorKey: "cep" },
+    // { header: "Logradouro", accessorKey: "street" },
+    // { header: "Número", accessorKey: "number" },
+    // { header: "Bairro", accessorKey: "bairro" },
+    // { header: "Cidade", accessorKey: "city" },
     {
       header: "Situação",
       accessorKey: "status",
+      size: 50,
       Cell: ({ row }) => (
         <span
           style={{
@@ -105,7 +108,8 @@ export const ViewTableClients = () => {
       ),
     },
     {
-      header: "Ação",
+      header: "Opções",
+      size: 50,
       Cell: ({ row }) => (
         <div style={{ display: "flex", gap: "10px" }}>
           <Button
@@ -141,15 +145,15 @@ export const ViewTableClients = () => {
         state={{ pagination }}
         muiTableHeadCellProps={{
           sx: {
-            backgroundColor: "#ECF5FF",
+            backgroundColor: "#FFFFFF",
             color: "black",
             fontSize: "5.2rem",
           },
         }}
         muiTableBodyCellProps={{
           sx: {
-            backgroundColor: "#ECF5FF",
-            color: "#edf1f5",
+            backgroundColor: "#FFFFFF",
+            color: "#0e0f0f",
             padding: "12px 15px",
             fontSize: "1.1rem",
             fontWeight: "500",
@@ -157,7 +161,7 @@ export const ViewTableClients = () => {
         }}
         onPaginationChange={(newState) => setPagination(newState)}
       />
-      )};
+      )}
     </StyledTableContainer>
-  );
+  )
 };
