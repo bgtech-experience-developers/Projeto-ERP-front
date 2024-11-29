@@ -34,7 +34,24 @@ export const RegisterSupplierPF = () => {
       neighborhood: '',
     },
   });
+
+  const [title, setTitle] = useState("Cadastrar Fornecedor");
+  const [button, setButton] = useState("Cadastrar");
+
+  useEffect(() => {
+    if (state?.supplier) {
+      setFormValues(state.supplier);
+      setTitle("Editar Fornecedor");
+      setButton("Atualizar cadastro");
+    } else {
+      setTitle("Cadastrar Fornecedor");
+      setButton("Cadastrar");
+
+    }
+  }, [state]);
+
   const [errorImage, setErrorImage] = useState(false);
+
   function handleImage({ target }) {
     const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
     const file = target.files[0];
@@ -67,7 +84,7 @@ export const RegisterSupplierPF = () => {
   };
 
   return (
-    <Form title="Cadastrar Fornecedor">
+    <Form title={title}>
       <Card>
         <FormsField variant="file" align="flex-end">
           <FormsField>
@@ -176,6 +193,10 @@ export const RegisterSupplierPF = () => {
             { value: 'opcao2', label: 'Produto 1' },
             { value: 'opcao3', label: 'Produto 2' },
           ]}
+          value={formValues.produto}
+          onChange={(event) =>
+            setFormValues({ ...formValues, produto: event.target.value })
+          }
         >
           Produto
         </Input>
@@ -217,7 +238,6 @@ export const RegisterSupplierPF = () => {
         </Input>
       </Card>
 
-      {/* Interessante rever, pois tem duas vezes campos para logradouro, número e cep */}
       <Card title="Endereço do fornecedor">
         <FormsField variant="triple">
           <Input
@@ -272,19 +292,18 @@ export const RegisterSupplierPF = () => {
             value={formValues.address.neighborhood}
             onChange={handleInputChange('address')}
             onBlur={onBlur}
-            height="4.8rem"
-          >
+            height="4.8rem">
             Bairro
             {error.neighborhood && <SpanError>{error.neighborhood}</SpanError>}
           </Input>
+             
           <Input
             id="city"
             name="city"
             value={formValues.address.city}
             onChange={handleInputChange('address')}
             onBlur={onBlur}
-            height="4.8rem"
-          >
+            height="4.8rem">
             Cidade
             {error.city && <SpanError>{error.city}</SpanError>}
           </Input>
@@ -292,7 +311,7 @@ export const RegisterSupplierPF = () => {
       </Card>
       <Card>
         <Button variant="secondary" type="submit" height="4.8rem">
-          Cadastrar
+          {button}
         </Button>
       </Card>
     </Form>
@@ -300,6 +319,8 @@ export const RegisterSupplierPF = () => {
 };
 
 export const RegisterSupplierPJ = () => {
+
+  const { state } = useLocation();
   const [onBlur, onChange, error] = useForm();
   const [formValues, setFormValues] = useState({
     fotos: [],
@@ -328,7 +349,23 @@ export const RegisterSupplierPJ = () => {
       neighborhood: '',
     },
   });
+
+  const [title, setTitle] = useState("Cadastrar Fornecedor");
+  const [button, setButton] = useState("Cadastrar");
+
+  useEffect(() => {
+    if (state?.supplier) {
+      setFormValues(state.supplier);
+      setTitle("Editar Fornecedor");
+      setButton("Atualizar cadastro");
+    } else {
+      setTitle("Cadastrar Fornecedor");
+      setButton("Cadastrar")
+    }
+  }, [state]);
+
   const [errorImage, setErrorImage] = useState(false);
+
   function handleImage({ target }) {
     const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
     const file = target.files[0];
@@ -346,6 +383,7 @@ export const RegisterSupplierPJ = () => {
 
     setFormValues({ ...formValues, [id]: file });
   }
+  
   const handleInputChange = (field) => (event) => {
     const { name, value } = event.target;
     onChange(name);
@@ -358,8 +396,9 @@ export const RegisterSupplierPJ = () => {
       },
     });
   };
+
   return (
-    <Form title="Cadastrar Fornecedor">
+    <Form title={title}>
       <Card>
         <FormsField variant="file" align="flex-end">
           <FormsField>
@@ -480,10 +519,12 @@ export const RegisterSupplierPJ = () => {
             value={formValues.supplier.taxpayer_type}
             onChange={handleInputChange('supplier')}
             height="4.8rem"
+
           >
             Tipo de contribuinte
           </Input>
           <Input
+
             id="suframa_inscription"
             name="suframa_inscription"
             value={formValues.supplier.suframa_inscription}
@@ -502,6 +543,9 @@ export const RegisterSupplierPJ = () => {
             { value: 'opcao2', label: 'Produto 1' },
             { value: 'opcao3', label: 'Produto 2' },
           ]}
+          value={formValues.produto}
+          onChange={(event) =>
+            setFormValues({ ...formValues, produto: event.target.value })}
         >
           Produto
         </Input>
@@ -539,7 +583,6 @@ export const RegisterSupplierPJ = () => {
         </Input>
       </Card>
 
-      {/* Interessante rever, pois tem duas vezes campos para logradouro, número e cep */}
       <Card title="Endereço do fornecedor">
         <FormsField variant="triple">
           <Input
@@ -615,7 +658,7 @@ export const RegisterSupplierPJ = () => {
 
       <Card>
         <Button type="submit" height="4.8rem">
-          Cadastrar
+          {button}
         </Button>
       </Card>
     </Form>
