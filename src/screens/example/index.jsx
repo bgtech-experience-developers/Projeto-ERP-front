@@ -1,23 +1,15 @@
-import React from "react";
-import axios from "axios";
 import {
   MaterialReactTable,
+  MRT_Table, //import alternative sub-component if we do not want toolbars
   useMaterialReactTable,
 } from "material-react-table";
-import { MRT_Localization_PT_BR } from "material-react-table/locales/pt-BR";
-import {
-  StyledTableContainer,
-  StyledTitleTable,
-} from "../../components/Tables";
+import React from "react";
 import useClients from "../../hooks/useClients";
-import { toast } from "react-toastify";
-import { Text } from "../../components/Texts/Text";
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import styled from "styled-components";
 import { HiEye, HiTrash, HiPencilAlt } from "react-icons/hi"; // Importando o novo ícone HiPencilAlt
+import { NavLink } from "react-router-dom";
+import styled from "styled-components";
 
-// Estilo para os ícones
-const IconContainer = styled.div`
+const Aoba = styled.div`
   display: flex;
   gap: 10px;
 
@@ -31,20 +23,13 @@ const IconContainer = styled.div`
   }
 `;
 
-export const ViewTableClients = () => {
+export const Example = () => {
   const [clients, setClients] = React.useState([]);
-  const [pagination, setPagination] = React.useState({
-    pageIndex: 0,
-    pageSize: 10,
-  });
-  const [isLoading, setIsLoading] = React.useState(false);
-  const { getClient, deleteClient } = useClients();
-  const navigate = useNavigate();
 
-  // Função para buscar clientes
+  const { getClient } = useClients();
+
   React.useEffect(() => {
     const fetchClients = async () => {
-      setIsLoading(true);
       try {
         const data = await getClient();
 
@@ -59,52 +44,11 @@ export const ViewTableClients = () => {
         toast.error("Erro ao buscar clientes.");
         console.error("Erro ao buscar clientes:", error);
       } finally {
-        setIsLoading(false);
       }
     };
     fetchClients();
   }, []);
 
-  // Função para deletar cliente
-  const handleDelete = async (id) => {
-    const confirmDelete = window.confirm(
-      "Tem certeza que deseja excluir esse cadastro?"
-    );
-    if (confirmDelete) {
-      try {
-        await deleteClient(id);
-        setClients((prev) => prev.filter((client) => client.id !== id));
-        toast.success("Cliente excluído com sucesso!");
-      } catch (error) {
-        toast.error("Erro ao excluir cliente.");
-        console.error("Erro ao deletar cliente:", error);
-      }
-    }
-  };
-
-  // Alternar status entre "Ativo" e "Inativo"
-  const toggleStatus = async (id) => {
-    const client = clients.find((c) => c.id === id);
-    const newStatus = client.status === "Ativo" ? "Inativo" : "Ativo";
-
-    try {
-      await axios.patch(`/api/clients/${id}`, { status: newStatus });
-      setClients((prev) =>
-        prev.map((c) => (c.id === id ? { ...c, status: newStatus } : c))
-      );
-      toast.success("Status atualizado com sucesso!");
-    } catch (error) {
-      toast.error("Erro ao atualizar status.");
-      console.error("Erro ao alternar status:", error);
-    }
-  };
-
-  // Função para o botão de editar encaminhar para o form de cadastro com os dados do cliente
-  const handleEdit = (row) => {
-    navigate("/cadastrar/cliente/editar", { state: { clients: row.original } });
-  };
-
-  // Colunas da tabela
   const columns = React.useMemo(
     () => [
       { header: "Nome da Empresa", accessorKey: "corporate_reason", size: 150 },
@@ -133,7 +77,7 @@ export const ViewTableClients = () => {
         header: "Opções",
         size: 50,
         Cell: ({ row }) => (
-          <IconContainer>
+          <Aoba>
             <NavLink to="/cadastrar/cliente/visualizar">
               <HiEye
                 className="icon"
@@ -145,14 +89,13 @@ export const ViewTableClients = () => {
               onClick={() => handleDelete(row.original.id)}
             />
             <HiPencilAlt className="icon" onClick={() => handleEdit(row)} />
-          </IconContainer>
+          </Aoba>
         ),
       },
     ],
     []
   );
 
-  // Definiçöes da tabela
   const table = useMaterialReactTable({
     columns,
     data: clients,
@@ -191,27 +134,9 @@ export const ViewTableClients = () => {
         border: "1px solid rgba(81, 81, 81, .5)",
       },
     },
-    onPaginationChange: (newState) => setPagination(newState),
   });
 
-  return (
-    <>
-      <StyledTableContainer>
-        <StyledTitleTable>
-          <Text variant="large" bold="bold">
-            Meus clientes
-          </Text>
-          <Link to="/cadastrar/cliente/novo">Cadastrar novo</Link>
-        </StyledTitleTable>
-        {isLoading ? (
-          <p>Carregando...</p>
-        ) : (
-          <MaterialReactTable
-            table={table}
-            // onPaginationChange={(newState) => setPagination(newState)}
-          />
-        )}
-      </StyledTableContainer>
-    </>
-  );
+  return <MaterialReactTable table={table} />;
 };
+
+export default Example;

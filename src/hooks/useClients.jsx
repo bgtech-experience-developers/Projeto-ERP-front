@@ -1,7 +1,6 @@
-
-import React from 'react';
-import { client } from '../services/instance';
-import axios from 'axios';
+import React from "react";
+import { client } from "../services/instance";
+import axios from "axios";
 
 function useClients() {
   const postClient = async (json, formPhotos) => {
@@ -40,10 +39,12 @@ function useClients() {
 
   const getClient = async () => {
     try {
-
-      const { data } = await client.get('/cliente');
-      console.log("getClient: ", data)
-      return data;
+      // const { data } = await client.get('/cliente');
+      const { data } = await client.get("/api/cliente");
+      if (data) {
+        return data;
+      }
+      return "Não foi possível trazes os dados do cliente";
     } catch (error) {
       return error;
     }

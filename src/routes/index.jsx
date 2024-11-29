@@ -15,6 +15,7 @@ import {
   RegisterSupplierPF,
   RegisterSupplierPJ,
 } from "../screens/RegisterSuppliers/index";
+import Example from "../screens/example";
 
 export const AppRoutes = () => {
   const { isActive, isHover } = React.useContext(SidebarContext);
@@ -112,7 +113,7 @@ export const AppRoutes = () => {
             </Layout>
           }
         />
-        <Route path="/sidebar" element={<Sidebar />} />
+        <Route path="/table" element={<Example />} />
       </Routes>
     </BrowserRouter>
   );
