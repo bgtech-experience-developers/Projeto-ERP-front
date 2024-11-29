@@ -15,14 +15,19 @@ import { Text } from "../../components/Texts/Text";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { HiEye, HiTrash, HiPencilAlt } from "react-icons/hi"; // Importando o novo ícone HiPencilAlt
+import { width } from "@mui/system";
 
 // Estilo para os ícones
 const IconContainer = styled.div`
   display: flex;
   gap: 10px;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
 
   .icon {
-    font-size: 1.5rem;
+    font-size: 2rem;
     cursor: pointer;
     color: #969696;
     &:hover {
@@ -118,14 +123,14 @@ export const ViewTableClients = () => {
         size: 50,
         Cell: ({ row }) => {
           return (
-            <span
-              style={{
-                color: row.original.status === "Ativo" ? "green" : "red",
-                fontWeight: "bold",
-              }}
+            <Text
+              variant="small"
+              bold="800"
+              align="center"
+              color={row.original.status === "Ativo" ? "green" : "red"}
             >
               {row.original.status}
-            </span>
+            </Text>
           );
         },
       },
@@ -156,11 +161,15 @@ export const ViewTableClients = () => {
   const table = useMaterialReactTable({
     columns,
     data: clients,
-
+    enableHiding: true,
     muiTableProps: {
       sx: {
         border: "1px solid rgba(81, 81, 81, .5)",
+        textAlign: "center",
+
         caption: {
+          backgroundColor: "red",
+          textAlign: "center",
           captionSide: "top",
           fontSize: "5rem",
         },
@@ -174,24 +183,76 @@ export const ViewTableClients = () => {
           width: "30px",
           height: "30px",
         },
+        input: {
+          width: "100%",
+        },
       },
     },
+
+    muiTableModalProps: {
+      sx: {
+        width: "20rem",
+        "& .MuiDialog-paper": {
+          minWidth: "6000px",
+          minHeight: "400px",
+          padding: "20px",
+        },
+      },
+    },
+
     muiTableHeadCellProps: {
       sx: {
         border: "1px solid rgba(81, 81, 81, .5)",
         fontStyle: "italic",
-        fontSize: "6rem",
+        fontSize: "6.3rem",
         textAlign: "center",
         fontWeight: "Bold",
+
+        svg: {
+          width: "22x",
+          height: "22px",
+        },
+        ".css-1w86f15": {
+          alignItems: "center ",
+          justifyContent: "center ",
+        },
       },
     },
     muiTableBodyCellProps: {
       sx: {
+        textAlign: "center",
         fontSize: "1.5rem",
         border: "1px solid rgba(81, 81, 81, .5)",
       },
     },
-    onPaginationChange: (newState) => setPagination(newState),
+    muiToolbarAlertBannerProps: {
+      sx: {
+        width: "20rem",
+        height: "20rem",
+      },
+    },
+
+    muiBottomToolbarProps: {
+      sx: {
+        width: "100%",
+        fontSize: "4rem",
+        height: "6rem",
+        div: {
+          fontSize: "2rem",
+        },
+
+        label: {
+          fontSize: "2rem",
+        },
+        span: {
+          fontSize: "2rem",
+        },
+        svg: {
+          width: "30px",
+          height: "30px",
+        },
+      },
+    },
   });
 
   return (
@@ -208,7 +269,7 @@ export const ViewTableClients = () => {
         ) : (
           <MaterialReactTable
             table={table}
-            // onPaginationChange={(newState) => setPagination(newState)}
+            onPaginationChange={(newState) => setPagination(newState)}
           />
         )}
       </StyledTableContainer>

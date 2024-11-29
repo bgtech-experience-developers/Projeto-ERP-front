@@ -16,7 +16,7 @@ const medium = css`
   font-size: 18px;
   font-weight: 400;
   line-height: 34px;
-  letter-spacing: ${(props) => props.letterSpacing || '0.75px '};
+  letter-spacing: ${(props) => props.letterSpacing || "0.75px "};
   text-align: left;
 `;
 
@@ -47,8 +47,6 @@ const tinny = css`
   text-align: left;
 `;
 
-
-
 export const _Text = styled.p`
   ${({ $variant }) => {
     switch ($variant) {
@@ -66,23 +64,5 @@ export const _Text = styled.p`
   }}
   font-weight: ${({ $bold }) => $bold};
   color: ${({ $color }) => $color || `${theme.colors.black}`};
+  text-align: ${({ $textAlign }) => $textAlign};
 `;
-
-// export const _TextLink = styled.a`
-//     ${({ $variant }) => {
-//     switch ($variant) {
-//       case "large":
-//         return large;
-//       case "medium":
-//         return medium;
-//       case "small":
-//         return small;
-//       case "x-small":
-//         return xSmall;
-//       case "tinny":
-//         return tinny;
-//     }
-//   }}
-//   font-weight: ${({ $bold }) => $bold};
-//   color: ${({ $color }) => $color || `${theme.colors.black}`};
-// `

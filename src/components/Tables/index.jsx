@@ -3,11 +3,11 @@ import { theme } from "../../theme/theme";
 
 export const StyledTableContainer = styled.div`
   width: 90%;
-  padding: 2rem;
   align-self: center;
   background-color: #f7f7f7;
-  /* Tava bugando */
-  padding-top: 5rem;
+
+  padding-left: 2rem;
+  /* padding-top: 5rem; */
 `;
 
 export const StyledTitleTable = styled.div`

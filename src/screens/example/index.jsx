@@ -1,142 +1,123 @@
-import {
-  MaterialReactTable,
-  MRT_Table, //import alternative sub-component if we do not want toolbars
-  useMaterialReactTable,
-} from "material-react-table";
-import React from "react";
-import useClients from "../../hooks/useClients";
-import { HiEye, HiTrash, HiPencilAlt } from "react-icons/hi"; // Importando o novo ícone HiPencilAlt
-import { NavLink } from "react-router-dom";
-import styled from "styled-components";
+// import {
+//   MaterialReactTable,
+//   useMaterialReactTable,
+//   createMRTColumnHelper,
+// } from "material-react-table";
+// import { Box, Button } from "@mui/material";
+// import FileDownloadIcon from "@mui/icons-material/FileDownload";
+// import { mkConfig, generateCsv, download } from "export-to-csv"; //or use your library of choice here
 
-const Aoba = styled.div`
-  display: flex;
-  gap: 10px;
+// const columnHelper = createMRTColumnHelper();
 
-  .icon {
-    font-size: 1.5rem;
-    cursor: pointer;
-    color: #969696;
-    &:hover {
-      color: #000000;
-    }
-  }
-`;
+// const columns = [
+//   columnHelper.accessor("id", {
+//     header: "ID",
+//     size: 40,
+//   }),
+//   columnHelper.accessor("firstName", {
+//     header: "First Name",
+//     size: 120,
+//   }),
+//   columnHelper.accessor("lastName", {
+//     header: "Last Name",
+//     size: 120,
+//   }),
+//   columnHelper.accessor("company", {
+//     header: "Company",
+//     size: 300,
+//   }),
+//   columnHelper.accessor("city", {
+//     header: "City",
+//   }),
+//   columnHelper.accessor("country", {
+//     header: "Country",
+//     size: 220,
+//   }),
+// ];
 
-export const Example = () => {
-  const [clients, setClients] = React.useState([]);
+// const csvConfig = mkConfig({
+//   fieldSeparator: ",",
+//   decimalSeparator: ".",
+//   useKeysAsHeaders: true,
+// });
 
-  const { getClient } = useClients();
+// const Example = () => {
+//   const handleExportRows = (rows) => {
+//     const rowData = rows.map((row) => row.original);
+//     const csv = generateCsv(csvConfig)(rowData);
+//     download(csvConfig)(csv);
+//   };
 
-  React.useEffect(() => {
-    const fetchClients = async () => {
-      try {
-        const data = await getClient();
+//   const handleExportData = () => {
+//     const csv = generateCsv(csvConfig)(data);
+//     download(csvConfig)(csv);
+//   };
 
-        const updatedData = data.map((client) => ({
-          ...client,
-          status: client.status ? "Ativo" : "Inativo", // Define status
-          cnpj: client.cnpj || "Não informado", // Inclui o CNPJ - Ranyer
-        }));
+//   const table = useMaterialReactTable({
+//     columns,
+//     data: [
+//       {
+//         lastName: "Doe",
+//         firstName: "John",
+//         id: "1",
+//         company: "Acme Inc.",
+//         city: "New York",
+//         country: "United States",
+//       },
+//     ],
+//     enableRowSelection: true,
+//     columnFilterDisplayMode: "popover",
+//     paginationDisplayMode: "pages",
+//     positionToolbarAlertBanner: "bottom",
+//     renderTopToolbarCustomActions: ({ table }) => (
+//       <Box
+//         sx={{
+//           display: "flex",
+//           gap: "16px",
+//           padding: "8px",
+//           flexWrap: "wrap",
+//         }}
+//       >
+//         <Button
+//           //export all data that is currently in the table (ignore pagination, sorting, filtering, etc.)
+//           onClick={handleExportData}
+//           startIcon={<FileDownloadIcon />}
+//         >
+//           Export All Data
+//         </Button>
+//         <Button
+//           disabled={table.getPrePaginationRowModel().rows.length === 0}
+//           //export all rows, including from the next page, (still respects filtering and sorting)
+//           onClick={() =>
+//             handleExportRows(table.getPrePaginationRowModel().rows)
+//           }
+//           startIcon={<FileDownloadIcon />}
+//         >
+//           Export All Rows
+//         </Button>
+//         <Button
+//           disabled={table.getRowModel().rows.length === 0}
+//           //export all rows as seen on the screen (respects pagination, sorting, filtering, etc.)
+//           onClick={() => handleExportRows(table.getRowModel().rows)}
+//           startIcon={<FileDownloadIcon />}
+//         >
+//           Export Page Rows
+//         </Button>
+//         <Button
+//           disabled={
+//             !table.getIsSomeRowsSelected() && !table.getIsAllRowsSelected()
+//           }
+//           //only export selected rows
+//           onClick={() => handleExportRows(table.getSelectedRowModel().rows)}
+//           startIcon={<FileDownloadIcon />}
+//         >
+//           Export Selected Rows
+//         </Button>
+//       </Box>
+//     ),
+//   });
 
-        setClients(updatedData);
-      } catch (error) {
-        toast.error("Erro ao buscar clientes.");
-        console.error("Erro ao buscar clientes:", error);
-      } finally {
-      }
-    };
-    fetchClients();
-  }, []);
+//   return <MaterialReactTable table={table} />;
+// };
 
-  const columns = React.useMemo(
-    () => [
-      { header: "Nome da Empresa", accessorKey: "corporate_reason", size: 150 },
-      { header: "Serviço", accessorKey: "branch_activity", size: 100 },
-      { header: "Responsável", accessorKey: "name", size: 100 },
-      { header: "Email", accessorKey: "email", size: 100 },
-      { header: "Celular", accessorKey: "cell_phone", size: 100 },
-      {
-        header: "Situação",
-        accessorKey: "status",
-        size: 50,
-        Cell: ({ row }) => {
-          return (
-            <span
-              style={{
-                color: row.original.status === "Ativo" ? "green" : "red",
-                fontWeight: "bold",
-              }}
-            >
-              {row.original.status}
-            </span>
-          );
-        },
-      },
-      {
-        header: "Opções",
-        size: 50,
-        Cell: ({ row }) => (
-          <Aoba>
-            <NavLink to="/cadastrar/cliente/visualizar">
-              <HiEye
-                className="icon"
-                onClick={() => console.log("Visualizar", row.original.id)}
-              />
-            </NavLink>
-            <HiTrash
-              className="icon"
-              onClick={() => handleDelete(row.original.id)}
-            />
-            <HiPencilAlt className="icon" onClick={() => handleEdit(row)} />
-          </Aoba>
-        ),
-      },
-    ],
-    []
-  );
-
-  const table = useMaterialReactTable({
-    columns,
-    data: clients,
-
-    muiTableProps: {
-      sx: {
-        border: "1px solid rgba(81, 81, 81, .5)",
-        caption: {
-          captionSide: "top",
-          fontSize: "5rem",
-        },
-      },
-    },
-    muiTopToolbarProps: {
-      sx: {
-        width: "100%",
-        height: "5rem",
-        svg: {
-          width: "30px",
-          height: "30px",
-        },
-      },
-    },
-    muiTableHeadCellProps: {
-      sx: {
-        border: "1px solid rgba(81, 81, 81, .5)",
-        fontStyle: "italic",
-        fontSize: "6rem",
-        textAlign: "center",
-        fontWeight: "Bold",
-      },
-    },
-    muiTableBodyCellProps: {
-      sx: {
-        fontSize: "1.5rem",
-        border: "1px solid rgba(81, 81, 81, .5)",
-      },
-    },
-  });
-
-  return <MaterialReactTable table={table} />;
-};
-
-export default Example;
+// export default Example;
