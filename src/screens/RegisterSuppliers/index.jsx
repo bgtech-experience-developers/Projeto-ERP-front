@@ -1,34 +1,38 @@
-import { FormsField } from "../../components/Forms/FormsField";
-import { Input } from "../../components/Forms/Inputs/Input";
-import { Card } from "../../components/Forms/Card";
-import { Form } from "../../components/Forms/Form";
-import { File } from "../../components/Forms/Inputs/File";
-import { Button } from "../../components/Forms/Button";
-import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { FormsField } from '../../components/Forms/FormsField';
+import { Input } from '../../components/Forms/Inputs/Input';
+import { Card } from '../../components/Forms/Card';
+import { Form } from '../../components/Forms/Form';
+import { File } from '../../components/Forms/Inputs/File';
+import { Button } from '../../components/Forms/Button';
+import { useState } from 'react';
+import useForm from '../../hooks/useForm';
+import { SpanError } from './style';
 
 export const RegisterSupplierPF = () => {
-  const { state } = useLocation();
+  const [onBlur, onChange, error] = useForm();
   const [formValues, setFormValues] = useState({
-    fotoProduto: "",
-    nomeFornecedor: "",
-    codigoFornecedor: "",
-    emailFornecedor: "",
-    telefoneFornecedor: "",
-    rgFornecedor: "",
-    cpfFornecedor: "",
-    nascimentoFornecedor: "",
-    produto: "",
-    precoProduto: "",
-    impostoCompra: "",
-    tempoEntrega: "",
-    logradouroFornecedor: "",
-    numeroFornecedor: "",
-    cepFornecedor: "",
-    complemento: "",
-    bairroFornecedor: "",
-    cidadeFornecedor: "",
-    situacao: "",
+    fotos: [],
+    supplier: {
+      name: '',
+      code: '',
+      email: '',
+      cell_phone: '',
+      rg: '',
+      cpf: '',
+      date_of_birth: '',
+      product: '',
+      price: '',
+      tax: '',
+      deadline: '',
+    },
+    address: {
+      cep: '',
+      street: '',
+      number: '',
+      complement: '',
+      city: '',
+      neighborhood: '',
+    },
   });
 
   const [title, setTitle] = useState("Cadastrar Fornecedor");
@@ -49,7 +53,7 @@ export const RegisterSupplierPF = () => {
   const [errorImage, setErrorImage] = useState(false);
 
   function handleImage({ target }) {
-    const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
     const file = target.files[0];
     const id = target.id;
     console.log(file);
@@ -64,6 +68,19 @@ export const RegisterSupplierPF = () => {
     console.log(formValues.fotoProduto);
 
     setFormValues({ ...formValues, [id]: file });
+  }
+
+  const handleInputChange = (field) => (event) => {
+    const { name, value } = event.target;
+    onChange(name);
+
+    setFormValues({
+      ...formValues,
+      [field]: {
+        ...formValues[field],
+        [name]: value,
+      },
+    });
   };
 
   return (
@@ -72,29 +89,31 @@ export const RegisterSupplierPF = () => {
         <FormsField variant="file" align="flex-end">
           <FormsField>
             <Input
-              id="nomeFornecedor"
+              name="name"
+              id="supplier_name"
               height="4.8rem"
-              value={formValues.nomeFornecedor}
-              onChange={(event) =>
-                setFormValues({ ...formValues, nomeFornecedor: event.target.value })
-              }
+              value={formValues.supplier.name}
+              onChange={handleInputChange('supplier')}
+              onBlur={onBlur}
             >
               Nome do fornecedor
+              {error.name && <SpanError>{error.name}</SpanError>}
             </Input>
 
             <Input
-              id="codigoFornecedor"
+              id="code"
+              name="code"
+              value={formValues.supplier.code}
+              onChange={handleInputChange('supplier')}
+              onBlur={onBlur}
               height="4.8rem"
-              value={formValues.codigoFornecedor}
-              onChange={(event) =>
-                setFormValues({ ...formValues, codigoFornecedor: event.target.value })
-              }
             >
               Código do fornecedor
+              {error.code && <SpanError>{error.code}</SpanError>}
             </Input>
           </FormsField>
           <File
-            id={"fotoProduto"}
+            id={'fotoProduto'}
             error={errorImage}
             image={formValues.fotoProduto}
             onChange={handleImage}
@@ -106,57 +125,60 @@ export const RegisterSupplierPF = () => {
 
         <FormsField variant="double">
           <Input
-            id="emailFornecedor"
+            id="email"
+            name="email"
+            value={formValues.supplier.email}
+            onChange={handleInputChange('supplier')}
+            onBlur={onBlur}
             height="4.8rem"
             type="email"
-            value={formValues.emailFornecedor}
-            onChange={(event) =>
-              setFormValues({ ...formValues, emailFornecedor: event.target.value })
-            }
           >
             Email
+            {error.email && <SpanError>{error.email}</SpanError>}
           </Input>
           <Input
-            id="telefoneFornecedor"
+            id="cell_phone"
+            name="cell_phone"
+            value={formValues.supplier.cell_phone}
+            onChange={handleInputChange('supplier')}
+            onBlur={onBlur}
             height="4.8rem"
-            value={formValues.telefoneFornecedor}
-            onChange={(event) =>
-              setFormValues({ ...formValues, telefoneFornecedor: event.target.value })
-            }
           >
             Telefone
+            {error.cell_phone && <SpanError>{error.cell_phone}</SpanError>}
           </Input>
         </FormsField>
 
         <FormsField variant="triple">
           <Input
-            id="rgFornecedor"
+            id="rg"
+            name="rg"
+            value={formValues.supplier.rg}
+            onChange={handleInputChange('supplier')}
+            onBlur={onBlur}
             height="4.8rem"
-            value={formValues.rgFornecedor}
-            onChange={(event) =>
-              setFormValues({ ...formValues, rgFornecedor: event.target.value })
-            }
           >
             RG
+            {error.rg && <SpanError>{error.rg}</SpanError>}
           </Input>
           <Input
-            id="cpfFornecedor"
+            id="cpf"
+            name="cpf"
+            value={formValues.supplier.cpf}
+            onChange={handleInputChange('supplier')}
+            onBlur={onBlur}
             height="4.8rem"
-            value={formValues.cpfFornecedor}
-            onChange={(event) =>
-              setFormValues({ ...formValues, cpfFornecedor: event.target.value })
-            }
           >
             CPF
+            {error.cpf && <SpanError>{error.cpf}</SpanError>}
           </Input>
           <Input
-            id="nascimentoFornecedor"
+            id="date_of_birth"
+            name="date_of_birth"
+            value={formValues.supplier.date_of_birth}
+            onChange={handleInputChange('supplier')}
             height="4.8rem"
             type="date"
-            value={formValues.nascimentoFornecedor}
-            onChange={(event) =>
-              setFormValues({ ...formValues, nascimentoFornecedor: event.target.value })
-            }
           >
             Data de nascimento
           </Input>
@@ -166,9 +188,10 @@ export const RegisterSupplierPF = () => {
           type="select"
           id="produto"
           height="4.8rem"
+          onChange={handleInputChange('supplier')}
           options={[
-            { value: "opcao2", label: "Produto 1" },
-            { value: "opcao3", label: "Produto 2" },
+            { value: 'opcao2', label: 'Produto 1' },
+            { value: 'opcao3', label: 'Produto 2' },
           ]}
           value={formValues.produto}
           onChange={(event) =>
@@ -180,34 +203,36 @@ export const RegisterSupplierPF = () => {
 
         <FormsField variant="double">
           <Input
-            id="precoProduto"
+            id="price"
+            name="price"
+            value={formValues.supplier.price}
+            onChange={handleInputChange('supplier')}
+            onBlur={onBlur}
             height="4.8rem"
-            value={formValues.precoProduto}
-            onChange={(event) =>
-              setFormValues({ ...formValues, precoProduto: event.target.value })
-            }
           >
             Preço
+            {error.price && <SpanError>{error.price}</SpanError>}
           </Input>
           <Input
-            id="impostoCompra"
+            id="tax"
+            name="tax"
+            value={formValues.supplier.tax}
+            onChange={handleInputChange('supplier')}
+            onBlur={onBlur}
             height="4.8rem"
-            value={formValues.impostoCompra}
-            onChange={(event) =>
-              setFormValues({ ...formValues, impostoCompra: event.target.value })
-            }
           >
             Imposto sobre compra
+            {error.tax && <SpanError>{error.tax}</SpanError>}
           </Input>
         </FormsField>
 
         <Input
-          id="tempoEntrega"
+          id="deadline"
+          name="deadline"
+          value={formValues.supplier.deadline}
+          onChange={handleInputChange('supplier')}
+          onBlur={onBlur}
           height="4.8rem"
-          value={formValues.tempoEntrega}
-          onChange={(event) =>
-            setFormValues({ ...formValues, tempoEntrega: event.target.value })
-          }
         >
           Tempo de entrega
         </Input>
@@ -216,68 +241,71 @@ export const RegisterSupplierPF = () => {
       <Card title="Endereço do fornecedor">
         <FormsField variant="triple">
           <Input
-            id="logradouroFornecedor"
+            id="street"
+            name="street"
+            value={formValues.address.street}
+            onChange={handleInputChange('address')}
+            onBlur={onBlur}
             height="4.8rem"
-            value={formValues.logradouroFornecedor}
-            onChange={(event) =>
-              setFormValues({ ...formValues, logradouroFornecedor: event.target.value })
-            }
           >
             Logradouro
+            {error.street && <SpanError>{error.street}</SpanError>}
           </Input>
           <Input
-            id="numeroFornecedor"
+            id="number"
+            name="number"
+            value={formValues.address.number}
+            onChange={handleInputChange('address')}
+            onBlur={onBlur}
             height="4.8rem"
-            value={formValues.numeroFornecedor}
-            onChange={(event) =>
-              setFormValues({ ...formValues, numeroFornecedor: event.target.value })
-            }
           >
             Número
+            {error.number && <SpanError>{error.number}</SpanError>}
           </Input>
           <Input
-            id="cepFornecedor"
+            id="cep"
+            name="cep"
+            value={formValues.address.cep}
+            onChange={handleInputChange('address')}
+            onBlur={onBlur}
             height="4.8rem"
-            value={formValues.cepFornecedor}
-            onChange={(event) =>
-              setFormValues({ ...formValues, cepFornecedor: event.target.value })
-            }
           >
             CEP
+            {error.cep && <SpanError>{error.cep}</SpanError>}
           </Input>
         </FormsField>
 
         <Input
-          id="complemento"
+          id="complement"
+          name="complement"
+          value={formValues.address.complement}
+          onChange={handleInputChange('address')}
           height="4.8rem"
-          value={formValues.complemento}
-          onChange={(event) =>
-            setFormValues({ ...formValues, complemento: event.target.value })
-          }
         >
           Complemento
         </Input>
 
         <FormsField variant="double">
           <Input
-            id="bairroFornecedor"
-            height="4.8rem"
-            value={formValues.bairroFornecedor}
-            onChange={(event) =>
-              setFormValues({ ...formValues, bairroFornecedor: event.target.value })
-            }
-          >
+            id="neighborhood"
+            name="neighborhood"
+            value={formValues.address.neighborhood}
+            onChange={handleInputChange('address')}
+            onBlur={onBlur}
+            height="4.8rem">
             Bairro
+            {error.neighborhood && <SpanError>{error.neighborhood}</SpanError>}
           </Input>
+             
           <Input
-            id="cidadeFornecedor"
-            height="4.8rem"
-            value={formValues.cidadeFornecedor}
-            onChange={(event) =>
-              setFormValues({ ...formValues, cidadeFornecedor: event.target.value })
-            }
-          >
+            id="city"
+            name="city"
+            value={formValues.address.city}
+            onChange={handleInputChange('address')}
+            onBlur={onBlur}
+            height="4.8rem">
             Cidade
+            {error.city && <SpanError>{error.city}</SpanError>}
           </Input>
         </FormsField>
       </Card>
@@ -291,29 +319,35 @@ export const RegisterSupplierPF = () => {
 };
 
 export const RegisterSupplierPJ = () => {
+
   const { state } = useLocation();
+  const [onBlur, onChange, error] = useForm();
   const [formValues, setFormValues] = useState({
-    fotoProduto: "",
-    nomeFantasia: "",
-    responsavelEmpresa: "",
-    cnpj: "",
-    razaoSocial: "",
-    inscricaoEstadual: "",
-    emailEmpresa: "",
-    telefoneEmpresa: "",
-    inscricaoMunicipal: "",
-    tipoContribuinte: "",
-    inscricaoSuframa: "",
-    produto: "",
-    precoProduto: "",
-    frete: "",
-    tempoEntrega: "",
-    logradouroEmpresa: "",
-    numeroEmpresa: "",
-    cepEmpresa: "",
-    complementoEmpresa: "",
-    bairroEmpresa: "",
-    cidadeEmpresa: ""
+    fotos: [],
+    supplier: {
+      fantasy_name: '',
+      responsible: '',
+      cnpj: '',
+      corporate_reason: '',
+      state_registration: '',
+      email: '',
+      phone: '',
+      municipal_registration: '',
+      taxpayer_type: '',
+      suframa_inscription: '',
+      product: '',
+      price: '',
+      freight: '',
+      time: '',
+    },
+    address: {
+      cep: '',
+      street: '',
+      number: '',
+      complement: '',
+      city: '',
+      neighborhood: '',
+    },
   });
 
   const [title, setTitle] = useState("Cadastrar Fornecedor");
@@ -333,7 +367,7 @@ export const RegisterSupplierPJ = () => {
   const [errorImage, setErrorImage] = useState(false);
 
   function handleImage({ target }) {
-    const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
     const file = target.files[0];
     const id = target.id;
     console.log(file);
@@ -348,6 +382,19 @@ export const RegisterSupplierPJ = () => {
     console.log(formValues.fotoProduto);
 
     setFormValues({ ...formValues, [id]: file });
+  }
+  
+  const handleInputChange = (field) => (event) => {
+    const { name, value } = event.target;
+    onChange(name);
+
+    setFormValues({
+      ...formValues,
+      [field]: {
+        ...formValues[field],
+        [name]: value,
+      },
+    });
   };
 
   return (
@@ -356,27 +403,33 @@ export const RegisterSupplierPJ = () => {
         <FormsField variant="file" align="flex-end">
           <FormsField>
             <Input
-              id="nomeFantasia"
+              id="fantasy_name"
+              name="fantasy_name"
+              value={formValues.supplier.fantasy_name}
+              onChange={handleInputChange('supplier')}
+              onBlur={onBlur}
               height="4.8rem"
-              value={formValues.nomeFantasia}
-              onChange={(event) =>
-                setFormValues({ ...formValues, nomeFantasia: event.target.value })}
             >
               Nome fantasia
+              {error.fantasy_name && (
+                <SpanError>{error.fantasy_name}</SpanError>
+              )}
             </Input>
 
             <Input
-              id="responsavelEmpresa"
+              id="responsible"
+              name="responsible"
+              value={formValues.supplier.responsible}
+              onChange={handleInputChange('supplier')}
+              onBlur={onBlur}
               height="4.8rem"
-              value={formValues.responsavelEmpresa}
-              onChange={(event) =>
-                setFormValues({ ...formValues, responsavelEmpresa: event.target.value })}
             >
               Responsável
+              {error.responsible && <SpanError>{error.responsible}</SpanError>}
             </Input>
           </FormsField>
           <File
-            id={"fotoProduto"}
+            id={'fotoProduto'}
             error={errorImage}
             image={formValues.fotoProduto}
             onChange={handleImage}
@@ -388,30 +441,36 @@ export const RegisterSupplierPJ = () => {
 
         <Input
           id="cnpj"
+          name="cnpj"
+          value={formValues.supplier.cnpj}
+          onChange={handleInputChange('supplier')}
+          onBlur={onBlur}
           height="4.8rem"
-          value={formValues.cnpj}
-          onChange={(event) =>
-            setFormValues({ ...formValues, cnpj: event.target.value })}
         >
           CNPJ
+          {error.cnpj && <SpanError>{error.cnpj}</SpanError>}
         </Input>
 
         <FormsField variant="double">
           <Input
-            id="razaoSocial"
+            id="corporate_reason"
+            name="corporate_reason"
+            value={formValues.supplier.corporate_reason}
+            onChange={handleInputChange('supplier')}
+            onBlur={onBlur}
             height="4.8rem"
-            value={formValues.razaoSocial}
-            onChange={(event) =>
-              setFormValues({ ...formValues, razaoSocial: event.target.value })}
           >
             Razão Social
+            {error.corporate_reason && (
+              <SpanError>{error.corporate_reason}</SpanError>
+            )}
           </Input>
           <Input
-            id="inscricaoEstadual"
+            id="state_registration"
+            name="state_registration"
+            value={formValues.supplier.state_registration}
+            onChange={handleInputChange('supplier')}
             height="4.8rem"
-            value={formValues.inscricaoEstadual}
-            onChange={(event) =>
-              setFormValues({ ...formValues, inscricaoEstadual: event.target.value })}
           >
             Inscrição estadual
           </Input>
@@ -419,53 +478,58 @@ export const RegisterSupplierPJ = () => {
 
         <FormsField variant="double">
           <Input
-            id="emailEmpresa"
+            id="email"
+            name="email"
+            value={formValues.supplier.email}
+            onChange={handleInputChange('supplier')}
+            onBlur={onBlur}
             height="4.8rem"
             type="email"
-            value={formValues.emailEmpresa}
-            onChange={(event) =>
-              setFormValues({ ...formValues, emailEmpresa: event.target.value })}>
+          >
             Email
+            {error.email && <SpanError>{error.email}</SpanError>}
           </Input>
           <Input
-            id="telefoneEmpresa"
+            id="phone"
+            name="phone"
+            value={formValues.supplier.phone}
+            onChange={handleInputChange('supplier')}
+            onBlur={onBlur}
             height="4.8rem"
             type="tel"
-            value={formValues.telefoneEmpresa}
-            onChange={(event) =>
-              setFormValues({ ...formValues, telefoneEmpresa: event.target.value })}
           >
             Telefone
+            {error.phone && <SpanError>{error.phone}</SpanError>}
           </Input>
         </FormsField>
 
         <FormsField variant="triple">
           <Input
-            id="inscricaoMunicipal"
+            id="municipal_registration"
+            name="municipal_registration"
+            value={formValues.supplier.municipal_registration}
+            onChange={handleInputChange('supplier')}
             height="4.8rem"
-            value={formValues.inscricaoMunicipal}
-            onChange={(event) =>
-              setFormValues({ ...formValues, inscricaoMunicipal: event.target.value })}
           >
             Inscrição municipal
           </Input>
-
-          {/* Mudar esse input para select, ver quais as opções */}
           <Input
-            id="tipoContribuinte"
+            id="taxpayer_type"
+            name="taxpayer_type"
+            value={formValues.supplier.taxpayer_type}
+            onChange={handleInputChange('supplier')}
             height="4.8rem"
-            value={formValues.tipoContribuinte}
-            onChange={(event) =>
-              setFormValues({ ...formValues, tipoContribuinte: event.target.value })}
+
           >
             Tipo de contribuinte
           </Input>
           <Input
-            id="inscricaoSuframa"
+
+            id="suframa_inscription"
+            name="suframa_inscription"
+            value={formValues.supplier.suframa_inscription}
+            onChange={handleInputChange('supplier')}
             height="4.8rem"
-            value={formValues.inscricaoSuframa}
-            onChange={(event) =>
-              setFormValues({ ...formValues, inscricaoSuframa: event.target.value })}
           >
             Inscrição SUFRAMA
           </Input>
@@ -476,8 +540,8 @@ export const RegisterSupplierPJ = () => {
           id="produto"
           height="4.8rem"
           options={[
-            { value: "opcao2", label: "Produto 1" },
-            { value: "opcao3", label: "Produto 2" },
+            { value: 'opcao2', label: 'Produto 1' },
+            { value: 'opcao3', label: 'Produto 2' },
           ]}
           value={formValues.produto}
           onChange={(event) =>
@@ -487,31 +551,33 @@ export const RegisterSupplierPJ = () => {
         </Input>
         <FormsField variant="double">
           <Input
-            id="precoProduto"
+            id="price"
+            name="price"
+            value={formValues.supplier.price}
+            onChange={handleInputChange('supplier')}
+            onBlur={onBlur}
             height="4.8rem"
-            value={formValues.precoProduto}
-            onChange={(event) =>
-              setFormValues({ ...formValues, precoProduto: event.target.value })}
           >
             Preço
+            {error.price && <SpanError>{error.price}</SpanError>}
           </Input>
           <Input
-            id="frete"
+            id="freight"
+            name="freight"
+            value={formValues.supplier.freight}
+            onChange={handleInputChange('supplier')}
             height="4.8rem"
-            value={formValues.frete}
-            onChange={(event) =>
-              setFormValues({ ...formValues, frete: event.target.value })}
           >
             Frete
           </Input>
         </FormsField>
 
         <Input
-          id="tempoEntrega"
+          id="time"
+          name="time"
+          value={formValues.supplier.time}
+          onChange={handleInputChange('supplier')}
           height="4.8rem"
-          value={formValues.tempoEntrega}
-          onChange={(event) =>
-            setFormValues({ ...formValues, tempoEntrega: event.target.value })}
         >
           Tempo de entrega
         </Input>
@@ -520,62 +586,72 @@ export const RegisterSupplierPJ = () => {
       <Card title="Endereço do fornecedor">
         <FormsField variant="triple">
           <Input
-            id="logradouroEmpresa"
+            id="street"
+            name="street"
+            value={formValues.address.street}
+            onChange={handleInputChange('address')}
+            onBlur={onBlur}
             height="4.8rem"
-            value={formValues.logradouroEmpresa}
-            onChange={(event) =>
-              setFormValues({ ...formValues, logradouroEmpresa: event.target.value })}
           >
             Logradouro
+            {error.street && <SpanError>{error.street}</SpanError>}
           </Input>
           <Input
-            id="numeroEmpresa"
+            id="number"
+            name="number"
+            value={formValues.address.number}
+            onChange={handleInputChange('address')}
+            onBlur={onBlur}
             height="4.8rem"
-            value={formValues.numeroEmpresa}
-            onChange={(event) =>
-              setFormValues({ ...formValues, numeroEmpresa: event.target.value })}
           >
             Número
+            {error.number && <SpanError>{error.number}</SpanError>}
           </Input>
           <Input
-            id="cepEmpresa"
+            id="cep"
+            name="cep"
+            value={formValues.address.cep}
+            onChange={handleInputChange('address')}
+            onBlur={onBlur}
             height="4.8rem"
-            value={formValues.cepEmpresa}
-            onChange={(event) =>
-              setFormValues({ ...formValues, cepEmpresa: event.target.value })}
           >
             CEP
+            {error.cep && <SpanError>{error.cep}</SpanError>}
           </Input>
         </FormsField>
 
         <Input
-          id="complementoEmpresa"
+          id="complement"
+          name="complement"
+          value={formValues.address.complement}
+          onChange={handleInputChange('address')}
           height="4.8rem"
-          value={formValues.complementoEmpresa}
-          onChange={(event) =>
-            setFormValues({ ...formValues, complementoEmpresa: event.target.value })}
         >
           Complemento
         </Input>
 
         <FormsField variant="double">
           <Input
-            id="bairroEmpresa"
+            id="neighborhood"
+            name="neighborhood"
+            value={formValues.address.neighborhood}
+            onChange={handleInputChange('address')}
+            onBlur={onBlur}
             height="4.8rem"
-            value={formValues.bairroEmpresa}
-            onChange={(event) =>
-              setFormValues({ ...formValues, bairroEmpresa: event.target.value })}
           >
             Bairro
+            {error.neighborhood && <SpanError>{error.neighborhood}</SpanError>}
           </Input>
           <Input
-            id="cidadeEmpresa"
+            id="city"
+            name="city"
+            value={formValues.address.city}
+            onChange={handleInputChange('address')}
+            onBlur={onBlur}
             height="4.8rem"
-            value={formValues.cidadeEmpresa}
-            onChange={(event) =>
-              setFormValues({ ...formValues, cidadeEmpresa: event.target.value })}
           >
             Cidade
+            {error.city && <SpanError>{error.city}</SpanError>}
           </Input>
         </FormsField>
       </Card>

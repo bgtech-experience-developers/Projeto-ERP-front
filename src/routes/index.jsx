@@ -1,20 +1,20 @@
-import React from "react";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import UserLogin from "../screens/Login";
-import { Sidebar } from "../components/Sidebar";
-import { Content, InnerContent, Layout } from "../components/Sidebar/style";
-import { SidebarContext } from "../contexts/SidebarContext";
-import { ViewTableClients } from "../screens/ViewClient";
-import { RegisterClients } from "../screens/RegisterClients";
+import React from 'react';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import UserLogin from '../screens/Login';
+import { Sidebar } from '../components/Sidebar';
+import { Content, InnerContent, Layout } from '../components/Sidebar/style';
+import { SidebarContext } from '../contexts/SidebarContext';
+import { ViewTableClients } from '../screens/ViewClient';
+import { RegisterClients } from '../screens/RegisterClients';
 import {
   ViewTableSupplierPF,
   ViewTableSupplierPJ,
-} from "../screens/ViewSupplier";
+} from '../screens/ViewSupplier';
 
 import {
   RegisterSupplierPF,
   RegisterSupplierPJ,
-} from "../screens/RegisterSuppliers/index";
+} from '../screens/RegisterSuppliers/index';
 
 export const AppRoutes = () => {
   const { isActive, isHover } = React.useContext(SidebarContext);
@@ -34,15 +34,15 @@ export const AppRoutes = () => {
             <Layout $isSidebarClosed={isActive}>
               <Sidebar />
 
-              <Content className={`${isHover && "open-hover"}`}>
+              <Content className={`${isHover && 'open-hover'}`}>
                 <InnerContent>
                   <Routes>
                     {/* Falta criar o component de dashboard, deixei o h1 só para testar */}
                     <Route
                       path="home"
                       element={
-                        <h1 style={{ fontSize: "2rem" }}>
-                          {" "}
+                        <h1 style={{ fontSize: '2rem' }}>
+                          {' '}
                           Aqui é o Dashboard!
                         </h1>
                       }
@@ -97,8 +97,8 @@ export const AppRoutes = () => {
                     <Route
                       path="cadastrar/produtos"
                       element={
-                        <h1 style={{ fontSize: "2rem" }}>
-                          {" "}
+                        <h1 style={{ fontSize: '2rem' }}>
+                          {' '}
                           Aqui é a aba de cadastro de produtos!
                         </h1>
                       }
@@ -106,8 +106,8 @@ export const AppRoutes = () => {
                     <Route
                       path="servico/venda"
                       element={
-                        <h1 style={{ fontSize: "2rem" }}>
-                          {" "}
+                        <h1 style={{ fontSize: '2rem' }}>
+                          {' '}
                           Aqui é a aba de venda de produtos!
                         </h1>
                       }
@@ -115,8 +115,8 @@ export const AppRoutes = () => {
                     <Route
                       path="servico/alocacao"
                       element={
-                        <h1 style={{ fontSize: "2rem" }}>
-                          {" "}
+                        <h1 style={{ fontSize: '2rem' }}>
+                          {' '}
                           Aqui é a aba de alocação de produtos!
                         </h1>
                       }
