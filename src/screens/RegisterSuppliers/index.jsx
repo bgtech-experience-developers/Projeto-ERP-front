@@ -8,10 +8,46 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 export const RegisterSupplierPF = () => {
+  const { state } = useLocation();
   const [formValues, setFormValues] = useState({
     fotoProduto: "",
+    nomeFornecedor: "",
+    codigoFornecedor: "",
+    emailFornecedor: "",
+    telefoneFornecedor: "",
+    rgFornecedor: "",
+    cpfFornecedor: "",
+    nascimentoFornecedor: "",
+    produto: "",
+    precoProduto: "",
+    impostoCompra: "",
+    tempoEntrega: "",
+    logradouroFornecedor: "",
+    numeroFornecedor: "",
+    cepFornecedor: "",
+    complemento: "",
+    bairroFornecedor: "",
+    cidadeFornecedor: "",
+    situacao: "",
   });
+
+  const [title, setTitle] = useState("Cadastrar Fornecedor");
+  const [button, setButton] = useState("Cadastrar");
+
+  useEffect(() => {
+    if (state?.supplier) {
+      setFormValues(state.supplier);
+      setTitle("Editar Fornecedor");
+      setButton("Atualizar cadastro");
+    } else {
+      setTitle("Cadastrar Fornecedor");
+      setButton("Cadastrar");
+
+    }
+  }, [state]);
+
   const [errorImage, setErrorImage] = useState(false);
+
   function handleImage({ target }) {
     const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
     const file = target.files[0];
@@ -28,17 +64,32 @@ export const RegisterSupplierPF = () => {
     console.log(formValues.fotoProduto);
 
     setFormValues({ ...formValues, [id]: file });
-  }
+  };
+
   return (
-    <Form title="Cadastrar Fornecedor">
+    <Form title={title}>
       <Card>
         <FormsField variant="file" align="flex-end">
           <FormsField>
-            <Input id="nomeFornecedor" height="4.8rem">
+            <Input
+              id="nomeFornecedor"
+              height="4.8rem"
+              value={formValues.nomeFornecedor}
+              onChange={(event) =>
+                setFormValues({ ...formValues, nomeFornecedor: event.target.value })
+              }
+            >
               Nome do fornecedor
             </Input>
 
-            <Input id="codigoFornecedor" height="4.8rem">
+            <Input
+              id="codigoFornecedor"
+              height="4.8rem"
+              value={formValues.codigoFornecedor}
+              onChange={(event) =>
+                setFormValues({ ...formValues, codigoFornecedor: event.target.value })
+              }
+            >
               Código do fornecedor
             </Input>
           </FormsField>
@@ -54,22 +105,59 @@ export const RegisterSupplierPF = () => {
         </FormsField>
 
         <FormsField variant="double">
-          <Input id="emailFornecedor" height="4.8rem" type="email">
+          <Input
+            id="emailFornecedor"
+            height="4.8rem"
+            type="email"
+            value={formValues.emailFornecedor}
+            onChange={(event) =>
+              setFormValues({ ...formValues, emailFornecedor: event.target.value })
+            }
+          >
             Email
           </Input>
-          <Input id="telefoneFornecedor" height="4.8rem">
+          <Input
+            id="telefoneFornecedor"
+            height="4.8rem"
+            value={formValues.telefoneFornecedor}
+            onChange={(event) =>
+              setFormValues({ ...formValues, telefoneFornecedor: event.target.value })
+            }
+          >
             Telefone
           </Input>
         </FormsField>
 
         <FormsField variant="triple">
-          <Input id="rgFornecedor" height="4.8rem">
+          <Input
+            id="rgFornecedor"
+            height="4.8rem"
+            value={formValues.rgFornecedor}
+            onChange={(event) =>
+              setFormValues({ ...formValues, rgFornecedor: event.target.value })
+            }
+          >
             RG
           </Input>
-          <Input id="cpfFornecedor" height="4.8rem">
+          <Input
+            id="cpfFornecedor"
+            height="4.8rem"
+            value={formValues.cpfFornecedor}
+            onChange={(event) =>
+              setFormValues({ ...formValues, cpfFornecedor: event.target.value })
+            }
+          >
             CPF
           </Input>
-          <Input id="nascimentoFornecedor" height="4.8rem" type="date">
+          <Input
+            id="nascimentoFornecedor"
+            height="4.8rem"
+            type="date"
+            value={formValues.nascimentoFornecedor}
+            onChange={(event) =>
+              setFormValues({ ...formValues, nascimentoFornecedor: event.target.value })
+            }
+          >
             Data de nascimento
           </Input>
         </FormsField>
@@ -82,54 +170,120 @@ export const RegisterSupplierPF = () => {
             { value: "opcao2", label: "Produto 1" },
             { value: "opcao3", label: "Produto 2" },
           ]}
+          value={formValues.produto}
+          onChange={(event) =>
+            setFormValues({ ...formValues, produto: event.target.value })
+          }
         >
           Produto
         </Input>
 
         <FormsField variant="double">
-          <Input id="precoProduto" height="4.8rem">
+          <Input
+            id="precoProduto"
+            height="4.8rem"
+            value={formValues.precoProduto}
+            onChange={(event) =>
+              setFormValues({ ...formValues, precoProduto: event.target.value })
+            }
+          >
             Preço
           </Input>
-          <Input id="impostoProduto" height="4.8rem">
+          <Input
+            id="impostoCompra"
+            height="4.8rem"
+            value={formValues.impostoCompra}
+            onChange={(event) =>
+              setFormValues({ ...formValues, impostoCompra: event.target.value })
+            }
+          >
             Imposto sobre compra
           </Input>
         </FormsField>
 
-        <Input id="tempoEntrega" height="4.8rem">
+        <Input
+          id="tempoEntrega"
+          height="4.8rem"
+          value={formValues.tempoEntrega}
+          onChange={(event) =>
+            setFormValues({ ...formValues, tempoEntrega: event.target.value })
+          }
+        >
           Tempo de entrega
         </Input>
       </Card>
 
-      {/* Interessante rever, pois tem duas vezes campos para logradouro, número e cep */}
       <Card title="Endereço do fornecedor">
         <FormsField variant="triple">
-          <Input id="logradouroEntrega" height="4.8rem">
+          <Input
+            id="logradouroFornecedor"
+            height="4.8rem"
+            value={formValues.logradouroFornecedor}
+            onChange={(event) =>
+              setFormValues({ ...formValues, logradouroFornecedor: event.target.value })
+            }
+          >
             Logradouro
           </Input>
-          <Input id="numeroEntrega" height="4.8rem">
+          <Input
+            id="numeroFornecedor"
+            height="4.8rem"
+            value={formValues.numeroFornecedor}
+            onChange={(event) =>
+              setFormValues({ ...formValues, numeroFornecedor: event.target.value })
+            }
+          >
             Número
           </Input>
-          <Input id="cepEntrega" height="4.8rem">
+          <Input
+            id="cepFornecedor"
+            height="4.8rem"
+            value={formValues.cepFornecedor}
+            onChange={(event) =>
+              setFormValues({ ...formValues, cepFornecedor: event.target.value })
+            }
+          >
             CEP
           </Input>
         </FormsField>
 
-        <Input id="complementoEntrega" height="4.8rem">
+        <Input
+          id="complemento"
+          height="4.8rem"
+          value={formValues.complemento}
+          onChange={(event) =>
+            setFormValues({ ...formValues, complemento: event.target.value })
+          }
+        >
           Complemento
         </Input>
 
         <FormsField variant="double">
-          <Input id="bairroEntrega" height="4.8rem">
+          <Input
+            id="bairroFornecedor"
+            height="4.8rem"
+            value={formValues.bairroFornecedor}
+            onChange={(event) =>
+              setFormValues({ ...formValues, bairroFornecedor: event.target.value })
+            }
+          >
             Bairro
           </Input>
-          <Input id="cidadeEntrega" height="4.8rem">
+          <Input
+            id="cidadeFornecedor"
+            height="4.8rem"
+            value={formValues.cidadeFornecedor}
+            onChange={(event) =>
+              setFormValues({ ...formValues, cidadeFornecedor: event.target.value })
+            }
+          >
             Cidade
           </Input>
         </FormsField>
       </Card>
       <Card>
         <Button variant="secondary" type="submit" height="4.8rem">
-          Cadastrar
+          {button}
         </Button>
       </Card>
     </Form>
@@ -162,9 +316,17 @@ export const RegisterSupplierPJ = () => {
     cidadeEmpresa: ""
   });
 
+  const [title, setTitle] = useState("Cadastrar Fornecedor");
+  const [button, setButton] = useState("Cadastrar");
+
   useEffect(() => {
     if (state?.supplier) {
       setFormValues(state.supplier);
+      setTitle("Editar Fornecedor");
+      setButton("Atualizar cadastro");
+    } else {
+      setTitle("Cadastrar Fornecedor");
+      setButton("Cadastrar")
     }
   }, [state]);
 
@@ -189,7 +351,7 @@ export const RegisterSupplierPJ = () => {
   };
 
   return (
-    <Form title="Cadastrar Fornecedor">
+    <Form title={title}>
       <Card>
         <FormsField variant="file" align="flex-end">
           <FormsField>
@@ -420,7 +582,7 @@ export const RegisterSupplierPJ = () => {
 
       <Card>
         <Button type="submit" height="4.8rem">
-          Cadastrar
+          {button}
         </Button>
       </Card>
     </Form>

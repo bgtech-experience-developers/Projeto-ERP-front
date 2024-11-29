@@ -5,11 +5,12 @@ import { MRT_Localization_PT_BR } from "material-react-table/locales/pt-BR";
 import { StyledTableContainer, StyledTitleTable } from "../../components/Tables";
 import { Text } from "../../components/Texts/Text";
 import { Link, useNavigate } from "react-router-dom";
-import { Navigate } from "react-router-dom";
 
 export const ViewTableSupplierPF = () => {
   const [supplierPF, setSupplierPF] = useState([]);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
+  const navigate = useNavigate();
+
 
   // Fetch usando o arquivo json como teste
   const fetchSupplierPF = async () => {
@@ -38,6 +39,13 @@ export const ViewTableSupplierPF = () => {
     }
   };
 
+  // Função para o botão de editar encaminhar para o form de cadastro com os dados do fornecedor
+  const handleEdit = (row) => {
+    navigate('/cadastrar/fornecedor/pessoa/fisica/editar', {
+      state: { supplier: row.original }
+    });
+  };
+
   const columns = [
     { header: "Nome do fornecedor", accessorKey: "nomeFornecedor", size: 200 },
     { header: "Produto", accessorKey: "produto", size: 50 },
@@ -49,7 +57,7 @@ export const ViewTableSupplierPF = () => {
         <div>
           <Link to="/cadastrar/fornecedor/pessoa/fisica/visualizar"><img style={{ paddingRight: "2rem" }} src="/src/assets/view.svg" alt="" /></Link>
           <Link onClick={() => handleDelete(row.original.id)}><img style={{ paddingRight: "2rem" }} src="/src/assets/delete.svg" alt="" /></Link>
-          <Link to="/cadastrar/fornecedor/pessoa/fisica/novo"><img src="/src/assets/edit.svg" alt="" /></Link>
+          <button style={{ all: "unset", cursor: "pointer" }} onClick={() => handleEdit(row)}><img src="/src/assets/edit.svg" alt="" /></button>
         </div>
       )
     },
@@ -129,7 +137,7 @@ export const ViewTableSupplierPJ = () => {
     navigate('/cadastrar/fornecedor/pessoa/juridica/editar', {
       state: { supplier: row.original }
     });
-  }
+  };
 
   const columns = [
     { header: "Fornecedor", accessorKey: "nomeFantasia", size: 200 },
@@ -143,7 +151,7 @@ export const ViewTableSupplierPJ = () => {
         <div>
           <Link to="/cadastrar/fornecedor/pessoa/juridica/visualizar"><img style={{ paddingRight: "2rem" }} src="/src/assets/view.svg" alt="" /></Link>
           <Link onClick={() => handleDelete(row.original.id)}><img style={{ paddingRight: "2rem" }} src="/src/assets/delete.svg" alt="" /></Link>
-          <button onClick={() => handleEdit(row)}><img src="/src/assets/edit.svg" alt="" /></button>
+          <button style={{ all: "unset", cursor: "pointer" }} onClick={() => handleEdit(row)}><img src="/src/assets/edit.svg" alt="" /></button>
         </div>
       ),
     },

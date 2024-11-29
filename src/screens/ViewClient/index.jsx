@@ -13,7 +13,6 @@ import { Text } from "../../components/Texts/Text";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { HiEye, HiTrash, HiPencilAlt } from "react-icons/hi"; // Importando o novo ícone HiPencilAlt
-import { Navigate } from "react-router-dom";
 
 // Estilo para os ícones
 const IconContainer = styled.div`

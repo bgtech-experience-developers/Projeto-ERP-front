@@ -15,6 +15,7 @@
       "logradouroFornecedor": "Rua das Flores",
       "numeroFornecedor": 123,
       "cepFornecedor": "01001-000",
+      "complemento": "Próximo a rua Y",
       "bairroFornecedor": "Centro",
       "cidadeFornecedor": "São Paulo",
       "situacao": "Ativo"
@@ -35,6 +36,7 @@
       "logradouroFornecedor": "Avenida Brasil",
       "numeroFornecedor": 456,
       "cepFornecedor": "20040-002",
+      "complemento": "Próximo a rua Y",
       "bairroFornecedor": "Copacabana",
       "cidadeFornecedor": "Rio de Janeiro",
       "situacao": "Inativo"
@@ -55,6 +57,7 @@
       "logradouroFornecedor": "Rua Minas Gerais",
       "numeroFornecedor": 789,
       "cepFornecedor": "30150-003",
+      "complemento": "Próximo a rua Y",
       "bairroFornecedor": "Savassi",
       "cidadeFornecedor": "Belo Horizonte"
     },
@@ -74,6 +77,7 @@
       "logradouroFornecedor": "Praça Tiradentes",
       "numeroFornecedor": 101,
       "cepFornecedor": "80210-004",
+      "complemento": "Próximo a rua Y",
       "bairroFornecedor": "Centro",
       "cidadeFornecedor": "Curitiba"
     },
@@ -93,6 +97,7 @@
       "logradouroFornecedor": "Rua da Praia",
       "numeroFornecedor": 202,
       "cepFornecedor": "90030-005",
+      "complemento": "Próximo a rua Y",
       "bairroFornecedor": "Centro Histórico",
       "cidadeFornecedor": "Porto Alegre"
     },
@@ -112,6 +117,7 @@
       "logradouroFornecedor": "Avenida Sete de Setembro",
       "numeroFornecedor": 303,
       "cepFornecedor": "40020-006",
+      "complemento": "Próximo a rua Y",
       "bairroFornecedor": "Pelourinho",
       "cidadeFornecedor": "Salvador"
     },
@@ -131,6 +137,7 @@
       "logradouroFornecedor": "Rua Goiás",
       "numeroFornecedor": 404,
       "cepFornecedor": "74015-007",
+      "complemento": "Próximo a rua Y",
       "bairroFornecedor": "Setor Central",
       "cidadeFornecedor": "Goiânia"
     },
@@ -150,6 +157,7 @@
       "logradouroFornecedor": "Rua da Aurora",
       "numeroFornecedor": 505,
       "cepFornecedor": "50010-008",
+      "complemento": "Próximo a rua Y",
       "bairroFornecedor": "Boa Vista",
       "cidadeFornecedor": "Recife"
     },
@@ -169,6 +177,7 @@
       "logradouroFornecedor": "Avenida Beira Mar",
       "numeroFornecedor": 606,
       "cepFornecedor": "60130-009",
+      "complemento": "Próximo a rua Y",
       "bairroFornecedor": "Meireles",
       "cidadeFornecedor": "Fortaleza"
     },
@@ -188,6 +197,7 @@
       "logradouroFornecedor": "Travessa Nazaré",
       "numeroFornecedor": 707,
       "cepFornecedor": "66020-010",
+      "complemento": "Próximo a rua Y",
       "bairroFornecedor": "Umarizal",
       "cidadeFornecedor": "Belém"
     }
