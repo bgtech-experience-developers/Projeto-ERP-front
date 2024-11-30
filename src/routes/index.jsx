@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { AuthProvider } from "../contexts/AuthContext";
 import UserLogin from "../screens/Login";
 import { Sidebar } from "../components/Sidebar";
 import { Content, InnerContent, Layout } from "../components/Sidebar/style";
@@ -25,8 +26,10 @@ export const AppRoutes = () => {
     <BrowserRouter
       future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
     >
+      <AuthProvider>
       <Routes>
         <Route path="/" element={<UserLogin />} />
+        
 
         <Route
           path="/*"
@@ -114,6 +117,7 @@ export const AppRoutes = () => {
         />
         <Route path="/sidebar" element={<Sidebar />} />
       </Routes>
+        </AuthProvider>
     </BrowserRouter>
   );
 };

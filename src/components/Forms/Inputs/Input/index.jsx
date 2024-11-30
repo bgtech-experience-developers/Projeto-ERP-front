@@ -6,6 +6,7 @@ import { Text } from "../../../Texts/Text";
 export const Input = ({
   variant = "primary",
   style,
+  name,
   placeholder,
   children,
   onChange,
@@ -53,6 +54,7 @@ export const Input = ({
           value={value}
           placeholder={placeholder}
           $height={height}
+          name={name}
           {...props}
         />
       )}
