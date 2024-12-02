@@ -5,20 +5,37 @@ import { MRT_Localization_PT_BR } from "material-react-table/locales/pt-BR";
 import { StyledTableContainer, StyledTitleTable } from "../../components/Tables";
 import { Text } from "../../components/Texts/Text";
 import { Link, useNavigate } from "react-router-dom";
+import useSupplierPf from "../../hooks/useSupplier";
+import { toast } from "react-toastify";
 
 export const ViewTableSupplierPF = () => {
   const [supplierPF, setSupplierPF] = useState([]);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
+  const [isLoading, setIsLoading] = useState(false);
+  const { getSupplierPf, deleteSupplierPf } = useSupplierPf();
   const navigate = useNavigate();
 
-
-  // Fetch usando o arquivo json como teste
+  // Função para buscar todos os fornecedores pessoa física
   const fetchSupplierPF = async () => {
+
+    setIsLoading(true);
+
     try {
-      const { data } = await axios.get("/fornecedorespf.json");
-      setSupplierPF(data);
+      const data = await getSupplierPf();
+
+      const updatedData = data.map((supplier) => ({
+        ...supplier,
+        status: supplier.situation ? "Ativo" : "Inativo",
+        cpf: supplier.cpf || "Não informado",
+      }));
+
+      setSupplierPF(updatedData);
+
     } catch (error) {
+      toast.error("Erro na busca de fornecedores.")
       console.error("Erro na busca de fornecedores: ", error);
+    } finally {
+      setIsLoading(false)
     }
   };
 
@@ -28,14 +45,19 @@ export const ViewTableSupplierPF = () => {
   }, []);
 
   // Deletar um cadastro
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     const confirmDelete = window.confirm(
       "Tem certeza que deseja excluir esse cadastro?"
     );
     if (confirmDelete) {
-      // Atualizar a lista sem o usuário deletado
-      const updateSupplier = supplierPF.filter((supplier) => supplier.id !== id);
-      setSupplierPF([...updateSupplier]); // vai atualizar a lista sem o usuário excluído
+      try {
+        await deleteSupplierPf(id);
+        setSupplierPF((prev) => prev.filter((supplier) => supplier.id !== id));
+        toast.success("Fornecedor excluído com sucesso!")
+      } catch (error) {
+        toast.error("Erro ao excluir o fornecedor.");
+        console.error("Erro ao deletar fornecedor:", error);
+      }
     }
   };
 
