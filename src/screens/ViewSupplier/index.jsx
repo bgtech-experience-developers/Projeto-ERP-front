@@ -6,6 +6,7 @@ import { StyledTableContainer, StyledTitleTable } from "../../components/Tables"
 import { Text } from "../../components/Texts/Text";
 import { Link, useNavigate } from "react-router-dom";
 import useSupplierPf from "../../hooks/useSupplier";
+import useSupplierPj from "../../hooks/useSupplierPj";
 import { toast } from "react-toastify";
 
 export const ViewTableSupplierPF = () => {
@@ -126,31 +127,52 @@ export const ViewTableSupplierPF = () => {
 export const ViewTableSupplierPJ = () => {
   const [supplier, setSupplier] = useState([]);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
+  const [isLoading, setIsLoading] = useState(false);
+  const { getSupplierPj, deleteSupplierPj } = useSupplierPj();
   const navigate = useNavigate();
 
-  // Fetch clientes usando o arquivo json como teste
-  const fetchSupplier = async () => {
+  // Função para buscar todos os fornecedores pessoa jurídica
+  const fetchSupplierPj = async () => {
+
+    setIsLoading(true);
+
     try {
-      const { data } = await axios.get("/fornecedorespj.json");
-      setSupplier(data);
+      const data = await getSupplierPj();
+
+      const updatedData = data.map((supplier) => ({
+        ...supplier,
+        status: supplier.situation ? "Ativo" : "Inativo",
+        cpf: supplier.cpf || "Não informado",
+      }));
+
+      setSupplier(updatedData);
+
     } catch (error) {
+      toast.error("Erro ao buscar fornecedores.");
       console.error("Erro na busca de fornecedores: ", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   // useEffect para carregar os cadastros
   useEffect(() => {
-    fetchSupplier();
+    fetchSupplierPj();
   }, []);
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     const confirmDelete = window.confirm(
       "Tem certeza que deseja excluir esse cadastro?"
     );
     if (confirmDelete) {
-      // Atualizar a lista sem o usuário deletado
-      const updateSupplier = supplier.filter((supplier) => supplier.id !== id);
-      setSupplier([...updateSupplier]); // vai atualizar a lista sem o usuário excluído
+      try {
+        await deleteSupplierPj(id);
+        setSupplier((prev) => prev.filter((supplier) => supplier.id !== id));
+        toast.success("Fornecedor excluído com sucesso!")
+      } catch (error) {
+        toast.error("Erro ao excluir o fornecedor.");
+        console.error("Erro ao deletar fornecedor:", error);
+      }
     }
   };
 
