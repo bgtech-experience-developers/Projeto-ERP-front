@@ -1,123 +1,171 @@
-// import {
-//   MaterialReactTable,
-//   useMaterialReactTable,
-//   createMRTColumnHelper,
-// } from "material-react-table";
-// import { Box, Button } from "@mui/material";
-// import FileDownloadIcon from "@mui/icons-material/FileDownload";
-// import { mkConfig, generateCsv, download } from "export-to-csv"; //or use your library of choice here
+import React from "react";
+import useClients from "../../hooks/useClients";
 
-// const columnHelper = createMRTColumnHelper();
+// Externos
+import "gridjs/dist/theme/mermaid.css";
+import { toast } from "react-toastify";
+import { Grid } from "gridjs-react";
+import { ptBR } from "gridjs/l10n";
+import { css } from "@emotion/css";
+import { _ } from "gridjs-react";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import { HiEye, HiPencilAlt, HiTrash } from "react-icons/hi";
 
-// const columns = [
-//   columnHelper.accessor("id", {
-//     header: "ID",
-//     size: 40,
-//   }),
-//   columnHelper.accessor("firstName", {
-//     header: "First Name",
-//     size: 120,
-//   }),
-//   columnHelper.accessor("lastName", {
-//     header: "Last Name",
-//     size: 120,
-//   }),
-//   columnHelper.accessor("company", {
-//     header: "Company",
-//     size: 300,
-//   }),
-//   columnHelper.accessor("city", {
-//     header: "City",
-//   }),
-//   columnHelper.accessor("country", {
-//     header: "Country",
-//     size: 220,
-//   }),
-// ];
+export const IconContainer = styled.div`
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
 
-// const csvConfig = mkConfig({
-//   fieldSeparator: ",",
-//   decimalSeparator: ".",
-//   useKeysAsHeaders: true,
-// });
+  .icon {
+    font-size: 2rem;
+    cursor: pointer;
+    color: #969696;
+    &:hover {
+      color: #000000;
+    }
+  }
+`;
 
-// const Example = () => {
-//   const handleExportRows = (rows) => {
-//     const rowData = rows.map((row) => row.original);
-//     const csv = generateCsv(csvConfig)(rowData);
-//     download(csvConfig)(csv);
-//   };
+export const Example = () => {
+  const [clients, setClients] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const { getClient, deleteClient } = useClients();
+  const navigate = useNavigate();
 
-//   const handleExportData = () => {
-//     const csv = generateCsv(csvConfig)(data);
-//     download(csvConfig)(csv);
-//   };
+  // Função para deletar o Cliente
 
-//   const table = useMaterialReactTable({
-//     columns,
-//     data: [
-//       {
-//         lastName: "Doe",
-//         firstName: "John",
-//         id: "1",
-//         company: "Acme Inc.",
-//         city: "New York",
-//         country: "United States",
-//       },
-//     ],
-//     enableRowSelection: true,
-//     columnFilterDisplayMode: "popover",
-//     paginationDisplayMode: "pages",
-//     positionToolbarAlertBanner: "bottom",
-//     renderTopToolbarCustomActions: ({ table }) => (
-//       <Box
-//         sx={{
-//           display: "flex",
-//           gap: "16px",
-//           padding: "8px",
-//           flexWrap: "wrap",
-//         }}
-//       >
-//         <Button
-//           //export all data that is currently in the table (ignore pagination, sorting, filtering, etc.)
-//           onClick={handleExportData}
-//           startIcon={<FileDownloadIcon />}
-//         >
-//           Export All Data
-//         </Button>
-//         <Button
-//           disabled={table.getPrePaginationRowModel().rows.length === 0}
-//           //export all rows, including from the next page, (still respects filtering and sorting)
-//           onClick={() =>
-//             handleExportRows(table.getPrePaginationRowModel().rows)
-//           }
-//           startIcon={<FileDownloadIcon />}
-//         >
-//           Export All Rows
-//         </Button>
-//         <Button
-//           disabled={table.getRowModel().rows.length === 0}
-//           //export all rows as seen on the screen (respects pagination, sorting, filtering, etc.)
-//           onClick={() => handleExportRows(table.getRowModel().rows)}
-//           startIcon={<FileDownloadIcon />}
-//         >
-//           Export Page Rows
-//         </Button>
-//         <Button
-//           disabled={
-//             !table.getIsSomeRowsSelected() && !table.getIsAllRowsSelected()
-//           }
-//           //only export selected rows
-//           onClick={() => handleExportRows(table.getSelectedRowModel().rows)}
-//           startIcon={<FileDownloadIcon />}
-//         >
-//           Export Selected Rows
-//         </Button>
-//       </Box>
-//     ),
-//   });
+  React.useEffect(() => {
+    const fetchClients = async () => {
+      setIsLoading(true);
+      try {
+        const data = await getClient();
 
-//   return <MaterialReactTable table={table} />;
-// };
+        const updatedData = data.map((client) => ({
+          ...client,
+          status: client.status ? "Ativo" : "Inativo", // Define status
+          cnpj: client.cnpj || "Não informado", // Inclui o CNPJ - Ranyer
+        }));
 
-// export default Example;
+        setClients(data);
+      } catch (error) {
+        toast.error("Erro ao buscar clientes.");
+        console.error("Erro ao buscar clientes:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchClients();
+  }, []);
+
+  const handleDelete = async (id) => {
+    const confirmDelete = window.confirm(
+      "Tem certeza que deseja excluir esse cadastro?"
+    );
+    if (confirmDelete) {
+      try {
+        await deleteClient(id);
+        setClients((prev) => prev.filter((client) => client.id !== id));
+        toast.success("Cliente excluído com sucesso!");
+      } catch (error) {
+        toast.error("Erro ao excluir cliente.");
+        console.error("Erro ao deletar cliente:", error);
+      }
+    }
+  };
+
+  // Função para o botão de editar encaminhar para o form de cadastro com os dados do cliente
+  const handleEdit = (row) => {
+    navigate("/cadastrar/cliente/editar", { state: { clients: row.original } });
+  };
+
+  function handleClick() {
+    navigate("/cadastrar/cliente/visualizar");
+  }
+
+  const table = {
+    columns: [
+      { id: "id", name: "ID", hidden: true },
+      { id: "corporate_reason", name: "Nome da Empresa" },
+      { id: "branch_activity", name: "Serviço" },
+      { id: "name", name: "Responsável" },
+      { id: "email", name: "Email" },
+      { id: "cell_phone", name: "Celular", width: "20%" },
+      {
+        name: "Opções",
+        formatter: (cell, row) => {
+          return _(
+            <IconContainer>
+              <HiEye className="icon" onClick={handleClick} />
+              <HiTrash
+                className="icon"
+                onClick={() => handleDelete(row.cells[0].data)}
+              />
+              <HiPencilAlt
+                className="icon"
+                onClick={() => handleEdit(row.id)}
+              />
+            </IconContainer>
+          );
+        },
+      },
+    ],
+
+    data: () => {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(clients);
+        }, 1000);
+      });
+    },
+
+    className: {
+      table: css`
+        font-size: 8rem;
+      `,
+      th: css`
+        font-weight: bold;
+        font-size: 3rem;
+      `,
+      tr: css`
+        &:hover td {
+          background-color: rgba(0, 0, 0, 0.1);
+          border: rgba(0, 0, 0, 0.1);
+        }
+      `,
+      footer: css`
+        font-size: 5.5rem;
+      `,
+    },
+
+    language: ptBR,
+
+    pagination: {
+      limit: 5,
+      summary: true,
+    },
+  };
+
+  return (
+    <>
+      {isLoading ? (
+        <p>Carregando...</p>
+      ) : (
+        <Grid
+          search={true}
+          sort={true}
+          resizable={true}
+          data={table.data}
+          key={clients.length}
+          columns={table.columns}
+          className={table.className}
+          language={table.language}
+          pagination={table.pagination}
+        />
+      )}
+    </>
+  );
+};

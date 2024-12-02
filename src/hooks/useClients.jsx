@@ -41,6 +41,7 @@ function useClients() {
     try {
       // const { data } = await client.get('/cliente');
       const { data } = await client.get("/api/cliente");
+
       if (data) {
         return data;
       }
@@ -52,9 +53,11 @@ function useClients() {
 
   const deleteClient = async (cpf) => {
     try {
-      const data = await client.delete(`/cliente/deletar/${cpf}`);
+      // const data = await client.delete(`/cliente/deletar/${cpf}`);
+      const data = await client.delete(`/cliente/${cpf}`);
       return data;
     } catch (error) {
+      console.error(error);
       return error;
     }
   };

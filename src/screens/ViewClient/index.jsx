@@ -1,24 +1,24 @@
 import React from "react";
-import axios from "axios";
-import {
-  MaterialReactTable,
-  useMaterialReactTable,
-} from "material-react-table";
-import { MRT_Localization_PT_BR } from "material-react-table/locales/pt-BR";
 import {
   StyledTableContainer,
   StyledTitleTable,
 } from "../../components/Tables";
 import useClients from "../../hooks/useClients";
+
+// Externos
+import "gridjs/dist/theme/mermaid.css";
 import { toast } from "react-toastify";
 import { Text } from "../../components/Texts/Text";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { Grid } from "gridjs-react";
+import { ptBR } from "gridjs/l10n";
+import { css } from "@emotion/css";
+import { _ } from "gridjs-react";
 import styled from "styled-components";
-import { HiEye, HiTrash, HiPencilAlt } from "react-icons/hi"; // Importando o novo ícone HiPencilAlt
-import { width } from "@mui/system";
+import { HiEye, HiPencilAlt, HiTrash } from "react-icons/hi";
+import { SidebarContext } from "../../contexts/SidebarContext";
 
-// Estilo para os ícones
-const IconContainer = styled.div`
+export const IconContainer = styled.div`
   display: flex;
   gap: 10px;
   width: 100%;
@@ -38,12 +38,13 @@ const IconContainer = styled.div`
 
 export const ViewTableClients = () => {
   const [clients, setClients] = React.useState([]);
-  const [pagination, setPagination] = React.useState({
-    pageIndex: 0,
-    pageSize: 10,
-  });
   const [isLoading, setIsLoading] = React.useState(false);
   const { getClient, deleteClient } = useClients();
+  const [key, setKey] = React.useState(0);
+
+  const { isActive, isHover } = React.useContext(SidebarContext);
+  const gridRef = React.useRef(null);
+
   const navigate = useNavigate();
 
   // Função para buscar clientes
@@ -70,22 +71,12 @@ export const ViewTableClients = () => {
     fetchClients();
   }, []);
 
-  // Função para deletar cliente
-  const handleDelete = async (id) => {
-    const confirmDelete = window.confirm(
-      "Tem certeza que deseja excluir esse cadastro?"
-    );
-    if (confirmDelete) {
-      try {
-        await deleteClient(id);
-        setClients((prev) => prev.filter((client) => client.id !== id));
-        toast.success("Cliente excluído com sucesso!");
-      } catch (error) {
-        toast.error("Erro ao excluir cliente.");
-        console.error("Erro ao deletar cliente:", error);
-      }
-    }
-  };
+  React.useEffect(() => {
+    const handleForceRender = () => {
+      setKey(key + 1);
+    };
+    handleForceRender();
+  }, [isActive, isHover]);
 
   // Alternar status entre "Ativo" e "Inativo"
   const toggleStatus = async (id) => {
@@ -104,156 +95,90 @@ export const ViewTableClients = () => {
     }
   };
 
+  // Excluir usuário
+  const handleDelete = async (id) => {
+    const confirmDelete = window.confirm(
+      "Tem certeza que deseja excluir esse cadastro?"
+    );
+    if (confirmDelete) {
+      try {
+        await deleteClient(id);
+        setClients((prev) => prev.filter((client) => client.id !== id));
+        toast.success("Cliente excluído com sucesso!");
+      } catch (error) {
+        toast.error("Erro ao excluir cliente.");
+        console.error("Erro ao deletar cliente:", error);
+      }
+    }
+  };
+
   // Função para o botão de editar encaminhar para o form de cadastro com os dados do cliente
   const handleEdit = (row) => {
     navigate("/cadastrar/cliente/editar", { state: { clients: row.original } });
   };
 
-  // Colunas da tabela
-  const columns = React.useMemo(
-    () => [
-      { header: "Nome da Empresa", accessorKey: "corporate_reason", size: 150 },
-      { header: "Serviço", accessorKey: "branch_activity", size: 100 },
-      { header: "Responsável", accessorKey: "name", size: 100 },
-      { header: "Email", accessorKey: "email", size: 100 },
-      { header: "Celular", accessorKey: "cell_phone", size: 100 },
+  function handleClick() {
+    navigate("/cadastrar/cliente/visualizar");
+  }
+
+  // Definições da tabela
+  const table = {
+    columns: [
+      { id: "id", name: "ID", hidden: true },
+      { id: "corporate_reason", name: "Nome da Empresa" },
+      { id: "branch_activity", name: "Serviço" },
+      { id: "name", name: "Responsável" },
+      { id: "email", name: "Email", width: "auto" },
+      { id: "cell_phone", name: "Celular", width: "15%" },
       {
-        header: "Situação",
-        accessorKey: "status",
-        size: 50,
-        Cell: ({ row }) => {
-          return (
-            <Text
-              variant="small"
-              bold="800"
-              align="center"
-              color={row.original.status === "Ativo" ? "green" : "red"}
-            >
-              {row.original.status}
-            </Text>
+        name: "Opções",
+        formatter: (cell, row) => {
+          return _(
+            <IconContainer>
+              <HiEye className="icon" onClick={handleClick} />
+              <HiTrash
+                className="icon"
+                onClick={() => handleDelete(row.cells[0].data)}
+              />
+              <HiPencilAlt
+                className="icon"
+                onClick={() => handleEdit(row.id)}
+              />
+            </IconContainer>
           );
         },
       },
-      {
-        header: "Opções",
-        size: 50,
-        Cell: ({ row }) => (
-          <IconContainer>
-            <NavLink to="/cadastrar/cliente/visualizar">
-              <HiEye
-                className="icon"
-                onClick={() => console.log("Visualizar", row.original.id)}
-              />
-            </NavLink>
-            <HiTrash
-              className="icon"
-              onClick={() => handleDelete(row.original.id)}
-            />
-            <HiPencilAlt className="icon" onClick={() => handleEdit(row)} />
-          </IconContainer>
-        ),
-      },
     ],
-    []
-  );
 
-  // Definiçöes da tabela
-  const table = useMaterialReactTable({
-    columns,
     data: clients,
-    enableHiding: true,
-    muiTableProps: {
-      sx: {
-        border: "1px solid rgba(81, 81, 81, .5)",
-        textAlign: "center",
 
-        caption: {
-          backgroundColor: "red",
-          textAlign: "center",
-          captionSide: "top",
-          fontSize: "5rem",
-        },
-      },
-    },
-    muiTopToolbarProps: {
-      sx: {
-        width: "100%",
-        height: "5rem",
-        svg: {
-          width: "30px",
-          height: "30px",
-        },
-        input: {
-          width: "100%",
-        },
-      },
+    className: {
+      table: css`
+        font-size: 6rem;
+      `,
+      th: css`
+        font-weight: bold;
+        font-size: 3rem;
+      `,
+      td: css``,
+      tr: css`
+        &:hover td {
+          background-color: rgba(0, 0, 0, 0.1);
+          border: rgba(0, 0, 0, 0.1);
+        }
+      `,
+      footer: css`
+        font-size: 5.5rem;
+      `,
     },
 
-    muiTableModalProps: {
-      sx: {
-        width: "20rem",
-        "& .MuiDialog-paper": {
-          minWidth: "6000px",
-          minHeight: "400px",
-          padding: "20px",
-        },
-      },
-    },
+    language: ptBR,
 
-    muiTableHeadCellProps: {
-      sx: {
-        border: "1px solid rgba(81, 81, 81, .5)",
-        fontStyle: "italic",
-        fontSize: "6.3rem",
-        textAlign: "center",
-        fontWeight: "Bold",
-
-        svg: {
-          width: "22x",
-          height: "22px",
-        },
-        ".css-1w86f15": {
-          alignItems: "center ",
-          justifyContent: "center ",
-        },
-      },
+    pagination: {
+      limit: 5,
+      summary: true,
     },
-    muiTableBodyCellProps: {
-      sx: {
-        textAlign: "center",
-        fontSize: "1.5rem",
-        border: "1px solid rgba(81, 81, 81, .5)",
-      },
-    },
-    muiToolbarAlertBannerProps: {
-      sx: {
-        width: "20rem",
-        height: "20rem",
-      },
-    },
-
-    muiBottomToolbarProps: {
-      sx: {
-        width: "100%",
-        fontSize: "4rem",
-        height: "6rem",
-        div: {
-          fontSize: "2rem",
-        },
-
-        label: {
-          fontSize: "2rem",
-        },
-        span: {
-          fontSize: "2rem",
-        },
-        svg: {
-          width: "30px",
-          height: "30px",
-        },
-      },
-    },
-  });
+  };
 
   return (
     <>
@@ -267,9 +192,17 @@ export const ViewTableClients = () => {
         {isLoading ? (
           <p>Carregando...</p>
         ) : (
-          <MaterialReactTable
-            table={table}
-            onPaginationChange={(newState) => setPagination(newState)}
+          <Grid
+            search={true}
+            sort={true}
+            resizable={true}
+            data={table.data}
+            key={key}
+            columns={table.columns}
+            className={table.className}
+            language={table.language}
+            pagination={table.pagination}
+            ref={gridRef}
           />
         )}
       </StyledTableContainer>

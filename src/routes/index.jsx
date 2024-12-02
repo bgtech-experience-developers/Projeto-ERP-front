@@ -15,7 +15,7 @@ import {
   RegisterSupplierPF,
   RegisterSupplierPJ,
 } from "../screens/RegisterSuppliers/index";
-import Example from "../screens/example";
+import { Example } from "../screens/example";
 
 export const AppRoutes = () => {
   const { isActive, isHover } = React.useContext(SidebarContext);
