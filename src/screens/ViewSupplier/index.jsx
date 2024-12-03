@@ -32,8 +32,7 @@ import { LuArrowDownAZ, LuArrowUpAZ, LuArrowDownUp } from "react-icons/lu";
 export const ViewTableSupplierPF = () => {
   const [supplierPF, setSupplierPF] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
-  const navigate = useNavigate();
-   const [pagination, setPagination] = React.useState({
+  const [pagination, setPagination] = React.useState({
     pageIndex: 1,
     pageSize: 5,
   });
@@ -42,7 +41,6 @@ export const ViewTableSupplierPF = () => {
 
   // Função para buscar todos os fornecedores pessoa física
   const fetchSupplierPF = async () => {
-
     try {
       setIsLoading(true);
 
@@ -55,12 +53,10 @@ export const ViewTableSupplierPF = () => {
       }));
 
       setSupplierPF(updatedData);
-
     } catch (error) {
-      toast.error("Erro na busca de fornecedores.")
+      toast.error("Erro na busca de fornecedores.");
       console.error("Erro na busca de fornecedores: ", error);
     } finally {
-
       setIsLoading(false);
     }
   };
@@ -68,7 +64,7 @@ export const ViewTableSupplierPF = () => {
   React.useEffect(() => {
     fetchSupplierPF();
   }, []);
-  
+
   // Deletar um cadastro (precauções)
   // const handleDelete = (id) => {
   //   const confirmDelete = window.confirm(
@@ -90,10 +86,9 @@ export const ViewTableSupplierPF = () => {
     );
     if (confirmDelete) {
       try {
-   
         await deleteSupplierPf(id);
         setSupplierPF((prev) => prev.filter((supplier) => supplier.id !== id));
-        toast.success("Fornecedor excluído com sucesso!")
+        toast.success("Fornecedor excluído com sucesso!");
       } catch (error) {
         toast.error("Erro ao excluir o fornecedor.");
         console.error("Erro ao deletar fornecedor:", error);
@@ -268,13 +263,12 @@ export const ViewTableSupplierPF = () => {
 };
 
 export const ViewTableSupplierPJ = () => {
-
-  const [supplier, setSupplier] = useState([]);
-    const [pagination, setPagination] = React.useState({
+  const [supplier, setSupplier] = React.useState([]);
+  const [pagination, setPagination] = React.useState({
     pageIndex: 1,
     pageSize: 5,
   });
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
   const { getSupplierPj, deleteSupplierPj } = useSupplierPj();
   const navigate = useNavigate();
 
@@ -290,7 +284,6 @@ export const ViewTableSupplierPJ = () => {
       }));
 
       setSupplier(updatedData);
-
     } catch (error) {
       toast.error("Erro ao buscar fornecedores.");
       console.error("Erro na busca de fornecedores: ", error);
@@ -299,8 +292,8 @@ export const ViewTableSupplierPJ = () => {
     }
   };
   // useEffect para carregar os cadastros
-  
-  useEffect(() => {
+
+  React.useEffect(() => {
     fetchSupplierPj();
   }, []);
 
@@ -313,7 +306,6 @@ export const ViewTableSupplierPJ = () => {
         await deleteClient(id);
         setClients((prev) => prev.filter((client) => client.id !== id));
         toast.success("Cliente excluído com sucesso!");
- 
       } catch (error) {
         toast.error("Erro ao excluir o fornecedor.");
         console.error("Erro ao deletar fornecedor:", error);
