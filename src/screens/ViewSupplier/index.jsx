@@ -1,5 +1,7 @@
 import React from "react";
 import axios from "axios";
+import useSupplierPf from "../../hooks/useSupplier";
+import useSupplierPj from "../../hooks/useSupplierPj";
 import { fuzzyFilter } from "../../utils/fuzzyFilter";
 import { theme } from "../../theme/theme";
 
@@ -30,22 +32,35 @@ import { LuArrowDownAZ, LuArrowUpAZ, LuArrowDownUp } from "react-icons/lu";
 export const ViewTableSupplierPF = () => {
   const [supplierPF, setSupplierPF] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
-  const [pagination, setPagination] = React.useState({
+  const navigate = useNavigate();
+   const [pagination, setPagination] = React.useState({
     pageIndex: 1,
     pageSize: 5,
   });
-
+  const { getSupplierPf, deleteSupplierPf } = useSupplierPf();
   const navigate = useNavigate();
 
-  // Fetch usando o arquivo json como teste
+  // Função para buscar todos os fornecedores pessoa física
   const fetchSupplierPF = async () => {
+
     try {
       setIsLoading(true);
-      const { data } = await axios.get("/fornecedorespf.json");
-      setSupplierPF(data);
+
+      const data = await getSupplierPf();
+
+      const updatedData = data.map((supplier) => ({
+        ...supplier,
+        status: supplier.situation ? "Ativo" : "Inativo",
+        cpf: supplier.cpf || "Não informado",
+      }));
+
+      setSupplierPF(updatedData);
+
     } catch (error) {
+      toast.error("Erro na busca de fornecedores.")
       console.error("Erro na busca de fornecedores: ", error);
     } finally {
+
       setIsLoading(false);
     }
   };
@@ -53,7 +68,7 @@ export const ViewTableSupplierPF = () => {
   React.useEffect(() => {
     fetchSupplierPF();
   }, []);
-
+  
   // Deletar um cadastro (precauções)
   // const handleDelete = (id) => {
   //   const confirmDelete = window.confirm(
@@ -75,12 +90,13 @@ export const ViewTableSupplierPF = () => {
     );
     if (confirmDelete) {
       try {
-        await deleteClient(id);
-        setClients((prev) => prev.filter((client) => client.id !== id));
-        toast.success("Cliente excluído com sucesso!");
+   
+        await deleteSupplierPf(id);
+        setSupplierPF((prev) => prev.filter((supplier) => supplier.id !== id));
+        toast.success("Fornecedor excluído com sucesso!")
       } catch (error) {
-        toast.error("Erro ao excluir cliente.");
-        console.error("Erro ao deletar cliente:", error);
+        toast.error("Erro ao excluir o fornecedor.");
+        console.error("Erro ao deletar fornecedor:", error);
       }
     }
   };
@@ -252,30 +268,40 @@ export const ViewTableSupplierPF = () => {
 };
 
 export const ViewTableSupplierPJ = () => {
-  const [supplier, setSupplier] = React.useState([]);
-  const [isLoading, setIsLoading] = React.useState(false);
-  const [pagination, setPagination] = React.useState({
+
+  const [supplier, setSupplier] = useState([]);
+    const [pagination, setPagination] = React.useState({
     pageIndex: 1,
     pageSize: 5,
   });
-
+  const [isLoading, setIsLoading] = useState(false);
+  const { getSupplierPj, deleteSupplierPj } = useSupplierPj();
   const navigate = useNavigate();
 
-  // Fetch clientes usando o arquivo json como teste
-  const fetchSupplier = async () => {
+  // Função para buscar todos os fornecedores pessoa jurídica
+  const fetchSupplierPj = async () => {
     try {
-      setIsLoading(true);
-      const { data } = await axios.get("/fornecedorespf.json");
-      setSupplier(data);
+      const data = await getSupplierPj();
+
+      const updatedData = data.map((supplier) => ({
+        ...supplier,
+        status: supplier.situation ? "Ativo" : "Inativo",
+        cpf: supplier.cpf || "Não informado",
+      }));
+
+      setSupplier(updatedData);
+
     } catch (error) {
+      toast.error("Erro ao buscar fornecedores.");
       console.error("Erro na busca de fornecedores: ", error);
     } finally {
       setIsLoading(false);
     }
   };
   // useEffect para carregar os cadastros
-  React.useEffect(() => {
-    fetchSupplier();
+  
+  useEffect(() => {
+    fetchSupplierPj();
   }, []);
 
   const handleDelete = async (id) => {
@@ -287,9 +313,10 @@ export const ViewTableSupplierPJ = () => {
         await deleteClient(id);
         setClients((prev) => prev.filter((client) => client.id !== id));
         toast.success("Cliente excluído com sucesso!");
+ 
       } catch (error) {
-        toast.error("Erro ao excluir cliente.");
-        console.error("Erro ao deletar cliente:", error);
+        toast.error("Erro ao excluir o fornecedor.");
+        console.error("Erro ao deletar fornecedor:", error);
       }
     }
   };
