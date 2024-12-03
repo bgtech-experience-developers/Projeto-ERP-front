@@ -1,6 +1,5 @@
 import * as S from "./style";
 import { _ContentWrapper } from "./style";
-import { Header } from "../Header";
 import { Form } from "../Forms/Form";
 import { Card } from "../../components/Forms/Card";
 import { Input } from "../../components/Forms/Inputs/Input";

@@ -37,16 +37,17 @@ function useClients() {
     }
   };
 
-  const getClient = async () => {
+  const getClient = async (extraUrl) => {
     try {
       // const { data } = await client.get('/cliente');
-      const { data } = await client.get("/api/cliente");
+      const { data } = await client.get(`/api/cliente${extraUrl}`);
 
       if (data) {
         return data;
       }
       return "Não foi possível trazes os dados do cliente";
     } catch (error) {
+      console.error(error);
       return error;
     }
   };
