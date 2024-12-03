@@ -185,7 +185,7 @@ export const ViewTableClients = () => {
           <Header variant="table">
             <Input
               placeholder="Digite uma palavra-chave..."
-              width="40%"
+              width="30rem"
               height="4.5rem"
               onChange={(e) => table.setGlobalFilter(e.target.value)}
             />
