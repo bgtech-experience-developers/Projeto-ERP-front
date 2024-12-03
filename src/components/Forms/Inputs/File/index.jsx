@@ -41,21 +41,20 @@ export const File = ({
       <S._File
         value={value ?? ''}
         accept="image/*"
-        id={id}
+        id={'file'}
         onChange={onChange}
       />
 
-      <input
+      {/* <input
         id="file"
         value={value ?? ''}
         onChange={onChange}
         accept="image/*"
         type="file"
         style={{ display: 'none' }}
-      />
+      /> */}
 
       <S.Overlay $image={image}>
-        <BiSmile size={smileSize} />
         <Text
           style={{
             alignItems: 'center',
@@ -64,7 +63,9 @@ export const File = ({
           bold="600"
           color={theme.colors.lightGray}
         >
-          Trocar foto
+          <S.ButtonFileChange type="button">
+            <label htmlFor={'file'}>Trocar foto</label>
+          </S.ButtonFileChange>
           <S.ButtonFile onClick={handleRemove} type="button">
             Remover
           </S.ButtonFile>

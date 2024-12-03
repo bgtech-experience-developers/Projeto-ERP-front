@@ -101,6 +101,23 @@ export const Overlay = styled.div`
   }
 `;
 
+export const ButtonFileChange = styled.button`
+  width: 90%;
+
+  background: transparent;
+  border: 3px dashed #fff;
+  color: #fff;
+
+  label {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    padding: 0.8rem;
+    font-size: 1.1rem;
+    cursor: pointer;
+  }
+`;
+
 export const ButtonFile = styled.button`
   width: 90%;
   padding: 0.8rem;
