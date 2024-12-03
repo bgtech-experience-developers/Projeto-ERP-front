@@ -39,7 +39,10 @@ function useClients() {
 
   const getClient = async (extraUrl) => {
     try {
-      // const { data } = await client.get('/cliente');
+      // API original
+      // const { data } = await client.get(`/cliente${extraUrl}`);
+
+      // Teste na minha mock (Carlos)
       const { data } = await client.get(`/api/cliente${extraUrl}`);
 
       if (data) {
