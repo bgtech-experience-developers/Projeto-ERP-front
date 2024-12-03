@@ -8,6 +8,7 @@ export const Input = ({
   style,
   placeholder,
   children,
+  self,
   onChange,
   height,
   value,
@@ -18,11 +19,13 @@ export const Input = ({
   ...props
 }) => {
   return (
-    <S.InputContainer $width={width}>
+    <S.InputContainer $width={width} $self={self}>
       <Text bold="600">
-        <label style={style} htmlFor={id}>
-          {children}
-        </label>
+        {children && (
+          <label style={style} htmlFor={id}>
+            {children}
+          </label>
+        )}
       </Text>
       {type === "select" ? (
         <S.Select

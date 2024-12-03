@@ -7,11 +7,11 @@ const primary = css`
   width: 100%;
   height: 100%;
   border-radius: 4px;
-  border: 1px solid ${theme.colors.lightgray3};
+  border: 1px solid ${theme.colors.lightGray3};
   font-size: 20px;
 
-    // Estilo de foco
-    &:focus {
+  // Estilo de foco
+  &:focus {
     border-color: ${theme.colors.lightGray};
     outline: none;
   }
@@ -24,7 +24,7 @@ const secondary = css`
   border-radius: 4px;
   border: none;
   font-size: 14px;
-`
+`;
 
 // Principais
 export const _Input = styled.input`
@@ -67,4 +67,5 @@ export const InputContainer = styled.div`
     text-align: inherit;
   }
   width: ${({ $width }) => $width};
+  align-self: ${({ $self }) => $self};
 `;

@@ -132,7 +132,6 @@ export const AppRoutes = () => {
             </Layout>
           }
         />
-        <Route path="/sidebar" element={<Sidebar />} />
       </Routes>
     </BrowserRouter>
   );

@@ -62,7 +62,7 @@ export const StyledSidebar = styled.div`
   overflow-x: hidden;
   align-self: center;
 
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
 
   /* Scrollbar */
   scrollbar-width: thin;
@@ -84,19 +84,6 @@ export const StyledSidebar = styled.div`
     border: 3px solid #eff3e3;
   }
 
-  &.transform {
-    position: fixed;
-    left: -500px;
-    height: 60%;
-    z-index: 9999;
-    transition-duration: 0.5s;
-    border-radius: 12px;
-  }
-
-  &.open-hover {
-    left: 0;
-  }
-
   @media (max-width: ${theme.media.md}) {
     display: none;
   }
@@ -105,16 +92,19 @@ export const StyledSidebar = styled.div`
 export const StyledResponsiveSidebar = styled(StyledSidebar)`
   display: block;
   border-radius: 12px;
-  @media (max-width: ${theme.media.md}) {
-    position: fixed;
-    height: 60%;
-    z-index: 9999;
-    left: -500px;
-    transition-duration: 0.5s;
 
-    &.open-hover {
-      left: 0;
-    }
+  position: fixed;
+  height: 60%;
+  z-index: 9999;
+  left: -280px;
+  transition-duration: 0.5s;
+
+  &.transform {
+    display: none;
+  }
+
+  &.open-hover {
+    left: 0;
   }
 `;
 

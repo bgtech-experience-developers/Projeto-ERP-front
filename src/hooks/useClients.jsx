@@ -1,7 +1,6 @@
-
-import React from 'react';
-import { client } from '../services/instance';
-import axios from 'axios';
+import React from "react";
+import { client } from "../services/instance";
+import axios from "axios";
 
 function useClients() {
   const postClient = async (json, formPhotos) => {
@@ -38,22 +37,31 @@ function useClients() {
     }
   };
 
-  const getClient = async () => {
+  const getClient = async (extraUrl) => {
     try {
+      // API original
+      // const { data } = await client.get(`/cliente${extraUrl}`);
 
-      const { data } = await client.get('/cliente');
-      console.log("getClient: ", data)
-      return data;
+      // Teste na minha mock (Carlos)
+      const { data } = await client.get(`/api/cliente${extraUrl}`);
+
+      if (data) {
+        return data;
+      }
+      return "Não foi possível trazes os dados do cliente";
     } catch (error) {
+      console.error(error);
       return error;
     }
   };
 
   const deleteClient = async (cpf) => {
     try {
-      const data = await client.delete(`/cliente/deletar/${cpf}`);
+      // const data = await client.delete(`/cliente/deletar/${cpf}`);
+      const data = await client.delete(`/cliente/${cpf}`);
       return data;
     } catch (error) {
+      console.error(error);
       return error;
     }
   };
