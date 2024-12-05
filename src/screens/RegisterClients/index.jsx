@@ -284,8 +284,9 @@ export const RegisterClients = () => {
           onChange={handleInputChange('cliente')}
           options={[
             { value: 'titulo', label: 'Selecione', disabled: true },
-            { value: 'pj', label: 'Pessoa Jurídica' },
-            { value: 'opcao3', label: 'Pessoa Fisíca' },
+            { value: 'icms', label: 'Contribuinte ICMS' },
+            { value: 'isento', label: 'Contribuinte ISENTO' },
+            { value: 'nao', label: 'Não contribuinte' },
           ]}
         >
           Tipo de contribuinte
