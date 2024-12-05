@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 export const AuthContext = createContext();
 
 
+
 export function AuthProvider({ children }) {
     const [isAuth, setAuth] = useState(false);
     const [userData, setUserData] = useState({})
@@ -20,6 +21,7 @@ export function AuthProvider({ children }) {
                     headers: { 'Content-Type': 'application/json' },
                 })
 
+              
             const { token, refreshToken } = response.data;
             localStorage.setItem('accessToken', token);
             document.cookie = `refreshToken=${refreshToken}; path=/;`; // Refresh token
@@ -29,6 +31,7 @@ export function AuthProvider({ children }) {
 
             console.log('Login realizado com sucesso!');
             navigate("/*")
+            
         } catch (error) {
             console.log('Erro ao realizar o login: ', error);
             window.alert('Não foi possível realizar o login')
@@ -41,4 +44,5 @@ export function AuthProvider({ children }) {
         </AuthContext.Provider>
     )
 }
+
 
