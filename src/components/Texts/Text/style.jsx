@@ -65,4 +65,5 @@ export const _Text = styled.p`
   font-weight: ${({ $bold }) => $bold};
   color: ${({ $color }) => $color || `${theme.colors.black}`};
   text-align: ${({ $textAlign }) => $textAlign};
+  width: ${({ $width }) => $width};
 `;

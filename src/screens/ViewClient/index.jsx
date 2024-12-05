@@ -238,7 +238,6 @@ export const ViewTableClients = () => {
                               />
                             </T.Order>
                           </T.ThContent>
-
                           {/* Tamanho dinâmico */}
                           <T.Resizer
                             onMouseDown={header.getResizeHandler()}
@@ -253,21 +252,27 @@ export const ViewTableClients = () => {
                   ))}
                 </T.Thead>
                 <T.Tbody>
-                  {table.getRowModel().rows.map((row) => (
-                    <T.Tr key={row.id}>
-                      {row.getVisibleCells().map((cell) => (
-                        <T.Td
-                          key={cell.id}
-                          $width={`${cell.column.getSize()}px`}
-                        >
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
-                          )}
-                        </T.Td>
-                      ))}
-                    </T.Tr>
-                  ))}
+                  {table.getRowModel().rows.length === 0 ? (
+                    <Text variant="medium" align={"center"}>
+                      Nenhum registro encontrado
+                    </Text>
+                  ) : (
+                    table.getRowModel().rows.map((row) => (
+                      <T.Tr key={row.id}>
+                        {row.getVisibleCells().map((cell) => (
+                          <T.Td
+                            key={cell.id}
+                            $width={`${cell.column.getSize()}px`}
+                          >
+                            {flexRender(
+                              cell.column.columnDef.cell,
+                              cell.getContext()
+                            )}
+                          </T.Td>
+                        ))}
+                      </T.Tr>
+                    ))
+                  )}
                 </T.Tbody>
               </T.Table>
             </T.TableWrapper>
