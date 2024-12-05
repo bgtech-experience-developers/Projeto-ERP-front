@@ -115,6 +115,15 @@ export const RegisterClients = () => {
     setFormPhotos((prevFile) => [...prevFile, file]);
   }
 
+  function removeImage(key, { target }) {
+    setPhotos({
+      ...photos,
+      [key]: {
+        file: null,
+      },
+    });
+  }
+
   function handleSubmit(event) {
     event.preventDefault();
     postClient(formValues, formPhotos);
@@ -225,6 +234,7 @@ export const RegisterClients = () => {
             image={photos.file1.file}
             onChange={(event) => handleImage('file1', event)}
             text="Adicionar foto"
+            handleRemove={(event) => removeImage('file1', event)}
           />
         </FormsField>
 
@@ -452,6 +462,7 @@ export const RegisterClients = () => {
             image={photos.file2.file}
             onChange={(event) => handleImage('file2', event)}
             text="Adicionar foto"
+            handleRemove={(event) => removeImage('file2', event)}
           />
         </FormsField>
 
@@ -532,6 +543,7 @@ export const RegisterClients = () => {
             image={photos.file3.file}
             onChange={(event) => handleImage('file3', event)}
             text="Adicionar foto"
+            handleRemove={(event) => removeImage('file3', event)}
           />
         </FormsField>
 
@@ -606,6 +618,7 @@ export const RegisterClients = () => {
             image={photos.file4.file}
             onChange={(event) => handleImage('file4', event)}
             text="Adicionar foto"
+            handleRemove={(event) => removeImage('file4', event)}
           />
         </FormsField>
 
@@ -680,6 +693,7 @@ export const RegisterClients = () => {
             image={photos.file5.file}
             onChange={(event) => handleImage('file5', event)}
             text="Adicionar foto"
+            handleRemove={(event) => removeImage('file5', event)}
           />
         </FormsField>
 

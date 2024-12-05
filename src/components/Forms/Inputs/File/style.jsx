@@ -1,5 +1,5 @@
-import styled, { css } from "styled-components";
-import { theme } from "../../../../theme/theme";
+import styled, { css } from 'styled-components';
+import { theme } from '../../../../theme/theme';
 
 const primary = css`
   width: 22.2rem;
@@ -12,7 +12,7 @@ const primary = css`
   flex-direction: column;
   gap: 10px;
   cursor: pointer;
-  background-image: url(${(props) => (!props.$image ? "" : props.$image)});
+  background-image: url(${(props) => (!props.$image ? '' : props.$image)});
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -28,7 +28,7 @@ const secondary = css`
   justify-content: center;
   flex-direction: column;
   gap: 10px;
-  background-image: url(${(props) => (!props.$image ? "" : props.$image)});
+  background-image: url(${(props) => (!props.$image ? '' : props.$image)});
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -43,9 +43,9 @@ export const Center = styled.div`
 export const FileContainer = styled.label`
   ${({ $variant }) => {
     switch ($variant) {
-      case "primary":
+      case 'primary':
         return primary;
-      case "secondary":
+      case 'secondary':
         return secondary;
       default:
         return null;
@@ -53,7 +53,7 @@ export const FileContainer = styled.label`
   }}
 `;
 export const _File = styled.input.attrs({
-  type: "file",
+  type: 'file',
 })`
   opacity: 0;
   width: 100%;
@@ -63,7 +63,7 @@ export const _File = styled.input.attrs({
 `;
 
 export const CenterBlock = styled.div`
-  display: ${(props) => (!props.$image ? "flex" : "none !important")};
+  display: ${(props) => (!props.$image ? 'flex' : 'none !important')};
   align-items: center !important;
   justify-content: center !important;
 `;
@@ -73,15 +73,17 @@ export const Overlay = styled.div`
   height: 100%;
   position: absolute;
 
-  display: ${(props) => (!props.$image ? "none" : "flex")};
+  display: ${(props) => (!props.$image ? 'none' : 'flex')};
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  color: #fff;
+  text-align: center;
 
   &:hover {
     background: rgba(148, 163, 184, 0.4);
     /* opacity: 0.4; */
-    color: ${(props) => (props.$image ? "#1e293b" : "")};
+    color: ${(props) => (!props.$image ? '#fff' : '')};
     cursor: pointer;
     p,
     svg {
@@ -93,4 +95,33 @@ export const Overlay = styled.div`
   svg {
     display: none;
   }
+
+  p {
+    text-align: center;
+  }
+`;
+
+export const ButtonFileChange = styled.button`
+  width: 90%;
+
+  background: transparent;
+  border: 3px dashed #fff;
+  color: #fff;
+
+  label {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    padding: 0.8rem;
+    font-size: 1.1rem;
+    cursor: pointer;
+  }
+`;
+
+export const ButtonFile = styled.button`
+  width: 90%;
+  padding: 0.8rem;
+  background: transparent;
+  border: 3px dashed #fff;
+  color: #fff;
 `;
