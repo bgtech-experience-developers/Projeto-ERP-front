@@ -288,10 +288,9 @@ export const RegisterClients = () => {
             { value: 'isento', label: 'Contribuinte ISENTO' },
             { value: 'nao', label: 'Não contribuinte' },
           ]}
-          Tipo de contribuinte
+        >Tipo de contribuinte
         </Input>
       </Card>
-
       <Card title="Endereço da Empresa">
         <FormsField variant="triple">
           <Input
