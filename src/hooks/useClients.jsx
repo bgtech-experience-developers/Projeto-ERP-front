@@ -27,7 +27,7 @@ function useClients() {
       // console.log(body);
       console.log(formData.getAll("photos"));
 
-      const response = await client.post("/cliente/criarCliente", formData);
+      const response = await client.post("/cliente/registro", formData);
 
       console.log(response);
     } catch (error) {
@@ -37,13 +37,13 @@ function useClients() {
     }
   };
 
-  const getClient = async (extraUrl) => {
+  const getClients = async (extraUrl) => {
     try {
       // API original
-      // const { data } = await client.get(`/cliente${extraUrl}`);
+      // const { data } = await client.get(`/cliente/${extraUrl}`);
 
       // Teste na minha mock (Carlos)
-      const { data } = await client.get(`/api/cliente${extraUrl}`);
+      const { data } = await client.get(`/api/cliente/${extraUrl}`);
 
       if (data) {
         return data;
@@ -55,10 +55,32 @@ function useClients() {
     }
   };
 
-  const deleteClient = async (cpf) => {
+  const getClientByID = async (id) => {
     try {
-      // const data = await client.delete(`/cliente/deletar/${cpf}`);
-      const data = await client.delete(`/cliente/${cpf}`);
+      // API original
+      // const { data } = await client.get(`/cliente/${id}`);
+
+      // Teste na minha mock (Carlos)
+      const { data } = await client.get(`/api/cliente/${id}`);
+
+      if (data) {
+        return data;
+      }
+      return "Não foi possível trazes os dados do cliente";
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  };
+
+  const deleteClient = async (id) => {
+    try {
+      // API Original
+      // const data = await client.delete(`/cliente/remove/${id}`);
+
+      // Mock (Carlos)
+      const data = await client.delete(`/cliente/${id}`);
+
       return data;
     } catch (error) {
       console.error(error);
@@ -83,7 +105,8 @@ function useClients() {
 
   return {
     postClient,
-    getClient,
+    getClients,
+    getClientByID,
     deleteClient,
     patchClient,
   };

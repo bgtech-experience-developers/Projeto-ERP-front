@@ -106,6 +106,14 @@ export const StyledResponsiveSidebar = styled(StyledSidebar)`
   &.open-hover {
     left: 0;
   }
+
+  @media (max-width: ${theme.media.md}) {
+    display: block;
+
+    &.transform {
+      display: block;
+    }
+  }
 `;
 
 export const InnerContent = styled.div``;
@@ -127,13 +135,6 @@ export const Content = styled.main`
     align-items: stretch;
     width: 100%;
   }
-
-  // Tive que fazer isso por que esse caralho de tabela estava por cima do meu lindo sidebar, que se foda essa tabela, que se fodam bibliotecas de css que deixam tudo pronto, Obrigado :D.
-  &.open-hover {
-    position: relative;
-    z-index: -1;
-  }
-  // Perdão se isso quebrou algo de alguém
 
   @media (max-width: ${theme.media.md}) {
     width: 100vw;

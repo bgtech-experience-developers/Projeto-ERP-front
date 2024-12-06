@@ -1,15 +1,14 @@
 import styled from "styled-components";
 import { theme } from "../../theme/theme";
 
-export const MainTableContainer = styled.div`
+export const MainTableContainer = styled.section`
   width: 90%;
   align-self: center;
-  /* background-color: #f7f7f7; */
   display: flex;
   flex-direction: column;
   justify-content: center;
   height: 100%;
-  padding: 2rem;
+  padding: ${({ $padding }) => $padding};
 
   #loader {
     align-self: center;
@@ -19,10 +18,14 @@ export const MainTableContainer = styled.div`
   }
 `;
 
+export const TableArea = styled.div`
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+`;
+
 export const TitleTable = styled.div`
   display: flex;
   justify-content: space-between;
-  /* align-items: center; */
   padding-bottom: 10px;
   font-weight: bold;
 
@@ -44,8 +47,7 @@ export const Order = styled.div``;
 
 export const Container = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: center;
+
   justify-content: center;
   width: 100%;
   background-color: ${theme.colors.white};
@@ -56,11 +58,12 @@ export const TableWrapper = styled.div`
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   width: 100%;
-  border: 1px solid ${theme.colors.lightGray2};
 `;
 
 export const Table = styled.table`
   border-collapse: collapse;
+  white-space: nowrap;
+
   width: ${({ $width }) => $width};
   min-width: 100%;
 `;
@@ -69,6 +72,7 @@ export const Thead = styled.thead``;
 export const Tbody = styled.tbody``;
 
 export const Tr = styled.tr`
+  /* height: 100%; */
   &:hover td {
     background-color: ${theme.colors.lightGray4};
   }
@@ -78,8 +82,8 @@ export const ThContent = styled.div``;
 
 export const Th = styled.th`
   width: ${({ $width }) => $width};
-  padding: 5px;
-
+  padding: 10px;
+  text-align: left;
   position: relative;
   border-bottom: 1px solid ${theme.colors.lightGray2};
 
@@ -91,7 +95,6 @@ export const Th = styled.th`
     font-size: 1.6rem;
     display: flex;
     align-items: center;
-    justify-content: center;
     width: 100%;
     height: 100%;
   }
@@ -159,16 +162,20 @@ export const Td = styled.td`
   width: ${({ $width }) => $width};
 
   padding: 10px;
-  text-align: center;
-`;
+  text-align: ${({ $textAlign }) => $textAlign};
 
-export const THeader = styled.header``;
+  p {
+    text-align: left;
+    width: 100%;
+    height: 100%;
+  }
+`;
 
 export const IconContainer = styled.div`
   display: flex;
   gap: 10px;
   height: 100%;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
 
   .icon {
