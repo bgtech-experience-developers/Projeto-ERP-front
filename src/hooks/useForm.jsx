@@ -1,4 +1,13 @@
 import React from 'react';
+import {
+  cnpjMask,
+  cpfMask,
+  cepMask,
+  phoneNumberMask,
+  birthMask,
+  currencyMask,
+  rgMask,
+} from '../utils/mask';
 
 const types = {
   cep: {
@@ -11,7 +20,7 @@ const types = {
     message: 'Email inválido',
   },
   cnpj: {
-    regex: /^\d{3}\.?\d{3}\.?\d{3}-?\d{2}$/,
+    regex: /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/,
     message: 'CNPJ inválido',
   },
   cpf: {
@@ -57,12 +66,39 @@ const useForm = () => {
     });
   }
 
+  function mask(name, value) {
+    if (name === 'cnpj') {
+      return cnpjMask(value);
+    }
+    if (name === 'cep') {
+      return cepMask(value);
+    }
+
+    if (name === 'rg') {
+      return rgMask(value);
+    }
+
+    if (name === 'cpf') {
+      return cpfMask(value);
+    }
+
+    if (name === 'phone' || name === 'cell_phone') {
+      return phoneNumberMask(value);
+    }
+
+    if (name === 'price') {
+      return currencyMask(value);
+    }
+
+    return value;
+  }
+
   function onBlur({ target }) {
     const { name, value } = target;
     validate(name, value);
   }
 
-  return [onBlur, onChange, error, setError];
+  return [mask, onBlur, onChange, error, setError];
 };
 
 export default useForm;
