@@ -2,6 +2,7 @@ import React from "react";
 import useClients from "../../hooks/useClients";
 import { fuzzyFilter } from "../../utils/fuzzyFilter";
 import { theme } from "../../theme/theme";
+import { SidebarContext } from "../../contexts/SidebarContext";
 
 // Componentes
 import * as T from "../../components/Tables";
@@ -27,15 +28,24 @@ import { HiEye, HiPencilAlt, HiTrash } from "react-icons/hi";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { LuArrowDownAZ, LuArrowUpAZ, LuArrowDownUp } from "react-icons/lu";
 
+import { Modal } from "../../components/Modal";
+import { IoSearch } from "react-icons/io5";
+
 export const ViewTableClients = () => {
   const [isLoading, setIsLoading] = React.useState(false);
   const [fetchStatus, setFetchStatus] = React.useState(true);
-  const { getClient, deleteClient } = useClients();
+  const [search, setSearch] = React.useState(false);
+
+  const [modal, setModal] = React.useState("active");
+
+  const { getClients, deleteClient } = useClients();
   const [clients, setClients] = React.useState([]);
   const [pagination, setPagination] = React.useState({
     pageIndex: 1,
-    pageSize: 5,
+    pageSize: 6,
   });
+
+  const { isActive } = React.useContext(SidebarContext);
 
   const navigate = useNavigate();
 
@@ -44,15 +54,9 @@ export const ViewTableClients = () => {
     const fetchClients = async () => {
       setIsLoading(true);
       try {
-        const data = await getClient(`?status=${fetchStatus}`);
+        const data = await getClients(`?status=${fetchStatus}`);
 
-        const updatedData = data.map((client) => ({
-          ...client,
-          status: client.status ? "Ativo" : "Inativo", // Define status
-          cnpj: client.cnpj || "Não informado", // Inclui o CNPJ - Ranyer
-        }));
-
-        setClients(updatedData);
+        setClients(data);
       } catch (error) {
         toast.error("Erro ao buscar clientes.");
         console.error("Erro ao buscar clientes:", error);
@@ -102,32 +106,24 @@ export const ViewTableClients = () => {
     navigate("/cadastrar/cliente/editar", { state: { clients: row.original } });
   };
 
+  //Cuida da animação do input
+  function handleSearch(e) {
+    e.stopPropagation();
+    setSearch(!search);
+  }
+
   // Configurações da coluna
   const columns = React.useMemo(
     () => [
-      { accessorKey: "corporate_reason", header: "Nome da empresa", size: 150 },
-      { accessorKey: "branch_activity", header: "Ramo", size: 100 },
-      { accessorKey: "name", header: "Contato", size: 100 },
-      { accessorKey: "email", header: "Email", size: 100 },
-      { accessorKey: "cell_phone", header: "Telefone", size: 150 },
-      {
-        accessorKey: "status",
-        header: "Status",
-        size: 100,
+      { accessorKey: "corporate_reason", header: "Nome da empresa" },
+      { accessorKey: "branch_activity", header: "Ramo", size: 60 },
+      { accessorKey: "name", header: "Contato" },
 
-        cell: (props) => (
-          <Text
-            bold="600"
-            variant={"small"}
-            align={"center"}
-            color={props.getValue() === "Ativo" ? "green" : "red"}
-          >
-            {props.getValue()}
-          </Text>
-        ),
-      },
+      { accessorKey: "cell_phone", header: "Telefone" },
+
       {
         header: "Opções",
+        size: 30,
         cell: (props) => (
           <T.IconContainer>
             <NavLink to={"/cadastrar/cliente/visualizar"}>
@@ -174,132 +170,148 @@ export const ViewTableClients = () => {
       {isLoading ? (
         <Loader id="loader" />
       ) : (
-        <T.MainTableContainer>
+        <T.MainTableContainer $padding={isActive ? "2rem" : "0"}>
           <T.TitleTable>
             <Text variant="large" bold="bold">
               Meus clientes
             </Text>
             <Link to="/cadastrar/cliente/novo">Cadastrar novo</Link>
           </T.TitleTable>
+          <T.TableArea>
+            <Header variant="table">
+              <Input
+                variant="expandable-input"
+                placeholder="Digite uma palavra chave..."
+                className={search ? "expand-input" : ""}
+                onChange={(e) => table.setGlobalFilter(e.target.value)}
+              >
+                <IoSearch onClick={handleSearch} />
+              </Input>
 
-          <Header variant="table">
-            <Input
-              placeholder="Digite uma palavra-chave..."
-              width="30rem"
-              height="4.5rem"
-              onChange={(e) => table.setGlobalFilter(e.target.value)}
-            />
-          </Header>
+              <Modal
+                setFetchStatus={setFetchStatus}
+                setSelectedItem={setModal}
+                selectedItem={modal}
+              />
+            </Header>
 
-          <T.Container>
-            <T.TableWrapper>
-              <T.Table $width={`${table.getTotalSize()}px`}>
-                <T.Thead>
-                  {table.getHeaderGroups().map((headerGroup) => (
-                    <T.Tr key={headerGroup.id}>
-                      {headerGroup.headers.map((header) => (
-                        <T.Th key={header.id} $width={`${header.getSize()}px`}>
-                          <T.ThContent>
-                            {/* Lógica de fazer a requisição pelo status */}
-                            {header.column.columnDef.header === "Status" ? (
-                              <Text
-                                bold={"bold"}
-                                variant="small"
-                                style={{ cursor: "pointer" }}
-                                onClick={() => setFetchStatus(!fetchStatus)}
-                              >
-                                {header.column.columnDef.header}
-                              </Text>
-                            ) : (
-                              header.column.columnDef.header
-                            )}
-                            <T.Order>
-                              {/* Lógica de sort (asc, desc) */}
-                              <LuArrowUpAZ
-                                className={` ${
-                                  header.column.getIsSorted() === "asc"
-                                    ? "asc"
-                                    : ""
-                                }`}
-                              />
-                              <LuArrowDownUp
-                                className={`${
-                                  header.column.getIsSorted() ? "" : "default"
-                                }`}
-                              />
-
-                              <LuArrowDownAZ
-                                onClick={header.column.getToggleSortingHandler()}
-                                className={` ${
-                                  header.column.getIsSorted() === "desc"
-                                    ? "desc"
-                                    : ""
-                                }`}
-                              />
-                            </T.Order>
-                          </T.ThContent>
-                          {/* Tamanho dinâmico */}
-                          <T.Resizer
-                            onMouseDown={header.getResizeHandler()}
-                            onTouchStart={header.getResizeHandler()}
-                            className={`${
-                              header.column.getIsResizing() ? "isResizing" : ""
-                            }`}
-                          />
-                        </T.Th>
-                      ))}
-                    </T.Tr>
-                  ))}
-                </T.Thead>
-                <T.Tbody>
-                  {table.getRowModel().rows.length === 0 ? (
-                    <Text variant="medium" align={"center"}>
-                      Nenhum registro encontrado
-                    </Text>
-                  ) : (
-                    table.getRowModel().rows.map((row) => (
-                      <T.Tr key={row.id}>
-                        {row.getVisibleCells().map((cell) => (
-                          <T.Td
-                            key={cell.id}
-                            $width={`${cell.column.getSize()}px`}
+            <T.Container>
+              <T.TableWrapper>
+                <T.Table $width={`${table.getTotalSize()}px`}>
+                  <T.Thead>
+                    {table.getHeaderGroups().map((headerGroup) => (
+                      <T.Tr key={headerGroup.id}>
+                        {headerGroup.headers.map((header) => (
+                          <T.Th
+                            key={header.id}
+                            $width={`${header.getSize()}px`}
                           >
-                            {flexRender(
-                              cell.column.columnDef.cell,
-                              cell.getContext()
-                            )}
-                          </T.Td>
+                            <T.ThContent>
+                              {/* Lógica de fazer a requisição pelo status */}
+                              {header.column.columnDef.header === "Status" ? (
+                                <Text
+                                  bold={"bold"}
+                                  variant="small"
+                                  style={{ cursor: "pointer" }}
+                                  onClick={() => setFetchStatus(!fetchStatus)}
+                                >
+                                  {header.column.columnDef.header}
+                                </Text>
+                              ) : (
+                                header.column.columnDef.header
+                              )}
+                              <T.Order>
+                                {/* Lógica de sort (asc, desc) */}
+                                <LuArrowUpAZ
+                                  className={` ${
+                                    header.column.getIsSorted() === "desc"
+                                      ? "desc"
+                                      : ""
+                                  }`}
+                                />
+                                <LuArrowDownUp
+                                  className={`${
+                                    header.column.getIsSorted() ? "" : "default"
+                                  }`}
+                                />
+
+                                <LuArrowDownAZ
+                                  onClick={header.column.getToggleSortingHandler()}
+                                  className={` ${
+                                    header.column.getIsSorted() === "asc"
+                                      ? "asc"
+                                      : ""
+                                  }`}
+                                />
+                              </T.Order>
+                            </T.ThContent>
+                            {/* Tamanho dinâmico */}
+                            <T.Resizer
+                              onMouseDown={header.getResizeHandler()}
+                              onTouchStart={header.getResizeHandler()}
+                              className={`${
+                                header.column.getIsResizing()
+                                  ? "isResizing"
+                                  : ""
+                              }`}
+                            />
+                          </T.Th>
                         ))}
                       </T.Tr>
-                    ))
-                  )}
-                </T.Tbody>
-              </T.Table>
-            </T.TableWrapper>
-          </T.Container>
+                    ))}
+                  </T.Thead>
+                  <T.Tbody>
+                    {table.getRowModel().rows.length === 0 ? (
+                      <T.Tr>
+                        <T.Td colSpan={columns.length} $textAlign="center">
+                          Nenhum registro encontrado
+                        </T.Td>
+                      </T.Tr>
+                    ) : (
+                      table.getRowModel().rows.map((row) => (
+                        <T.Tr key={row.id}>
+                          {row.getVisibleCells().map((cell) => (
+                            <T.Td
+                              key={cell.id}
+                              $width={`${cell.column.getSize()}px`}
+                            >
+                              {flexRender(
+                                cell.column.columnDef.cell,
+                                cell.getContext()
+                              )}
+                            </T.Td>
+                          ))}
+                        </T.Tr>
+                      ))
+                    )}
+                  </T.Tbody>
+                </T.Table>
+              </T.TableWrapper>
+            </T.Container>
 
-          <Footer variant={"table"}>
-            <Text variant="small" color={theme.colors.lightGray2}>
-              {table.getState().pagination.pageIndex + 1} -{" "}
-              {table.getPageCount()} de {table.getPageCount()}
-            </Text>
+            <Footer variant={"table"}>
+              <Text variant="small" color={theme.colors.lightGray2}>
+                {table.getState().pagination.pageIndex + 1} -{" "}
+                {table.getPageCount()} de {table.getPageCount()}
+              </Text>
 
-            {/* Páginação */}
-            <Button
-              variant="icon"
-              onClick={() => table.previousPage()}
-              disabled={!table.getCanPreviousPage()}
-            >
-              <IoIosArrowBack />
-            </Button>
-            <Button
-              variant="icon"
-              onClick={() => table.nextPage()}
-              disabled={!table.getCanNextPage()}
-            >
-              <IoIosArrowForward />
-            </Button>
-          </Footer>
+              {/* Páginação */}
+              <Button
+                variant="icon"
+                onClick={() => table.previousPage()}
+                disabled={!table.getCanPreviousPage()}
+              >
+                <IoIosArrowBack />
+              </Button>
+              <Button
+                variant="icon"
+                onClick={() => table.nextPage()}
+                disabled={!table.getCanNextPage()}
+              >
+                <IoIosArrowForward />
+              </Button>
+            </Footer>
+          </T.TableArea>
         </T.MainTableContainer>
       )}
     </>
