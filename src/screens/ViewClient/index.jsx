@@ -115,11 +115,12 @@ export const ViewTableClients = () => {
   // Configurações da coluna
   const columns = React.useMemo(
     () => [
-      { accessorKey: "corporate_reason", header: "Nome da empresa" },
+      // { accessorKey: "corporate_reason", header: "Nome da empresa" },
+      { accessorKey: "fantasy_name", header: "Nome da empresa" },
       { accessorKey: "branch_activity", header: "Ramo", size: 60 },
       { accessorKey: "name", header: "Contato" },
 
-      { accessorKey: "cell_phone", header: "Telefone" },
+      { accessorKey: "telefone", header: "Telefone" },
 
       {
         header: "Opções",
@@ -223,25 +224,22 @@ export const ViewTableClients = () => {
                               <T.Order>
                                 {/* Lógica de sort (asc, desc) */}
                                 <LuArrowUpAZ
-                                  className={` ${
-                                    header.column.getIsSorted() === "desc"
-                                      ? "desc"
-                                      : ""
-                                  }`}
+                                  className={` ${header.column.getIsSorted() === "desc"
+                                    ? "desc"
+                                    : ""
+                                    }`}
                                 />
                                 <LuArrowDownUp
-                                  className={`${
-                                    header.column.getIsSorted() ? "" : "default"
-                                  }`}
+                                  className={`${header.column.getIsSorted() ? "" : "default"
+                                    }`}
                                 />
 
                                 <LuArrowDownAZ
                                   onClick={header.column.getToggleSortingHandler()}
-                                  className={` ${
-                                    header.column.getIsSorted() === "asc"
-                                      ? "asc"
-                                      : ""
-                                  }`}
+                                  className={` ${header.column.getIsSorted() === "asc"
+                                    ? "asc"
+                                    : ""
+                                    }`}
                                 />
                               </T.Order>
                             </T.ThContent>
@@ -249,11 +247,10 @@ export const ViewTableClients = () => {
                             <T.Resizer
                               onMouseDown={header.getResizeHandler()}
                               onTouchStart={header.getResizeHandler()}
-                              className={`${
-                                header.column.getIsResizing()
-                                  ? "isResizing"
-                                  : ""
-                              }`}
+                              className={`${header.column.getIsResizing()
+                                ? "isResizing"
+                                : ""
+                                }`}
                             />
                           </T.Th>
                         ))}

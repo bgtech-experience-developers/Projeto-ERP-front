@@ -40,10 +40,10 @@ function useClients() {
   const getClients = async (extraUrl) => {
     try {
       // API original
-      // const { data } = await client.get(`/cliente/${extraUrl}`);
+      const { data } = await client.get(`/clientes/${extraUrl}`);
 
       // Teste na minha mock (Carlos)
-      const { data } = await client.get(`/api/cliente/${extraUrl}`);
+      // const { data } = await client.get(`/api/cliente/${extraUrl}`);
 
       if (data) {
         return data;
@@ -76,10 +76,10 @@ function useClients() {
   const deleteClient = async (id) => {
     try {
       // API Original
-      // const data = await client.delete(`/cliente/remove/${id}`);
+      const data = await client.delete(`/clientes/remover/${id}`);
 
       // Mock (Carlos)
-      const data = await client.delete(`/cliente/${id}`);
+      // const data = await client.delete(`/clientes/${id}`);
 
       return data;
     } catch (error) {
