@@ -59,11 +59,17 @@ const useForm = () => {
   }
 
   function onChange(field) {
-    setError((prevErrors) => {
-      const updatedErrors = { ...prevErrors };
-      delete updatedErrors[field]; // Remove apenas o erro do campo específico
-      return updatedErrors;
-    });
+    console.log(field);
+
+    // setError((prevErrors) => {
+    //   const updatedErrors = { ...prevErrors };
+    //   delete updatedErrors[field]; // Remove apenas o erro do campo específico
+    //   return updatedErrors;
+    // });
+  }
+
+  function a(params) {
+    console.log(params);
   }
 
   function mask(name, value) {
@@ -98,7 +104,7 @@ const useForm = () => {
     validate(name, value);
   }
 
-  return [mask, onBlur, onChange, error, setError];
+  return [mask, onBlur, onChange, error, a, setError];
 };
 
 export default useForm;
