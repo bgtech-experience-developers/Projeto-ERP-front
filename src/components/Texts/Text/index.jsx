@@ -7,6 +7,7 @@ export const Text = ({
   color,
   style,
   align,
+  width,
   ...props
 }) => {
   return (
@@ -16,6 +17,7 @@ export const Text = ({
       $color={color}
       style={style}
       $textAlign={align}
+      $widht={width}
       {...props}
     >
       {children}
