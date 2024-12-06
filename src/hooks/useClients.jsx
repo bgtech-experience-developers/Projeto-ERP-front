@@ -55,10 +55,10 @@ function useClients() {
     }
   };
 
-  const deleteClient = async (cpf) => {
+  const deleteClient = async (id) => {
     try {
       // const data = await client.delete(`/cliente/deletar/${cpf}`);
-      const data = await client.delete(`/cliente/${cpf}`);
+      const data = await client.delete(`/cliente/${id}`);
       return data;
     } catch (error) {
       console.error(error);

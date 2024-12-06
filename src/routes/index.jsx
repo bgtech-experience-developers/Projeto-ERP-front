@@ -10,6 +10,7 @@ import {
   ViewTableSupplierPF,
   ViewTableSupplierPJ,
 } from '../screens/ViewSupplier';
+import { DashboardClients } from '../screens/DashboardClients';
 
 import {
   RegisterSupplierPF,
@@ -54,6 +55,14 @@ export const AppRoutes = () => {
                     <Route
                       path="cadastrar/cliente/novo"
                       element={<RegisterClients />}
+                    />
+                  
+    
+                    <Route 
+                        path="cadastrar/cliente/dashboard" 
+                        element={<DashboardClients />} 
+                        
+                      
                     />
 
                     <Route
