@@ -27,7 +27,7 @@ function useClients() {
       // console.log(body);
       console.log(formData.getAll("photos"));
 
-      const response = await client.post("/cliente/registro", formData);
+      const response = await client.post("/clientes/registro", formData);
 
       console.log(response);
     } catch (error) {
@@ -40,10 +40,8 @@ function useClients() {
   const getClients = async (extraUrl ) => {
     try {
       // API original
-      const { data } = await client.get(`/cliente/${extraUrl ? extraUrl : ""}`);
 
-      // Teste na minha mock (Carlos)
-      // const { data } = await client.get(`/api/clientes/${extraUrl ? extraUrl : ""}`);
+      const { data } = await client.get(`/clientes/${extraUrl}`);
 
 
       console.log(data)
@@ -78,10 +76,9 @@ function useClients() {
   const deleteClient = async (id) => {
     try {
       // API Original
-      const data = await client.delete(`/cliente/remove/${id}`);
 
-      // Mock (Carlos)
-      // const data = await client.delete(`/cliente/${id}`);
+      const data = await client.delete(`/clientes/remover/${id}`);
+
 
       return data;
     } catch (error) {
@@ -91,16 +88,20 @@ function useClients() {
   };
 
   // Novo método PATCH com suporte para CPF e CNPJ
-  const patchClient = async (identifier, updatedInfo, isCNPJ = false) => {
+  const patchClient = async (id, updatedInfo) => {
     try {
-      const endpoint = isCNPJ
-        ? `/cliente/atualizar?contribuinte=${identifier}` // Endpoint para CNPJ
-        : `/cliente/atualizar?contribuinte=${identifier}`; // Endpoint para CPF
+      // const endpoint = isCNPJ
+      //   ? `/clientes/atualizar?contribuinte=${identifier}` // Endpoint para CNPJ
+      //   : `/clientes/atualizar?contribuinte=${identifier}`; // Endpoint para CPF
 
+      // Usando o id em vez do cnpj ou cpf
+      const endpoint = `/clientes/atualizar/${id}`;
       const data = await client.patch(endpoint, updatedInfo);
+      alert('Cliente atualizado com sucesso!')
       console.log(data);
       return data;
     } catch (error) {
+      console.error('Erro ao atualizar cliente:', error);
       return error;
     }
   };

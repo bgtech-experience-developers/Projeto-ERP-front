@@ -16,6 +16,7 @@ import {
   RegisterSupplierPF,
   RegisterSupplierPJ,
 } from "../screens/RegisterSuppliers/index";
+import { UpdateClients } from "../screens/UpdateClients";
 
 export const AppRoutes = () => {
   const { isActive, isHover } = React.useContext(SidebarContext);
@@ -55,8 +56,7 @@ export const AppRoutes = () => {
                     <Route
                       path="cadastrar/cliente/novo"
                       element={<RegisterClients />}
-                    />
-                  
+                    />                  
     
                     <Route 
                         path="cadastrar/cliente/dashboard" 

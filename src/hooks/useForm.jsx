@@ -1,4 +1,12 @@
 import React from 'react';
+import {
+  cnpjMask,
+  cpfMask,
+  cepMask,
+  phoneNumberMask,
+  birthMask,
+  currencyMask,
+} from '../utils/mask';
 
 const types = {
   cep: {
@@ -11,7 +19,7 @@ const types = {
     message: 'Email inválido',
   },
   cnpj: {
-    regex: /^\d{3}\.?\d{3}\.?\d{3}-?\d{2}$/,
+    regex: /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/,
     message: 'CNPJ inválido',
   },
   cpf: {
@@ -50,11 +58,40 @@ const useForm = () => {
   }
 
   function onChange(field) {
-    setError((prevErrors) => {
-      const updatedErrors = { ...prevErrors };
-      delete updatedErrors[field]; // Remove apenas o erro do campo específico
-      return updatedErrors;
-    });
+    console.log(field);
+
+    // setError((prevErrors) => {
+    //   const updatedErrors = { ...prevErrors };
+    //   delete updatedErrors[field]; // Remove apenas o erro do campo específico
+    //   return updatedErrors;
+    // });
+  }
+
+  function a(params) {
+    console.log(params);
+  }
+
+  function mask(name, value) {
+    if (name === 'cnpj') {
+      return cnpjMask(value);
+    }
+    if (name === 'cep') {
+      return cepMask(value);
+    }
+
+    if (name === 'cpf') {
+      return cpfMask(value);
+    }
+
+    if (name === 'phone' || name === 'cell_phone') {
+      return phoneNumberMask(value);
+    }
+
+    if (name === 'price') {
+      return currencyMask(value);
+    }
+
+    return value;
   }
 
   function onBlur({ target }) {
@@ -62,7 +99,7 @@ const useForm = () => {
     validate(name, value);
   }
 
-  return [onBlur, onChange, error, setError];
+  return [mask, onBlur, onChange, error, a, setError];
 };
 
 export default useForm;
