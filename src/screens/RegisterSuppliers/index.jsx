@@ -12,7 +12,7 @@ import { useLocation } from 'react-router-dom';
 export const RegisterSupplierPF = () => {
   const { state } = useLocation();
 
-  const [onBlur, onChange, error] = useForm();
+  const [mask, onBlur, onChange, error] = useForm();
   const [formValues, setFormValues] = useState({
     fotos: '',
     supplier: {
@@ -79,7 +79,7 @@ export const RegisterSupplierPF = () => {
       ...formValues,
       [field]: {
         ...formValues[field],
-        [name]: value,
+        [name]: mask(name, value),
       },
     });
   };
@@ -328,7 +328,7 @@ export const RegisterSupplierPF = () => {
 
 export const RegisterSupplierPJ = () => {
   const { state } = useLocation();
-  const [onBlur, onChange, error] = useForm();
+  const [mask, onBlur, onChange, error] = useForm();
   const [formValues, setFormValues] = useState({
     fotos: '',
     supplier: {
@@ -390,14 +390,13 @@ export const RegisterSupplierPJ = () => {
   }
 
   const handleInputChange = (field) => (event) => {
-    const { name, value } = event.target;
+    const { id, name, value } = event.target;
     onChange(name);
-
     setFormValues({
       ...formValues,
       [field]: {
         ...formValues[field],
-        [name]: value,
+        [name]: mask(name, value),
       },
     });
   };
