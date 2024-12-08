@@ -9,7 +9,8 @@ import { RegisterClients } from "../screens/RegisterClients";
 import {
   ViewTableSupplierPF,
   ViewTableSupplierPJ,
-} from "../screens/ViewSupplier";
+} from '../screens/ViewSupplier';
+import { DashboardClients } from '../screens/DashboardClients';
 
 import {
   RegisterSupplierPF,
@@ -55,15 +56,14 @@ export const AppRoutes = () => {
                     <Route
                       path="cadastrar/cliente/novo"
                       element={<RegisterClients />}
-                    />
+                    />                  
+    
                     <Route 
-                    path="cadastrar/cliente/visualizar"
-                    element={<h1 style={{fontSize: '1.5rem'}}>Aqui é o dashboard do cliente!</h1>}
+                        path="cadastrar/cliente/dashboard" 
+                        element={<DashboardClients />} 
+                        
+                      
                     />
-                    <Route 
-                    path="cadastrar/cliente/editar"
-                    element={<UpdateClients />}
-                    /> 
 
                     <Route
                       path="cadastrar/fornecedor/pessoa/juridica"
