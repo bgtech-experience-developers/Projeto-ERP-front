@@ -38,7 +38,7 @@ export const ViewTableClients = () => {
 
   const [modal, setModal] = React.useState("active");
 
-  const { getClients, deleteClient } = useClients();
+  const { getClients, deleteClient, getClientByID } = useClients();
   const [clients, setClients] = React.useState([]);
   const [pagination, setPagination] = React.useState({
     pageIndex: 1,
@@ -102,8 +102,16 @@ export const ViewTableClients = () => {
   };
 
   // Função para o botão de editar encaminhar para o form de cadastro com os dados do cliente
-  const handleEdit = (row) => {
-    navigate("/cadastrar/cliente/editar", { state: { clients: row.original } });
+  const handleEdit = async (row) => {
+    try {
+      const cliente = await getClientByID(row.original.id);
+      navigate("/cadastrar/cliente/editar", {
+        state: { cliente: cliente }
+      });
+    } catch (error) {
+      console.error("Erro ao buscar cliente:", error.message);
+      alert("Não foi possível carregar os dados do cliente.")
+    }
   };
 
   //Cuida da animação do input
