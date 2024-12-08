@@ -104,14 +104,87 @@ export const ViewTableClients = () => {
   // Função para o botão de editar encaminhar para o form de cadastro com os dados do cliente
   const handleEdit = async (row) => {
     try {
-      const cliente = await getClientByID(row.original.id);
+      const clientResponse = await getClientByID(row.original.id);
+
+      const clientResponseMap = ClientFormMap(clientResponse);
+
       navigate("/cadastrar/cliente/editar", {
-        state: { cliente: cliente }
+        state: { cliente: clientResponseMap }
       });
+
     } catch (error) {
       console.error("Erro ao buscar cliente:", error.message);
       alert("Não foi possível carregar os dados do cliente.")
     }
+  };
+
+  const ClientFormMap = (clientResponse) => {
+    const clientResponseMap = {
+      imagens: [],
+      cliente: {
+        id: clientResponse.id,
+        corporate_reason: clientResponse?.corporate_reason,
+        fantasy_name: clientResponse?.fantasy_name,
+        cnpj: clientResponse?.cnpj,
+        state_registration: clientResponse?.state_registration,
+        type_contribuition: clientResponse?.type_contribuition,
+        branch_activity: clientResponse?.branch_activity
+      },
+      endereco_empresa: {
+        cep: "",
+        street: "",
+        number: "",
+        complement: "",
+        city: "",
+        neighborhood: "",
+      },
+      endereco_entrega: {
+        cep: "",
+        street: "",
+        number: "",
+        complement: "",
+        city: "",
+        neighborhood: "",
+      },
+      financeiro: {
+        id: clientResponse.financinal_contact[0].id,
+        name: clientResponse.financinal_contact[0]?.name,
+        phone: clientResponse.financinal_contact[0]?.phone,
+        cell_phone: clientResponse.financinal_contact[0]?.cell_phone,
+        rg: clientResponse.financinal_contact[0]?.rg,
+        email: clientResponse.financinal_contact[0]?.email,
+        cpf: clientResponse.financinal_contact[0]?.cpf,
+      },
+      comercial: {
+        id: clientResponse.commercial_contact[0].id,
+        name: clientResponse.commercial_contact[0]?.name,
+        phone: clientResponse.commercial_contact[0]?.phone,
+        cell_phone: clientResponse.commercial_contact[0]?.cell_phone,
+        rg: clientResponse.commercial_contact[0]?.rg,
+        email: clientResponse.commercial_contact[0]?.email,
+        cpf: clientResponse.commercial_contact[0]?.cpf,
+      },
+      contabil: {
+        id: clientResponse.accounting_contact[0].id,
+        name: clientResponse.accounting_contact[0]?.name,
+        phone: clientResponse.accounting_contact[0]?.phone,
+        cell_phone: clientResponse.accounting_contact[0]?.cell_phone,
+        rg: clientResponse.accounting_contact[0]?.rg,
+        email: clientResponse.accounting_contact[0]?.email,
+        cpf: clientResponse.accounting_contact[0]?.cpf,
+      },
+      socio: {
+        id: clientResponse.owner_partner[0].id,
+        name: clientResponse.owner_partner[0]?.name,
+        phone: clientResponse.owner_partner[0]?.phone,
+        cell_phone: clientResponse.owner_partner[0]?.cell_phone,
+        rg: clientResponse.owner_partner[0]?.rg,
+        email: clientResponse.owner_partner[0]?.email,
+        cpf: clientResponse.owner_partner[0]?.cpf,
+      },
+    };
+
+    return clientResponseMap;
   };
 
   //Cuida da animação do input
