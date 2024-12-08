@@ -50,17 +50,6 @@ export const birthMask = (value) => {
     .replace(/(\d{4})(\d+?)/, '$1');
 };
 
-export const rgMask = (value) => {
-  if (!value) return '';
-
-  return value
-    .replace(/\D/g, '')
-    .slice(0, 9)
-    .replace(/^(\d{2})(\d)/, '$1.$2')
-    .replace(/^(\d{2}\.\d{3})(\d)/, '$1.$2')
-    .replace(/^(\d{2}\.\d{3}\.\d{3})(\d)/, '$1-$2');
-};
-
 export const currencyMask = (value) => {
   if (!value) return '';
 

@@ -6,7 +6,6 @@ import {
   phoneNumberMask,
   birthMask,
   currencyMask,
-  rgMask,
 } from '../utils/mask';
 
 const types = {
@@ -78,10 +77,6 @@ const useForm = () => {
     }
     if (name === 'cep') {
       return cepMask(value);
-    }
-
-    if (name === 'rg') {
-      return rgMask(value);
     }
 
     if (name === 'cpf') {
