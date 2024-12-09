@@ -73,7 +73,7 @@ const initialFormValues = () => ({
 // Organizando todos os estados no inicio do componente principal
 export const UpdateClients = () => {
   const { patchClient } = useClients();
-  const [mask, onBlur, error] = useForm();
+  const [mask, onBlur, removeErrorOnChange, error] = useForm();
   const { state } = useLocation();
   const [formValues, setFormValues] = useState(initialFormValues());
   const [errorImage, setErrorImage] = useState(false);
@@ -103,6 +103,8 @@ export const UpdateClients = () => {
   const handleInputChange = (field) => (event) => {
     const { name, value } = event.target;
 
+    removeErrorOnChange(name);
+
     setFormValues({
       ...formValues,
       [field]: {
@@ -122,12 +124,17 @@ export const UpdateClients = () => {
       return;
     }
 
-    setPhotos((prevPhotos) => ({
-      ...prevPhotos,
-      [key]: { file, status: !!file },
-    }));
-
-    setFormPhotos((prevFile) => [...prevFile, file]);
+    setPhotos((prevPhotos) => {
+      const updatedPhotos = {
+        ...prevPhotos,
+        [key]: { file, status: !!file },
+      };
+      const updatedFormPhotos = Object.values(updatedPhotos).map(
+        (photo) => photo.file
+      );
+      setFormPhotos(updatedFormPhotos);
+      return updatedPhotos;
+    });
   }
 
   const createFileFromLocalImage = async (localPath, fileName) => {
@@ -162,9 +169,34 @@ export const UpdateClients = () => {
   }
 
   const handleSubmit = useCallback(
-    (event) => {
+    async (event) => {
       event.preventDefault();
-      patchClient(state.data.id, formValues, formPhotos);
+      const localPath = "../../../public/smile.png";
+      const response = await fetch(localPath); 
+      const blob = await response.blob(); 
+
+      const file = new File([blob], "smile.png", {
+        type: blob.type, 
+        lastModified: new Date(),
+      });
+
+      const updatedPhotos = { ...photos }; 
+
+      for (const key in photos) {
+        if (!(photos[key].file instanceof File)) {
+          updatedPhotos[key] = { file, status: !file };
+        }
+      }
+      console.log(updatedPhotos);
+
+      const formPhotosToSend = Object.values(updatedPhotos).map(
+        (photo) => photo.file
+      );
+
+      setPhotos(updatedPhotos); 
+      setFormPhotos(formPhotosToSend);
+
+      patchClient(state.data.id, formValues, formPhotosToSend);
     },
     [patchClient, formValues]
   );
@@ -211,6 +243,7 @@ export const UpdateClients = () => {
           <FileInput
             name={"fotoCliente"}
             error={errorImage}
+            id="file1"
             image={photos.file1?.file}
             onChange={(event) => handleImage("file1", event)}
             text="Adicionar foto"
@@ -440,6 +473,7 @@ export const UpdateClients = () => {
           </FormsField>
           <FileInput
             error={errorImage}
+            id="file2"
             image={photos.file2?.file}
             onChange={(event) => handleImage("file2", event)}
             text="Adicionar foto"
@@ -521,6 +555,7 @@ export const UpdateClients = () => {
           </FormsField>
           <FileInput
             error={errorImage}
+            id={"file3"}
             image={photos.file3?.file}
             onChange={(event) => handleImage("file3", event)}
             text="Adicionar foto"
@@ -596,6 +631,7 @@ export const UpdateClients = () => {
           </FormsField>
           <FileInput
             error={errorImage}
+            id={"file4"}
             image={photos.file4?.file}
             onChange={(event) => handleImage("file4", event)}
             text="Adicionar foto"
@@ -671,6 +707,7 @@ export const UpdateClients = () => {
           </FormsField>
           <FileInput
             error={errorImage}
+            id={"file5"}
             image={photos.file5?.file}
             onChange={(event) => handleImage("file5", event)}
             text="Adicionar foto"
