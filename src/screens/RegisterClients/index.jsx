@@ -1,73 +1,73 @@
-import { FormsField } from '../../components/Forms/FormsField';
-import { Input } from '../../components/Forms/Inputs/Input';
-import { Card } from '../../components/Forms/Card';
-import { Form } from '../../components/Forms/Form';
-import { FileInput } from '../../components/Forms/Inputs/File';
-import { Button } from '../../components/Forms/Button';
-import React, { useState } from 'react';
-import useClients from '../../hooks/useClients';
-import useForm from '../../hooks/useForm';
-import { SpanError } from './style';
+import { FormsField } from "../../components/Forms/FormsField";
+import { Input } from "../../components/Forms/Inputs/Input";
+import { Card } from "../../components/Forms/Card";
+import { Form } from "../../components/Forms/Form";
+import { FileInput } from "../../components/Forms/Inputs/File";
+import { Button } from "../../components/Forms/Button";
+import React, { useState } from "react";
+import useClients from "../../hooks/useClients";
+import useForm from "../../hooks/useForm";
+import { SpanError } from "./style";
 
 export const RegisterClients = () => {
   const [mask, onBlur, removeErrorOnChange, error] = useForm();
   const [formValues, setFormValues] = useState({
     imagens: [],
     cliente: {
-      corporate_reason: '',
-      fantasy_name: '',
-      cnpj: '',
-      state_registration: '',
-      type_contribuition: 'titulo',
-      branch_activity: '',
+      corporate_reason: "",
+      fantasy_name: "",
+      cnpj: "",
+      state_registration: "",
+      type_contribuition: "titulo",
+      branch_activity: "",
     },
     endereco_empresa: {
-      cep: '',
-      street: '',
-      number: '',
-      complement: '',
-      city: '',
-      neighborhood: '',
+      cep: "",
+      street: "",
+      number: "",
+      complement: "",
+      city: "",
+      neighborhood: "",
     },
     endereco_entrega: {
-      cep: '',
-      street: '',
-      number: '',
-      complement: '',
-      city: '',
-      neighborhood: '',
+      cep: "",
+      street: "",
+      number: "",
+      complement: "",
+      city: "",
+      neighborhood: "",
     },
     financeiro: {
-      name: '',
-      phone: '',
-      cell_phone: '',
-      rg: '',
-      email: '',
-      cpf: '',
+      name: "",
+      phone: "",
+      cell_phone: "",
+      rg: "",
+      email: "",
+      cpf: "",
     },
     comercial: {
-      name: '',
-      phone: '',
-      cell_phone: '',
-      rg: '',
-      email: '',
-      cpf: '',
+      name: "",
+      phone: "",
+      cell_phone: "",
+      rg: "",
+      email: "",
+      cpf: "",
     },
     contabil: {
-      name: '',
-      phone: '',
-      cell_phone: '',
-      rg: '',
-      email: '',
-      cpf: '',
+      name: "",
+      phone: "",
+      cell_phone: "",
+      rg: "",
+      email: "",
+      cpf: "",
     },
     socio: {
-      name: '',
-      phone: '',
-      cell_phone: '',
-      rg: '',
-      email: '',
-      cpf: '',
+      name: "",
+      phone: "",
+      cell_phone: "",
+      rg: "",
+      email: "",
+      cpf: "",
     },
   });
   const [photos, setPhotos] = useState({
@@ -82,6 +82,49 @@ export const RegisterClients = () => {
   const [formPhotos, setFormPhotos] = useState([]);
 
   const [errorImage, setErrorImage] = useState(false);
+
+  // Função de controle das imagens
+  React.useEffect(() => {
+    const createFileFromLocalImage = async () => {
+      try {
+        const localPath = "../../../public/smile.png";
+        const response = await fetch(localPath); // Busca o arquivo local
+        const blob = await response.blob(); // Converte a resposta para Blob
+
+        const file = new File([blob], "smile.png", {
+          type: blob.type, // Usa o tipo detectado
+          lastModified: new Date(),
+        });
+
+        // Atualiza o estado de photos
+        const updatedPhotos = { ...photos };
+        let updatedFormPhotos = []; // Cria um array intermediário para formPhotos
+
+        let index = 0; // Inicializa um índice para mapear os arquivos
+
+        // Atualiza o estado de photos
+        for (const key in updatedPhotos) {
+          updatedPhotos[key] = { file, status: !!file };
+          updatedFormPhotos[index] = file; // Substitui diretamente no índice correto
+          index++;
+        }
+        setPhotos(updatedPhotos);
+        setFormPhotos(updatedFormPhotos);
+
+     
+        return file;
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    createFileFromLocalImage();
+  }, []);
+
+  // React.useEffect(() => {
+  //   console.log("formPhotos: ", formPhotos);
+  //   console.log("photos: ", photos);
+  // }, [formPhotos, photos]);
 
   // Função chamada quando o usuário digita nos campos obrigatórios
   const handleInputChange = (field) => (event) => {
@@ -99,7 +142,7 @@ export const RegisterClients = () => {
   };
 
   function handleImage(key, { target }) {
-    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+    const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
     const file = target.files[0];
 
     if (!allowedTypes.includes(file.type)) {
@@ -108,12 +151,16 @@ export const RegisterClients = () => {
       return;
     }
 
-    setPhotos((prevPhotos) => ({
-      ...prevPhotos,
-      [key]: { file, status: !!file },
-    }));
-    setFormPhotos((prevFile) => [...prevFile, file]);
-  }
+    setPhotos((prevPhotos) => {
+      const updatedPhotos = {
+        ...prevPhotos,
+        [key]: { file, status: !!file },
+      };
+      const updatedFormPhotos = Object.values(updatedPhotos).map((photo) => photo.file);
+      setFormPhotos(updatedFormPhotos);
+      return updatedPhotos;
+    });
+  };
 
   function removeImage(key, { target }) {
     setPhotos({
@@ -126,65 +173,69 @@ export const RegisterClients = () => {
 
   function handleSubmit(event) {
     event.preventDefault();
+
+    // const updatedFormPhotos = Object.values(photos).map((photo) => photo.file);
+    // setFormPhotos(updatedFormPhotos);
+
     postClient(formValues, formPhotos);
     // Limpar Os Campos dos inputs
     setFormValues({
       imagens: [],
       cliente: {
-        corporate_reason: '',
-        fantasy_name: '',
-        cnpj: '',
-        state_registration: '',
-        type_contribuition: 'titulo',
-        branch_activity: '',
+        corporate_reason: "",
+        fantasy_name: "",
+        cnpj: "",
+        state_registration: "",
+        type_contribuition: "titulo",
+        branch_activity: "",
       },
       endereco_empresa: {
-        cep: '',
-        street: '',
-        number: '',
-        complement: '',
-        city: '',
-        neighborhood: '',
+        cep: "",
+        street: "",
+        number: "",
+        complement: "",
+        city: "",
+        neighborhood: "",
       },
       endereco_entrega: {
-        cep: '',
-        street: '',
-        number: '',
-        complement: '',
-        city: '',
-        neighborhood: '',
+        cep: "",
+        street: "",
+        number: "",
+        complement: "",
+        city: "",
+        neighborhood: "",
       },
       financeiro: {
-        name: '',
-        phone: '',
-        cell_phone: '',
-        rg: '',
-        email: '',
-        cpf: '',
+        name: "",
+        phone: "",
+        cell_phone: "",
+        rg: "",
+        email: "",
+        cpf: "",
       },
       comercial: {
-        name: '',
-        phone: '',
-        cell_phone: '',
-        rg: '',
-        email: '',
-        cpf: '',
+        name: "",
+        phone: "",
+        cell_phone: "",
+        rg: "",
+        email: "",
+        cpf: "",
       },
       contabil: {
-        name: '',
-        phone: '',
-        cell_phone: '',
-        rg: '',
-        email: '',
-        cpf: '',
+        name: "",
+        phone: "",
+        cell_phone: "",
+        rg: "",
+        email: "",
+        cpf: "",
       },
       socio: {
-        name: '',
-        phone: '',
-        cell_phone: '',
-        rg: '',
-        email: '',
-        cpf: '',
+        name: "",
+        phone: "",
+        cell_phone: "",
+        rg: "",
+        email: "",
+        cpf: "",
       },
     });
   }
@@ -205,7 +256,7 @@ export const RegisterClients = () => {
               name="corporate_reason"
               height="4.8rem"
               value={formValues.cliente.corporate_reason}
-              onChange={handleInputChange('cliente')}
+              onChange={handleInputChange("cliente")}
               onBlur={onBlur}
             >
               Razão social
@@ -219,7 +270,7 @@ export const RegisterClients = () => {
               name="fantasy_name"
               height="4.8rem"
               value={formValues.cliente.fantasy_name}
-              onChange={handleInputChange('cliente')}
+              onChange={handleInputChange("cliente")}
               onBlur={onBlur}
             >
               Nome fantasia
@@ -229,12 +280,12 @@ export const RegisterClients = () => {
             </Input>
           </FormsField>
           <FileInput
-            name={'fotoCliente'}
+            name={"fotoCliente"}
             error={errorImage}
             image={photos.file1.file}
-            onChange={(event) => handleImage('file1', event)}
+            onChange={(event) => handleImage("file1", event)}
             text="Adicionar foto"
-            handleRemove={(event) => removeImage('file1', event)}
+            handleRemove={(event) => removeImage("file1", event)}
           />
         </FormsField>
 
@@ -243,7 +294,7 @@ export const RegisterClients = () => {
           name="branch_activity"
           height="4.8rem"
           value={formValues.cliente.branch_activity}
-          onChange={handleInputChange('cliente')}
+          onChange={handleInputChange("cliente")}
           onBlur={onBlur}
         >
           Ramo de atuação
@@ -258,7 +309,7 @@ export const RegisterClients = () => {
             name="cnpj"
             height="4.8rem"
             value={formValues.cliente.cnpj}
-            onChange={handleInputChange('cliente')}
+            onChange={handleInputChange("cliente")}
             onBlur={onBlur}
           >
             CNPJ
@@ -269,7 +320,7 @@ export const RegisterClients = () => {
             name="state_registration"
             height="4.8rem"
             value={formValues.cliente.state_registration}
-            onChange={handleInputChange('cliente')}
+            onChange={handleInputChange("cliente")}
           >
             Inscrição estadual
           </Input>
@@ -281,12 +332,12 @@ export const RegisterClients = () => {
           name="type_contribuition"
           height="4.8rem"
           value={formValues.cliente.type_contribuition}
-          onChange={handleInputChange('cliente')}
+          onChange={handleInputChange("cliente")}
           options={[
-            { value: 'titulo', label: 'Selecione', disabled: true },
-            { value: 'icms', label: 'Contribuinte ICMS' },
-            { value: 'isento', label: 'Contribuinte ISENTO' },
-            { value: 'nao', label: 'Não contribuinte' },
+            { value: "titulo", label: "Selecione", disabled: true },
+            { value: "icms", label: "Contribuinte ICMS" },
+            { value: "isento", label: "Contribuinte ISENTO" },
+            { value: "nao", label: "Não contribuinte" },
           ]}
         >
           Tipo de contribuinte
@@ -299,7 +350,7 @@ export const RegisterClients = () => {
             id="endereco_empresa_street"
             height="4.8rem"
             value={formValues.endereco_empresa.street}
-            onChange={handleInputChange('endereco_empresa')}
+            onChange={handleInputChange("endereco_empresa")}
             onBlur={onBlur}
           >
             Logradouro
@@ -310,7 +361,7 @@ export const RegisterClients = () => {
             name="number"
             height="4.8rem"
             value={formValues.endereco_empresa.number}
-            onChange={handleInputChange('endereco_empresa')}
+            onChange={handleInputChange("endereco_empresa")}
             onBlur={onBlur}
           >
             Número
@@ -321,7 +372,7 @@ export const RegisterClients = () => {
             name="cep"
             height="4.8rem"
             value={formValues.endereco_empresa.cep}
-            onChange={handleInputChange('endereco_empresa')}
+            onChange={handleInputChange("endereco_empresa")}
             onBlur={onBlur}
           >
             CEP
@@ -334,7 +385,7 @@ export const RegisterClients = () => {
           name="complement"
           height="4.8rem"
           value={formValues.endereco_empresa.complement}
-          onChange={handleInputChange('endereco_empresa')}
+          onChange={handleInputChange("endereco_empresa")}
         >
           Complemento
         </Input>
@@ -345,7 +396,7 @@ export const RegisterClients = () => {
             name="neighborhood"
             height="4.8rem"
             value={formValues.endereco_empresa.neighborhood}
-            onChange={handleInputChange('endereco_empresa')}
+            onChange={handleInputChange("endereco_empresa")}
             onBlur={onBlur}
           >
             Bairro
@@ -358,7 +409,7 @@ export const RegisterClients = () => {
             name="city"
             height="4.8rem"
             value={formValues.endereco_empresa.city}
-            onChange={handleInputChange('endereco_empresa')}
+            onChange={handleInputChange("endereco_empresa")}
             onBlur={onBlur}
           >
             Cidade
@@ -374,7 +425,7 @@ export const RegisterClients = () => {
             name="street"
             height="4.8rem"
             value={formValues.endereco_entrega.street}
-            onChange={handleInputChange('endereco_entrega')}
+            onChange={handleInputChange("endereco_entrega")}
           >
             Logradouro
           </Input>
@@ -383,7 +434,7 @@ export const RegisterClients = () => {
             name="number"
             height="4.8rem"
             value={formValues.endereco_entrega.number}
-            onChange={handleInputChange('endereco_entrega')}
+            onChange={handleInputChange("endereco_entrega")}
           >
             Número
           </Input>
@@ -392,7 +443,7 @@ export const RegisterClients = () => {
             name="cep"
             height="4.8rem"
             value={formValues.endereco_entrega.cep}
-            onChange={handleInputChange('endereco_entrega')}
+            onChange={handleInputChange("endereco_entrega")}
           >
             CEP
           </Input>
@@ -403,7 +454,7 @@ export const RegisterClients = () => {
           name="complement"
           height="4.8rem"
           value={formValues.endereco_entrega.complement}
-          onChange={handleInputChange('endereco_entrega')}
+          onChange={handleInputChange("endereco_entrega")}
         >
           Complemento
         </Input>
@@ -414,7 +465,7 @@ export const RegisterClients = () => {
             name="neighborhood"
             height="4.8rem"
             value={formValues.endereco_entrega.neighborhood}
-            onChange={handleInputChange('endereco_entrega')}
+            onChange={handleInputChange("endereco_entrega")}
           >
             Bairro
           </Input>
@@ -423,7 +474,7 @@ export const RegisterClients = () => {
             name="city"
             height="4.8rem"
             value={formValues.endereco_entrega.city}
-            onChange={handleInputChange('endereco_entrega')}
+            onChange={handleInputChange("endereco_entrega")}
           >
             Cidade
           </Input>
@@ -438,7 +489,7 @@ export const RegisterClients = () => {
               name="name"
               height="4.8rem"
               value={formValues.socio.name}
-              onChange={handleInputChange('socio')}
+              onChange={handleInputChange("socio")}
               onBlur={onBlur}
             >
               Nome
@@ -450,7 +501,7 @@ export const RegisterClients = () => {
               height="4.8rem"
               type="email"
               value={formValues.socio.email}
-              onChange={handleInputChange('socio')}
+              onChange={handleInputChange("socio")}
               onBlur={onBlur}
             >
               Email
@@ -460,9 +511,9 @@ export const RegisterClients = () => {
           <FileInput
             error={errorImage}
             image={photos.file2.file}
-            onChange={(event) => handleImage('file2', event)}
+            onChange={(event) => handleImage("file2", event)}
             text="Adicionar foto"
-            handleRemove={(event) => removeImage('file2', event)}
+            handleRemove={(event) => removeImage("file2", event)}
           />
         </FormsField>
 
@@ -472,7 +523,7 @@ export const RegisterClients = () => {
             name="phone"
             height="4.8rem"
             value={formValues.socio.phone}
-            onChange={handleInputChange('socio')}
+            onChange={handleInputChange("socio")}
           >
             Telefone
           </Input>
@@ -481,7 +532,7 @@ export const RegisterClients = () => {
             name="cell_phone"
             height="4.8rem"
             value={formValues.socio.cell_phone}
-            onChange={handleInputChange('socio')}
+            onChange={handleInputChange("socio")}
             onBlur={onBlur}
           >
             Celular
@@ -495,7 +546,7 @@ export const RegisterClients = () => {
             name="rg"
             height="4.8rem"
             value={formValues.socio.rg}
-            onChange={handleInputChange('socio')}
+            onChange={handleInputChange("socio")}
             onBlur={onBlur}
           >
             RG
@@ -506,7 +557,7 @@ export const RegisterClients = () => {
             name="cpf"
             height="4.8rem"
             value={formValues.socio.cpf}
-            onChange={handleInputChange('socio')}
+            onChange={handleInputChange("socio")}
             onBlur={onBlur}
           >
             CPF
@@ -523,7 +574,7 @@ export const RegisterClients = () => {
               name="name"
               height="4.8rem"
               value={formValues.comercial.name}
-              onChange={handleInputChange('comercial')}
+              onChange={handleInputChange("comercial")}
             >
               Nome
             </Input>
@@ -533,7 +584,7 @@ export const RegisterClients = () => {
               height="4.8rem"
               type="email"
               value={formValues.comercial.email}
-              onChange={handleInputChange('comercial')}
+              onChange={handleInputChange("comercial")}
             >
               Email
             </Input>
@@ -541,9 +592,9 @@ export const RegisterClients = () => {
           <FileInput
             error={errorImage}
             image={photos.file3.file}
-            onChange={(event) => handleImage('file3', event)}
+            onChange={(event) => handleImage("file3", event)}
             text="Adicionar foto"
-            handleRemove={(event) => removeImage('file3', event)}
+            handleRemove={(event) => removeImage("file3", event)}
           />
         </FormsField>
 
@@ -553,7 +604,7 @@ export const RegisterClients = () => {
             name="phone"
             height="4.8rem"
             value={formValues.comercial.phone}
-            onChange={handleInputChange('comercial')}
+            onChange={handleInputChange("comercial")}
           >
             Telefone
           </Input>
@@ -562,7 +613,7 @@ export const RegisterClients = () => {
             name="cell_phone"
             height="4.8rem"
             value={formValues.comercial.cell_phone}
-            onChange={handleInputChange('comercial')}
+            onChange={handleInputChange("comercial")}
           >
             Celular
           </Input>
@@ -574,7 +625,7 @@ export const RegisterClients = () => {
             name="rg"
             height="4.8rem"
             value={formValues.comercial.rg}
-            onChange={handleInputChange('comercial')}
+            onChange={handleInputChange("comercial")}
           >
             RG
           </Input>
@@ -583,7 +634,7 @@ export const RegisterClients = () => {
             name="cpf"
             height="4.8rem"
             value={formValues.comercial.cpf}
-            onChange={handleInputChange('comercial')}
+            onChange={handleInputChange("comercial")}
           >
             CPF
           </Input>
@@ -598,7 +649,7 @@ export const RegisterClients = () => {
               name="name"
               height="4.8rem"
               value={formValues.financeiro.name}
-              onChange={handleInputChange('financeiro')}
+              onChange={handleInputChange("financeiro")}
             >
               Nome
             </Input>
@@ -608,7 +659,7 @@ export const RegisterClients = () => {
               height="4.8rem"
               type="email"
               value={formValues.financeiro.email}
-              onChange={handleInputChange('financeiro')}
+              onChange={handleInputChange("financeiro")}
             >
               Email
             </Input>
@@ -616,9 +667,9 @@ export const RegisterClients = () => {
           <FileInput
             error={errorImage}
             image={photos.file4.file}
-            onChange={(event) => handleImage('file4', event)}
+            onChange={(event) => handleImage("file4", event)}
             text="Adicionar foto"
-            handleRemove={(event) => removeImage('file4', event)}
+            handleRemove={(event) => removeImage("file4", event)}
           />
         </FormsField>
 
@@ -628,7 +679,7 @@ export const RegisterClients = () => {
             name="phone"
             height="4.8rem"
             value={formValues.financeiro.phone}
-            onChange={handleInputChange('financeiro')}
+            onChange={handleInputChange("financeiro")}
           >
             Telefone
           </Input>
@@ -637,7 +688,7 @@ export const RegisterClients = () => {
             name="cell_phone"
             height="4.8rem"
             value={formValues.financeiro.cell_phone}
-            onChange={handleInputChange('financeiro')}
+            onChange={handleInputChange("financeiro")}
           >
             Celular
           </Input>
@@ -649,7 +700,7 @@ export const RegisterClients = () => {
             name="rg"
             height="4.8rem"
             value={formValues.financeiro.rg}
-            onChange={handleInputChange('financeiro')}
+            onChange={handleInputChange("financeiro")}
           >
             RG
           </Input>
@@ -658,7 +709,7 @@ export const RegisterClients = () => {
             name="cpf"
             height="4.8rem"
             value={formValues.financeiro.cpf}
-            onChange={handleInputChange('financeiro')}
+            onChange={handleInputChange("financeiro")}
           >
             CPF
           </Input>
@@ -673,7 +724,7 @@ export const RegisterClients = () => {
               name="name"
               height="4.8rem"
               value={formValues.contabil.name}
-              onChange={handleInputChange('contabil')}
+              onChange={handleInputChange("contabil")}
             >
               Nome
             </Input>
@@ -683,7 +734,7 @@ export const RegisterClients = () => {
               height="4.8rem"
               type="email"
               value={formValues.contabil.email}
-              onChange={handleInputChange('contabil')}
+              onChange={handleInputChange("contabil")}
             >
               Email
             </Input>
@@ -691,9 +742,9 @@ export const RegisterClients = () => {
           <FileInput
             error={errorImage}
             image={photos.file5.file}
-            onChange={(event) => handleImage('file5', event)}
+            onChange={(event) => handleImage("file5", event)}
             text="Adicionar foto"
-            handleRemove={(event) => removeImage('file5', event)}
+            handleRemove={(event) => removeImage("file5", event)}
           />
         </FormsField>
 
@@ -703,7 +754,7 @@ export const RegisterClients = () => {
             name="phone"
             height="4.8rem"
             value={formValues.contabil.phone}
-            onChange={handleInputChange('contabil')}
+            onChange={handleInputChange("contabil")}
           >
             Telefone
           </Input>
@@ -712,7 +763,7 @@ export const RegisterClients = () => {
             name="cell_phone"
             height="4.8rem"
             value={formValues.contabil.cell_phone}
-            onChange={handleInputChange('contabil')}
+            onChange={handleInputChange("contabil")}
           >
             Celular
           </Input>
@@ -724,7 +775,7 @@ export const RegisterClients = () => {
             name="rg"
             height="4.8rem"
             value={formValues.contabil.rg}
-            onChange={handleInputChange('contabil')}
+            onChange={handleInputChange("contabil")}
           >
             RG
           </Input>
@@ -733,7 +784,7 @@ export const RegisterClients = () => {
             name="cpf"
             height="4.8rem"
             value={formValues.contabil.cpf}
-            onChange={handleInputChange('contabil')}
+            onChange={handleInputChange("contabil")}
           >
             CPF
           </Input>
