@@ -107,12 +107,11 @@ export const ViewTableClients = () => {
       const clientResponseMap = clientFormMap(clientResponse);
 
       navigate("/cadastrar/cliente/editar", {
-        state: { data: clientResponseMap }
+        state: { data: clientResponseMap },
       });
-
     } catch (error) {
       console.error("Erro ao buscar cliente:", error.message);
-      alert("Não foi possível carregar os dados do cliente.")
+      alert("Não foi possível carregar os dados do cliente.");
     }
   };
 
@@ -125,7 +124,7 @@ export const ViewTableClients = () => {
         cnpj: clientResponse?.cnpj,
         state_registration: clientResponse?.state_registration,
         type_contribuition: clientResponse?.type_contribuition,
-        branch_activity: clientResponse?.branch_activity
+        branch_activity: clientResponse?.branch_activity,
       },
       endereco_empresa: {
         cep: clientResponse.company_address[0].cep,
@@ -177,20 +176,32 @@ export const ViewTableClients = () => {
       },
     };
 
+    const photosResponseMap = {
+      file1: {
+        file: clientResponse.image_company,
+        status: clientResponse.image_company ? false : false,
+      },
+      file2: {
+        file: clientResponse.owner_partner[0]?.image,
+        status: clientResponse.owner_partner[0]?.image ? false : false,
+      },
+      file3: {
+        file: clientResponse.commercial_contact[0]?.image,
+        status: clientResponse.commercial_contact[0]?.image ? false : false,
+      },
+      file4: {
+        file: clientResponse.financinal_contact[0]?.image,
+        status: clientResponse.financinal_contact[0]?.image ? false : false,
+      },
+      file5: {
+        file: clientResponse.accounting_contact[0]?.image,
+        status: clientResponse.accounting_contact[0]?.image ? false : false,
+      },
+    };
 
-    const photosResponseMap =  {
-      file1: { file: clientResponse.image_company, status: clientResponse.image_company  ? false : false },
-      file2: { file: clientResponse.financinal_contact[0]?.image, status: clientResponse.financinal_contact[0]?.image ? false : false },
-      file3: { file: clientResponse.commercial_contact[0]?.image, status: clientResponse.commercial_contact[0]?.image ? false : false },
-      file4: { file: clientResponse.accounting_contact[0]?.image, status: clientResponse.accounting_contact[0]?.image ? false : false },
-      file5: { file: clientResponse.owner_partner[0]?.image, status: clientResponse.owner_partner[0]?.image ? false : false },
-    }
+    const id = clientResponse?.id;
 
-    console.log(photosResponseMap)
-
-    const id = clientResponse?.id
-
-    return {clientResponseMap, photosResponseMap, id};
+    return { clientResponseMap, photosResponseMap, id };
   };
 
   //Cuida da animação do input
@@ -311,22 +322,25 @@ export const ViewTableClients = () => {
                               <T.Order>
                                 {/* Lógica de sort (asc, desc) */}
                                 <LuArrowUpAZ
-                                  className={` ${header.column.getIsSorted() === "desc"
-                                    ? "desc"
-                                    : ""
-                                    }`}
+                                  className={` ${
+                                    header.column.getIsSorted() === "desc"
+                                      ? "desc"
+                                      : ""
+                                  }`}
                                 />
                                 <LuArrowDownUp
-                                  className={`${header.column.getIsSorted() ? "" : "default"
-                                    }`}
+                                  className={`${
+                                    header.column.getIsSorted() ? "" : "default"
+                                  }`}
                                 />
 
                                 <LuArrowDownAZ
                                   onClick={header.column.getToggleSortingHandler()}
-                                  className={` ${header.column.getIsSorted() === "asc"
-                                    ? "asc"
-                                    : ""
-                                    }`}
+                                  className={` ${
+                                    header.column.getIsSorted() === "asc"
+                                      ? "asc"
+                                      : ""
+                                  }`}
                                 />
                               </T.Order>
                             </T.ThContent>
@@ -334,10 +348,11 @@ export const ViewTableClients = () => {
                             <T.Resizer
                               onMouseDown={header.getResizeHandler()}
                               onTouchStart={header.getResizeHandler()}
-                              className={`${header.column.getIsResizing()
-                                ? "isResizing"
-                                : ""
-                                }`}
+                              className={`${
+                                header.column.getIsResizing()
+                                  ? "isResizing"
+                                  : ""
+                              }`}
                             />
                           </T.Th>
                         ))}
