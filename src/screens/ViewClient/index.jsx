@@ -122,7 +122,6 @@ export const ViewTableClients = () => {
     const clientResponseMap = {
       imagens: [],
       cliente: {
-        id: clientResponse.id,
         corporate_reason: clientResponse?.corporate_reason,
         fantasy_name: clientResponse?.fantasy_name,
         cnpj: clientResponse?.cnpj,
@@ -131,7 +130,6 @@ export const ViewTableClients = () => {
         branch_activity: clientResponse?.branch_activity
       },
       endereco_empresa: {
-        id: clientResponse.company_address[0].id,
         cep: clientResponse.company_address[0].cep,
         street: clientResponse.company_address[0].street,
         number: clientResponse.company_address[0].number,
@@ -140,7 +138,6 @@ export const ViewTableClients = () => {
         neighborhood: clientResponse.company_address[0].neighborhood,
       },
       endereco_entrega: {
-        id: clientResponse.delivery_address[0].id,
         cep: clientResponse.delivery_address[0].cep,
         street: clientResponse.delivery_address[0].street,
         number: clientResponse.delivery_address[0].number,
@@ -149,7 +146,6 @@ export const ViewTableClients = () => {
         neighborhood: clientResponse.delivery_address[0].neighborhood,
       },
       financeiro: {
-        id: clientResponse.financinal_contact[0].id,
         name: clientResponse.financinal_contact[0]?.name,
         phone: clientResponse.financinal_contact[0]?.phone,
         cell_phone: clientResponse.financinal_contact[0]?.cell_phone,
@@ -158,7 +154,6 @@ export const ViewTableClients = () => {
         cpf: clientResponse.financinal_contact[0]?.cpf,
       },
       comercial: {
-        id: clientResponse.commercial_contact[0].id,
         name: clientResponse.commercial_contact[0]?.name,
         phone: clientResponse.commercial_contact[0]?.phone,
         cell_phone: clientResponse.commercial_contact[0]?.cell_phone,
@@ -167,7 +162,6 @@ export const ViewTableClients = () => {
         cpf: clientResponse.commercial_contact[0]?.cpf,
       },
       contabil: {
-        id: clientResponse.accounting_contact[0].id,
         name: clientResponse.accounting_contact[0]?.name,
         phone: clientResponse.accounting_contact[0]?.phone,
         cell_phone: clientResponse.accounting_contact[0]?.cell_phone,
@@ -176,7 +170,6 @@ export const ViewTableClients = () => {
         cpf: clientResponse.accounting_contact[0]?.cpf,
       },
       socio: {
-        id: clientResponse.owner_partner[0].id,
         name: clientResponse.owner_partner[0]?.name,
         phone: clientResponse.owner_partner[0]?.phone,
         cell_phone: clientResponse.owner_partner[0]?.cell_phone,

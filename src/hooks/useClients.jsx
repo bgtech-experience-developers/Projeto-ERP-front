@@ -88,13 +88,13 @@ function useClients() {
   // Novo método PATCH com suporte para CPF e CNPJ
   const patchClient = async (id, updatedInfo) => {
     try {
-      // const endpoint = isCNPJ
-      //   ? `/clientes/atualizar?contribuinte=${identifier}` // Endpoint para CNPJ
-      //   : `/clientes/atualizar?contribuinte=${identifier}`; // Endpoint para CPF
+     const formData = new FormData();
+     formData.append("json", JSON.stringify(updatedInfo));
 
-      // Usando o id em vez do cnpj ou cpf
       const endpoint = `/clientes/atualizar/${id}`;
-      const data = await client.patch(endpoint, updatedInfo);
+
+      const data = await client.patch(endpoint, formData);
+
       alert('Cliente atualizado com sucesso!')
       console.log(data);
       return data;
