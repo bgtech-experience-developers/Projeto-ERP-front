@@ -177,7 +177,16 @@ export const ViewTableClients = () => {
       },
     };
 
-    return clientResponseMap;
+
+    const photosResponseMap =  {
+      file1: { file: clientResponse.image_company, status: clientResponse.image_company  ? true : false },
+      file2: { file: clientResponse.financinal_contact[0]?.image, status: clientResponse.financinal_contact[0]?.image ? true : false },
+      file3: { file: clientResponse.commercial_contact[0]?.image, status: clientResponse.commercial_contact[0]?.image ? true : false },
+      file4: { file: clientResponse.accounting_contact[0]?.image, status: clientResponse.accounting_contact[0]?.image ? true : false },
+      file5: { file: clientResponse.owner_partner[0]?.image, status: clientResponse.owner_partner[0]?.image ? true : false },
+    }
+
+    return {clientResponseMap, photosResponseMap};
   };
 
   //Cuida da animação do input

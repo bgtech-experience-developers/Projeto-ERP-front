@@ -75,10 +75,7 @@ function useClients() {
 
   const deleteClient = async (id) => {
     try {
-      // API Original
-
       const data = await client.delete(`/clientes/remover/${id}`);
-
 
       return data;
     } catch (error) {

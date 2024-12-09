@@ -20,7 +20,8 @@ export const File = ({
       // Comentado, isso adiciona um erro no console, pois tenta renderizar um booleano no DOM
       // Essa modificação parece não ter afetado no funcionamento padrão do componente
       // error={error}
-      $image={!image ? '' : URL.createObjectURL(image)}
+      // $image={!image ? '' : URL.createObjectURL(image)}
+      $image={image && image instanceof Blob ? URL.createObjectURL(image) : image}
       $variant={variant}
     >
       {!error ? (

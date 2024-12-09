@@ -4,7 +4,7 @@ import { Card } from "../../components/Forms/Card";
 import { Form } from "../../components/Forms/Form";
 import { File } from "../../components/Forms/Inputs/File";
 import { Button } from "../../components/Forms/Button";
-import { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import useClients from "../../hooks/useClients";
 import useForm from "../../hooks/useForm";
 import { SpanError } from "./style";
@@ -88,16 +88,21 @@ export const UpdateClients = () => {
 
   useEffect(() => {
     if (state?.data) {
-      setFormValues(state.data);
+      console.log("state: ", state.data)
+      setFormValues(state.data.clientResponseMap);
+      setPhotos(state.data.photosResponseMap);
     }
   }, []);
 
   // Controla os status das imagens
-  // React.useEffect(() => {
-  //   const statusArray = Object.values(photos).map((photo) => photo.status);
-  //   setFormValues({ ...formValues, imagens: statusArray });
-  // }, [photos]);
+  React.useEffect(() => {
 
+    const statusArray = Object.values(photos).map((photo) => photo.status);
+    setFormValues((prevValues) => ({  ...prevValues, imagens: statusArray }));
+    console.log("aqui:", formValues)
+    console.log("photos", photos)
+  }, [photos]);
+  
   // Função chamada quando o usuário digita nos campos obrigatórios
   const handleInputChange = (field) => (event) => {
     const { name, value } = event.target;
