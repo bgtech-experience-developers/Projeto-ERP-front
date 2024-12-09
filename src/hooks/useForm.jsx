@@ -38,6 +38,11 @@ const types = {
     regex: /^\(?\d{2}\)?\s?\d{4,5}-\d{4}$/,
     message: 'Telefone inválido',
   },
+
+  phone: {
+    regex: /^\(?\d{2}\)?\s?\d{4,5}-\d{4}$/,
+    message: 'Telefone inválido',
+  },
 };
 
 const useForm = () => {
@@ -90,6 +95,7 @@ const useForm = () => {
 
   function onBlur({ target }) {
     const { name, value } = target;
+
     validate(name, value);
   }
 

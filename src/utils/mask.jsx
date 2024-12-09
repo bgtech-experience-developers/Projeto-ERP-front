@@ -60,3 +60,14 @@ export const currencyMask = (value) => {
     .replace(/(\d+)(\d{2})$/, 'R$ $1,$2')
     .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
 };
+
+export const phoneMask = (value) => {
+  if (!value) return '';
+
+  return value
+    .replace(/\D/g, '') // Remove tudo que não é número
+    .replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3') // Formato com DDD e 9 dígitos
+    .replace(/^(\d{2})(\d{4})(\d{4})$/, '($1) $2-$3') // Formato com DDD e 8 dígitos
+    .replace(/^(\d{5})(\d{4})$/, '$1-$2') // Formato sem DDD e 9 dígitos
+    .replace(/^(\d{4})(\d{4})$/, '$1-$2'); // Formato sem DDD e 8 dígitos
+};
