@@ -44,8 +44,7 @@ export const useTokenRefresh = () => {
 
   // Executa o refresh a cada X minutos/horas/dias
   useEffect(() => {
-    const intervalId = setInterval(refresh, 15000);
-    
+    const intervalId = setInterval(refresh, 100000);
     return () => clearInterval(intervalId);  // Limpa o IntervalId quando o componente for desmontado
   }, []);
 
