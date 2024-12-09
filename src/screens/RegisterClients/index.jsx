@@ -2,7 +2,7 @@ import { FormsField } from '../../components/Forms/FormsField';
 import { Input } from '../../components/Forms/Inputs/Input';
 import { Card } from '../../components/Forms/Card';
 import { Form } from '../../components/Forms/Form';
-import { File } from '../../components/Forms/Inputs/File';
+import { FileInput } from '../../components/Forms/Inputs/File';
 import { Button } from '../../components/Forms/Button';
 import React, { useState } from 'react';
 import useClients from '../../hooks/useClients';
@@ -10,7 +10,7 @@ import useForm from '../../hooks/useForm';
 import { SpanError } from './style';
 
 export const RegisterClients = () => {
-  const [mask, onBlur, onChange, error] = useForm();
+  const [mask, onBlur, error] = useForm();
   const [formValues, setFormValues] = useState({
     imagens: [],
     cliente: {
@@ -87,7 +87,7 @@ export const RegisterClients = () => {
   const handleInputChange = (field) => (event) => {
     const { id, name, value } = event.target;
 
-    onChange(name);
+    // onChange(name);
 
     setFormValues({
       ...formValues,
@@ -228,7 +228,7 @@ export const RegisterClients = () => {
               )}
             </Input>
           </FormsField>
-          <File
+          <FileInput
             name={'fotoCliente'}
             error={errorImage}
             image={photos.file1.file}
@@ -457,7 +457,7 @@ export const RegisterClients = () => {
               {error.email && <SpanError>* {error.email}</SpanError>}
             </Input>
           </FormsField>
-          <File
+          <FileInput
             error={errorImage}
             image={photos.file2.file}
             onChange={(event) => handleImage('file2', event)}
@@ -538,7 +538,7 @@ export const RegisterClients = () => {
               Email
             </Input>
           </FormsField>
-          <File
+          <FileInput
             error={errorImage}
             image={photos.file3.file}
             onChange={(event) => handleImage('file3', event)}
@@ -613,7 +613,7 @@ export const RegisterClients = () => {
               Email
             </Input>
           </FormsField>
-          <File
+          <FileInput
             error={errorImage}
             image={photos.file4.file}
             onChange={(event) => handleImage('file4', event)}
@@ -688,7 +688,7 @@ export const RegisterClients = () => {
               Email
             </Input>
           </FormsField>
-          <File
+          <FileInput
             error={errorImage}
             image={photos.file5.file}
             onChange={(event) => handleImage('file5', event)}

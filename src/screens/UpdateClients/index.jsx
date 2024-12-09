@@ -2,7 +2,7 @@ import { FormsField } from "../../components/Forms/FormsField";
 import { Input } from "../../components/Forms/Inputs/Input";
 import { Card } from "../../components/Forms/Card";
 import { Form } from "../../components/Forms/Form";
-import { File } from "../../components/Forms/Inputs/File";
+import { FileInput } from "../../components/Forms/Inputs/File";
 import { Button } from "../../components/Forms/Button";
 import React, { useCallback, useEffect, useState } from "react";
 import useClients from "../../hooks/useClients";
@@ -18,7 +18,7 @@ const initialFormValues = () => ({
     cnpj: "",
     state_registration: "",
     type_contribuition: "",
-    branch_activity: ""
+    branch_activity: "",
   },
   endereco_empresa: {
     cep: "",
@@ -88,7 +88,6 @@ export const UpdateClients = () => {
 
   useEffect(() => {
     if (state?.data) {
-      console.log("state: ", state.data)
       setFormValues(state.data.clientResponseMap);
       setPhotos(state.data.photosResponseMap);
     }
@@ -96,13 +95,10 @@ export const UpdateClients = () => {
 
   // Controla os status das imagens
   React.useEffect(() => {
-
     const statusArray = Object.values(photos).map((photo) => photo.status);
-    setFormValues((prevValues) => ({  ...prevValues, imagens: statusArray }));
-    console.log("aqui:", formValues)
-    console.log("photos", photos)
+    setFormValues((prevValues) => ({ ...prevValues, imagens: statusArray }));
   }, [photos]);
-  
+
   // Função chamada quando o usuário digita nos campos obrigatórios
   const handleInputChange = (field) => (event) => {
     const { name, value } = event.target;
@@ -130,26 +126,53 @@ export const UpdateClients = () => {
       ...prevPhotos,
       [key]: { file, status: !!file },
     }));
+
     setFormPhotos((prevFile) => [...prevFile, file]);
   }
 
-  function removeImage(key, { target }) {
-    setPhotos({
-      ...photos,
-      [key]: {
-        file: null,
-      },
+  const createFileFromLocalImage = async (localPath, fileName) => {
+    const response = await fetch(localPath); // Busca o arquivo local
+    const blob = await response.blob(); // Converte a resposta para Blob
+
+    const file = new File([blob], fileName, {
+      type: blob.type, // Usa o tipo detectado
+      lastModified: new Date(),
     });
+
+    return file;
+  };
+
+  async function removeImage(key, { target }) {
+    const localImagePath = "../../../public/smile.png";
+    try {
+      const file = await createFileFromLocalImage(localImagePath, "smile.png");
+
+      setPhotos((prevPhotos) => ({
+        ...prevPhotos,
+        [key]: {
+          file,
+          status: !!photos[key].file,
+        },
+      }));
+
+      setFormPhotos((prevFile) => [...prevFile, file]);
+    } catch (error) {
+      console.error("Erro ao remover imagem ", error);
+    }
   }
 
   const handleSubmit = useCallback(
     (event) => {
       event.preventDefault();
-
-      patchClient(state.data.cliente.id, formValues);
+      patchClient(state.data.id, formValues, formPhotos);
     },
     [patchClient, formValues]
   );
+
+  // React.useEffect(() => {
+  //   console.log("values: ", formValues)
+  //   console.log("photos: ", formPhotos)
+  // }, [formValues, formPhotos])
 
   return (
     <Form onSubmit={handleSubmit} title={"Editar Cliente"}>
@@ -185,13 +208,13 @@ export const UpdateClients = () => {
             </Input>
           </FormsField>
 
-          <File
+          <FileInput
             name={"fotoCliente"}
             error={errorImage}
             image={photos.file1?.file}
             onChange={(event) => handleImage("file1", event)}
             text="Adicionar foto"
-            handleRemove={(event) => removeImage('file1', event)}
+            handleRemove={(event) => removeImage("file1", event)}
           />
         </FormsField>
 
@@ -240,15 +263,15 @@ export const UpdateClients = () => {
           value={formValues.cliente.type_contribuition}
           onChange={handleInputChange("cliente")}
           options={[
-            { value: 'titulo', label: 'Selecione', disabled: true },
-            { value: 'icms', label: 'Contribuinte ICMS' },
-            { value: 'isento', label: 'Contribuinte ISENTO' },
-            { value: 'nao', label: 'Não contribuinte' },
+            { value: "titulo", label: "Selecione", disabled: true },
+            { value: "icms", label: "Contribuinte ICMS" },
+            { value: "isento", label: "Contribuinte ISENTO" },
+            { value: "nao", label: "Não contribuinte" },
           ]}
-        >Tipo de contribuinte
+        >
+          Tipo de contribuinte
         </Input>
       </Card>
-
 
       <Card title="Endereço da Empresa">
         <FormsField variant="triple">
@@ -415,12 +438,12 @@ export const UpdateClients = () => {
               {error.email && <SpanError>* {error.email}</SpanError>}
             </Input>
           </FormsField>
-          <File
+          <FileInput
             error={errorImage}
             image={photos.file2?.file}
             onChange={(event) => handleImage("file2", event)}
             text="Adicionar foto"
-            handleRemove={(event) => removeImage('file2', event)}
+            handleRemove={(event) => removeImage("file2", event)}
           />
         </FormsField>
 
@@ -496,12 +519,12 @@ export const UpdateClients = () => {
               Email
             </Input>
           </FormsField>
-          <File
+          <FileInput
             error={errorImage}
             image={photos.file3?.file}
             onChange={(event) => handleImage("file3", event)}
             text="Adicionar foto"
-            handleRemove={(event) => removeImage('file3', event)}
+            handleRemove={(event) => removeImage("file3", event)}
           />
         </FormsField>
 
@@ -571,12 +594,12 @@ export const UpdateClients = () => {
               Email
             </Input>
           </FormsField>
-          <File
+          <FileInput
             error={errorImage}
             image={photos.file4?.file}
             onChange={(event) => handleImage("file4", event)}
             text="Adicionar foto"
-            handleRemove={(event) => removeImage('file4', event)}
+            handleRemove={(event) => removeImage("file4", event)}
           />
         </FormsField>
 
@@ -646,12 +669,12 @@ export const UpdateClients = () => {
               Email
             </Input>
           </FormsField>
-          <File
+          <FileInput
             error={errorImage}
             image={photos.file5?.file}
             onChange={(event) => handleImage("file5", event)}
             text="Adicionar foto"
-            handleRemove={(event) => removeImage('file5', event)}
+            handleRemove={(event) => removeImage("file5", event)}
           />
         </FormsField>
 

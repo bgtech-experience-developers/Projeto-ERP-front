@@ -1,8 +1,11 @@
 import React from "react";
 import { client } from "../services/instance";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function useClients() {
+  const navigate = useNavigate();
+
   const postClient = async (json, formPhotos) => {
     try {
       // Lógica de guardar a imagem
@@ -37,14 +40,13 @@ function useClients() {
     }
   };
 
-  const getClients = async (extraUrl ) => {
+  const getClients = async (extraUrl) => {
     try {
       // API original
 
       const { data } = await client.get(`/clientes/${extraUrl}`);
 
-
-      console.log(data)
+      console.log(data);
       if (data) {
         return data;
       }
@@ -84,18 +86,25 @@ function useClients() {
     }
   };
 
-  const patchClient = async (id, updatedInfo) => {
+  const patchClient = async (id, updatedInfo, updatePhoto) => {
     try {
-     const formData = new FormData();
-     formData.append("json", JSON.stringify(updatedInfo));
+      const formData = new FormData();
+      formData.append("json", JSON.stringify(updatedInfo));
+
+      updatePhoto?.forEach((photo) => {
+        formData.append("photos", photo);
+      });
 
       const endpoint = `/clientes/atualizar/${id}`;
-      await client.patch(endpoint, formData);
+      const { data } = await client.patch(endpoint, formData);
 
-      alert('Cliente atualizado com sucesso!')
+      //  console.log("json: ", formData.get("json"))
+      //  console.log("photos: ", formData.getAll("photos"))
 
+      alert("Cliente atualizado com sucesso!");
+      navigate("/cadastrar/cliente");
     } catch (error) {
-      console.error('Erro ao atualizar cliente:', error);
+      console.error("Erro ao atualizar cliente:", error);
     }
   };
 
@@ -106,6 +115,6 @@ function useClients() {
     deleteClient,
     patchClient,
   };
-};
+}
 
 export default useClients;

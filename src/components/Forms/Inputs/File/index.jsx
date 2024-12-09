@@ -4,7 +4,7 @@ import * as S from './style';
 import { Text } from '../../../Texts/Text';
 import { theme } from '../../../../theme/theme';
 
-export const File = ({
+export const FileInput = ({
   variant = 'primary',
   text,
   smileSize = 52,
