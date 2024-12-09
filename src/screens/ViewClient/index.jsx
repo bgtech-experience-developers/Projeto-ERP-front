@@ -84,7 +84,6 @@ export const ViewTableClients = () => {
     }
   };
 
-  // Excluir usuário
   const handleDelete = async (id) => {
     const confirmDelete = window.confirm(
       "Tem certeza que deseja excluir esse cadastro?"
@@ -101,17 +100,84 @@ export const ViewTableClients = () => {
     }
   };
 
-  // Função para o botão de editar encaminhar para o form de cadastro com os dados do cliente
   const handleEdit = async (row) => {
     try {
-      const cliente = await getClientByID(row.original.id);
+      const clientResponse = await getClientByID(row.original.id);
+
+      const clientResponseMap = clientFormMap(clientResponse);
+
       navigate("/cadastrar/cliente/editar", {
-        state: { cliente: cliente }
+        state: { data: clientResponseMap }
       });
+
     } catch (error) {
       console.error("Erro ao buscar cliente:", error.message);
       alert("Não foi possível carregar os dados do cliente.")
     }
+  };
+
+  const clientFormMap = (clientResponse) => {
+    const clientResponseMap = {
+      imagens: [],
+      cliente: {
+        corporate_reason: clientResponse?.corporate_reason,
+        fantasy_name: clientResponse?.fantasy_name,
+        cnpj: clientResponse?.cnpj,
+        state_registration: clientResponse?.state_registration,
+        type_contribuition: clientResponse?.type_contribuition,
+        branch_activity: clientResponse?.branch_activity
+      },
+      endereco_empresa: {
+        cep: clientResponse.company_address[0].cep,
+        street: clientResponse.company_address[0].street,
+        number: clientResponse.company_address[0].number,
+        complement: clientResponse.company_address[0].complement,
+        city: clientResponse.company_address[0].city,
+        neighborhood: clientResponse.company_address[0].neighborhood,
+      },
+      endereco_entrega: {
+        cep: clientResponse.delivery_address[0].cep,
+        street: clientResponse.delivery_address[0].street,
+        number: clientResponse.delivery_address[0].number,
+        complement: clientResponse.delivery_address[0].complement,
+        city: clientResponse.delivery_address[0].city,
+        neighborhood: clientResponse.delivery_address[0].neighborhood,
+      },
+      financeiro: {
+        name: clientResponse.financinal_contact[0]?.name,
+        phone: clientResponse.financinal_contact[0]?.phone,
+        cell_phone: clientResponse.financinal_contact[0]?.cell_phone,
+        rg: clientResponse.financinal_contact[0]?.rg,
+        email: clientResponse.financinal_contact[0]?.email,
+        cpf: clientResponse.financinal_contact[0]?.cpf,
+      },
+      comercial: {
+        name: clientResponse.commercial_contact[0]?.name,
+        phone: clientResponse.commercial_contact[0]?.phone,
+        cell_phone: clientResponse.commercial_contact[0]?.cell_phone,
+        rg: clientResponse.commercial_contact[0]?.rg,
+        email: clientResponse.commercial_contact[0]?.email,
+        cpf: clientResponse.commercial_contact[0]?.cpf,
+      },
+      contabil: {
+        name: clientResponse.accounting_contact[0]?.name,
+        phone: clientResponse.accounting_contact[0]?.phone,
+        cell_phone: clientResponse.accounting_contact[0]?.cell_phone,
+        rg: clientResponse.accounting_contact[0]?.rg,
+        email: clientResponse.accounting_contact[0]?.email,
+        cpf: clientResponse.accounting_contact[0]?.cpf,
+      },
+      socio: {
+        name: clientResponse.owner_partner[0]?.name,
+        phone: clientResponse.owner_partner[0]?.phone,
+        cell_phone: clientResponse.owner_partner[0]?.cell_phone,
+        rg: clientResponse.owner_partner[0]?.rg,
+        email: clientResponse.owner_partner[0]?.email,
+        cpf: clientResponse.owner_partner[0]?.cpf,
+      },
+    };
+
+    return clientResponseMap;
   };
 
   //Cuida da animação do input
