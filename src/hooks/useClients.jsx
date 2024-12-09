@@ -7,6 +7,8 @@ function useClients() {
   const navigate = useNavigate();
 
   const postClient = async (json, formPhotos) => {
+    console.log("json: ", json);
+    console.log("photos: ", formPhotos);
     try {
       // Lógica de guardar a imagem
       const formData = new FormData();
@@ -31,6 +33,9 @@ function useClients() {
       console.log(formData.getAll("photos"));
 
       const response = await client.post("/clientes/registro", formData);
+      
+      alert("Cliente cadastrado com sucesso!");
+      navigate("/cadastrar/cliente");
 
       console.log(response);
     } catch (error) {
@@ -97,9 +102,6 @@ function useClients() {
 
       const endpoint = `/clientes/atualizar/${id}`;
       const { data } = await client.patch(endpoint, formData);
-
-      //  console.log("json: ", formData.get("json"))
-      //  console.log("photos: ", formData.getAll("photos"))
 
       alert("Cliente atualizado com sucesso!");
       navigate("/cadastrar/cliente");
