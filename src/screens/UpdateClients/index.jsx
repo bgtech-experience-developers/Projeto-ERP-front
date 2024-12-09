@@ -4,14 +4,12 @@ import { Card } from "../../components/Forms/Card";
 import { Form } from "../../components/Forms/Form";
 import { File } from "../../components/Forms/Inputs/File";
 import { Button } from "../../components/Forms/Button";
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import useClients from "../../hooks/useClients";
 import useForm from "../../hooks/useForm";
 import { SpanError } from "./style";
 import { useLocation } from "react-router-dom";
-import { client } from "../../services/instance";
 
-// // Inicializar valores do formulário e ter melhor reaproveitamento
 const initialFormValues = () => ({
   imagens: [],
   cliente: {
@@ -75,7 +73,7 @@ const initialFormValues = () => ({
 // Organizando todos os estados no inicio do componente principal
 export const UpdateClients = () => {
   const { patchClient } = useClients();
-  const [mask, onBlur, onChange, error] = useForm();
+  const [mask, onBlur, error] = useForm();
   const { state } = useLocation();
   const [formValues, setFormValues] = useState(initialFormValues());
   const [errorImage, setErrorImage] = useState(false);
@@ -88,7 +86,6 @@ export const UpdateClients = () => {
     file5: { file: null, status: false },
   });
 
-  // useEffect para dar dinamicidade ao texto do titulo e botão
   useEffect(() => {
     if (state?.data) {
       setFormValues(state.data);
@@ -103,8 +100,6 @@ export const UpdateClients = () => {
 
   // Função chamada quando o usuário digita nos campos obrigatórios
   const handleInputChange = (field) => (event) => {
-
-    //removi o id que não estava sendo utilizado
     const { name, value } = event.target;
 
     setFormValues({
@@ -142,10 +137,10 @@ export const UpdateClients = () => {
     });
   }
 
-  // alterei para arrow function devido padrão
   const handleSubmit = useCallback(
     (event) => {
       event.preventDefault();
+
       patchClient(state.data.cliente.id, formValues);
     },
     [patchClient, formValues]
@@ -697,7 +692,6 @@ export const UpdateClients = () => {
           </Input>
         </FormsField>
       </Card>
-
 
       <Card>
         <Button type="submit" height="4.8rem">

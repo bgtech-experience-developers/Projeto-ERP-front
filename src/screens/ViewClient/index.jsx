@@ -84,7 +84,6 @@ export const ViewTableClients = () => {
     }
   };
 
-  // Excluir usuário
   const handleDelete = async (id) => {
     const confirmDelete = window.confirm(
       "Tem certeza que deseja excluir esse cadastro?"
@@ -101,12 +100,11 @@ export const ViewTableClients = () => {
     }
   };
 
-  // Função para o botão de editar encaminhar para o form de cadastro com os dados do cliente
   const handleEdit = async (row) => {
     try {
       const clientResponse = await getClientByID(row.original.id);
 
-      const clientResponseMap = ClientFormMap(clientResponse);
+      const clientResponseMap = clientFormMap(clientResponse);
 
       navigate("/cadastrar/cliente/editar", {
         state: { data: clientResponseMap }
@@ -118,7 +116,7 @@ export const ViewTableClients = () => {
     }
   };
 
-  const ClientFormMap = (clientResponse) => {
+  const clientFormMap = (clientResponse) => {
     const clientResponseMap = {
       imagens: [],
       cliente: {

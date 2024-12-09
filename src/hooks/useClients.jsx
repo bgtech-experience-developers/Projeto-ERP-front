@@ -85,22 +85,18 @@ function useClients() {
     }
   };
 
-  // Novo método PATCH com suporte para CPF e CNPJ
   const patchClient = async (id, updatedInfo) => {
     try {
      const formData = new FormData();
      formData.append("json", JSON.stringify(updatedInfo));
 
       const endpoint = `/clientes/atualizar/${id}`;
-
-      const data = await client.patch(endpoint, formData);
+      await client.patch(endpoint, formData);
 
       alert('Cliente atualizado com sucesso!')
-      console.log(data);
-      return data;
+
     } catch (error) {
       console.error('Erro ao atualizar cliente:', error);
-      return error;
     }
   };
 
