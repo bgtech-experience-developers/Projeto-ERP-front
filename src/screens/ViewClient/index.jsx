@@ -109,7 +109,7 @@ export const ViewTableClients = () => {
       const clientResponseMap = ClientFormMap(clientResponse);
 
       navigate("/cadastrar/cliente/editar", {
-        state: { cliente: clientResponseMap }
+        state: { data: clientResponseMap }
       });
 
     } catch (error) {
