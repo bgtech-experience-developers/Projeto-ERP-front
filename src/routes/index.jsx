@@ -59,7 +59,7 @@ export const AppRoutes = () => {
                     />                  
 
                     <Route 
-                        path="cadastrar/cliente/dashboard" 
+                        path="cadastrar/cliente/visualizar" 
                         element={<DashboardClients />} 
                         
                       
