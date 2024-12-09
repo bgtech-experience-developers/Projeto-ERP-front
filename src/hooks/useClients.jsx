@@ -37,11 +37,14 @@ function useClients() {
     }
   };
 
-  const getClients = async (extraUrl) => {
+  const getClients = async (extraUrl ) => {
     try {
       // API original
+
       const { data } = await client.get(`/clientes/${extraUrl}`);
 
+
+      console.log(data)
       if (data) {
         return data;
       }
@@ -73,10 +76,9 @@ function useClients() {
   const deleteClient = async (id) => {
     try {
       // API Original
+
       const data = await client.delete(`/clientes/remover/${id}`);
 
-      // Mock (Carlos)
-      // const data = await client.delete(`/clientes/${id}`);
 
       return data;
     } catch (error) {
@@ -107,6 +109,6 @@ function useClients() {
     deleteClient,
     patchClient,
   };
-}
+};
 
 export default useClients;
