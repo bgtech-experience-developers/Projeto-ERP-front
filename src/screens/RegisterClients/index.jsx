@@ -10,7 +10,7 @@ import useForm from '../../hooks/useForm';
 import { SpanError } from './style';
 
 export const RegisterClients = () => {
-  const [mask, onBlur, onChange, error] = useForm();
+  const [mask, onBlur, removeErrorOnChange, error] = useForm();
   const [formValues, setFormValues] = useState({
     imagens: [],
     cliente: {
@@ -87,7 +87,7 @@ export const RegisterClients = () => {
   const handleInputChange = (field) => (event) => {
     const { id, name, value } = event.target;
 
-    onChange(name);
+    removeErrorOnChange(name);
 
     setFormValues({
       ...formValues,
