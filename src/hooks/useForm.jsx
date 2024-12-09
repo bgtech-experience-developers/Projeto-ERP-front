@@ -104,7 +104,7 @@ const useForm = () => {
     validate(name, value);
   }
 
-  return [mask, onBlur, onChange, error, a, setError];
+  return [mask, onBlur, error, a, setError];
 };
 
 export default useForm;
