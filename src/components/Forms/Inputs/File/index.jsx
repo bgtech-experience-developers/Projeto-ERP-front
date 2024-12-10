@@ -4,7 +4,7 @@ import * as S from './style';
 import { Text } from '../../../Texts/Text';
 import { theme } from '../../../../theme/theme';
 
-export const File = ({
+export const FileInput = ({
   variant = 'primary',
   text,
   smileSize = 52,
@@ -20,7 +20,8 @@ export const File = ({
       // Comentado, isso adiciona um erro no console, pois tenta renderizar um booleano no DOM
       // Essa modificação parece não ter afetado no funcionamento padrão do componente
       // error={error}
-      $image={!image ? '' : URL.createObjectURL(image)}
+      // $image={!image ? '' : URL.createObjectURL(image)}
+      $image={image && image instanceof Blob ? URL.createObjectURL(image) : image}
       $variant={variant}
     >
       {!error ? (
@@ -41,7 +42,9 @@ export const File = ({
       <S._File
         value={value ?? ''}
         accept="image/*"
-        id={'file'}
+        // id={'file'}
+        id={id}
+        
         onChange={onChange}
       />
 
@@ -64,7 +67,7 @@ export const File = ({
           color={theme.colors.lightGray}
         >
           <S.ButtonFileChange type="button">
-            <label htmlFor={'file'}>Trocar foto</label>
+            <label htmlFor={id}>Trocar foto</label>
           </S.ButtonFileChange>
           <S.ButtonFile onClick={handleRemove} type="button">
             Remover

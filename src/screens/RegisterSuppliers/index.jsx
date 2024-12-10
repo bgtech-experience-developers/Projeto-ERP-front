@@ -2,7 +2,7 @@ import { FormsField } from '../../components/Forms/FormsField';
 import { Input } from '../../components/Forms/Inputs/Input';
 import { Card } from '../../components/Forms/Card';
 import { Form } from '../../components/Forms/Form';
-import { File } from '../../components/Forms/Inputs/File';
+import {FileInput } from '../../components/Forms/Inputs/File';
 import { Button } from '../../components/Forms/Button';
 import { useEffect, useState } from 'react';
 import useForm from '../../hooks/useForm';
@@ -120,7 +120,7 @@ export const RegisterSupplierPF = () => {
               {error.code && <SpanError>{error.code}</SpanError>}
             </Input>
           </FormsField>
-          <File
+          <FileInput
             id={'fotoProduto'}
             error={errorImage}
             image={formValues.fotos}
@@ -439,7 +439,7 @@ export const RegisterSupplierPJ = () => {
               {error.responsible && <SpanError>{error.responsible}</SpanError>}
             </Input>
           </FormsField>
-          <File
+          <FileInput
             id={'fotoFornecedor'}
             error={errorImage}
             image={formValues.fotos}
