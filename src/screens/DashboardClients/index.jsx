@@ -1,9 +1,10 @@
 import React from "react";
-import useClients from "../../hooks/useClients";
+import useClients from "../../hooks/useClients"; // Certifique-se de que o hook retorne os dados
 import { fuzzyFilter } from "../../utils/fuzzyFilter";
 import { theme } from "../../theme/theme";
 import { SidebarContext } from "../../contexts/SidebarContext";
-import { BsImage } from "react-icons/bs"; // Importando o ícone
+import { BsImage } from "react-icons/bs";
+import {  HiPencilAlt } from "react-icons/hi";
 
 // Componentes
 import * as T from "../../components/Tables";
@@ -15,12 +16,41 @@ import { Loader } from "../../../public/Loader";
 // Externos
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import {
-  useReactTable,
-  getCoreRowModel,
-  flexRender,
-  getFilteredRowModel,
-} from "@tanstack/react-table";
+import { useReactTable, getCoreRowModel, flexRender, getFilteredRowModel } from "@tanstack/react-table";
+
+// Função para buscar dados da empresa
+const fetchCompanyData = async () => {
+  try { const { getClientByID } = useClients () 
+    const response = await getClientByID ("10");
+    console.log (response)
+    if (response.ok) {
+      throw new Error(`Erro HTTP: ${response.status}`);
+    }
+    const companyData =  response;
+    return {
+      corporateReason: companyData.corporate_reason,
+      fantasyName: companyData.fantasy_name,
+      cnpj: companyData.cnpj,
+      address: `${companyData.company_address[0].street}, ${companyData.company_address[0].number} - ${companyData.company_address[0].complement}`,
+      city: companyData.company_address[0].city,
+      neighborhood: companyData.company_address[0].neighborhood,
+      cep: companyData.company_address[0].cep,
+      complement: companyData.company_address[0].complement
+    };
+  } catch (error) {
+    console.error("Erro ao buscar dados da empresa:", error);
+    return {
+      corporateReason: "Erro ao carregar",
+      fantasyName: "Erro ao carregar",
+      cnpj: "Erro ao carregar",
+      address: "Erro ao carregar",
+      city: "Erro ao carregar",
+      neighborhood: "Erro ao carregar",
+      cep: "Erro ao carregar",
+      complement: "Erro ao carregar"
+    };
+  }
+};
 
 export const DashboardClients = () => {
   const [isLoading, setIsLoading] = React.useState(false);
@@ -30,23 +60,27 @@ export const DashboardClients = () => {
     fantasyName: "Nome Fantasia",
     cnpj: "00.000.000/0000-00",
     address: "Endereço da Empresa",
-    city: "Cidade",
     neighborhood: "Bairro",
+    complement: "Complemento",
+    city: "Cidade",
     cep: "00000-000",
-    complement: "Complemento"
+   
   });
 
   const { isActive } = React.useContext(SidebarContext);
   const navigate = useNavigate();
 
+  // Função para buscar dados de clientes
   React.useEffect(() => {
-    const fetchClients = async () => {
+    const fetchClientsAndCompanyData = async () => {
       setIsLoading(true);
       try {
-        const data = await useClients(); // Função para buscar dados dos clientes
-        const companyDataFromServer = await fetchCompanyData(); // Função para buscar dados da empresa
-        setClients(data || []); // Atualizar os clientes
-        setCompanyData(companyDataFromServer); // Atualizar os dados da empresa
+        const [data, companyDataFromServer] = await Promise.all([
+          useClients(), 
+          fetchCompanyData() 
+        ]);
+        setClients(data || []); 
+        setCompanyData(companyDataFromServer); 
       } catch (error) {
         toast.error("Erro ao buscar dados.");
         console.error("Erro ao buscar dados:", error);
@@ -54,44 +88,32 @@ export const DashboardClients = () => {
         setIsLoading(false);
       }
     };
-    fetchClients();
+    fetchClientsAndCompanyData();
   }, []);
 
-  const fetchCompanyData = async () => {
+  // Função para buscar cliente por ID
+  const getById = async (id) => {
     try {
-      const response = await fetch("URL_DO_BACKEND/api/companyData");
+      const response = await fetch(`URL_DO_BACKEND/api/clients/${id}`);
       if (!response.ok) {
-        throw new Error("Erro ao buscar dados da empresa");
+        throw new Error("Erro ao buscar cliente");
       }
-      const companyData = await response.json();
-      return {
-        corporateReason: companyData.cliente.corporate_reason,
-        fantasyName: companyData.cliente.fantasy_name,
-        cnpj: companyData.cliente.cnpj,
-        address: `${companyData.endereco_empresa.street}, ${companyData.endereco_empresa.number} - ${companyData.endereco_empresa.complement}`,
-        city: companyData.endereco_empresa.city,
-        neighborhood: companyData.endereco_empresa.neighborhood,
-        cep: companyData.endereco_empresa.cep,
-        complement: companyData.endereco_empresa.complement
-      };
+      const clientData = await response.json();
+      return clientData;
     } catch (error) {
-      console.error(error);
-      return {
-        corporateReason: "Erro ao carregar",
-        fantasyName: "Erro ao carregar",
-        cnpj: "Erro ao carregar",
-        address: "Erro ao carregar",
-        city: "Erro ao carregar",
-        neighborhood: "Erro ao carregar",
-        cep: "Erro ao carregar",
-        complement: "Erro ao carregar"
-      };
+      console.error("Erro ao buscar cliente:", error);
+      return null;
     }
   };
 
-  const handleEdit = (row) => {
+  const handleEdit = async (row) => {
     if (!row?.original) return;
-    navigate("/cadastrar/cliente/editar", { state: { clients: row.original } });
+    const clientData = await getById(row.original.id); // Busca o cliente pelo ID
+    if (clientData) {
+      navigate("/cadastrar/cliente/editar", { state: { client: clientData } });
+    } else {
+      toast.error("Cliente não encontrado.");
+    }
   };
 
   const columns = React.useMemo(
@@ -141,9 +163,10 @@ export const DashboardClients = () => {
         header: "",
         size: 100,
         cell: ({ row }) => (
-          <button onClick={() => handleEdit(row)} style={{ cursor: 'pointer' }}>
-            Editar
-          </button>
+          <HiPencilAlt
+          className="icon"
+          onClick={() => handleEdit(props.row)}
+        />
         ),
       },
     ],
@@ -168,6 +191,7 @@ export const DashboardClients = () => {
           $padding={isActive ? "2rem" : "0"}
           style={{ maxWidth: "100%", overflowX: "auto" }}
         >
+
           <T.TitleTable>
             <div style={{ display: "flex", alignItems: "center", marginBottom: "1rem", justifyContent: "space-between" }}>
               <div style={{ flex: 1 }}>
@@ -202,9 +226,9 @@ export const DashboardClients = () => {
                   </div>
                 </div>
               </div>
-              <div style={{ width: "321px", height: "192px", background: "#f5f5f5", borderRadius: "8px", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", display: "flex", alignItems: "center", justifyContent: "center", marginLeft: "2rem" }}>
-                <BsImage style={{ fontSize: "100px", color: "#aaa" }} />
               </div>
+              <div style={{ width: "321px", height: "192px", top: "80px", left: "1139px", background: "#f5f5f5", borderRadius: "8px", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", display: "flex", alignItems: "center", justifyContent: "center", marginLeft: "2rem" }}>
+                <BsImage style={{ fontSize: "100px", color: "#aaa" }} />
             </div>
           </T.TitleTable>
 
@@ -214,7 +238,6 @@ export const DashboardClients = () => {
             </Text>
           </div>
           <T.TableArea>
-            <hr style={{ margin: "1rem 0", border: "none", borderTop: "1px solid #ccc" }} />
             <Header />
             <T.Container>
               <T.TableWrapper>

@@ -60,7 +60,7 @@ function useClients() {
   const getClientByID = async (id) => {
     try {
       // API original
-      const { data } = await client.get(`/clientes/${id}`);
+      const { data } = await client.get(`clientes/${id}`);
 
       // Teste na minha mock (Carlos)
       // const { data } = await client.get(`/api/cliente/${id}`);
