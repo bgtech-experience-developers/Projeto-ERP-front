@@ -38,6 +38,11 @@ const types = {
     regex: /^\(?\d{2}\)?\s?\d{4,5}-\d{4}$/,
     message: 'Telefone inválido',
   },
+
+  phone: {
+    regex: /^\(?\d{2}\)?\s?\d{4,5}-\d{4}$/,
+    message: 'Telefone inválido',
+  },
 };
 
 const useForm = () => {
@@ -57,18 +62,12 @@ const useForm = () => {
     }
   }
 
-  function onChange(field) {
-    console.log(field);
-
-    // setError((prevErrors) => {
-    //   const updatedErrors = { ...prevErrors };
-    //   delete updatedErrors[field]; // Remove apenas o erro do campo específico
-    //   return updatedErrors;
-    // });
-  }
-
-  function a(params) {
-    console.log(params);
+  function removeErrorOnChange(field) {
+    setError((prevErrors) => {
+      const updatedErrors = { ...prevErrors };
+      delete updatedErrors[field]; // Remove apenas o erro do campo específico
+      return updatedErrors;
+    });
   }
 
   function mask(name, value) {
@@ -96,10 +95,12 @@ const useForm = () => {
 
   function onBlur({ target }) {
     const { name, value } = target;
+
     validate(name, value);
   }
 
-  return [mask, onBlur, onChange, error, a, setError];
+  return [mask, onBlur, removeErrorOnChange, error, setError];
 };
 
 export default useForm;
+

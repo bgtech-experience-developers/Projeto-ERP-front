@@ -60,11 +60,15 @@ export const AppRoutes = () => {
 
                     {/* teste dashboard atualizado ranyer */}
                     <Route 
-                        path="cadastrar/cliente/dashboard" 
+                        path="cadastrar/cliente/visualizar" 
                         element={<DashboardClients />} 
                         
                       
                     />
+                      <Route 
+                    path="cadastrar/cliente/editar"
+                    element={<UpdateClients />}
+                    /> 
 
                     <Route
                       path="cadastrar/fornecedor/pessoa/juridica"
