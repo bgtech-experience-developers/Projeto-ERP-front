@@ -38,7 +38,7 @@ export const ViewTableClients = () => {
 
   const [modal, setModal] = React.useState("active");
 
-  const { getClients, deleteClient } = useClients();
+  const { getClients, deleteClient, getClientByID } = useClients();
   const [clients, setClients] = React.useState([]);
   const [pagination, setPagination] = React.useState({
     pageIndex: 1,
@@ -102,8 +102,16 @@ export const ViewTableClients = () => {
   };
 
   // Função para o botão de editar encaminhar para o form de cadastro com os dados do cliente
-  const handleEdit = (row) => {
-    navigate("/cadastrar/cliente/editar", { state: { clients: row.original } });
+  const handleEdit = async (row) => {
+    try {
+      const cliente = await getClientByID(row.original.id);
+      navigate("/cadastrar/cliente/editar", {
+        state: { cliente: cliente }
+      });
+    } catch (error) {
+      console.error("Erro ao buscar cliente:", error.message);
+      alert("Não foi possível carregar os dados do cliente.")
+    }
   };
 
   //Cuida da animação do input
@@ -115,11 +123,12 @@ export const ViewTableClients = () => {
   // Configurações da coluna
   const columns = React.useMemo(
     () => [
-      { accessorKey: "corporate_reason", header: "Nome da empresa" },
+      // { accessorKey: "corporate_reason", header: "Nome da empresa" },
+      { accessorKey: "fantasy_name", header: "Nome da empresa" },
       { accessorKey: "branch_activity", header: "Ramo", size: 60 },
       { accessorKey: "name", header: "Contato" },
 
-      { accessorKey: "cell_phone", header: "Telefone" },
+      { accessorKey: "telefone", header: "Telefone" },
 
       {
         header: "Opções",
@@ -223,25 +232,22 @@ export const ViewTableClients = () => {
                               <T.Order>
                                 {/* Lógica de sort (asc, desc) */}
                                 <LuArrowUpAZ
-                                  className={` ${
-                                    header.column.getIsSorted() === "desc"
-                                      ? "desc"
-                                      : ""
-                                  }`}
+                                  className={` ${header.column.getIsSorted() === "desc"
+                                    ? "desc"
+                                    : ""
+                                    }`}
                                 />
                                 <LuArrowDownUp
-                                  className={`${
-                                    header.column.getIsSorted() ? "" : "default"
-                                  }`}
+                                  className={`${header.column.getIsSorted() ? "" : "default"
+                                    }`}
                                 />
 
                                 <LuArrowDownAZ
                                   onClick={header.column.getToggleSortingHandler()}
-                                  className={` ${
-                                    header.column.getIsSorted() === "asc"
-                                      ? "asc"
-                                      : ""
-                                  }`}
+                                  className={` ${header.column.getIsSorted() === "asc"
+                                    ? "asc"
+                                    : ""
+                                    }`}
                                 />
                               </T.Order>
                             </T.ThContent>
@@ -249,11 +255,10 @@ export const ViewTableClients = () => {
                             <T.Resizer
                               onMouseDown={header.getResizeHandler()}
                               onTouchStart={header.getResizeHandler()}
-                              className={`${
-                                header.column.getIsResizing()
-                                  ? "isResizing"
-                                  : ""
-                              }`}
+                              className={`${header.column.getIsResizing()
+                                ? "isResizing"
+                                : ""
+                                }`}
                             />
                           </T.Th>
                         ))}

@@ -4,7 +4,8 @@ import { fuzzyFilter } from "../../utils/fuzzyFilter";
 import { theme } from "../../theme/theme";
 import { SidebarContext } from "../../contexts/SidebarContext";
 import { BsImage } from "react-icons/bs";
-import {  HiPencilAlt } from "react-icons/hi";
+import { HiPencilAlt } from "react-icons/hi";
+import { CgProfile } from "react-icons/cg";
 
 // Componentes
 import * as T from "../../components/Tables";
@@ -20,22 +21,24 @@ import { useReactTable, getCoreRowModel, flexRender, getFilteredRowModel } from 
 
 // Função para buscar dados da empresa
 const fetchCompanyData = async () => {
-  try { const { getClientByID } = useClients () 
-    const response = await getClientByID ("10");
-    console.log (response)
+  try {
+    const { getClientByID } = useClients()
+    const response = await getClientByID("10");
+    // console.log (response)
     if (response.ok) {
       throw new Error(`Erro HTTP: ${response.status}`);
     }
-    const companyData =  response;
+    const companyData = response;
     return {
       corporateReason: companyData.corporate_reason,
       fantasyName: companyData.fantasy_name,
       cnpj: companyData.cnpj,
-      address: `${companyData.company_address[0].street}, ${companyData.company_address[0].number} - ${companyData.company_address[0].complement}`,
+      address: `${companyData.company_address[0].street}, ${companyData.company_address[0].number} - ${companyData.company_address[0].cep}`,
       city: companyData.company_address[0].city,
-      neighborhood: companyData.company_address[0].neighborhood,
-      cep: companyData.company_address[0].cep,
-      complement: companyData.company_address[0].complement
+      image: companyData.image_company,
+
+
+
     };
   } catch (error) {
     console.error("Erro ao buscar dados da empresa:", error);
@@ -45,9 +48,8 @@ const fetchCompanyData = async () => {
       cnpj: "Erro ao carregar",
       address: "Erro ao carregar",
       city: "Erro ao carregar",
-      neighborhood: "Erro ao carregar",
-      cep: "Erro ao carregar",
-      complement: "Erro ao carregar"
+      image: "Erro ao Carregar"
+
     };
   }
 };
@@ -55,16 +57,17 @@ const fetchCompanyData = async () => {
 export const DashboardClients = () => {
   const [isLoading, setIsLoading] = React.useState(false);
   const [clients, setClients] = React.useState([]);
+  const [partner, setPartner] = React.useState([])
   const [companyData, setCompanyData] = React.useState({
     corporateReason: "Nome da Empresa",
     fantasyName: "Nome Fantasia",
     cnpj: "00.000.000/0000-00",
     address: "Endereço da Empresa",
     neighborhood: "Bairro",
-    complement: "Complemento",
     city: "Cidade",
-    cep: "00000-000",
-   
+    image: "Erro ao Carregar"
+
+
   });
 
   const { isActive } = React.useContext(SidebarContext);
@@ -76,11 +79,18 @@ export const DashboardClients = () => {
       setIsLoading(true);
       try {
         const [data, companyDataFromServer] = await Promise.all([
-          useClients(), 
-          fetchCompanyData() 
+          useClients(),
+          fetchCompanyData()
         ]);
-        setClients(data || []); 
-        setCompanyData(companyDataFromServer); 
+        const datas = await data.getClientByID("10")
+
+        const { owner_partner, commercial_contact, accounting_contact, financinal_contact } = datas
+        setPartner([...partner, { position: "owner_partner", info: owner_partner[0] }, { position: "commercial_contact", info: commercial_contact[0] }, { position: "accounting_contact", info: accounting_contact[0] }, { position: "financinal_contact", info: financinal_contact[0] }])
+
+
+        setClients(datas || []);
+        setCompanyData(companyDataFromServer);
+
       } catch (error) {
         toast.error("Erro ao buscar dados.");
         console.error("Erro ao buscar dados:", error);
@@ -91,10 +101,12 @@ export const DashboardClients = () => {
     fetchClientsAndCompanyData();
   }, []);
 
+
+
   // Função para buscar cliente por ID
   const getById = async (id) => {
     try {
-      const response = await fetch(`URL_DO_BACKEND/api/clients/${id}`);
+      const response = await fetch(`/api/clients/${id}`);
       if (!response.ok) {
         throw new Error("Erro ao buscar cliente");
       }
@@ -125,56 +137,151 @@ export const DashboardClients = () => {
         size: 150,
         cell: ({ row }) => {
           const position = row.original.position;
+
+
           switch (position) {
-            case "socio":
+            case "owner_partner":
               return (
                 <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                   <img
-                    src="URL_DA_IMAGEM_SOCIO"
+                    src={row.original.info.image}
                     alt="Sócio Proprietário"
-                    style={{ width: "24px", height: "24px" }}
+                    style={{
+                      width: "24px",
+                      height: "24px",
+                      borderRadius: "50%",
+                      objectFit: "cover",
+                    }}
+                    onError={(e) => {
+                      e.target.style.display = "none"; // Esconde a imagem se não carregar
+                      e.target.nextSibling.style.display = "block"; // Mostra o ícone
+                    }}
+                  />
+                  <CgProfile
+                    size={24}
+                    style={{
+                      display: "none", 
+                      borderRadius: "50%",
+                    }}
                   />
                   Sócio Proprietário
                 </div>
               );
-            case "comercial":
+            case "commercial_contact":
               return (
                 <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                   <img
-                    src="URL_DA_IMAGEM_COMERCIAL"
+                    src={row.original.info.image}
                     alt="Contato Comercial"
-                    style={{ width: "24px", height: "24px" }}
+                    style={{
+                      width: "24px",
+                      height: "24px",
+                      borderRadius: "50%",
+                      objectFit: "cover",
+                    }}
+                    onError={(e) => {
+                      e.target.style.display = "none";
+                      e.target.nextSibling.style.display = "block";
+                    }}
+                  />
+                  <CgProfile
+                    size={24}
+                    style={{
+                      display: "none",
+                      borderRadius: "50%",
+                    }}
                   />
                   Contato Comercial
                 </div>
               );
+            case "accounting_contact":
+              return (
+                <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                  <img
+                    src={row.original.info.image}
+                    alt="Contato Contábil"
+                    style={{
+                      width: "24px",
+                      height: "24px",
+                      borderRadius: "50%",
+                      objectFit: "cover",
+                    }}
+                    onError={(e) => {
+                      e.target.style.display = "none";
+                      e.target.nextSibling.style.display = "block";
+                    }}
+                  />
+                  <CgProfile
+                    size={24}
+                    style={{
+                      display: "none",
+                      borderRadius: "50%",
+                    }}
+                  />
+                  Contato contábil
+                </div>
+              );
+            case "financinal_contact":
+              return (
+                <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                  <img
+                    src={row.original.info.image}
+                    alt="Contato Financeiro"
+                    style={{
+                      width: "24px",
+                      height: "24px",
+                      borderRadius: "50%",
+                      objectFit: "cover",
+                    }}
+                    onError={(e) => {
+                      e.target.style.display = "none";
+                      e.target.nextSibling.style.display = "block";
+                    }}
+                  />
+                  <CgProfile
+                    size={24}
+                    style={{
+                      display: "none",
+                      borderRadius: "50%",
+                    }}
+                  />
+                  Contato financeiro
+                </div>
+              );
             default:
               return "Não especificado";
-          }
+          }          
         },
       },
-      { accessorKey: "name", id: "name", header: "Nome", size: 100 },
-      { accessorKey: "email", id: "email", header: "E-mail", size: 100 },
-      { accessorKey: "phone", id: "phone", header: "Telefone", size: 100 },
-      { accessorKey: "rg", id: "rg", header: "RG", size: 150 },
-      { accessorKey: "cpf", id: "cpf", header: "CPF", size: 150 },
+      { accessorKey: "name", id: "name", header: "Nome", size: 100, cell: ({ row }) => row.original.info.name },
+      { accessorKey: "email", id: "email", header: "E-mail", size: 100, cell: ({ row }) => row.original.info.email },
+      { accessorKey: "phone", id: "phone", header: "Telefone", size: 100, cell: ({ row }) => row.original.info.phone },
+      { accessorKey: "rg", id: "rg", header: "RG", size: 100, cell: ({ row }) => row.original.info.rg },
+      { accessorKey: "cpf", id: "cpf", header: "CPF", size: 100, cell: ({ row }) => row.original.info.cpf },
       {
         id: "actions",
         header: "",
         size: 100,
         cell: ({ row }) => (
           <HiPencilAlt
-          className="icon"
-          onClick={() => handleEdit(props.row)}
-        />
+            className="icon"
+            onClick={() => handleEdit(row)}
+            style={{
+              fontSize: "24px", // Define o tamanho
+              color: "#575a5c", // Define a cor
+              cursor: "pointer", // Cursor clicável
+            }}
+          />
+
         ),
-      },
+      }
     ],
     []
   );
 
+
   const table = useReactTable({
-    data: clients,
+    data: partner,
     columns,
     filterFns: { fuzzy: fuzzyFilter },
     getCoreRowModel: getCoreRowModel(),
@@ -201,7 +308,7 @@ export const DashboardClients = () => {
                     {companyData.fantasyName}
                   </span>
                 </Text>
-                <div style={{ display: "flex", gap: "4rem", marginTop: "0.5rem" }}>
+                <div style={{ display: "flex", gap: "10rem", marginTop: "0.5rem" }}>
                   <div>
                     <Text variant="medium" bold="bold">
                       Localização
@@ -212,9 +319,7 @@ export const DashboardClients = () => {
                     <Text variant="small">
                       {companyData.city} - {companyData.neighborhood}
                     </Text>
-                    <Text variant="small">
-                      CEP: {companyData.cep}
-                    </Text>
+
                   </div>
                   <div>
                     <Text variant="medium" bold="bold">
@@ -226,9 +331,10 @@ export const DashboardClients = () => {
                   </div>
                 </div>
               </div>
-              </div>
-              <div style={{ width: "321px", height: "192px", top: "80px", left: "1139px", background: "#f5f5f5", borderRadius: "8px", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", display: "flex", alignItems: "center", justifyContent: "center", marginLeft: "2rem" }}>
-                <BsImage style={{ fontSize: "100px", color: "#aaa" }} />
+            </div>
+            <div style={{ width: "321px", height: "192px", top: "50px", left: "1139px", background: "#f5f5f5", borderRadius: "8px", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", display: "flex", alignItems: "center", justifyContent: "center", marginLeft: "2rem" }}>
+
+              {!clients.image_company ? <BsImage style={{ fontSize: "100px", color: "#aaa" }} /> : <img style={{ width: '100%', height: '100%', objectFit: 'cover' }} src={clients.image_company} />}
             </div>
           </T.TitleTable>
 
@@ -266,7 +372,10 @@ export const DashboardClients = () => {
                   <T.Tbody>
                     {table.getRowModel().rows.length === 0 ? (
                       <T.Tr>
-                        <T.Td colSpan={columns.length} style={{ textAlign: 'center' }}>
+                        <T.Td
+                          colSpan={columns.length}
+                          style={{ textAlign: "center", verticalAlign: "middle" }}
+                        >
                           Nenhum registro encontrado
                         </T.Td>
                       </T.Tr>
@@ -274,7 +383,13 @@ export const DashboardClients = () => {
                       table.getRowModel().rows.map((row) => (
                         <T.Tr key={row.id}>
                           {row.getVisibleCells().map((cell) => (
-                            <T.Td key={cell.id}>
+                            <T.Td
+                              key={cell.id}
+                              style={{
+                                textAlign: "center", // Centraliza horizontalmente
+                                verticalAlign: "middle", // Centraliza verticalmente
+                              }}
+                            >
                               {flexRender(
                                 cell.column.columnDef.cell,
                                 cell.getContext()
@@ -285,6 +400,7 @@ export const DashboardClients = () => {
                       ))
                     )}
                   </T.Tbody>
+
                 </T.Table>
               </T.TableWrapper>
             </T.Container>

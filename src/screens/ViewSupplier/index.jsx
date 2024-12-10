@@ -16,7 +16,7 @@ import { Loader } from "../../../public/Loader";
 import { SidebarContext } from "../../contexts/SidebarContext";
 import { Modal } from "../../components/Modal";
 
-// Exrernos
+// Externos
 import { toast } from "react-toastify";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import {
