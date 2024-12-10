@@ -57,7 +57,8 @@ export const AppRoutes = () => {
                       path="cadastrar/cliente/novo"
                       element={<RegisterClients />}
                     />                  
-    
+
+                    {/* teste dashboard atualizado ranyer */}
                     <Route 
                         path="cadastrar/cliente/dashboard" 
                         element={<DashboardClients />} 
