@@ -34,8 +34,7 @@ function useClients() {
 
       const response = await client.post("/clientes/registro", formData);
       
-      alert("Cliente cadastrado com sucesso!");
-      navigate("/cadastrar/cliente");
+      navigate("/cadastrar/cliente/novo/sucesso");
 
       console.log(response);
     } catch (error) {
@@ -103,8 +102,7 @@ function useClients() {
       const endpoint = `/clientes/atualizar/${id}`;
       const { data } = await client.patch(endpoint, formData);
 
-      alert("Cliente atualizado com sucesso!");
-      navigate("/cadastrar/cliente");
+      navigate("/cadastrar/cliente/editar/sucesso");
     } catch (error) {
       console.error("Erro ao atualizar cliente:", error);
     }

@@ -13,6 +13,15 @@ const double = css`
   width: 100%;
 `;
 
+const sucess = css`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+  gap: 10px;
+  width: 100%;
+`;
+
 const file = css`
   display: flex;
   align-items: center;
@@ -39,6 +48,8 @@ export const _FormsField = styled.div`
         return triple;
       case "file":
         return file;
+      case "sucess":
+        return sucess;
       default:
         return null;
     }
