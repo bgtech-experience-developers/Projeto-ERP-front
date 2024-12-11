@@ -9,14 +9,15 @@ import { RegisterClients } from "../screens/RegisterClients";
 import {
   ViewTableSupplierPF,
   ViewTableSupplierPJ,
-} from '../screens/ViewSupplier';
-import { DashboardClients } from '../screens/DashboardClients';
+} from "../screens/ViewSupplier";
+import { DashboardClients } from "../screens/DashboardClients";
 
 import {
   RegisterSupplierPF,
   RegisterSupplierPJ,
 } from "../screens/RegisterSuppliers/index";
 import { UpdateClients } from "../screens/UpdateClients";
+import { CreateSucess, UpdateSucess } from "../screens/RegisterSucess";
 
 export const AppRoutes = () => {
   const { isActive, isHover } = React.useContext(SidebarContext);
@@ -41,7 +42,7 @@ export const AppRoutes = () => {
                   <Routes>
                     {/* Falta criar o component de dashboard, deixei o h1 só para testar */}
                     <Route
-                      path="home"
+                      path="dashboard"
                       element={
                         <h1 style={{ fontSize: "2rem" }}>
                           {" "}
@@ -56,19 +57,25 @@ export const AppRoutes = () => {
                     <Route
                       path="cadastrar/cliente/novo"
                       element={<RegisterClients />}
-                    />                  
+                    />
 
                     {/* teste dashboard atualizado ranyer */}
-                    <Route 
-                        path="cadastrar/cliente/visualizar" 
-                        element={<DashboardClients />} 
-                        
-                      
+                    <Route
+                      path="cadastrar/cliente/visualizar"
+                      element={<DashboardClients />}
                     />
-                      <Route 
-                    path="cadastrar/cliente/editar"
-                    element={<UpdateClients />}
-                    /> 
+                    <Route
+                      path="cadastrar/cliente/editar"
+                      element={<UpdateClients />}
+                    />
+                    <Route
+                      path="cadastrar/cliente/novo/sucesso"
+                      element={<CreateSucess />}
+                    />
+                    <Route
+                      path="cadastrar/cliente/editar/sucesso"
+                      element={<UpdateSucess />}
+                    />
 
                     <Route
                       path="cadastrar/fornecedor/pessoa/juridica"
