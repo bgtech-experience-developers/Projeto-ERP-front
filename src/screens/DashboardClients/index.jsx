@@ -8,7 +8,7 @@ import { HiPencilAlt } from "react-icons/hi";
 import { CgProfile } from "react-icons/cg";
 
 // Componentes
-import * as T from "../../components/Tables";
+import * as T from "../../components/Table";
 import { Text } from "../../components/Texts/Text";
 import { Button } from "../../components/Forms/Button";
 import { Header } from "../../components/Header";
@@ -17,12 +17,17 @@ import { Loader } from "../../../public/Loader";
 // Externos
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { useReactTable, getCoreRowModel, flexRender, getFilteredRowModel } from "@tanstack/react-table";
+import {
+  useReactTable,
+  getCoreRowModel,
+  flexRender,
+  getFilteredRowModel,
+} from "@tanstack/react-table";
 
 // Função para buscar dados da empresa
 const fetchCompanyData = async () => {
   try {
-    const { getClientByID } = useClients()
+    const { getClientByID } = useClients();
     const response = await getClientByID("10");
     // console.log (response)
     if (response.ok) {
@@ -36,9 +41,6 @@ const fetchCompanyData = async () => {
       address: `${companyData.company_address[0].street}, ${companyData.company_address[0].number} - ${companyData.company_address[0].cep}`,
       city: companyData.company_address[0].city,
       image: companyData.image_company,
-
-
-
     };
   } catch (error) {
     console.error("Erro ao buscar dados da empresa:", error);
@@ -48,8 +50,7 @@ const fetchCompanyData = async () => {
       cnpj: "Erro ao carregar",
       address: "Erro ao carregar",
       city: "Erro ao carregar",
-      image: "Erro ao Carregar"
-
+      image: "Erro ao Carregar",
     };
   }
 };
@@ -57,7 +58,7 @@ const fetchCompanyData = async () => {
 export const DashboardClients = () => {
   const [isLoading, setIsLoading] = React.useState(false);
   const [clients, setClients] = React.useState([]);
-  const [partner, setPartner] = React.useState([])
+  const [partner, setPartner] = React.useState([]);
   const [companyData, setCompanyData] = React.useState({
     corporateReason: "Nome da Empresa",
     fantasyName: "Nome Fantasia",
@@ -65,9 +66,7 @@ export const DashboardClients = () => {
     address: "Endereço da Empresa",
     neighborhood: "Bairro",
     city: "Cidade",
-    image: "Erro ao Carregar"
-
-
+    image: "Erro ao Carregar",
   });
 
   const { isActive } = React.useContext(SidebarContext);
@@ -80,17 +79,26 @@ export const DashboardClients = () => {
       try {
         const [data, companyDataFromServer] = await Promise.all([
           useClients(),
-          fetchCompanyData()
+          fetchCompanyData(),
         ]);
-        const datas = await data.getClientByID("10")
+        const datas = await data.getClientByID("10");
 
-        const { owner_partner, commercial_contact, accounting_contact, financinal_contact } = datas
-        setPartner([...partner, { position: "owner_partner", info: owner_partner[0] }, { position: "commercial_contact", info: commercial_contact[0] }, { position: "accounting_contact", info: accounting_contact[0] }, { position: "financinal_contact", info: financinal_contact[0] }])
-
+        const {
+          owner_partner,
+          commercial_contact,
+          accounting_contact,
+          financinal_contact,
+        } = datas;
+        setPartner([
+          ...partner,
+          { position: "owner_partner", info: owner_partner[0] },
+          { position: "commercial_contact", info: commercial_contact[0] },
+          { position: "accounting_contact", info: accounting_contact[0] },
+          { position: "financinal_contact", info: financinal_contact[0] },
+        ]);
 
         setClients(datas || []);
         setCompanyData(companyDataFromServer);
-
       } catch (error) {
         toast.error("Erro ao buscar dados.");
         console.error("Erro ao buscar dados:", error);
@@ -100,8 +108,6 @@ export const DashboardClients = () => {
     };
     fetchClientsAndCompanyData();
   }, []);
-
-
 
   // Função para buscar cliente por ID
   const getById = async (id) => {
@@ -138,11 +144,12 @@ export const DashboardClients = () => {
         cell: ({ row }) => {
           const position = row.original.position;
 
-
           switch (position) {
             case "owner_partner":
               return (
-                <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                <div
+                  style={{ display: "flex", alignItems: "center", gap: "8px" }}
+                >
                   <img
                     src={row.original.info.image}
                     alt="Sócio Proprietário"
@@ -160,7 +167,7 @@ export const DashboardClients = () => {
                   <CgProfile
                     size={24}
                     style={{
-                      display: "none", 
+                      display: "none",
                       borderRadius: "50%",
                     }}
                   />
@@ -169,7 +176,9 @@ export const DashboardClients = () => {
               );
             case "commercial_contact":
               return (
-                <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                <div
+                  style={{ display: "flex", alignItems: "center", gap: "8px" }}
+                >
                   <img
                     src={row.original.info.image}
                     alt="Contato Comercial"
@@ -196,7 +205,9 @@ export const DashboardClients = () => {
               );
             case "accounting_contact":
               return (
-                <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                <div
+                  style={{ display: "flex", alignItems: "center", gap: "8px" }}
+                >
                   <img
                     src={row.original.info.image}
                     alt="Contato Contábil"
@@ -223,7 +234,9 @@ export const DashboardClients = () => {
               );
             case "financinal_contact":
               return (
-                <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                <div
+                  style={{ display: "flex", alignItems: "center", gap: "8px" }}
+                >
                   <img
                     src={row.original.info.image}
                     alt="Contato Financeiro"
@@ -250,14 +263,44 @@ export const DashboardClients = () => {
               );
             default:
               return "Não especificado";
-          }          
+          }
         },
       },
-      { accessorKey: "name", id: "name", header: "Nome", size: 100, cell: ({ row }) => row.original.info.name },
-      { accessorKey: "email", id: "email", header: "E-mail", size: 100, cell: ({ row }) => row.original.info.email },
-      { accessorKey: "phone", id: "phone", header: "Telefone", size: 100, cell: ({ row }) => row.original.info.phone },
-      { accessorKey: "rg", id: "rg", header: "RG", size: 100, cell: ({ row }) => row.original.info.rg },
-      { accessorKey: "cpf", id: "cpf", header: "CPF", size: 100, cell: ({ row }) => row.original.info.cpf },
+      {
+        accessorKey: "name",
+        id: "name",
+        header: "Nome",
+        size: 100,
+        cell: ({ row }) => row.original.info.name,
+      },
+      {
+        accessorKey: "email",
+        id: "email",
+        header: "E-mail",
+        size: 100,
+        cell: ({ row }) => row.original.info.email,
+      },
+      {
+        accessorKey: "phone",
+        id: "phone",
+        header: "Telefone",
+        size: 100,
+        cell: ({ row }) => row.original.info.phone,
+      },
+      {
+        accessorKey: "rg",
+        id: "rg",
+        header: "RG",
+        size: 100,
+        cell: ({ row }) => row.original.info.rg,
+      },
+      {
+        accessorKey: "cpf",
+        id: "cpf",
+        header: "CPF",
+        size: 100,
+        cell: ({ row }) => row.original.info.cpf,
+      },
       {
         id: "actions",
         header: "",
@@ -272,13 +315,11 @@ export const DashboardClients = () => {
               cursor: "pointer", // Cursor clicável
             }}
           />
-
         ),
-      }
+      },
     ],
     []
   );
-
 
   const table = useReactTable({
     data: partner,
@@ -298,43 +339,72 @@ export const DashboardClients = () => {
           $padding={isActive ? "2rem" : "0"}
           style={{ maxWidth: "100%", overflowX: "auto" }}
         >
-
           <T.TitleTable>
-            <div style={{ display: "flex", alignItems: "center", marginBottom: "1rem", justifyContent: "space-between" }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginBottom: "1rem",
+                justifyContent: "space-between",
+              }}
+            >
               <div style={{ flex: 1 }}>
                 <Text variant="large" bold="bold">
                   {companyData.corporateReason}
-                  <span style={{ fontSize: "1rem", fontWeight: "normal", marginLeft: "8px" }}>
+                  <span
+                    style={{
+                      fontSize: "1rem",
+                      fontWeight: "normal",
+                      marginLeft: "8px",
+                    }}
+                  >
                     {companyData.fantasyName}
                   </span>
                 </Text>
-                <div style={{ display: "flex", gap: "10rem", marginTop: "0.5rem" }}>
+                <div
+                  style={{ display: "flex", gap: "10rem", marginTop: "0.5rem" }}
+                >
                   <div>
                     <Text variant="medium" bold="bold">
                       Localização
                     </Text>
-                    <Text variant="small">
-                      {companyData.address}
-                    </Text>
+                    <Text variant="small">{companyData.address}</Text>
                     <Text variant="small">
                       {companyData.city} - {companyData.neighborhood}
                     </Text>
-
                   </div>
                   <div>
                     <Text variant="medium" bold="bold">
                       Informações
                     </Text>
-                    <Text variant="small">
-                      CNPJ: {companyData.cnpj}
-                    </Text>
+                    <Text variant="small">CNPJ: {companyData.cnpj}</Text>
                   </div>
                 </div>
               </div>
             </div>
-            <div style={{ width: "321px", height: "192px", top: "50px", left: "1139px", background: "#f5f5f5", borderRadius: "8px", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", display: "flex", alignItems: "center", justifyContent: "center", marginLeft: "2rem" }}>
-
-              {!clients.image_company ? <BsImage style={{ fontSize: "100px", color: "#aaa" }} /> : <img style={{ width: '100%', height: '100%', objectFit: 'cover' }} src={clients.image_company} />}
+            <div
+              style={{
+                width: "321px",
+                height: "192px",
+                top: "50px",
+                left: "1139px",
+                background: "#f5f5f5",
+                borderRadius: "8px",
+                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                marginLeft: "2rem",
+              }}
+            >
+              {!clients.image_company ? (
+                <BsImage style={{ fontSize: "100px", color: "#aaa" }} />
+              ) : (
+                <img
+                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                  src={clients.image_company}
+                />
+              )}
             </div>
           </T.TitleTable>
 
@@ -374,7 +444,10 @@ export const DashboardClients = () => {
                       <T.Tr>
                         <T.Td
                           colSpan={columns.length}
-                          style={{ textAlign: "center", verticalAlign: "middle" }}
+                          style={{
+                            textAlign: "center",
+                            verticalAlign: "middle",
+                          }}
                         >
                           Nenhum registro encontrado
                         </T.Td>
@@ -400,7 +473,6 @@ export const DashboardClients = () => {
                       ))
                     )}
                   </T.Tbody>
-
                 </T.Table>
               </T.TableWrapper>
             </T.Container>

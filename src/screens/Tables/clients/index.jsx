@@ -1,0 +1,250 @@
+import React from "react";
+
+import * as T from "../../../components/Table/style";
+import { Table } from "../../../components/Table";
+import { NavLink, useNavigate } from "react-router-dom";
+import { Modal } from "../../../components/Modal";
+
+import { MdOutlineFilterList, MdOutlineFilterListOff } from "react-icons/md";
+import { HiEye, HiPencilAlt, HiTrash } from "react-icons/hi";
+import useClients from "../../../hooks/useClients";
+
+export const ClientTable = () => {
+  // Estados de Interação
+  const [fetchStatus, setFetchStatus] = React.useState(true);
+  const [selectedItem, setSelectedItem] = React.useState("active");
+  const [isLoading, setIsLoading] = React.useState(false);
+
+  // Estados de controle
+  const { getClients, deleteClient, getClientByID } = useClients();
+  const [clients, setClients] = React.useState([]);
+  const navigate = useNavigate();
+
+  // Função para buscar clientes
+  React.useEffect(() => {
+    const fetchClients = async () => {
+      setIsLoading(true);
+      try {
+        const data = await getClients(`?status=${fetchStatus}`);
+
+        setClients(data);
+      } catch (error) {
+        toast.error("Erro ao buscar clientes.");
+        console.error("Erro ao buscar clientes:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchClients();
+  }, [fetchStatus]);
+
+  // Alternar status entre "Ativo" e "Inativo"
+  const toggleStatus = async (id) => {
+    const client = clients.find((c) => c.id === id);
+    const newStatus = client.status === "Ativo" ? "Inativo" : "Ativo";
+
+    try {
+      await axios.patch(`/api/clients/${id}`, { status: newStatus });
+      setClients((prev) =>
+        prev.map((c) => (c.id === id ? { ...c, status: newStatus } : c))
+      );
+      toast.success("Status atualizado com sucesso!");
+    } catch (error) {
+      toast.error("Erro ao atualizar status.");
+      console.error("Erro ao alternar status:", error);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    const confirmDelete = window.confirm(
+      "Tem certeza que deseja excluir esse cadastro?"
+    );
+    if (confirmDelete) {
+      try {
+        await deleteClient(id);
+        setClients((prev) => prev.filter((client) => client.id !== id));
+        toast.success("Cliente excluído com sucesso!");
+      } catch (error) {
+        toast.error("Erro ao excluir cliente.");
+        console.error("Erro ao deletar cliente:", error);
+      }
+    }
+  };
+
+  const handleEdit = async (row) => {
+    try {
+      const clientResponse = await getClientByID(row.original.id);
+
+      const clientResponseMap = clientFormMap(clientResponse);
+
+      navigate("/cadastrar/cliente/editar", {
+        state: { data: clientResponseMap },
+      });
+    } catch (error) {
+      console.error("Erro ao buscar cliente:", error.message);
+      alert("Não foi possível carregar os dados do cliente.");
+    }
+  };
+
+  // Função responsável por envair os dados para o formulário de update
+  const clientFormMap = (clientResponse) => {
+    const clientResponseMap = {
+      imagens: [],
+      cliente: {
+        corporate_reason: clientResponse?.corporate_reason,
+        fantasy_name: clientResponse?.fantasy_name,
+        cnpj: clientResponse?.cnpj,
+        state_registration: clientResponse?.state_registration,
+        type_contribuition: clientResponse?.type_contribuition,
+        branch_activity: clientResponse?.branch_activity,
+      },
+      endereco_empresa: {
+        cep: clientResponse.company_address[0].cep,
+        street: clientResponse.company_address[0].street,
+        number: clientResponse.company_address[0].number,
+        complement: clientResponse.company_address[0].complement,
+        city: clientResponse.company_address[0].city,
+        neighborhood: clientResponse.company_address[0].neighborhood,
+      },
+      endereco_entrega: {
+        cep: clientResponse.delivery_address[0].cep,
+        street: clientResponse.delivery_address[0].street,
+        number: clientResponse.delivery_address[0].number,
+        complement: clientResponse.delivery_address[0].complement,
+        city: clientResponse.delivery_address[0].city,
+        neighborhood: clientResponse.delivery_address[0].neighborhood,
+      },
+      financeiro: {
+        name: clientResponse.financinal_contact[0]?.name,
+        phone: clientResponse.financinal_contact[0]?.phone,
+        cell_phone: clientResponse.financinal_contact[0]?.cell_phone,
+        rg: clientResponse.financinal_contact[0]?.rg,
+        email: clientResponse.financinal_contact[0]?.email,
+        cpf: clientResponse.financinal_contact[0]?.cpf,
+      },
+      comercial: {
+        name: clientResponse.commercial_contact[0]?.name,
+        phone: clientResponse.commercial_contact[0]?.phone,
+        cell_phone: clientResponse.commercial_contact[0]?.cell_phone,
+        rg: clientResponse.commercial_contact[0]?.rg,
+        email: clientResponse.commercial_contact[0]?.email,
+        cpf: clientResponse.commercial_contact[0]?.cpf,
+      },
+      contabil: {
+        name: clientResponse.accounting_contact[0]?.name,
+        phone: clientResponse.accounting_contact[0]?.phone,
+        cell_phone: clientResponse.accounting_contact[0]?.cell_phone,
+        rg: clientResponse.accounting_contact[0]?.rg,
+        email: clientResponse.accounting_contact[0]?.email,
+        cpf: clientResponse.accounting_contact[0]?.cpf,
+      },
+      socio: {
+        name: clientResponse.owner_partner[0]?.name,
+        phone: clientResponse.owner_partner[0]?.phone,
+        cell_phone: clientResponse.owner_partner[0]?.cell_phone,
+        rg: clientResponse.owner_partner[0]?.rg,
+        email: clientResponse.owner_partner[0]?.email,
+        cpf: clientResponse.owner_partner[0]?.cpf,
+      },
+    };
+
+    const photosResponseMap = {
+      file1: {
+        file: clientResponse.image_company,
+        status: clientResponse.image_company ? false : false,
+      },
+      file2: {
+        file: clientResponse.owner_partner[0]?.image,
+        status: clientResponse.owner_partner[0]?.image ? false : false,
+      },
+      file3: {
+        file: clientResponse.commercial_contact[0]?.image,
+        status: clientResponse.commercial_contact[0]?.image ? false : false,
+      },
+      file4: {
+        file: clientResponse.financinal_contact[0]?.image,
+        status: clientResponse.financinal_contact[0]?.image ? false : false,
+      },
+      file5: {
+        file: clientResponse.accounting_contact[0]?.image,
+        status: clientResponse.accounting_contact[0]?.image ? false : false,
+      },
+    };
+
+    const id = clientResponse?.id;
+
+    return { clientResponseMap, photosResponseMap, id };
+  };
+
+  // Configurações da coluna
+  const columns = React.useMemo(
+    () => [
+      // { accessorKey: "corporate_reason", header: "Nome da empresa" },
+      { accessorKey: "fantasy_name", header: "Nome da empresa" },
+      { accessorKey: "branch_activity", header: "Ramo", size: 60 },
+      { accessorKey: "name", header: "Contato" },
+
+      { accessorKey: "telefone", header: "Telefone" },
+
+      {
+        header: "Opções",
+        size: 30,
+        cell: (props) => (
+          <T.IconContainer>
+            <NavLink to={"/cadastrar/cliente/visualizar"}>
+              <HiEye className="icon" />
+            </NavLink>
+            <HiTrash
+              className="icon"
+              onClick={() => handleDelete(props.row.original.id)}
+            />
+            <HiPencilAlt
+              className="icon"
+              onClick={() => handleEdit(props.row)}
+            />
+          </T.IconContainer>
+        ),
+      },
+    ],
+    []
+  );
+
+  const filterModalItens = [
+    {
+      id: 1,
+      icon: <MdOutlineFilterListOff />,
+      text: "Limpar Filtros",
+      value: "clear",
+      query: "",
+    },
+    {
+      id: 2,
+      icon: <MdOutlineFilterList />,
+      text: "Filtrar por ativos",
+      value: "active",
+      query: "true",
+    },
+    {
+      id: 3,
+      icon: <MdOutlineFilterList />,
+      text: "Filtrar por Inativos",
+      value: "inactive",
+      query: "false",
+    },
+  ];
+
+  return (
+    <Table
+      columns={columns}
+      data={clients}
+      filterModal={
+        <Modal
+          setSelectedItem={setSelectedItem}
+          selectedItem={selectedItem}
+          setFetchStatus={setFetchStatus}
+          filterModalItens={filterModalItens}
+        />
+      }
+    />
+  );
+};

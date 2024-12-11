@@ -5,39 +5,17 @@ import { Text } from "../Texts/Text";
 // Externos
 import { MdOutlineFilterList, MdOutlineFilterListOff } from "react-icons/md";
 
-const filterModalItens = [
-  {
-    id: 1,
-    icon: <MdOutlineFilterListOff />,
-    text: "Limpar Filtros",
-    value: "clear",
-    query: "",
-  },
-  {
-    id: 2,
-    icon: <MdOutlineFilterList />,
-    text: "Filtrar por ativos",
-    value: "active",
-    query: "true",
-  },
-  {
-    id: 3,
-    icon: <MdOutlineFilterList />,
-    text: "Filtrar por Inativos",
-    value: "inactive",
-    query: "false",
-  },
-];
-
 export const Modal = ({
   variant = "filter-modal",
   setFetchStatus,
+  filterModalItens,
   setSelectedItem,
   selectedItem,
 }) => {
   const [isActive, setIsActive] = React.useState(false);
   const modal = React.useRef(null);
 
+  // Função de clickOutside
   React.useEffect(() => {
     function handleClickOutside(event) {
       if (modal.current && !modal.current.contains(event.target)) {
@@ -57,9 +35,16 @@ export const Modal = ({
   }, [isActive]);
 
   const handleItemClick = (item) => {
-    setSelectedItem(item.value);
-    setFetchStatus(item.query);
-    setIsActive(false);
+    if (setSelectedItem) {
+      setSelectedItem(item.value);
+    }
+    if (setFetchStatus) {
+      // Responsável por fazer a requisição baseado no filtro colocado
+      setFetchStatus(item.query);
+    }
+    if (setIsActive) {
+      setIsActive(false);
+    }
   };
 
   if (variant === "filter-modal")
@@ -68,7 +53,7 @@ export const Modal = ({
         <MdOutlineFilterList onClick={() => setIsActive(!isActive)} />
 
         <S.ModalArea className={isActive ? "active" : ""}>
-          {filterModalItens.map((item) => (
+          {filterModalItens?.map((item) => (
             <S.ModalItens
               key={item.id}
               onClick={() => handleItemClick(item)}

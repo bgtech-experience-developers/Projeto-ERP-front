@@ -6,7 +6,7 @@ import { fuzzyFilter } from "../../utils/fuzzyFilter";
 import { theme } from "../../theme/theme";
 
 // Componentes
-import * as T from "../../components/Tables";
+import * as T from "../../components/Table";
 import { Text } from "../../components/Texts/Text";
 import { Input } from "../../components/Forms/Inputs/Input";
 import { Button } from "../../components/Forms/Button";

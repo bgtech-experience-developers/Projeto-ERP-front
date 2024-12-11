@@ -9,14 +9,15 @@ import { RegisterClients } from "../screens/RegisterClients";
 import {
   ViewTableSupplierPF,
   ViewTableSupplierPJ,
-} from '../screens/ViewSupplier';
-import { DashboardClients } from '../screens/DashboardClients';
+} from "../screens/ViewSupplier";
+import { DashboardClients } from "../screens/DashboardClients";
 
 import {
   RegisterSupplierPF,
   RegisterSupplierPJ,
 } from "../screens/RegisterSuppliers/index";
 import { UpdateClients } from "../screens/UpdateClients";
+import { ClientTable } from "../screens/Tables/clients";
 
 export const AppRoutes = () => {
   const { isActive, isHover } = React.useContext(SidebarContext);
@@ -49,26 +50,21 @@ export const AppRoutes = () => {
                         </h1>
                       }
                     />
-                    <Route
-                      path="cadastrar/cliente"
-                      element={<ViewTableClients />}
-                    />
+                    <Route path="cadastrar/cliente" element={<ClientTable />} />
                     <Route
                       path="cadastrar/cliente/novo"
                       element={<RegisterClients />}
-                    />                  
+                    />
 
                     {/* teste dashboard atualizado ranyer */}
-                    <Route 
-                        path="cadastrar/cliente/visualizar" 
-                        element={<DashboardClients />} 
-                        
-                      
+                    <Route
+                      path="cadastrar/cliente/visualizar"
+                      element={<DashboardClients />}
                     />
-                      <Route 
-                    path="cadastrar/cliente/editar"
-                    element={<UpdateClients />}
-                    /> 
+                    <Route
+                      path="cadastrar/cliente/editar"
+                      element={<UpdateClients />}
+                    />
 
                     <Route
                       path="cadastrar/fornecedor/pessoa/juridica"
