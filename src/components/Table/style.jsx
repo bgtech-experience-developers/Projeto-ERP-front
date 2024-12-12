@@ -227,7 +227,7 @@ export const LoaderContainer = styled.div`
     color: ${theme.colors.primary};
   }
 
-  .hidden-load {
+  &.hidden-load {
     display: none;
   }
 `;
@@ -263,4 +263,5 @@ export const MainTableContainer = styled.section`
     }
   }}
   padding: ${({ $padding }) => $padding};
+  width: ${({ $width }) => $width};
 `;

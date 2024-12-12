@@ -5,12 +5,12 @@ import { Sidebar } from "../components/Sidebar";
 import { Content, InnerContent, Layout } from "../components/Sidebar/style";
 import { SidebarContext } from "../contexts/SidebarContext";
 // import { ViewTableClients } from "../screens/ViewClient";
-import { RegisterClients } from "../screens/RegisterClients";
 // import {
 //   ViewTableSupplierPF,
 //   ViewTableSupplierPJ,
 // } from "../screens/ViewSupplier";
-import { DashboardClients } from "../screens/DashboardClients";
+import { RegisterClients } from "../screens/RegisterClients";
+import { ClientDashboard } from "../screens/Dashboards/client";
 
 import {
   RegisterSupplierPF,
@@ -58,7 +58,7 @@ export const AppRoutes = () => {
                     {/* teste dashboard atualizado ranyer */}
                     <Route
                       path="cadastrar/cliente/visualizar"
-                      element={<DashboardClients />}
+                      element={<ClientDashboard />}
                     />
                     <Route
                       path="cadastrar/cliente/editar"

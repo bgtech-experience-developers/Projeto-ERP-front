@@ -30,6 +30,8 @@ export const Table = ({
   data,
   columns,
   title,
+  style,
+  sort = true,
   isLoading = false,
   filterModal,
   variant = "main-table",
@@ -118,8 +120,9 @@ export const Table = ({
     <T.MainTableContainer
       $variant={variant}
       $padding={isActive ? "0 2rem" : "0"}
+      $width={isActive ? "90%" : "97%"}
     >
-      <T.TitleTable>{title}</T.TitleTable>
+      <T.TitleTable style={style}>{title}</T.TitleTable>
       <T.TableArea>
         <Header variant="table">
           <Input
@@ -152,30 +155,32 @@ export const Table = ({
                                 header.column.columnDef.header,
                                 header.getContext()
                               )}
-                          <T.Order>
-                            {/* Lógica de sort (asc, desc) */}
-                            <LuArrowUpAZ
-                              className={` ${
-                                header.column.getIsSorted() === "desc"
-                                  ? "desc"
-                                  : ""
-                              }`}
-                            />
-                            <LuArrowDownUp
-                              className={`${
-                                header.column.getIsSorted() ? "" : "default"
-                              }`}
-                            />
+                          {sort && (
+                            <T.Order>
+                              {/* Lógica de sort (asc, desc) */}
+                              <LuArrowUpAZ
+                                className={` ${
+                                  header.column.getIsSorted() === "desc"
+                                    ? "desc"
+                                    : ""
+                                }`}
+                              />
+                              <LuArrowDownUp
+                                className={`${
+                                  header.column.getIsSorted() ? "" : "default"
+                                }`}
+                              />
 
-                            <LuArrowDownAZ
-                              onClick={header.column.getToggleSortingHandler()}
-                              className={` ${
-                                header.column.getIsSorted() === "asc"
-                                  ? "asc"
-                                  : ""
-                              }`}
-                            />
-                          </T.Order>
+                              <LuArrowDownAZ
+                                onClick={header.column.getToggleSortingHandler()}
+                                className={` ${
+                                  header.column.getIsSorted() === "asc"
+                                    ? "asc"
+                                    : ""
+                                }`}
+                              />
+                            </T.Order>
+                          )}
                         </T.ThContent>
                         <T.Resizer
                           onMouseDown={header.getResizeHandler()}

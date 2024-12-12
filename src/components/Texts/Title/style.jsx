@@ -21,7 +21,7 @@ const medium = css`
 
 const small = css`
   font-family: ${theme.fontFamily.default};
-  font-size: 32px;
+  font-size: 36px;
   font-weight: 400;
   line-height: 36px;
   letter-spacing: 1px;
@@ -33,7 +33,7 @@ const xSmall = css`
   font-size: 28px;
   font-weight: 400;
   line-height: 36px;
-  letter-spacing: ${(props) => props.letterSpacing || '2px'};
+  letter-spacing: ${(props) => props.letterSpacing || "2px"};
   text-align: left;
 `;
 
@@ -52,4 +52,5 @@ export const _Title = styled.h3`
   }}
   font-weight: ${({ $bold }) => $bold};
   color: ${({ $color }) => $color || `${theme.colors.black}`};
+  width: ${({ $width }) => $width};
 `;
