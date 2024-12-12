@@ -17,14 +17,14 @@ const primary = css`
 const secondary = css`
   border: none;
   //Recomendo não utilizar dessa forma, é melhor deixar o prŕoprio elemento pai definir o taamanho do button
-  width: 100%;
-  height: 100%;
-  font-size: 16px;
-  font-weight: 600;
+  width: 20rem;
+  height: 3.5rem;
+  font-size: 1rem;
+  font-weight: 400;
   text-align: center;
-  border-radius: 4px;
+  border-radius: 0.4rem;
   color: ${theme.colors.white};
-  background-color: ${theme.colors.primary};
+  background-color: ${theme.colors.darkGray2};
 `;
 
 const icon = css`
