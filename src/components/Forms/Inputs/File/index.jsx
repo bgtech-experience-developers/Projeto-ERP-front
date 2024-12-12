@@ -67,7 +67,7 @@ export const FileInput = ({
           color={theme.colors.lightGray}
         >
           <S.ButtonFileChange type="button">
-            <label htmlFor={id}>Adicionar foto</label>
+            <label htmlFor={id}>Trocar foto</label>
           </S.ButtonFileChange>
           <S.ButtonFile onClick={handleRemove} type="button">
             Remover

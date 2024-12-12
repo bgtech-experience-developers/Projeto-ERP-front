@@ -85,49 +85,6 @@ export const RegisterClients = () => {
 
   const [errorImage, setErrorImage] = useState(false);
 
-  // Função de controle das imagens
-
-  // React.useEffect(() => {
-  //   const createFileFromLocalImage = async () => {
-  //     try {
-  //       const localPath = "../../../public/smile.png";
-  //       const response = await fetch(localPath); // Busca o arquivo local
-  //       const blob = await response.blob(); // Converte a resposta para Blob
-
-  //       const file = new File([blob], "smile.png", {
-  //         type: blob.type, // Usa o tipo detectado
-  //         lastModified: new Date(),
-  //       });
-
-  //       // Atualiza o estado de photos
-  //       const updatedPhotos = { ...photos };
-  //       let updatedFormPhotos = []; // Cria um array intermediário para formPhotos
-
-  //       let index = 0; // Inicializa um índice para mapear os arquivos
-
-  //       // Atualiza o estado de photos
-  //       for (const key in updatedPhotos) {
-  //         updatedPhotos[key] = { file, status: !!file };
-  //         updatedFormPhotos[index] = file; // Substitui diretamente no índice correto
-  //         index++;
-  //       }
-  //       setPhotos(updatedPhotos);
-  //       setFormPhotos(updatedFormPhotos);
-
-  //       return file;
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-
-  //   createFileFromLocalImage();
-  // }, []);
-
-  // React.useEffect(() => {
-  //   console.log("formPhotos: ", formPhotos);
-  //   console.log("photos: ", photos);
-  // }, [formPhotos, photos]);
-
   // Função chamada quando o usuário digita nos campos obrigatórios
   const handleInputChange = (field) => (event) => {
     const { id, name, value } = event.target;
