@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
+
 // Estruturas
 import { Sidebar } from "../components/Sidebar";
 import { Content, InnerContent, Layout } from "../components/Sidebar/style";
@@ -25,6 +26,7 @@ import { PfSupplierTable, PjSupplierTable } from "../screens/Tables/supplier";
 
 // Outros
 import UserLogin from "../screens/Login";
+import { AuthProvider } from "../contexts/AuthContext";
 import { CreateSucess, UpdateSucess } from "../screens/RegisterSucess";
 
 export const AppRoutes = () => {
@@ -33,8 +35,10 @@ export const AppRoutes = () => {
     <BrowserRouter
       future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
     >
+      <AuthProvider>
       <Routes>
         <Route path="/" element={<UserLogin />} />
+        
 
         <Route
           path="/*"
@@ -47,13 +51,8 @@ export const AppRoutes = () => {
                   <Routes>
                     {/* Falta criar o component de dashboard, deixei o h1 só para testar */}
                     <Route
-                      path="dashboard"
-                      element={
-                        <h1 style={{ fontSize: "2rem" }}>
-                          {" "}
-                          Aqui é o Dashboard!
-                        </h1>
-                      }
+                      path="home"
+                      element={<Dashboard/>}
                     />
                     <Route path="cadastrar/cliente" element={<ClientTable />} />
                     <Route
@@ -156,6 +155,7 @@ export const AppRoutes = () => {
           }
         />
       </Routes>
+        </AuthProvider>
     </BrowserRouter>
   );
 };
