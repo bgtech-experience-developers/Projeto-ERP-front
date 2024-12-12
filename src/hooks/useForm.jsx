@@ -1,4 +1,12 @@
 import React from 'react';
+import {
+  cnpjMask,
+  cpfMask,
+  cepMask,
+  phoneNumberMask,
+  birthMask,
+  currencyMask,
+} from '../utils/mask';
 
 const types = {
   cep: {
@@ -11,7 +19,7 @@ const types = {
     message: 'Email inválido',
   },
   cnpj: {
-    regex: /^\d{3}\.?\d{3}\.?\d{3}-?\d{2}$/,
+    regex: /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/,
     message: 'CNPJ inválido',
   },
   cpf: {
@@ -27,6 +35,11 @@ const types = {
     message: 'Inscrição inválido',
   },
   cell_phone: {
+    regex: /^\(?\d{2}\)?\s?\d{4,5}-\d{4}$/,
+    message: 'Telefone inválido',
+  },
+
+  phone: {
     regex: /^\(?\d{2}\)?\s?\d{4,5}-\d{4}$/,
     message: 'Telefone inválido',
   },
@@ -49,7 +62,7 @@ const useForm = () => {
     }
   }
 
-  function onChange(field) {
+  function removeErrorOnChange(field) {
     setError((prevErrors) => {
       const updatedErrors = { ...prevErrors };
       delete updatedErrors[field]; // Remove apenas o erro do campo específico
@@ -57,12 +70,37 @@ const useForm = () => {
     });
   }
 
+  function mask(name, value) {
+    if (name === 'cnpj') {
+      return cnpjMask(value);
+    }
+    if (name === 'cep') {
+      return cepMask(value);
+    }
+
+    if (name === 'cpf') {
+      return cpfMask(value);
+    }
+
+    if (name === 'phone' || name === 'cell_phone') {
+      return phoneNumberMask(value);
+    }
+
+    if (name === 'price') {
+      return currencyMask(value);
+    }
+
+    return value;
+  }
+
   function onBlur({ target }) {
     const { name, value } = target;
+
     validate(name, value);
   }
 
-  return [onBlur, onChange, error, setError];
+  return [mask, onBlur, removeErrorOnChange, error, setError];
 };
 
 export default useForm;
+

@@ -4,14 +4,14 @@ export const theme = {
     secondary: "#D6F27B",
     tertiary: "#EFF3E3",
 
-    darkgray: "#383838",
-    darkgray2: "#474747",
-    darkgray3: "#5B5B5B",
+    darkGray: "#383838",
+    darkGray2: "#474747",
+    darkGray3: "#5B5B5B",
 
     lightGray: "#8B8B8B",
     lightGray2: "#969696",
-    lightgray3: "#D1D1D1",
-    lightgray4: "#EFEFEF",
+    lightGray3: "#D1D1D1",
+    lightGray4: "#EFEFEF",
 
     darkblue: "#2C3E50",
 

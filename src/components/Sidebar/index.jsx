@@ -61,7 +61,7 @@ export const Sidebar = () => {
       <StyledResponsiveSidebar
         onMouseEnter={() => setIsHover(true)}
         onMouseLeave={() => setIsHover(false)}
-        className={isHover && "open-hover"}
+        className={`${isHover && "open-hover"} ${!isActive && "transform"}`}
       >
         <Logo img={ImgLogo} alt="Imagem logo da empresa AFK" />
         <Navbar />

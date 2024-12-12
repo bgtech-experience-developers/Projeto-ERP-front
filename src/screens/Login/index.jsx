@@ -18,7 +18,7 @@ const UserLogin = () => {
   return (
     <>
       <PageWrapper>
-        <Header>
+        <Header variant="login">
           <LogoLogin
             src={Logo}
             alt="Logo da empresa AFK"

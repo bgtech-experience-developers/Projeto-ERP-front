@@ -27,6 +27,14 @@ const secondary = css`
   background-color: ${theme.colors.primary};
 `;
 
+const icon = css`
+  background-color: transparent;
+  border: none;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+`;
+
 const disabled = css`
   border: none;
   width: 100%;
@@ -46,6 +54,8 @@ export const _Button = styled.button`
         return primary;
       case "secondary":
         return secondary;
+      case "icon":
+        return icon;
       case "disabled":
         return disabled;
       default:

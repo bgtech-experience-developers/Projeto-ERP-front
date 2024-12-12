@@ -2,16 +2,19 @@ import { FormsField } from '../../components/Forms/FormsField';
 import { Input } from '../../components/Forms/Inputs/Input';
 import { Card } from '../../components/Forms/Card';
 import { Form } from '../../components/Forms/Form';
-import { File } from '../../components/Forms/Inputs/File';
+import {FileInput } from '../../components/Forms/Inputs/File';
 import { Button } from '../../components/Forms/Button';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useForm from '../../hooks/useForm';
 import { SpanError } from './style';
+import { useLocation } from 'react-router-dom';
 
 export const RegisterSupplierPF = () => {
-  const [onBlur, onChange, error] = useForm();
+  const { state } = useLocation();
+
+  const [mask, onBlur, onChange, error] = useForm();
   const [formValues, setFormValues] = useState({
-    fotos: [],
+    fotos: '',
     supplier: {
       name: '',
       code: '',
@@ -35,18 +38,17 @@ export const RegisterSupplierPF = () => {
     },
   });
 
-  const [title, setTitle] = useState("Cadastrar Fornecedor");
-  const [button, setButton] = useState("Cadastrar");
+  const [title, setTitle] = useState('Cadastrar Fornecedor');
+  const [button, setButton] = useState('Cadastrar');
 
   useEffect(() => {
     if (state?.supplier) {
       setFormValues(state.supplier);
-      setTitle("Editar Fornecedor");
-      setButton("Atualizar cadastro");
+      setTitle('Editar Fornecedor');
+      setButton('Atualizar cadastro');
     } else {
-      setTitle("Cadastrar Fornecedor");
-      setButton("Cadastrar");
-
+      setTitle('Cadastrar Fornecedor');
+      setButton('Cadastrar');
     }
   }, [state]);
 
@@ -56,7 +58,6 @@ export const RegisterSupplierPF = () => {
     const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
     const file = target.files[0];
     const id = target.id;
-    console.log(file);
 
     if (!allowedTypes.includes(file.type)) {
       setErrorImage(true);
@@ -65,9 +66,9 @@ export const RegisterSupplierPF = () => {
       }, 2000);
       return;
     }
-    console.log(formValues.fotoProduto);
+    console.log(id);
 
-    setFormValues({ ...formValues, [id]: file });
+    setFormValues({ ...formValues, fotos: file });
   }
 
   const handleInputChange = (field) => (event) => {
@@ -78,10 +79,17 @@ export const RegisterSupplierPF = () => {
       ...formValues,
       [field]: {
         ...formValues[field],
-        [name]: value,
+        [name]: mask(name, value),
       },
     });
   };
+
+  function handleRemove() {
+    setFormValues({
+      ...formValues,
+      fotos: '',
+    });
+  }
 
   return (
     <Form title={title}>
@@ -112,10 +120,11 @@ export const RegisterSupplierPF = () => {
               {error.code && <SpanError>{error.code}</SpanError>}
             </Input>
           </FormsField>
-          <File
+          <FileInput
             id={'fotoProduto'}
             error={errorImage}
-            image={formValues.fotoProduto}
+            image={formValues.fotos}
+            handleRemove={handleRemove}
             onChange={handleImage}
             variant="secondary"
             text="Foto do Produto"
@@ -194,9 +203,6 @@ export const RegisterSupplierPF = () => {
             { value: 'opcao3', label: 'Produto 2' },
           ]}
           value={formValues.produto}
-          onChange={(event) =>
-            setFormValues({ ...formValues, produto: event.target.value })
-          }
         >
           Produto
         </Input>
@@ -292,18 +298,20 @@ export const RegisterSupplierPF = () => {
             value={formValues.address.neighborhood}
             onChange={handleInputChange('address')}
             onBlur={onBlur}
-            height="4.8rem">
+            height="4.8rem"
+          >
             Bairro
             {error.neighborhood && <SpanError>{error.neighborhood}</SpanError>}
           </Input>
-             
+
           <Input
             id="city"
             name="city"
             value={formValues.address.city}
             onChange={handleInputChange('address')}
             onBlur={onBlur}
-            height="4.8rem">
+            height="4.8rem"
+          >
             Cidade
             {error.city && <SpanError>{error.city}</SpanError>}
           </Input>
@@ -319,11 +327,10 @@ export const RegisterSupplierPF = () => {
 };
 
 export const RegisterSupplierPJ = () => {
-
   const { state } = useLocation();
-  const [onBlur, onChange, error] = useForm();
+  const [mask, onBlur, onChange, error] = useForm();
   const [formValues, setFormValues] = useState({
-    fotos: [],
+    fotos: '',
     supplier: {
       fantasy_name: '',
       responsible: '',
@@ -350,17 +357,17 @@ export const RegisterSupplierPJ = () => {
     },
   });
 
-  const [title, setTitle] = useState("Cadastrar Fornecedor");
-  const [button, setButton] = useState("Cadastrar");
+  const [title, setTitle] = useState('Cadastrar Fornecedor');
+  const [button, setButton] = useState('Cadastrar');
 
   useEffect(() => {
     if (state?.supplier) {
       setFormValues(state.supplier);
-      setTitle("Editar Fornecedor");
-      setButton("Atualizar cadastro");
+      setTitle('Editar Fornecedor');
+      setButton('Atualizar cadastro');
     } else {
-      setTitle("Cadastrar Fornecedor");
-      setButton("Cadastrar")
+      setTitle('Cadastrar Fornecedor');
+      setButton('Cadastrar');
     }
   }, [state]);
 
@@ -370,7 +377,6 @@ export const RegisterSupplierPJ = () => {
     const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
     const file = target.files[0];
     const id = target.id;
-    console.log(file);
 
     if (!allowedTypes.includes(file.type)) {
       setErrorImage(true);
@@ -379,23 +385,28 @@ export const RegisterSupplierPJ = () => {
       }, 2000);
       return;
     }
-    console.log(formValues.fotoProduto);
 
-    setFormValues({ ...formValues, [id]: file });
+    setFormValues({ ...formValues, fotos: file });
   }
-  
-  const handleInputChange = (field) => (event) => {
-    const { name, value } = event.target;
-    onChange(name);
 
+  const handleInputChange = (field) => (event) => {
+    const { id, name, value } = event.target;
+    onChange(name);
     setFormValues({
       ...formValues,
       [field]: {
         ...formValues[field],
-        [name]: value,
+        [name]: mask(name, value),
       },
     });
   };
+
+  function handleRemove() {
+    setFormValues({
+      ...formValues,
+      fotos: '',
+    });
+  }
 
   return (
     <Form title={title}>
@@ -428,10 +439,11 @@ export const RegisterSupplierPJ = () => {
               {error.responsible && <SpanError>{error.responsible}</SpanError>}
             </Input>
           </FormsField>
-          <File
-            id={'fotoProduto'}
+          <FileInput
+            id={'fotoFornecedor'}
             error={errorImage}
-            image={formValues.fotoProduto}
+            image={formValues.fotos}
+            handleRemove={handleRemove}
             onChange={handleImage}
             variant="secondary"
             text="Foto do Produto"
@@ -519,12 +531,10 @@ export const RegisterSupplierPJ = () => {
             value={formValues.supplier.taxpayer_type}
             onChange={handleInputChange('supplier')}
             height="4.8rem"
-
           >
             Tipo de contribuinte
           </Input>
           <Input
-
             id="suframa_inscription"
             name="suframa_inscription"
             value={formValues.supplier.suframa_inscription}
@@ -545,7 +555,8 @@ export const RegisterSupplierPJ = () => {
           ]}
           value={formValues.produto}
           onChange={(event) =>
-            setFormValues({ ...formValues, produto: event.target.value })}
+            setFormValues({ ...formValues, produto: event.target.value })
+          }
         >
           Produto
         </Input>
