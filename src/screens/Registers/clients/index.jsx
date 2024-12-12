@@ -1,83 +1,77 @@
-import { FormsField } from "../../components/Forms/FormsField";
-import { Input } from "../../components/Forms/Inputs/Input";
-import { Card } from "../../components/Forms/Card";
-import { Form } from "../../components/Forms/Form";
-import { FileInput } from "../../components/Forms/Inputs/File";
-import { Button } from "../../components/Forms/Button";
-import React, { useCallback, useEffect, useState } from "react";
-import useClients from "../../hooks/useClients";
-import useForm from "../../hooks/useForm";
-import { SpanError } from "./style";
-import { useLocation } from "react-router-dom";
+import { FormsField } from "../../../components/Forms/FormsField";
+import { Input } from "../../../components/Forms/Inputs/Input";
+import { Card } from "../../../components/Forms/Card";
+import { Form } from "../../../components/Forms/Form";
+import { FileInput } from "../../../components/Forms/Inputs/File";
+import { Button } from "../../../components/Forms/Button";
+import React, { useState } from "react";
+import useClients from "../../../hooks/useClients";
+import useForm from "../../../hooks/useForm";
+import { SpanError } from "../style";
 
-const initialFormValues = () => ({
-  imagens: [],
-  cliente: {
-    corporate_reason: "",
-    fantasy_name: "",
-    cnpj: "",
-    state_registration: "",
-    type_contribuition: "",
-    branch_activity: "",
-  },
-  endereco_empresa: {
-    cep: "",
-    street: "",
-    number: "",
-    complement: "",
-    city: "",
-    neighborhood: "",
-  },
-  endereco_entrega: {
-    cep: "",
-    street: "",
-    number: "",
-    complement: "",
-    city: "",
-    neighborhood: "",
-  },
-  financeiro: {
-    name: "",
-    phone: "",
-    cell_phone: "",
-    rg: "",
-    email: "",
-    cpf: "",
-  },
-  comercial: {
-    name: "",
-    phone: "",
-    cell_phone: "",
-    rg: "",
-    email: "",
-    cpf: "",
-  },
-  contabil: {
-    name: "",
-    phone: "",
-    cell_phone: "",
-    rg: "",
-    email: "",
-    cpf: "",
-  },
-  socio: {
-    name: "",
-    phone: "",
-    cell_phone: "",
-    rg: "",
-    email: "",
-    cpf: "",
-  },
-});
-
-// Organizando todos os estados no inicio do componente principal
-export const UpdateClients = () => {
-  const { patchClient } = useClients();
+export const RegisterClients = () => {
   const [mask, onBlur, removeErrorOnChange, error] = useForm();
-  const { state } = useLocation();
-  const [formValues, setFormValues] = useState(initialFormValues());
-  const [errorImage, setErrorImage] = useState(false);
-  const [formPhotos, setFormPhotos] = useState([]);
+  const [formValues, setFormValues] = useState({
+    imagens: [],
+    cliente: {
+      corporate_reason: "",
+      fantasy_name: "",
+      cnpj: "",
+      state_registration: "",
+      type_contribuition: "titulo",
+      branch_activity: "",
+    },
+    endereco_empresa: {
+      cep: "",
+      street: "",
+      number: "",
+      complement: "",
+      city: "",
+      neighborhood: "",
+      state: "",
+    },
+    endereco_entrega: {
+      cep: "",
+      street: "",
+      number: "",
+      complement: "",
+      city: "",
+      neighborhood: "",
+      state: "",
+    },
+    financeiro: {
+      name: "",
+      phone: "",
+      cell_phone: "",
+      rg: "",
+      email: "",
+      cpf: "",
+    },
+    comercial: {
+      name: "",
+      phone: "",
+      cell_phone: "",
+      rg: "",
+      email: "",
+      cpf: "",
+    },
+    contabil: {
+      name: "",
+      phone: "",
+      cell_phone: "",
+      rg: "",
+      email: "",
+      cpf: "",
+    },
+    socio: {
+      name: "",
+      phone: "",
+      cell_phone: "",
+      rg: "",
+      email: "",
+      cpf: "",
+    },
+  });
   const [photos, setPhotos] = useState({
     file1: { file: null, status: false },
     file2: { file: null, status: false },
@@ -85,94 +79,15 @@ export const UpdateClients = () => {
     file4: { file: null, status: false },
     file5: { file: null, status: false },
   });
+  const { postClient } = useClients();
 
-  function applyMasks() {
-    setFormValues((prevState) => {
-      return {
-        ...prevState,
-        cliente: {
-          ...prevState.cliente,
-          cnpj: mask("cnpj", prevState.cliente.cnpj),
-        },
-        endereco_empresa: {
-          ...prevState.endereco_empresa,
-          cep: mask("cep", prevState.endereco_empresa.cep),
-        },
-        endereco_entrega: {
-          ...prevState.endereco_entrega,
-          cep: mask("cep", prevState.endereco_entrega.cep),
-        },
-        socio: {
-          ...prevState.socio,
-          cpf: mask("cpf", prevState.socio.cpf),
-          phone: mask("phone", prevState.socio.phone),
-          cell_phone: mask("phone", prevState.socio.cell_phone),
-        },
-        comercial: {
-          ...prevState.comercial,
-          cpf: mask("cpf", prevState.comercial.cpf),
-          phone: mask("phone", prevState.comercial.phone),
-          cell_phone: mask("phone", prevState.comercial.cell_phone),
-        },
-        contabil: {
-          ...prevState.contabil,
-          cpf: mask("cpf", prevState.contabil.cpf),
-          phone: mask("phone", prevState.contabil.phone),
-          cell_phone: mask("phone", prevState.contabil.cell_phone),
-        },
-        financeiro: {
-          ...prevState.financeiro,
-          cpf: mask("cpf", prevState.financeiro.cpf),
-          phone: mask("phone", prevState.financeiro.phone),
-          cell_phone: mask("phone", prevState.financeiro.cell_phone),
-        },
-      };
-    });
-  }
+  const [formPhotos, setFormPhotos] = useState([]);
 
-  useEffect(() => {
-    const removeImageFields = (data) => {
-      const sections = [
-        "cliente",
-        "socio",
-        "comercial",
-        "contabil",
-        "financeiro",
-      ];
-
-      const updatedData = { ...data };
-
-      // Remove a propriedade image de cada seção
-      sections.forEach((section) => {
-        if (updatedData[section]) {
-          delete updatedData[section].image;
-          delete updatedData[section].image_company;
-        }
-      });
-
-      return updatedData;
-    };
-
-    if (state?.data) {
-      const sanitizedData = removeImageFields(state.data.clientResponseMap);
-
-      setFormValues(sanitizedData);
-
-      setPhotos(state.data.photosResponseMap);
-    }
-
-    applyMasks();
-  }, []);
-
-  // Controla os status das imagens
-  React.useEffect(() => {
-    const statusArray = Object.values(photos).map((photo) => photo.status);
-    setFormValues((prevValues) => ({ ...prevValues, imagens: statusArray }));
-  }, [photos]);
+  const [errorImage, setErrorImage] = useState(false);
 
   // Função chamada quando o usuário digita nos campos obrigatórios
   const handleInputChange = (field) => (event) => {
-    const { name, value } = event.target;
+    const { id, name, value } = event.target;
 
     removeErrorOnChange(name);
 
@@ -208,77 +123,116 @@ export const UpdateClients = () => {
     });
   }
 
-  const createFileFromLocalImage = async (localPath, fileName) => {
-    const response = await fetch(localPath); // Busca o arquivo local
-    const blob = await response.blob(); // Converte a resposta para Blob
+  function removeImage(key, { target }) {
+    setPhotos({
+      ...photos,
+      [key]: {
+        file: null,
+      },
+    });
+  }
 
-    const file = new File([blob], fileName, {
-      type: blob.type, // Usa o tipo detectado
+  async function handleSubmit(event) {
+    event.preventDefault();
+
+    const localPath = "../../../public/smile.png";
+    const response = await fetch(localPath);
+    const blob = await response.blob();
+
+    const file = new File([blob], "smile.png", {
+      type: blob.type,
       lastModified: new Date(),
     });
 
-    return file;
-  };
+    const updatedPhotos = { ...photos };
 
-  async function removeImage(key, { target }) {
-    const localImagePath = "../../../public/smile.png";
-    try {
-      const file = await createFileFromLocalImage(localImagePath, "smile.png");
-
-      setPhotos((prevPhotos) => ({
-        ...prevPhotos,
-        [key]: {
-          file,
-          status: !!photos[key].file,
-        },
-      }));
-
-      setFormPhotos((prevFile) => [...prevFile, file]);
-    } catch (error) {
-      console.error("Erro ao remover imagem ", error);
+    for (const key in photos) {
+      if (!(photos[key].file instanceof File)) {
+        updatedPhotos[key] = { file, status: !file };
+      }
     }
+    console.log(updatedPhotos);
+
+    const formPhotosToSend = Object.values(updatedPhotos).map(
+      (photo) => photo.file
+    );
+
+    setPhotos(updatedPhotos);
+    setFormPhotos(formPhotosToSend);
+
+    postClient(formValues, formPhotosToSend);
+    // Limpar Os Campos dos inputs
+    setFormValues({
+      imagens: [],
+      cliente: {
+        corporate_reason: "",
+        fantasy_name: "",
+        cnpj: "",
+        state_registration: "",
+        type_contribuition: "titulo",
+        branch_activity: "",
+      },
+      endereco_empresa: {
+        cep: "",
+        street: "",
+        number: "",
+        complement: "",
+        city: "",
+        neighborhood: "",
+        state: "",
+      },
+      endereco_entrega: {
+        cep: "",
+        street: "",
+        number: "",
+        complement: "",
+        city: "",
+        neighborhood: "",
+        state: "",
+      },
+      financeiro: {
+        name: "",
+        phone: "",
+        cell_phone: "",
+        rg: "",
+        email: "",
+        cpf: "",
+      },
+      comercial: {
+        name: "",
+        phone: "",
+        cell_phone: "",
+        rg: "",
+        email: "",
+        cpf: "",
+      },
+      contabil: {
+        name: "",
+        phone: "",
+        cell_phone: "",
+        rg: "",
+        email: "",
+        cpf: "",
+      },
+      socio: {
+        name: "",
+        phone: "",
+        cell_phone: "",
+        rg: "",
+        email: "",
+        cpf: "",
+      },
+    });
   }
 
-  const handleSubmit = useCallback(
-    async (event) => {
-      event.preventDefault();
-      const localPath = "../../../public/smile.png";
-      const response = await fetch(localPath);
-      const blob = await response.blob();
-
-      const file = new File([blob], "smile.png", {
-        type: blob.type,
-        lastModified: new Date(),
-      });
-
-      const updatedPhotos = { ...photos };
-
-      for (const key in photos) {
-        if (!(photos[key].file instanceof File)) {
-          updatedPhotos[key] = { file, status: !file };
-        }
-      }
-      console.log(updatedPhotos);
-
-      const formPhotosToSend = Object.values(updatedPhotos).map(
-        (photo) => photo.file
-      );
-
-      setPhotos(updatedPhotos);
-      setFormPhotos(formPhotosToSend);
-
-      patchClient(state.data.id, formValues, formPhotosToSend);
-    },
-    [patchClient, formValues]
-  );
-
-  // React.useEffect(() => {
-  //   console.log("values: ", formValues)
-  //   console.log("photos: ", formPhotos)
-  // }, [formValues, formPhotos])
+  // Controla os status das imagens
+  React.useEffect(() => {
+    const statusArray = Object.values(photos).map((photo) => photo.status);
+    setFormValues({ ...formValues, imagens: statusArray });
+  }, [photos]);
 
   return (
-    <Form onSubmit={handleSubmit} title={"Editar Cliente"}>
+    <Form onSubmit={handleSubmit} title="Cadastrar Cliente">
       <Card>
         <FormsField variant="file" align="flex-end">
           <FormsField>
@@ -310,12 +264,10 @@ export const UpdateClients = () => {
               )}
             </Input>
           </FormsField>
-
           <FileInput
             name={"fotoCliente"}
             error={errorImage}
-            id="file1"
-            image={photos.file1?.file}
+            image={photos.file1.file}
             onChange={(event) => handleImage("file1", event)}
             text="Adicionar foto"
             handleRemove={(event) => removeImage("file1", event)}
@@ -376,7 +328,6 @@ export const UpdateClients = () => {
           Tipo de contribuinte
         </Input>
       </Card>
-
       <Card title="Endereço da Empresa">
         <FormsField variant="triple">
           <Input
@@ -450,6 +401,16 @@ export const UpdateClients = () => {
             {error.city && <SpanError>* {error.city}</SpanError>}
           </Input>
         </FormsField>
+
+        <Input
+          id="endereco_empresa_state"
+          name="state"
+          height="4.8rem"
+          value={formValues.endereco_empresa.state}
+          onChange={handleInputChange("endereco_empresa")}
+        >
+          Estado
+        </Input>
       </Card>
 
       <Card title="Endereço de Entrega">
@@ -513,6 +474,16 @@ export const UpdateClients = () => {
             Cidade
           </Input>
         </FormsField>
+
+        <Input
+          id="endereco_entrega_state"
+          name="state"
+          height="4.8rem"
+          value={formValues.endereco_entrega.state}
+          onChange={handleInputChange("endereco_entrega")}
+        >
+          Estado
+        </Input>
       </Card>
 
       <Card title="Sócio Proprietário">
@@ -544,8 +515,7 @@ export const UpdateClients = () => {
           </FormsField>
           <FileInput
             error={errorImage}
-            id="file2"
-            image={photos.file2?.file}
+            image={photos.file2.file}
             onChange={(event) => handleImage("file2", event)}
             text="Adicionar foto"
             handleRemove={(event) => removeImage("file2", event)}
@@ -626,8 +596,7 @@ export const UpdateClients = () => {
           </FormsField>
           <FileInput
             error={errorImage}
-            id={"file3"}
-            image={photos.file3?.file}
+            image={photos.file3.file}
             onChange={(event) => handleImage("file3", event)}
             text="Adicionar foto"
             handleRemove={(event) => removeImage("file3", event)}
@@ -702,8 +671,7 @@ export const UpdateClients = () => {
           </FormsField>
           <FileInput
             error={errorImage}
-            id={"file4"}
-            image={photos.file4?.file}
+            image={photos.file4.file}
             onChange={(event) => handleImage("file4", event)}
             text="Adicionar foto"
             handleRemove={(event) => removeImage("file4", event)}
@@ -778,8 +746,7 @@ export const UpdateClients = () => {
           </FormsField>
           <FileInput
             error={errorImage}
-            id={"file5"}
-            image={photos.file5?.file}
+            image={photos.file5.file}
             onChange={(event) => handleImage("file5", event)}
             text="Adicionar foto"
             handleRemove={(event) => removeImage("file5", event)}
@@ -828,10 +795,9 @@ export const UpdateClients = () => {
           </Input>
         </FormsField>
       </Card>
-
       <Card>
         <Button type="submit" height="4.8rem">
-          {"Atualizar cadastro"}
+          Cadastrar
         </Button>
       </Card>
     </Form>
