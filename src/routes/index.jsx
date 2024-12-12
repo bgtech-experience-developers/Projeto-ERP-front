@@ -1,30 +1,35 @@
 import React from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import UserLogin from "../screens/Login";
+
+// Estruturas
 import { Sidebar } from "../components/Sidebar";
 import { Content, InnerContent, Layout } from "../components/Sidebar/style";
 import { SidebarContext } from "../contexts/SidebarContext";
-import { ViewTableClients } from "../screens/ViewClient";
-import { RegisterClients } from "../screens/RegisterClients";
-import {
-  ViewTableSupplierPF,
-  ViewTableSupplierPJ,
-} from "../screens/ViewSupplier";
-import { DashboardClients } from "../screens/DashboardClients";
 
+// Dashboards
+import { ClientDashboard } from "../screens/Dashboards/client";
+
+// Updates
+import { UpdateClients } from "../screens/UpdateClients";
+
+// Registers
 import {
   RegisterSupplierPF,
   RegisterSupplierPJ,
-} from "../screens/RegisterSuppliers/index";
-import { UpdateClients } from "../screens/UpdateClients";
+} from "../screens/Registers/suppliers";
+import { RegisterClients } from "../screens/Registers/clients";
+
+// Tables
+import { ClientTable } from "../screens/Tables/clients";
+import { PfSupplierTable, PjSupplierTable } from "../screens/Tables/supplier";
+
+// Outros
+import UserLogin from "../screens/Login";
 import { CreateSucess, UpdateSucess } from "../screens/RegisterSucess";
 
 export const AppRoutes = () => {
   const { isActive, isHover } = React.useContext(SidebarContext);
   return (
-    /* o objeto future foi adicionado pois a dependência do router foi atualizada.
-       Adicionar esse objeto com essas propriedades remove os avisos no console.
-    */
     <BrowserRouter
       future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
     >
@@ -50,10 +55,7 @@ export const AppRoutes = () => {
                         </h1>
                       }
                     />
-                    <Route
-                      path="cadastrar/cliente"
-                      element={<ViewTableClients />}
-                    />
+                    <Route path="cadastrar/cliente" element={<ClientTable />} />
                     <Route
                       path="cadastrar/cliente/novo"
                       element={<RegisterClients />}
@@ -62,7 +64,7 @@ export const AppRoutes = () => {
                     {/* teste dashboard atualizado ranyer */}
                     <Route
                       path="cadastrar/cliente/visualizar"
-                      element={<DashboardClients />}
+                      element={<ClientDashboard />}
                     />
                     <Route
                       path="cadastrar/cliente/editar"
@@ -79,7 +81,7 @@ export const AppRoutes = () => {
 
                     <Route
                       path="cadastrar/fornecedor/pessoa/juridica"
-                      element={<ViewTableSupplierPJ />}
+                      element={<PjSupplierTable />}
                     />
                     <Route
                       path="cadastrar/fornecedor/pessoa/juridica/novo"
@@ -100,7 +102,7 @@ export const AppRoutes = () => {
 
                     <Route
                       path="cadastrar/fornecedor/pessoa/fisica"
-                      element={<ViewTableSupplierPF />}
+                      element={<PfSupplierTable />}
                     />
                     <Route
                       path="cadastrar/fornecedor/pessoa/fisica/novo"
@@ -147,10 +149,6 @@ export const AppRoutes = () => {
                       }
                     />
                     <Route path="*" element={<Navigate to="/home" />} />
-                    <Route
-                      path="cadastrar/fornecedor/pf"
-                      element={<RegisterSupplierPF />}
-                    />
                   </Routes>
                 </InnerContent>
               </Content>

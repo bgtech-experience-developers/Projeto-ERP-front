@@ -31,7 +31,7 @@ export const ExpandableInputContainer = styled.div`
 
     // Estilo de foco
     &:focus {
-      border-color: ${theme.colors.lightGray};
+      border-color: ${theme.colors.lightGray2};
       outline: none;
     }
   }
@@ -61,7 +61,7 @@ export const ExpandableInputContainer = styled.div`
       svg {
         width: 80%;
         height: 80%;
-        color: ${theme.colors.darkGray};
+        color: ${theme.colors.lightGray2};
       }
       &:hover {
         background-color: ${theme.colors.lightGray4};
