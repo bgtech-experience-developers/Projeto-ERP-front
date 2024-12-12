@@ -13,7 +13,7 @@ export function AuthProvider({ children }) {
     try {
       const { cnpj, password } = userData;
       const response = await api.post(
-        "/adms/login",
+        "/adm/login",
         JSON.stringify({
           cnpj,
           password,

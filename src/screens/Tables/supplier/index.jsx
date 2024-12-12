@@ -1,7 +1,7 @@
 import React from "react";
 // Internos
 import * as T from "../../../components/Table/style";
-import useSupplierPf from "../../../hooks/useSupplier";
+import useSupplierPf from "../../../hooks/useSupplierPf";
 import useSupplierPj from "../../../hooks/useSupplierPj";
 import { Table } from "../../../components/Table";
 import { Modal } from "../../../components/Modal";
@@ -195,7 +195,6 @@ export const PjSupplierTable = () => {
     });
   };
 
-  // Atualizar accessorKey de acordo com os dados do backend
   // Atualizar accessorKey de acordo com os dados do backend
   const columns = React.useMemo(
     () => [
