@@ -1,25 +1,31 @@
 import React from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import UserLogin from "../screens/Login";
+
+// Estruturas
 import { Sidebar } from "../components/Sidebar";
 import { Content, InnerContent, Layout } from "../components/Sidebar/style";
 import { SidebarContext } from "../contexts/SidebarContext";
-// import { ViewTableClients } from "../screens/ViewClient";
-// import {
-//   ViewTableSupplierPF,
-//   ViewTableSupplierPJ,
-// } from "../screens/ViewSupplier";
-import { RegisterClients } from "../screens/RegisterClients";
+
+// Dashboards
 import { ClientDashboard } from "../screens/Dashboards/client";
 
+// Updates
+import { UpdateClients } from "../screens/UpdateClients";
+
+// Registers
 import {
   RegisterSupplierPF,
   RegisterSupplierPJ,
-} from "../screens/RegisterSuppliers/index";
-import { UpdateClients } from "../screens/UpdateClients";
-import { CreateSucess, UpdateSucess } from "../screens/RegisterSucess";
+} from "../screens/Registers/suppliers";
+import { RegisterClients } from "../screens/Registers/clients";
+
+// Tables
 import { ClientTable } from "../screens/Tables/clients";
 import { PfSupplierTable, PjSupplierTable } from "../screens/Tables/supplier";
+
+// Outros
+import UserLogin from "../screens/Login";
+import { CreateSucess, UpdateSucess } from "../screens/RegisterSucess";
 
 export const AppRoutes = () => {
   const { isActive, isHover } = React.useContext(SidebarContext);
@@ -143,10 +149,6 @@ export const AppRoutes = () => {
                       }
                     />
                     <Route path="*" element={<Navigate to="/home" />} />
-                    <Route
-                      path="cadastrar/fornecedor/pf"
-                      element={<RegisterSupplierPF />}
-                    />
                   </Routes>
                 </InnerContent>
               </Content>

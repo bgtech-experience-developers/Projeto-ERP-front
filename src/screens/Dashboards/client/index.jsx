@@ -7,7 +7,7 @@ import * as T from "../../../components/Table/style";
 import { SidebarContext } from "../../../contexts/SidebarContext";
 import { theme } from "../../../theme/theme";
 import { FaRegEdit } from "react-icons/fa";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import useForm from "../../../hooks/useForm";
 
 export const ClientDashboard = () => {
@@ -80,25 +80,29 @@ export const ClientDashboard = () => {
     },
   });
   const contactTableData = React.useMemo(() => getTableData(), [companyData]);
-
   const { state } = useLocation();
+  let control = "";
+  const navigate = useNavigate();
 
   React.useState(() => {
     if (state?.data) {
       setCompanyData(state.data.clientResponseMap);
+      control = state.data;
     }
     applyMasks();
   }, [state]);
 
-  React.useEffect(() => {
-    console.log(companyData);
-  }, [companyData]);
-
   //? Ârea Funcional
-  function handleEdit(row) {
-    // adicionar lógica de editar no futuro
-    console.log(row);
-  }
+  const handleEdit = async (row) => {
+    try {
+      navigate("/cadastrar/cliente/editar", {
+        state: { data: control },
+      });
+    } catch (error) {
+      console.error("Erro ao buscar cliente:", error.message);
+      alert("Não foi possível carregar os dados do cliente.");
+    }
+  };
 
   function applyMasks() {
     setCompanyData((prevState) => {
@@ -117,10 +121,10 @@ export const ClientDashboard = () => {
           cep: mask("cep", prevState.endereco_entrega.cep),
         },
         socio: {
-          ...prevState.comercial,
-          cpf: mask("cpf", prevState.comercial.cpf),
-          phone: mask("phone", prevState.comercial.phone),
-          cell_phone: mask("phone", prevState.comercial.cell_phone),
+          ...prevState.socio,
+          cpf: mask("cpf", prevState.socio.cpf),
+          phone: mask("phone", prevState.socio.phone),
+          cell_phone: mask("phone", prevState.socio.cell_phone),
         },
         comercial: {
           ...prevState.comercial,
@@ -129,16 +133,16 @@ export const ClientDashboard = () => {
           cell_phone: mask("phone", prevState.comercial.cell_phone),
         },
         contabil: {
-          ...prevState.comercial,
-          cpf: mask("cpf", prevState.comercial.cpf),
-          phone: mask("phone", prevState.comercial.phone),
-          cell_phone: mask("phone", prevState.comercial.cell_phone),
+          ...prevState.contabil,
+          cpf: mask("cpf", prevState.contabil.cpf),
+          phone: mask("phone", prevState.contabil.phone),
+          cell_phone: mask("phone", prevState.contabil.cell_phone),
         },
         financeiro: {
-          ...prevState.comercial,
-          cpf: mask("cpf", prevState.comercial.cpf),
-          phone: mask("phone", prevState.comercial.phone),
-          cell_phone: mask("phone", prevState.comercial.cell_phone),
+          ...prevState.financeiro,
+          cpf: mask("cpf", prevState.financeiro.cpf),
+          phone: mask("phone", prevState.financeiro.phone),
+          cell_phone: mask("phone", prevState.financeiro.cell_phone),
         },
       };
     });
@@ -161,12 +165,15 @@ export const ClientDashboard = () => {
       },
     ];
 
-    return sections.map(({ key, label, image }) => ({
+    return sections.map(({ key, label }) => ({
       image: companyData[key].image,
       position: { label },
       name: companyData[key].name,
       email: companyData[key].email,
-      phone: companyData[key].phone,
+      phone: companyData[key].phone
+        ? companyData[key].phone
+        : companyData[key].cell_phone,
+      // cell_phone: companyData[key].cell_phone,
       rg: companyData[key].rg,
       cpf: companyData[key].cpf,
     }));
@@ -199,7 +206,8 @@ export const ClientDashboard = () => {
       {
         accessorKey: "image",
         header: " ",
-        size: 50,
+        size: 48,
+
         cell: ({ row }) => (
           <S.ContactImage>
             <img
@@ -212,10 +220,12 @@ export const ClientDashboard = () => {
       {
         accessorKey: "position",
         header: "Posição",
+        cell: ({ row }) => <>{row.original.position.label}</>,
       },
       { accessorKey: "name", header: "Nome" },
       { accessorKey: "email", header: "Email" },
-      { accessorKey: "phone", header: "Telefone" },
+      { accessorKey: "phone", header: "Telefone/Celular" },
+      // { accessorKey: "cell_phone", header: "Celular" },
       { accessorKey: "rg", header: "RG" },
       { accessorKey: "cpf", header: "cpf" },
       {
@@ -298,7 +308,7 @@ export const ClientDashboard = () => {
           columns={columns1}
           data={contactTableData}
           sort={false}
-          pagination={false}
+          isPagination={false}
           header={false}
           title={
             <Text variant="large" bold="bold">

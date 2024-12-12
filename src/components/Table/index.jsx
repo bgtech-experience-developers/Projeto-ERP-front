@@ -33,7 +33,7 @@ export const Table = ({
   style,
   sort = true,
   header = true,
-  pagination = true,
+  isPagination = true,
   isLoading = false,
   filterModal,
   variant = "main-table",
@@ -43,7 +43,7 @@ export const Table = ({
   const { isActive } = React.useContext(SidebarContext);
 
   // Estados de funcionamento da tabela
-  const [paginationSize, setPaginationSize] = React.useState({
+  const [pagination, setPagination] = React.useState({
     pageIndex: 0,
     pageSize: 5,
   });
@@ -103,7 +103,7 @@ export const Table = ({
     data: tableData,
     columns: tableColumns,
     state: {
-      paginationSize,
+      pagination,
     },
     // Filtro global
     filterFns: {
@@ -116,7 +116,7 @@ export const Table = ({
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     columnResizeMode: "onChange",
-    onPaginationChange: setPaginationSize,
+    onPaginationChange: setPagination,
   });
 
   return (
@@ -227,7 +227,7 @@ export const Table = ({
             </T.Table>
           </T.TableWrapper>
         </T.Container>
-        {pagination && (
+        {isPagination && (
           <Footer variant={"table"}>
             <Text variant="small" color={theme.colors.lightGray2}>
               {table.getState().pagination.pageIndex + 1} -{" "}

@@ -1,13 +1,15 @@
-import { FormsField } from "../../components/Forms/FormsField";
-import { Input } from "../../components/Forms/Inputs/Input";
-import { Card } from "../../components/Forms/Card";
-import { Form } from "../../components/Forms/Form";
-import { FileInput } from "../../components/Forms/Inputs/File";
-import { Button } from "../../components/Forms/Button";
 import React, { useCallback, useEffect, useState } from "react";
 import useClients from "../../hooks/useClients";
-import useForm from "../../hooks/useForm";
-import { SpanError } from "./style";
+import useForm from "../../../hooks/useForm";
+//internos
+import { SpanError } from "../style";
+import { Card } from "../../../components/Forms/Card";
+import { Form } from "../../../components/Forms/Form";
+import { Button } from "../../../components/Forms/Button";
+import { Input } from "../../../components/Forms/Inputs/Input";
+import { FileInput } from "../../../components/Forms/Inputs/File";
+import { FormsField } from "../../../components/Forms/FormsField";
+//Externos
 import { useLocation } from "react-router-dom";
 
 const initialFormValues = () => ({

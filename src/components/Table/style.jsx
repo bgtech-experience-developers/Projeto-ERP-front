@@ -305,6 +305,8 @@ const contactTable = css`
     min-width: 100%;
   }
   ${Thead} {
+    background-color: #f3f3f3;
+    border-radius: 8px;
   }
   ${Tbody} {
   }
@@ -318,6 +320,7 @@ const contactTable = css`
   ${Th} {
     white-space: normal;
     padding: 15px;
+
     text-align: left;
     position: relative;
     background-color: #f3f3f3;
@@ -340,9 +343,9 @@ const contactTable = css`
       width: 100%;
       height: 100%;
 
-      &:first-child {
+      /* &:first-child {
         justify-content: center;
-      }
+      } */
     }
 
     ${Resizer} {

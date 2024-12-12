@@ -133,7 +133,9 @@ export const PfSupplierTable = () => {
           </Title>
 
           <Text>
-            <NavLink to="/cadastrar/funcionarios/novo">Cadastrar novo</NavLink>
+            <NavLink to="/cadastrar/fornecedor/pessoa/fisica/novo">
+              Cadastrar novo
+            </NavLink>
           </Text>
         </>
       }
@@ -278,7 +280,9 @@ export const PjSupplierTable = () => {
           </Title>
 
           <Text>
-            <NavLink to="/cadastrar/funcionarios/novo">Cadastrar novo</NavLink>
+            <NavLink to="/cadastrar/fornecedor/pessoa/juridica/novo">
+              Cadastrar novo
+            </NavLink>
           </Text>
         </>
       }

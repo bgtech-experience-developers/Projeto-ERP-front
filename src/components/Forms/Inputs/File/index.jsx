@@ -44,7 +44,6 @@ export const FileInput = ({
       <S._File
         value={value ?? ""}
         accept="image/*"
-        // id={'file'}
         id={id}
         onChange={onChange}
       />
@@ -68,7 +67,7 @@ export const FileInput = ({
           color={theme.colors.lightGray}
         >
           <S.ButtonFileChange type="button">
-            <label htmlFor={id}>Trocar foto</label>
+            <label htmlFor={id}>Adicionar foto</label>
           </S.ButtonFileChange>
           <S.ButtonFile onClick={handleRemove} type="button">
             Remover
