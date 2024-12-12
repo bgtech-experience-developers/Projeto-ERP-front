@@ -6,7 +6,6 @@ import { Text } from "../../../Texts/Text";
 export const Input = ({
   variant = "primary",
   style,
-  name,
   placeholder,
   children,
   self,
