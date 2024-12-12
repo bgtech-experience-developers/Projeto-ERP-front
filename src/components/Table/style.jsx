@@ -92,6 +92,7 @@ const mainTable = css`
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     width: 100%;
+    position: relative;
   }
   ${Table} {
     border-collapse: collapse;
@@ -207,145 +208,27 @@ const mainTable = css`
   }
 `;
 
-// Variante Escolar
-const schoolTable = css`
+export const LoaderContainer = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.7);
   width: 100%;
-  /* align-self: center; */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-  ${TableArea} {
-    /* box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5); */
-    border-radius: 8px;
+  svg {
+    width: 50%;
+    height: 50%;
+    color: ${theme.colors.primary};
   }
 
-  ${Container} {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    background-color: ${theme.colors.white};
-    min-height: 10rem;
-    /* min-height: 37rem;  */
-  }
-
-  ${TableWrapper} {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    width: 100%;
-  }
-  ${Table} {
-    border-collapse: collapse;
-    white-space: nowrap;
-    min-width: 100%;
-  }
-  ${Thead} {
-  }
-  ${Tbody} {
-  }
-  ${Tr} {
-    &:hover td {
-      background-color: ${theme.colors.lightGray4};
-    }
-  }
-  ${ThContent} {
-  }
-  ${Th} {
-    white-space: normal;
-    padding: 15px;
-    text-align: left;
-    position: relative;
-    border-top: 1px solid ${theme.colors.lightGray3};
-
-    border-bottom: 1px solid ${theme.colors.lightGray3};
-
-    &:hover {
-      background-color: ${theme.colors.lightGray4};
-    }
-
-    &:last-child {
-      text-align: center;
-    }
-
-    ${ThContent} {
-      font-size: 1.6rem;
-      display: flex;
-      align-items: center;
-      width: 100%;
-      height: 100%;
-    }
-
-    ${Resizer} {
-      width: 5px;
-      height: 100%;
-      position: absolute;
-      right: 0;
-      top: 0;
-      z-index: 1;
-      cursor: ew-resize;
-      user-select: none;
-      touch-action: none;
-      opacity: 0;
-      border-radius: 6px;
-
-      &:hover {
-        background-color: ${theme.colors.lightGray2};
-        opacity: 1;
-      }
-
-      &.isResizing {
-        background-color: ${theme.colors.primary};
-        opacity: 1;
-      }
-    }
-
-    ${Order} {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 30px;
-      height: 30px;
-
-      svg {
-        position: absolute;
-        cursor: pointer;
-        font-size: 2rem;
-        color: ${theme.colors.lightGray3};
-        opacity: 0;
-        transition-duration: 0.2s;
-      }
-
-      &:hover .default {
-        color: ${theme.colors.lightGray2};
-        opacity: 1;
-      }
-
-      .default {
-        opacity: 1;
-        transition-duration: 0.2s;
-      }
-
-      .asc,
-      .desc {
-        transition-duration: 0.2s;
-        opacity: 1;
-        color: ${theme.colors.primary};
-      }
-    }
-  }
-  ${Td} {
-    font-size: 1.6rem;
-    border-bottom: 1px solid ${theme.colors.lightGray3};
-    color: ${theme.colors.lightGray};
-    padding: 15px;
-
-    p {
-      text-align: left;
-      width: 100%;
-      height: 100%;
-    }
+  .hidden-load {
+    display: none;
   }
 `;
 
@@ -379,4 +262,5 @@ export const MainTableContainer = styled.section`
         return null;
     }
   }}
+  padding: ${({ $padding }) => $padding};
 `;

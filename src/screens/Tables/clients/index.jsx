@@ -8,6 +8,8 @@ import { Modal } from "../../../components/Modal";
 import { MdOutlineFilterList, MdOutlineFilterListOff } from "react-icons/md";
 import { HiEye, HiPencilAlt, HiTrash } from "react-icons/hi";
 import useClients from "../../../hooks/useClients";
+import { Title } from "../../../components/Texts/Title";
+import { Text } from "../../../components/Texts/Text";
 
 export const ClientTable = () => {
   // Estados de Interação
@@ -237,6 +239,7 @@ export const ClientTable = () => {
     <Table
       columns={columns}
       data={clients}
+      isLoading={isLoading}
       filterModal={
         <Modal
           setSelectedItem={setSelectedItem}
@@ -244,6 +247,17 @@ export const ClientTable = () => {
           setFetchStatus={setFetchStatus}
           filterModalItens={filterModalItens}
         />
+      }
+      title={
+        <>
+          <Title bold="bold" variant="small">
+            Meus Clientes
+          </Title>
+
+          <Text>
+            <NavLink to="/cadastrar/cliente/novo">Cadastrar novo</NavLink>
+          </Text>
+        </>
       }
     />
   );

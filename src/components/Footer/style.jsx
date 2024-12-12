@@ -8,9 +8,7 @@ const tableFooter = css`
   align-items: center;
   justify-content: flex-end;
   padding-right: 20px;
-  border-bottom: 1px solid ${theme.colors.lightGray3};
-  border-right: 1px solid ${theme.colors.lightGray3};
-  border-left: 1px solid ${theme.colors.lightGray3};
+
   background-color: ${theme.colors.white};
 
   svg {

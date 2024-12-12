@@ -5,6 +5,8 @@ import { Header } from "../Header";
 import { Input } from "../Forms/Inputs/Input";
 import { Text } from "../Texts/Text";
 import { Footer } from "../Footer";
+import { theme } from "../../theme/theme";
+import { SidebarContext } from "../../contexts/SidebarContext";
 import { Button } from "../Forms/Button";
 import { fuzzyFilter } from "../../utils/fuzzyFilter";
 
@@ -20,22 +22,21 @@ import {
 } from "@tanstack/react-table";
 import { LuArrowDownAZ, LuArrowDownUp, LuArrowUpAZ } from "react-icons/lu";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-
-import { theme } from "../../theme/theme";
 import { FaRegEdit } from "react-icons/fa";
-import { Title } from "../Texts/Title";
+import { Loader } from "../../../public/Loader";
 
 // modalItens é responsável para por filtros diversificados no componente
 export const Table = ({
   data,
   columns,
   title,
+  isLoading = false,
   filterModal,
   variant = "main-table",
 }) => {
   // Estados de interatividade
-  // const [selectedItem, setSelectedItem] = React.useState("active");
   const [search, setSearch] = React.useState(false);
+  const { isActive } = React.useContext(SidebarContext);
 
   // Estados de funcionamento da tabela
   const [pagination, setPagination] = React.useState({
@@ -43,9 +44,10 @@ export const Table = ({
     pageSize: 5,
   });
 
+  // Configuração dos dados da tabela
   const tableData = React.useMemo(() => (data?.length > 0 ? data : []), [data]);
 
-  // Apenas demonstração
+  // Apenas demonstração e configuração das colunas
   const tableColumns = React.useMemo(() => {
     if (columns && columns.length > 0) {
       return columns.map((col) => ({
@@ -90,7 +92,7 @@ export const Table = ({
     setSearch(!search);
   }
 
-  // Configurações da tabela
+  // Configurações da tabela, também demonstração
 
   const table = useReactTable({
     data: tableData,
@@ -113,12 +115,11 @@ export const Table = ({
   });
 
   return (
-    <T.MainTableContainer $variant={variant}>
-      <T.TitleTable>
-        <Title bold="600" fontSize="42px">
-          {title}
-        </Title>
-      </T.TitleTable>
+    <T.MainTableContainer
+      $variant={variant}
+      $padding={isActive ? "0 2rem" : "0"}
+    >
+      <T.TitleTable>{title}</T.TitleTable>
       <T.TableArea>
         <Header variant="table">
           <Input
@@ -133,6 +134,11 @@ export const Table = ({
         </Header>
         <T.Container>
           <T.TableWrapper>
+            {isLoading && (
+              <T.LoaderContainer className={isLoading ? "" : "hidden-load"}>
+                <Loader />
+              </T.LoaderContainer>
+            )}
             <T.Table $width={`${table.getTotalSize()}px`}>
               <T.Thead>
                 {table.getHeaderGroups().map((headerGroup) => (
@@ -183,31 +189,33 @@ export const Table = ({
                   </T.Tr>
                 ))}
               </T.Thead>
-              <T.Tbody>
-                {table?.getRowModel()?.rows?.length === 0 ? (
-                  <T.Tr>
-                    <T.Td colSpan={tableColumns.length} $textAlign="center">
-                      Nenhum registro encontrado
-                    </T.Td>
-                  </T.Tr>
-                ) : (
-                  table.getRowModel().rows.map((row) => (
-                    <T.Tr key={row.id}>
-                      {row.getVisibleCells().map((cell) => (
-                        <T.Td
-                          key={cell.id}
-                          $width={`${cell.column.getSize()}px`}
-                        >
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
-                          )}
-                        </T.Td>
-                      ))}
+              {!isLoading && (
+                <T.Tbody>
+                  {table?.getRowModel()?.rows?.length === 0 ? (
+                    <T.Tr>
+                      <T.Td colSpan={tableColumns.length} $textAlign="center">
+                        Nenhum registro encontrado
+                      </T.Td>
                     </T.Tr>
-                  ))
-                )}
-              </T.Tbody>
+                  ) : (
+                    table.getRowModel().rows.map((row) => (
+                      <T.Tr key={row.id}>
+                        {row.getVisibleCells().map((cell) => (
+                          <T.Td
+                            key={cell.id}
+                            $width={`${cell.column.getSize()}px`}
+                          >
+                            {flexRender(
+                              cell.column.columnDef.cell,
+                              cell.getContext()
+                            )}
+                          </T.Td>
+                        ))}
+                      </T.Tr>
+                    ))
+                  )}
+                </T.Tbody>
+              )}
             </T.Table>
           </T.TableWrapper>
         </T.Container>

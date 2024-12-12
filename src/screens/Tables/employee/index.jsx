@@ -7,6 +7,8 @@ import { Modal } from "../../../components/Modal";
 
 import { MdOutlineFilterList, MdOutlineFilterListOff } from "react-icons/md";
 import { HiEye, HiPencilAlt, HiTrash } from "react-icons/hi";
+import { Title } from "../../../components/Texts/Title";
+import { Text } from "../../../components/Texts/Text";
 
 export const EmployeeTable = () => {
   // Estados de Interação
@@ -51,7 +53,9 @@ export const EmployeeTable = () => {
   };
 
   const handleEdit = (row) => {
-    navigate("/cadastrar/cliente/editar", { state: { clients: row.original } });
+    navigate("/cadastrar/funcionario/editar", {
+      state: { clients: row.original },
+    });
   };
 
   const columns = React.useMemo(
@@ -90,16 +94,53 @@ export const EmployeeTable = () => {
     []
   );
 
+  const filterModalItens = [
+    {
+      id: 1,
+      icon: <MdOutlineFilterListOff />,
+      text: "Limpar Filtros",
+      value: "clear",
+      query: "",
+    },
+    {
+      id: 2,
+      icon: <MdOutlineFilterList />,
+      text: "Filtrar por ativos",
+      value: "active",
+      query: "true",
+    },
+    {
+      id: 3,
+      icon: <MdOutlineFilterList />,
+      text: "Filtrar por Inativos",
+      value: "inactive",
+      query: "false",
+    },
+  ];
+
   return (
     <Table
       columns={columns}
       data={employee}
+      isLoading={isLoading}
       filterModal={
         <Modal
-          selectedItem={selectedItem}
           setSelectedItem={setSelectedItem}
+          selectedItem={selectedItem}
           setFetchStatus={setFetchStatus}
+          filterModalItens={filterModalItens}
         />
+      }
+      title={
+        <>
+          <Title bold="bold" variant="small">
+            Meus Funcionários
+          </Title>
+
+          <Text>
+            <NavLink to="/cadastrar/funcionarios/novo">Cadastrar novo</NavLink>
+          </Text>
+        </>
       }
     />
   );

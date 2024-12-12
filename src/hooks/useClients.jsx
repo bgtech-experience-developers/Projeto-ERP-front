@@ -22,18 +22,11 @@ function useClients() {
       // Lógica de guardar o JSON
       formData.append("json", JSON.stringify(json));
 
-      // json = formData.get("json");
-
-      // const body = {
-      //   json,
-      //   photos,
-      // };
-
-      // console.log(body);
       console.log(formData.getAll("photos"));
+      console.log(formData.get("json"));
 
       const response = await client.post("/clientes/registro", formData);
-      
+
       navigate("/cadastrar/cliente/novo/sucesso");
 
       console.log(response);
