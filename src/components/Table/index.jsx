@@ -32,6 +32,8 @@ export const Table = ({
   title,
   style,
   sort = true,
+  header = true,
+  pagination = true,
   isLoading = false,
   filterModal,
   variant = "main-table",
@@ -41,7 +43,7 @@ export const Table = ({
   const { isActive } = React.useContext(SidebarContext);
 
   // Estados de funcionamento da tabela
-  const [pagination, setPagination] = React.useState({
+  const [paginationSize, setPaginationSize] = React.useState({
     pageIndex: 0,
     pageSize: 5,
   });
@@ -55,6 +57,7 @@ export const Table = ({
       return columns.map((col) => ({
         ...col,
         size: col.size,
+        sort: col.sort ?? true,
       }));
     } else {
       return [
@@ -100,7 +103,7 @@ export const Table = ({
     data: tableData,
     columns: tableColumns,
     state: {
-      pagination,
+      paginationSize,
     },
     // Filtro global
     filterFns: {
@@ -113,7 +116,7 @@ export const Table = ({
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     columnResizeMode: "onChange",
-    onPaginationChange: setPagination,
+    onPaginationChange: setPaginationSize,
   });
 
   return (
@@ -124,17 +127,19 @@ export const Table = ({
     >
       <T.TitleTable style={style}>{title}</T.TitleTable>
       <T.TableArea>
-        <Header variant="table">
-          <Input
-            variant="expandable-input"
-            placeholder="Digite uma palavra chave..."
-            className={search ? "expand-input" : ""}
-            onChange={(e) => table.setGlobalFilter(e.target.value)}
-          >
-            <IoSearch onClick={handleSearch} />
-          </Input>
-          {filterModal}
-        </Header>
+        {header && (
+          <Header variant="table">
+            <Input
+              variant="expandable-input"
+              placeholder="Digite uma palavra chave..."
+              className={search ? "expand-input" : ""}
+              onChange={(e) => table.setGlobalFilter(e.target.value)}
+            >
+              <IoSearch onClick={handleSearch} />
+            </Input>
+            {filterModal}
+          </Header>
+        )}
         <T.Container>
           <T.TableWrapper>
             {isLoading && (
@@ -155,11 +160,10 @@ export const Table = ({
                                 header.column.columnDef.header,
                                 header.getContext()
                               )}
-                          {sort && (
+                          {header.column.columnDef.sort && sort && (
                             <T.Order>
-                              {/* Lógica de sort (asc, desc) */}
                               <LuArrowUpAZ
-                                className={` ${
+                                className={`${
                                   header.column.getIsSorted() === "desc"
                                     ? "desc"
                                     : ""
@@ -170,10 +174,9 @@ export const Table = ({
                                   header.column.getIsSorted() ? "" : "default"
                                 }`}
                               />
-
                               <LuArrowDownAZ
                                 onClick={header.column.getToggleSortingHandler()}
-                                className={` ${
+                                className={`${
                                   header.column.getIsSorted() === "asc"
                                     ? "asc"
                                     : ""
@@ -224,28 +227,30 @@ export const Table = ({
             </T.Table>
           </T.TableWrapper>
         </T.Container>
-        <Footer variant={"table"}>
-          <Text variant="small" color={theme.colors.lightGray2}>
-            {table.getState().pagination.pageIndex + 1} - {table.getPageCount()}{" "}
-            de {table.getPageCount()}
-          </Text>
+        {pagination && (
+          <Footer variant={"table"}>
+            <Text variant="small" color={theme.colors.lightGray2}>
+              {table.getState().pagination.pageIndex + 1} -{" "}
+              {table.getPageCount()} de {table.getPageCount()}
+            </Text>
 
-          {/* Páginação */}
-          <Button
-            variant="icon"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            <IoIosArrowBack />
-          </Button>
-          <Button
-            variant="icon"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            <IoIosArrowForward />
-          </Button>
-        </Footer>
+            {/* Páginação */}
+            <Button
+              variant="icon"
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+            >
+              <IoIosArrowBack />
+            </Button>
+            <Button
+              variant="icon"
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+            >
+              <IoIosArrowForward />
+            </Button>
+          </Footer>
+        )}
       </T.TableArea>
     </T.MainTableContainer>
   );

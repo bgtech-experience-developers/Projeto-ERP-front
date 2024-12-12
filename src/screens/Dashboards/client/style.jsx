@@ -3,7 +3,7 @@ import { theme } from "../../../theme/theme";
 
 export const CompanyArea = styled.section`
   width: ${({ $width }) => $width};
-  height: 23rem;
+  height: 24rem;
   align-self: center;
   display: flex;
   align-items: center;
@@ -11,7 +11,6 @@ export const CompanyArea = styled.section`
   .company-texts {
     width: 80%;
     height: 100%;
-
     div:nth-child(1) {
       height: 40%;
       display: flex;
@@ -70,6 +69,7 @@ export const CompanyImage = styled.img`
 export const InfoArea = styled.ul`
   width: 50%;
   height: 100%;
+
   display: flex;
   justify-content: center;
   list-style: none;
@@ -79,6 +79,7 @@ export const InfoArea = styled.ul`
   p:nth-child(3) {
     display: flex;
     align-items: center;
+    width: 100%;
     gap: 10px;
     &::before {
       content: "";
@@ -87,5 +88,25 @@ export const InfoArea = styled.ul`
       background-color: ${theme.colors.lightGray};
       border-radius: 50%;
     }
+  }
+`;
+
+export const TablesArea = styled.section`
+  display: flex;
+  align-items: center;
+  padding-top: 50px;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+`;
+
+export const ContactImage = styled.div`
+  display: flex;
+  width: 100%;
+  height: 100%;
+
+  img {
+    width: 100%;
+    object-fit: cover;
   }
 `;

@@ -88,6 +88,20 @@ export const ClientTable = () => {
     }
   };
 
+  const handleView = async (row) => {
+    try {
+      const clientResponse = await getClientByID(row.original.id);
+
+      const clientResponseMap = clientFormMap(clientResponse);
+
+      navigate("/cadastrar/cliente/visualizar", {
+        state: { data: clientResponseMap },
+      });
+    } catch (error) {
+      console.error("Erro ao buscar cliente:", error.message);
+    }
+  };
+
   // Função responsável por envair os dados para o formulário de update
   const clientFormMap = (clientResponse) => {
     const clientResponseMap = {
@@ -99,6 +113,7 @@ export const ClientTable = () => {
         state_registration: clientResponse?.state_registration,
         type_contribuition: clientResponse?.type_contribuition,
         branch_activity: clientResponse?.branch_activity,
+        image_company: clientResponse?.image_company,
       },
       endereco_empresa: {
         cep: clientResponse.company_address[0].cep,
@@ -123,6 +138,7 @@ export const ClientTable = () => {
         rg: clientResponse.financinal_contact[0]?.rg,
         email: clientResponse.financinal_contact[0]?.email,
         cpf: clientResponse.financinal_contact[0]?.cpf,
+        image: clientResponse.financinal_contact[0]?.image,
       },
       comercial: {
         name: clientResponse.commercial_contact[0]?.name,
@@ -131,6 +147,7 @@ export const ClientTable = () => {
         rg: clientResponse.commercial_contact[0]?.rg,
         email: clientResponse.commercial_contact[0]?.email,
         cpf: clientResponse.commercial_contact[0]?.cpf,
+        image: clientResponse.commercial_contact[0]?.image,
       },
       contabil: {
         name: clientResponse.accounting_contact[0]?.name,
@@ -139,6 +156,7 @@ export const ClientTable = () => {
         rg: clientResponse.accounting_contact[0]?.rg,
         email: clientResponse.accounting_contact[0]?.email,
         cpf: clientResponse.accounting_contact[0]?.cpf,
+        image: clientResponse.accounting_contact[0]?.image,
       },
       socio: {
         name: clientResponse.owner_partner[0]?.name,
@@ -147,6 +165,7 @@ export const ClientTable = () => {
         rg: clientResponse.owner_partner[0]?.rg,
         email: clientResponse.owner_partner[0]?.email,
         cpf: clientResponse.owner_partner[0]?.cpf,
+        image: clientResponse.owner_partner[0]?.image,
       },
     };
 
@@ -193,9 +212,8 @@ export const ClientTable = () => {
         size: 30,
         cell: (props) => (
           <T.IconContainer>
-            <NavLink to={"/cadastrar/cliente/visualizar"}>
-              <HiEye className="icon" />
-            </NavLink>
+            <HiEye className="icon" onClick={() => handleView(props.row)} />
+
             <HiTrash
               className="icon"
               onClick={() => handleDelete(props.row.original.id)}
