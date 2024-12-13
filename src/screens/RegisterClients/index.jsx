@@ -10,7 +10,8 @@ import useForm from '../../hooks/useForm';
 import { SpanError } from './style';
 
 export const RegisterClients = () => {
-  const [mask, onBlur, removeErrorOnChange, error] = useForm();
+  const [isEmpty, mask, onBlur, removeErrorOnChange, error] = useForm();
+
   const [formValues, setFormValues] = useState({
     imagens: [],
     cliente: {
@@ -180,68 +181,74 @@ export const RegisterClients = () => {
     // const updatedFormPhotos = Object.values(photos).map((photo) => photo.file);
     // setFormPhotos(updatedFormPhotos);
 
-    postClient(formValues, formPhotos);
-    // Limpar Os Campos dos inputs
-    setFormValues({
-      imagens: [],
-      cliente: {
-        corporate_reason: '',
-        fantasy_name: '',
-        cnpj: '',
-        state_registration: '',
-        type_contribuition: 'titulo',
-        branch_activity: '',
-      },
-      endereco_empresa: {
-        cep: '',
-        street: '',
-        number: '',
-        complement: '',
-        city: '',
-        neighborhood: '',
-        state: '',
-      },
-      endereco_entrega: {
-        cep: '',
-        street: '',
-        number: '',
-        complement: '',
-        city: '',
-        neighborhood: '',
-        state: '',
-      },
-      financeiro: {
-        name: '',
-        phone: '',
-        cell_phone: '',
-        rg: '',
-        email: '',
-        cpf: '',
-      },
-      comercial: {
-        name: '',
-        phone: '',
-        cell_phone: '',
-        rg: '',
-        email: '',
-        cpf: '',
-      },
-      contabil: {
-        name: '',
-        phone: '',
-        cell_phone: '',
-        rg: '',
-        email: '',
-        cpf: '',
-      },
-      socio: {
-        name: '',
-        phone: '',
-        cell_phone: '',
-        rg: '',
-        email: '',
-        cpf: '',
-      },
+    postClient(formValues, formPhotos).then((res) => {
+      isEmpty(formValues);
+      if (res.status === 400) {
+        console.log(res);
+        return;
+      }
+      // Limpar Os Campos dos inputs
+      setFormValues({
+        imagens: [],
+        cliente: {
+          corporate_reason: '',
+          fantasy_name: '',
+          cnpj: '',
+          state_registration: '',
+          type_contribuition: 'titulo',
+          branch_activity: '',
+        },
+        endereco_empresa: {
+          cep: '',
+          street: '',
+          number: '',
+          complement: '',
+          city: '',
+          neighborhood: '',
+          state: '',
+        },
+        endereco_entrega: {
+          cep: '',
+          street: '',
+          number: '',
+          complement: '',
+          city: '',
+          neighborhood: '',
+          state: '',
+        },
+        financeiro: {
+          name: '',
+          phone: '',
+          cell_phone: '',
+          rg: '',
+          email: '',
+          cpf: '',
+        },
+        comercial: {
+          name: '',
+          phone: '',
+          cell_phone: '',
+          rg: '',
+          email: '',
+          cpf: '',
+        },
+        contabil: {
+          name: '',
+          phone: '',
+          cell_phone: '',
+          rg: '',
+          email: '',
+          cpf: '',
+        },
+        socio: {
+          name: '',
+          phone: '',
+          cell_phone: '',
+          rg: '',
+          email: '',
+          cpf: '',
+        },
+      });
     });
   }
 

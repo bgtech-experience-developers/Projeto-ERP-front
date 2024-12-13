@@ -99,8 +99,15 @@ const useForm = () => {
     validate(name, value);
   }
 
-  return [mask, onBlur, removeErrorOnChange, error, setError];
+  function isEmpty(formValues) {
+    console.log(Object.entries(formValues));
+
+    for (let value in formValues) {
+      // console.log(formValues[value]);
+    }
+  }
+
+  return [isEmpty, mask, onBlur, removeErrorOnChange, error, setError];
 };
 
 export default useForm;
-
