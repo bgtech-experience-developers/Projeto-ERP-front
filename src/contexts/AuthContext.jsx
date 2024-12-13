@@ -13,7 +13,7 @@ export function AuthProvider({ children }) {
     try {
       const { cnpj, password } = userData;
       const response = await api.post(
-        "/adms/login",
+        "/adm/login",
         JSON.stringify({
           cnpj,
           password,
@@ -31,7 +31,7 @@ export function AuthProvider({ children }) {
       console.log("refreshToken: ", refreshToken);
 
       console.log("Login realizado com sucesso!");
-      navigate("/*");
+      navigate("/dashboard");
     } catch (error) {
       console.log("Erro ao realizar o login: ", error);
       window.alert("Não foi possível realizar o login");

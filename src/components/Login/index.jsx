@@ -33,18 +33,11 @@ export const Login = () => {
     }
   }
 
-  // React.useEffect(() => {
-  //   console.log(isAuth);
-  //   if (isAuth) {
-  //     navigate("/*");
-  //   }
-
-  // }, [isAuth, navigate])
 
   React.useEffect(() => {
     const token = localStorage.getItem("accessToken");
     if (token) {
-        navigate("/allusers")
+        navigate("/dashboard")
     }
   }, [navigate])
 
@@ -58,7 +51,7 @@ export const Login = () => {
 
               <Input
                 style={{
-                  fontSize: "14px",
+                  fontSize: "1.4rem",
                   letterSpacing: "0px",
                 }}
                 variant="secondary"
@@ -77,7 +70,7 @@ export const Login = () => {
                 name={"password"}
                 value={form.password}
                 style={{
-                  fontSize: "14px",
+                  fontSize: "1.4rem",
                   letterSpacing: "0px",
                 }}
                 onChange={handleChanges}
