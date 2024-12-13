@@ -7,8 +7,6 @@ function useClients() {
   const navigate = useNavigate();
 
   const postClient = async (json, formPhotos) => {
-    console.log("json: ", json);
-    console.log("photos: ", formPhotos);
     try {
       // Lógica de guardar a imagem
       const formData = new FormData();
@@ -17,29 +15,16 @@ function useClients() {
         formData.append("photos", photo);
       });
 
-      // const photos = formData.getAll("photos");
-
       // Lógica de guardar o JSON
       formData.append("json", JSON.stringify(json));
 
-      // json = formData.get("json");
-
-      // const body = {
-      //   json,
-      //   photos,
-      // };
-
-      // console.log(body);
-      console.log(formData.getAll("photos"));
-
       const response = await client.post("/clientes/registro", formData);
-      
+
       navigate("/cadastrar/cliente/novo/sucesso");
 
       console.log(response);
     } catch (error) {
       console.error(error);
-
       return error;
     }
   };
@@ -48,11 +33,10 @@ function useClients() {
     try {
       // API original
 
-      const { data } = await client.get(`/clientes/${extraUrl}`);
+      const response = await client.get(`/clientes/${extraUrl}`);
 
-      console.log(data);
-      if (data) {
-        return data;
+      if (response.status === 200) {
+        return response.data;
       }
       return "Não foi possível trazes os dados do cliente";
     } catch (error) {
