@@ -33,6 +33,7 @@ export const Table = ({
   style,
   sort = true,
   header = true,
+  setPage,
   isPagination = true,
   isLoading = false,
   filterModal,
@@ -237,14 +238,20 @@ export const Table = ({
             {/* Páginação */}
             <Button
               variant="icon"
-              onClick={() => table.previousPage()}
+              onClick={() => {
+                table.previousPage();
+                setPage((prevState) => prevState - 1);
+              }}
               disabled={!table.getCanPreviousPage()}
             >
               <IoIosArrowBack />
             </Button>
             <Button
               variant="icon"
-              onClick={() => table.nextPage()}
+              onClick={() => {
+                table.nextPage();
+                setPage((prevState) => prevState + 1);
+              }}
               disabled={!table.getCanNextPage()}
             >
               <IoIosArrowForward />

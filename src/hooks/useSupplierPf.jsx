@@ -1,4 +1,4 @@
-import { supplierPf } from "../services/instance";
+import { api } from "../services/instance";
 
 function useSupplierPf() {
   const postSupplierPf = async (json, formPhotos) => {
@@ -11,7 +11,7 @@ function useSupplierPf() {
 
       formData.append("json", JSON.stringify(json));
 
-      const response = await supplierPf.post("/supplierPf/cadastrar", formData);
+      const response = await api.post("/supplierPf/cadastrar", formData);
 
       return response;
     } catch (error) {
@@ -22,7 +22,7 @@ function useSupplierPf() {
 
   const getSupplierPf = async (extraURL) => {
     try {
-      const { data } = await supplierPf.get(`/supplierPf/${extraURL}`);
+      const { data } = await api.get(`/suppliers/${extraURL}`);
       return data;
     } catch (error) {
       console.error(error);
@@ -32,7 +32,7 @@ function useSupplierPf() {
 
   const getSupplierPfById = async (id) => {
     try {
-      const { data } = await supplierPf.get(`/supplierPf/${id}`);
+      const { data } = await api.get(`/supplier/${id}`);
       return data;
     } catch (error) {
       console.error(error);
@@ -42,7 +42,7 @@ function useSupplierPf() {
 
   const deleteSupplierPf = async (id) => {
     try {
-      const data = await supplierPf.delete(`/supplierPf/${id}`);
+      const data = await api.delete(`/supplier/${id}`);
       return data;
     } catch (error) {
       console.error(error);

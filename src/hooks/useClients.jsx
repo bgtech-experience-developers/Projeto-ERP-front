@@ -1,31 +1,47 @@
 import React from "react";
-import { client } from "../services/instance";
-import axios from "axios";
+import { api } from "../services/instance";
 import { useNavigate } from "react-router-dom";
 
 function useClients() {
+  const token = localStorage.getItem("accessToken");
   const navigate = useNavigate();
 
   const postClient = async (json, formPhotos) => {
     try {
-      // Lógica de guardar a imagem
+      // Verifique se as fotos e o JSON estão definidos
+      if (!json || !formPhotos || formPhotos.length === 0) {
+        throw new Error("Dados inválidos: JSON ou fotos não fornecidos.");
+      }
+
+      // Criação do FormData
       const formData = new FormData();
 
-      formPhotos?.forEach((photo) => {
+      // Adicionando as fotos ao FormData
+      formPhotos.forEach((photo) => {
         formData.append("photos", photo);
       });
 
-      // Lógica de guardar o JSON
+      // Adicionando o JSON ao FormData
       formData.append("json", JSON.stringify(json));
 
-      const response = await client.post("/clientes/registro", formData);
+      console.log("photos: ", formData.getAll("photos"));
+      console.log("json: ", formData.get("json"));
 
+      // Enviando a requisição
+      const response = await api.post("/clientes/registro", formData);
+
+      // Redirecionamento após sucesso
       navigate("/cadastrar/cliente/novo/sucesso");
 
-      console.log(response);
+      return response;
     } catch (error) {
-      console.error(error);
-      return error;
+      // Em caso de erro, loga uma mensagem mais clara
+      console.error("Erro ao enviar os dados do cliente:", error);
+
+      // Pode retornar o erro com uma mensagem mais amigável
+      return {
+        error: error.message || "Erro desconhecido ao registrar o cliente",
+      };
     }
   };
 
@@ -33,7 +49,11 @@ function useClients() {
     try {
       // API original
 
-      const response = await client.get(`/clientes/${extraUrl}`);
+      const response = await api.get(`/clientes/${extraUrl}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       if (response.status === 200) {
         return response.data;
@@ -47,11 +67,11 @@ function useClients() {
 
   const getClientByID = async (id) => {
     try {
-      // API original
-      const { data } = await client.get(`clientes/${id}`);
-
-      // Teste na minha mock (Carlos)
-      // const { data } = await client.get(`/api/cliente/${id}`);
+      const { data } = await api.get(`clientes/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       if (data) {
         return data;
@@ -65,7 +85,11 @@ function useClients() {
 
   const deleteClient = async (id) => {
     try {
-      const data = await client.delete(`/clientes/remover/${id}`);
+      const data = await api.delete(`/clientes/remover/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       return data;
     } catch (error) {
@@ -75,6 +99,9 @@ function useClients() {
   };
 
   const patchClient = async (id, updatedInfo, updatePhoto) => {
+    console.log("info: ", updatedInfo);
+    console.log("photos: ", updatePhoto);
+
     try {
       const formData = new FormData();
       formData.append("json", JSON.stringify(updatedInfo));
@@ -84,7 +111,11 @@ function useClients() {
       });
 
       const endpoint = `/clientes/atualizar/${id}`;
-      const { data } = await client.patch(endpoint, formData);
+      const { data } = await api.patch(endpoint, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       navigate("/cadastrar/cliente/editar/sucesso");
     } catch (error) {
