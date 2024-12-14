@@ -47,6 +47,7 @@ const types = {
 
 const useForm = () => {
   const [error, setError] = React.useState({});
+  const [allErrors, setAllErrors] = React.useState({});
 
   function validate(field, value) {
     if (value.length === 0) {
@@ -99,8 +100,37 @@ const useForm = () => {
     validate(name, value);
   }
 
-  return [mask, onBlur, removeErrorOnChange, error, setError];
+  function validateAllFields({ cliente }) {
+    if (!cliente) {
+      return;
+    }
+    const { cnpj, corporate_reason } = cliente;
+    const newErrors = { ...error };
+    if (!cnpj) {
+      newErrors.cnpj = 'Preencha o campo';
+    } else {
+      delete newErrors.cnpj;
+    }
+    if (types['cnpj'] && !types['cnpj'].regex.test(cnpj)) {
+      newErrors.cnpj = types['cnpj'].message;
+    }
+    if (!corporate_reason) {
+      newErrors.corporate_reason = 'Preencha o campo';
+    } else {
+      delete newErrors.corporate_reason;
+    }
+    setError(newErrors);
+    return Object.keys(newErrors).length > 0;
+  }
+
+  return [
+    validateAllFields,
+    mask,
+    onBlur,
+    removeErrorOnChange,
+    error,
+    setError,
+  ];
 };
 
 export default useForm;
-
