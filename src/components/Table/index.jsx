@@ -44,10 +44,28 @@ export const Table = ({
   const { isActive } = React.useContext(SidebarContext);
 
   // Estados de funcionamento da tabela
+  const [globalFilter, setGlobalFilter] = React.useState("");
   const [pagination, setPagination] = React.useState({
     pageIndex: 0,
     pageSize: 5,
   });
+
+  const handleNextPage = () => {
+    if (!table.getCanNextPage()) return;
+
+    setPage((prev) => prev + 1);
+    table.nextPage();
+  };
+
+  const handlePreviousPage = () => {
+    if (!table.getCanPreviousPage()) return;
+
+    table.previousPage();
+  };
+
+  React.useEffect(() => {
+    console.log(pagination);
+  }, [pagination]);
 
   // Configuração dos dados da tabela
   const tableData = React.useMemo(() => (data?.length > 0 ? data : []), [data]);
@@ -105,19 +123,23 @@ export const Table = ({
     columns: tableColumns,
     state: {
       pagination,
+      globalFilter,
     },
     // Filtro global
     filterFns: {
       fuzzy: fuzzyFilter,
     },
     globalFilterFn: fuzzyFilter,
-
+    enableGlobalFilter: true,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     columnResizeMode: "onChange",
     onPaginationChange: setPagination,
+    onGlobalFilterChange: setGlobalFilter,
+    autoResetPageIndex: false,
+    enableGlobalFilter: true,
   });
 
   return (
@@ -134,7 +156,8 @@ export const Table = ({
               variant="expandable-input"
               placeholder="Digite uma palavra chave..."
               className={search ? "expand-input" : ""}
-              onChange={(e) => table.setGlobalFilter(e.target.value)}
+              value={globalFilter}
+              onChange={(e) => setGlobalFilter(e.target.value)}
             >
               <IoSearch onClick={handleSearch} />
             </Input>
@@ -238,20 +261,14 @@ export const Table = ({
             {/* Páginação */}
             <Button
               variant="icon"
-              onClick={() => {
-                table.previousPage();
-                setPage((prevState) => prevState - 1);
-              }}
+              onClick={handlePreviousPage}
               disabled={!table.getCanPreviousPage()}
             >
               <IoIosArrowBack />
             </Button>
             <Button
               variant="icon"
-              onClick={() => {
-                table.nextPage();
-                setPage((prevState) => prevState + 1);
-              }}
+              onClick={handleNextPage}
               disabled={!table.getCanNextPage()}
             >
               <IoIosArrowForward />

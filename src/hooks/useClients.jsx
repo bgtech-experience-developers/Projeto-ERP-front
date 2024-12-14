@@ -1,5 +1,5 @@
 import React from "react";
-import { api, client } from "../services/instance";
+import { api } from "../services/instance";
 import { useNavigate } from "react-router-dom";
 
 function useClients() {
@@ -28,7 +28,7 @@ function useClients() {
       console.log("json: ", formData.get("json"));
 
       // Enviando a requisição
-      const response = await client.post("/clientes/registro", formData);
+      const response = await api.post("/clientes/registro", formData);
 
       // Redirecionamento após sucesso
       navigate("/cadastrar/cliente/novo/sucesso");

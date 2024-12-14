@@ -20,19 +20,25 @@ export const PfSupplierTable = () => {
 
   // Estados de controile
   const [supplierPF, setSupplierPF] = React.useState([]);
-  const [page, setPage] = React.useState(1);
+  const [page, setPage] = React.useState(3);
   const { getSupplierPf, deleteSupplierPf } = useSupplierPf();
   const navigate = useNavigate();
 
   // Função para buscar todos os fornecedores pessoa física
   const fetchSupplierPF = async () => {
+    setIsLoading(true);
     try {
-      setIsLoading(true);
-
       const data = await getSupplierPf(`?page=${page}`);
-      console.log(data);
 
-      setSupplierPF([...supplierPF, data]);
+      setSupplierPF((prev) => {
+        const existingIds = prev.map((supplier) => supplier.id);
+        const newData = data.filter(
+          (supplier) => !existingIds.includes(supplier.id)
+        );
+
+        return [...prev, ...newData];
+      });
+      console.log(supplierPF);
     } catch (error) {
       toast.error("Erro na busca de fornecedores.");
       console.error("Erro na busca de fornecedores: ", error);
@@ -69,10 +75,10 @@ export const PfSupplierTable = () => {
   };
 
   const columns = React.useMemo(() => [
-    { header: "Nome do fornecedor", accessorKey: "supplier_name", size: 200 },
+    { accessorKey: "supplier_name", header: "Nome do fornecedor", size: 200 },
     // { header: "Produto", accessorKey: "product_supplier_pf", size: 50 },
-    { header: "Email", accessorKey: "email", size: 200 },
-    { header: "Telefone", accessorKey: "phone", size: 100 },
+    { accessorKey: "email", header: "Email", size: 200 },
+    { accessorKey: "phone", header: "Telefone", size: 100 },
     {
       header: "Opções",
       cell: (props) => (
@@ -120,6 +126,7 @@ export const PfSupplierTable = () => {
       columns={columns}
       data={supplierPF}
       setPage={setPage}
+      page={page}
       isLoading={isLoading}
       filterModal={
         <Modal
