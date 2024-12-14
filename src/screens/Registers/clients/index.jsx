@@ -9,8 +9,21 @@ import useClients from '../../../hooks/useClients';
 import useForm from '../../../hooks/useForm';
 import { SpanError } from '../style';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 export const RegisterClients = () => {
-  const [isEmpty, mask, onBlur, removeErrorOnChange, error] = useForm();
+  const [validateAllFields, mask, onBlur, removeErrorOnChange, error] =
+    useForm();
+  const notify = (message, type) => {
+    toast[type](message, {
+      style: { fontSize: '4rem', fontWeight: 'bold' },
+      position: 'bottom-right',
+      autoClose: 8000,
+      closeOnClick: true,
+      pauseOnHover: false,
+    });
+  };
 
   const [formValues, setFormValues] = useState({
     imagens: [],
@@ -136,6 +149,11 @@ export const RegisterClients = () => {
   async function handleSubmit(event) {
     event.preventDefault();
 
+    if (validateAllFields(formValues)) {
+      notify('Preencha todos os campos corretamente', 'error');
+      return;
+    }
+
     const localPath = '../../../public/smile.png';
     const response = await fetch(localPath);
     const blob = await response.blob();
@@ -161,68 +179,75 @@ export const RegisterClients = () => {
     setPhotos(updatedPhotos);
     setFormPhotos(formPhotosToSend);
 
-    postClient(formValues, formPhotosToSend);
-    // Limpar Os Campos dos inputs
-    setFormValues({
-      imagens: [],
-      cliente: {
-        corporate_reason: '',
-        fantasy_name: '',
-        cnpj: '',
-        state_registration: '',
-        type_contribuition: 'titulo',
-        branch_activity: '',
-      },
-      endereco_empresa: {
-        cep: '',
-        street: '',
-        number: '',
-        complement: '',
-        city: '',
-        neighborhood: '',
-        state: '',
-      },
-      endereco_entrega: {
-        cep: '',
-        street: '',
-        number: '',
-        complement: '',
-        city: '',
-        neighborhood: '',
-        state: '',
-      },
-      financeiro: {
-        name: '',
-        phone: '',
-        cell_phone: '',
-        rg: '',
-        email: '',
-        cpf: '',
-      },
-      comercial: {
-        name: '',
-        phone: '',
-        cell_phone: '',
-        rg: '',
-        email: '',
-        cpf: '',
-      },
-      contabil: {
-        name: '',
-        phone: '',
-        cell_phone: '',
-        rg: '',
-        email: '',
-        cpf: '',
-      },
-      socio: {
-        name: '',
-        phone: '',
-        cell_phone: '',
-        rg: '',
-        email: '',
-        cpf: '',
-      },
+    postClient(formValues, formPhotosToSend).then((res) => {
+      console.log(res);
+
+      if (res?.status === 400) {
+        notify('Ocorreu um erro', 'error');
+        return;
+      }
+      // Limpar Os Campos dos inputs
+      setFormValues({
+        imagens: [],
+        cliente: {
+          corporate_reason: '',
+          fantasy_name: '',
+          cnpj: '',
+          state_registration: '',
+          type_contribuition: 'titulo',
+          branch_activity: '',
+        },
+        endereco_empresa: {
+          cep: '',
+          street: '',
+          number: '',
+          complement: '',
+          city: '',
+          neighborhood: '',
+          state: '',
+        },
+        endereco_entrega: {
+          cep: '',
+          street: '',
+          number: '',
+          complement: '',
+          city: '',
+          neighborhood: '',
+          state: '',
+        },
+        financeiro: {
+          name: '',
+          phone: '',
+          cell_phone: '',
+          rg: '',
+          email: '',
+          cpf: '',
+        },
+        comercial: {
+          name: '',
+          phone: '',
+          cell_phone: '',
+          rg: '',
+          email: '',
+          cpf: '',
+        },
+        contabil: {
+          name: '',
+          phone: '',
+          cell_phone: '',
+          rg: '',
+          email: '',
+          cpf: '',
+        },
+        socio: {
+          name: '',
+          phone: '',
+          cell_phone: '',
+          rg: '',
+          email: '',
+          cpf: '',
+        },
+      });
     });
   }
 
@@ -257,12 +282,12 @@ export const RegisterClients = () => {
               height="4.8rem"
               value={formValues.cliente.fantasy_name}
               onChange={handleInputChange('cliente')}
-              onBlur={onBlur}
+              // onBlur={onBlur}
             >
               Nome fantasia
-              {error.fantasy_name && (
+              {/* {error.fantasy_name && (
                 <SpanError>* {error.fantasy_name}</SpanError>
-              )}
+              )} */}
             </Input>
           </FormsField>
           <FileInput
@@ -281,12 +306,12 @@ export const RegisterClients = () => {
           height="4.8rem"
           value={formValues.cliente.branch_activity}
           onChange={handleInputChange('cliente')}
-          onBlur={onBlur}
+          // onBlur={onBlur}
         >
           Ramo de atuação
-          {error.branch_activity && (
+          {/* {error.branch_activity && (
             <SpanError>* {error.branch_activity}</SpanError>
-          )}
+          )} */}
         </Input>
 
         <FormsField variant="double">
@@ -337,10 +362,10 @@ export const RegisterClients = () => {
             height="4.8rem"
             value={formValues.endereco_empresa.street}
             onChange={handleInputChange('endereco_empresa')}
-            onBlur={onBlur}
+            // onBlur={onBlur}
           >
             Logradouro
-            {error.street && <SpanError>* {error.street}</SpanError>}
+            {/* {error.street && <SpanError>* {error.street}</SpanError>} */}
           </Input>
           <Input
             id="endereco_empresa_number"
@@ -348,10 +373,10 @@ export const RegisterClients = () => {
             height="4.8rem"
             value={formValues.endereco_empresa.number}
             onChange={handleInputChange('endereco_empresa')}
-            onBlur={onBlur}
+            // onBlur={onBlur}
           >
             Número
-            {error.number && <SpanError>* {error.number}</SpanError>}
+            {/* {error.number && <SpanError>* {error.number}</SpanError>} */}
           </Input>
           <Input
             id="endereco_empresa_cep"
@@ -359,10 +384,10 @@ export const RegisterClients = () => {
             height="4.8rem"
             value={formValues.endereco_empresa.cep}
             onChange={handleInputChange('endereco_empresa')}
-            onBlur={onBlur}
+            // onBlur={onBlur}
           >
             CEP
-            {error.cep && <SpanError>* {error.cep}</SpanError>}
+            {/* {error.cep && <SpanError>* {error.cep}</SpanError>} */}
           </Input>
         </FormsField>
 
@@ -383,12 +408,12 @@ export const RegisterClients = () => {
             height="4.8rem"
             value={formValues.endereco_empresa.neighborhood}
             onChange={handleInputChange('endereco_empresa')}
-            onBlur={onBlur}
+            // onBlur={onBlur}
           >
             Bairro
-            {error.neighborhood && (
+            {/* {error.neighborhood && (
               <SpanError>* {error.neighborhood}</SpanError>
-            )}
+            )} */}
           </Input>
           <Input
             id="endereco_empresa_city"
@@ -396,10 +421,10 @@ export const RegisterClients = () => {
             height="4.8rem"
             value={formValues.endereco_empresa.city}
             onChange={handleInputChange('endereco_empresa')}
-            onBlur={onBlur}
+            // onBlur={onBlur}
           >
             Cidade
-            {error.city && <SpanError>* {error.city}</SpanError>}
+            {/* {error.city && <SpanError>* {error.city}</SpanError>} */}
           </Input>
         </FormsField>
 
@@ -496,10 +521,10 @@ export const RegisterClients = () => {
               height="4.8rem"
               value={formValues.socio.name}
               onChange={handleInputChange('socio')}
-              onBlur={onBlur}
+              // onBlur={onBlur}
             >
               Nome
-              {error.name && <SpanError>* {error.name}</SpanError>}
+              {/* {error.name && <SpanError>* {error.name}</SpanError>} */}
             </Input>
             <Input
               id="socio_email"
@@ -508,10 +533,10 @@ export const RegisterClients = () => {
               type="email"
               value={formValues.socio.email}
               onChange={handleInputChange('socio')}
-              onBlur={onBlur}
+              // onBlur={onBlur}
             >
               Email
-              {error.email && <SpanError>* {error.email}</SpanError>}
+              {/* {error.email && <SpanError>* {error.email}</SpanError>} */}
             </Input>
           </FormsField>
           <FileInput
@@ -539,10 +564,10 @@ export const RegisterClients = () => {
             height="4.8rem"
             value={formValues.socio.cell_phone}
             onChange={handleInputChange('socio')}
-            onBlur={onBlur}
+            // onBlur={onBlur}
           >
             Celular
-            {error.cell_phone && <SpanError>* {error.cell_phone}</SpanError>}
+            {/* {error.cell_phone && <SpanError>* {error.cell_phone}</SpanError>} */}
           </Input>
         </FormsField>
 
@@ -553,10 +578,10 @@ export const RegisterClients = () => {
             height="4.8rem"
             value={formValues.socio.rg}
             onChange={handleInputChange('socio')}
-            onBlur={onBlur}
+            // onBlur={onBlur}
           >
             RG
-            {error.rg && <SpanError>* {error.rg}</SpanError>}
+            {/* {error.rg && <SpanError>* {error.rg}</SpanError>} */}
           </Input>
           <Input
             id="socio_cpf"
@@ -564,10 +589,10 @@ export const RegisterClients = () => {
             height="4.8rem"
             value={formValues.socio.cpf}
             onChange={handleInputChange('socio')}
-            onBlur={onBlur}
+            // onBlur={onBlur}
           >
             CPF
-            {error.cpf && <SpanError>* {error.cpf}</SpanError>}
+            {/* {error.cpf && <SpanError>* {error.cpf}</SpanError>} */}
           </Input>
         </FormsField>
       </Card>
@@ -801,6 +826,7 @@ export const RegisterClients = () => {
           Cadastrar
         </Button>
       </Card>
+      <ToastContainer />
     </Form>
   );
 };
