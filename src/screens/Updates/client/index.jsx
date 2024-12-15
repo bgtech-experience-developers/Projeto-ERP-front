@@ -1,15 +1,13 @@
-import React, { useCallback, useEffect, useState } from "react";
-import useClients from "../../hooks/useClients";
-import useForm from "../../../hooks/useForm";
-//internos
-import { SpanError } from "../style";
+import { FormsField } from "../../../components/Forms/FormsField";
+import { Input } from "../../../components/Forms/Inputs/Input";
 import { Card } from "../../../components/Forms/Card";
 import { Form } from "../../../components/Forms/Form";
-import { Button } from "../../../components/Forms/Button";
-import { Input } from "../../../components/Forms/Inputs/Input";
 import { FileInput } from "../../../components/Forms/Inputs/File";
-import { FormsField } from "../../../components/Forms/FormsField";
-//Externos
+import { Button } from "../../../components/Forms/Button";
+import React, { useCallback, useEffect, useState } from "react";
+import useClients from "../../../hooks/useClients";
+import useForm from "../../../hooks/useForm";
+import { SpanError } from "../style";
 import { useLocation } from "react-router-dom";
 
 const initialFormValues = () => ({
@@ -288,7 +286,7 @@ export const UpdateClients = () => {
               id="cliente_corporate_reason"
               name="corporate_reason"
               height="4.8rem"
-              value={formValues.cliente.corporate_reason}
+              value={formValues?.cliente?.corporate_reason}
               onChange={handleInputChange("cliente")}
               onBlur={onBlur}
             >
@@ -302,7 +300,7 @@ export const UpdateClients = () => {
               id="cliente_fantasy_name"
               name="fantasy_name"
               height="4.8rem"
-              value={formValues.cliente.fantasy_name}
+              value={formValues?.cliente?.fantasy_name}
               onChange={handleInputChange("cliente")}
               onBlur={onBlur}
             >
@@ -328,7 +326,7 @@ export const UpdateClients = () => {
           id="cliente_branch_activity"
           name="branch_activity"
           height="4.8rem"
-          value={formValues.cliente.branch_activity}
+          value={formValues?.cliente?.branch_activity}
           onChange={handleInputChange("cliente")}
           onBlur={onBlur}
         >
@@ -354,7 +352,7 @@ export const UpdateClients = () => {
             id="cliente_state_registration"
             name="state_registration"
             height="4.8rem"
-            value={formValues.cliente.state_registration}
+            value={formValues?.cliente?.state_registration}
             onChange={handleInputChange("cliente")}
           >
             Inscrição estadual
@@ -366,7 +364,7 @@ export const UpdateClients = () => {
           id="cliente_type_contribuition"
           name="type_contribuition"
           height="4.8rem"
-          value={formValues.cliente.type_contribuition}
+          value={formValues?.cliente?.type_contribuition}
           onChange={handleInputChange("cliente")}
           options={[
             { value: "titulo", label: "Selecione", disabled: true },
@@ -385,7 +383,7 @@ export const UpdateClients = () => {
             name="street"
             id="endereco_empresa_street"
             height="4.8rem"
-            value={formValues.endereco_empresa.street}
+            value={formValues?.endereco_empresa?.street}
             onChange={handleInputChange("endereco_empresa")}
             onBlur={onBlur}
           >
@@ -396,7 +394,7 @@ export const UpdateClients = () => {
             id="endereco_empresa_number"
             name="number"
             height="4.8rem"
-            value={formValues.endereco_empresa.number}
+            value={formValues?.endereco_empresa?.number}
             onChange={handleInputChange("endereco_empresa")}
             onBlur={onBlur}
           >
@@ -407,7 +405,7 @@ export const UpdateClients = () => {
             id="endereco_empresa_cep"
             name="cep"
             height="4.8rem"
-            value={formValues.endereco_empresa.cep}
+            value={formValues?.endereco_empresa?.cep}
             onChange={handleInputChange("endereco_empresa")}
             onBlur={onBlur}
           >
@@ -420,7 +418,7 @@ export const UpdateClients = () => {
           id="endereco_empresa_complement"
           name="complement"
           height="4.8rem"
-          value={formValues.endereco_empresa.complement}
+          value={formValues?.endereco_empresa?.complement}
           onChange={handleInputChange("endereco_empresa")}
         >
           Complemento
@@ -431,7 +429,7 @@ export const UpdateClients = () => {
             id="endereco_empresa_neighborhood"
             name="neighborhood"
             height="4.8rem"
-            value={formValues.endereco_empresa.neighborhood}
+            value={formValues?.endereco_empresa?.neighborhood}
             onChange={handleInputChange("endereco_empresa")}
             onBlur={onBlur}
           >
@@ -444,7 +442,7 @@ export const UpdateClients = () => {
             id="endereco_empresa_city"
             name="city"
             height="4.8rem"
-            value={formValues.endereco_empresa.city}
+            value={formValues?.endereco_empresa?.city}
             onChange={handleInputChange("endereco_empresa")}
             onBlur={onBlur}
           >
@@ -460,7 +458,7 @@ export const UpdateClients = () => {
             id="endereco_entrega_street"
             name="street"
             height="4.8rem"
-            value={formValues.endereco_entrega.street}
+            value={formValues?.endereco_entrega?.street}
             onChange={handleInputChange("endereco_entrega")}
           >
             Logradouro
@@ -469,7 +467,7 @@ export const UpdateClients = () => {
             id="endereco_entrega_number"
             name="number"
             height="4.8rem"
-            value={formValues.endereco_entrega.number}
+            value={formValues?.endereco_entrega?.number}
             onChange={handleInputChange("endereco_entrega")}
           >
             Número
@@ -478,7 +476,7 @@ export const UpdateClients = () => {
             id="endereco_entrega_cep"
             name="cep"
             height="4.8rem"
-            value={formValues.endereco_entrega.cep}
+            value={formValues?.endereco_entrega?.cep}
             onChange={handleInputChange("endereco_entrega")}
           >
             CEP
@@ -489,7 +487,7 @@ export const UpdateClients = () => {
           id="endereco_entrega_complement"
           name="complement"
           height="4.8rem"
-          value={formValues.endereco_entrega.complement}
+          value={formValues?.endereco_entrega?.complement}
           onChange={handleInputChange("endereco_entrega")}
         >
           Complemento
@@ -500,7 +498,7 @@ export const UpdateClients = () => {
             id="endereco_entrega_neighborhood"
             name="neighborhood"
             height="4.8rem"
-            value={formValues.endereco_entrega.neighborhood}
+            value={formValues?.endereco_entrega?.neighborhood}
             onChange={handleInputChange("endereco_entrega")}
           >
             Bairro
@@ -509,7 +507,7 @@ export const UpdateClients = () => {
             id="endereco_entrega_city"
             name="city"
             height="4.8rem"
-            value={formValues.endereco_entrega.city}
+            value={formValues?.endereco_entrega?.city}
             onChange={handleInputChange("endereco_entrega")}
           >
             Cidade
@@ -524,7 +522,7 @@ export const UpdateClients = () => {
               id="socio_name"
               name="name"
               height="4.8rem"
-              value={formValues.socio.name}
+              value={formValues?.socio?.name}
               onChange={handleInputChange("socio")}
               onBlur={onBlur}
             >
@@ -536,7 +534,7 @@ export const UpdateClients = () => {
               name="email"
               height="4.8rem"
               type="email"
-              value={formValues.socio.email}
+              value={formValues?.socio?.email}
               onChange={handleInputChange("socio")}
               onBlur={onBlur}
             >
@@ -559,7 +557,7 @@ export const UpdateClients = () => {
             id="socio_phone"
             name="phone"
             height="4.8rem"
-            value={formValues.socio.phone}
+            value={formValues?.socio?.phone}
             onChange={handleInputChange("socio")}
           >
             Telefone
@@ -568,7 +566,7 @@ export const UpdateClients = () => {
             id="socio_cell_phone"
             name="cell_phone"
             height="4.8rem"
-            value={formValues.socio.cell_phone}
+            value={formValues?.socio?.cell_phone}
             onChange={handleInputChange("socio")}
             onBlur={onBlur}
           >
@@ -582,7 +580,7 @@ export const UpdateClients = () => {
             id="socio_rg"
             name="rg"
             height="4.8rem"
-            value={formValues.socio.rg}
+            value={formValues?.socio?.rg}
             onChange={handleInputChange("socio")}
             onBlur={onBlur}
           >
@@ -593,7 +591,7 @@ export const UpdateClients = () => {
             id="socio_cpf"
             name="cpf"
             height="4.8rem"
-            value={formValues.socio.cpf}
+            value={formValues?.socio?.cpf}
             onChange={handleInputChange("socio")}
             onBlur={onBlur}
           >
@@ -610,7 +608,7 @@ export const UpdateClients = () => {
               id="comercial_name"
               name="name"
               height="4.8rem"
-              value={formValues.comercial.name}
+              value={formValues?.comercial?.name}
               onChange={handleInputChange("comercial")}
             >
               Nome
@@ -620,7 +618,7 @@ export const UpdateClients = () => {
               name="email"
               height="4.8rem"
               type="email"
-              value={formValues.comercial.email}
+              value={formValues?.comercial?.email}
               onChange={handleInputChange("comercial")}
             >
               Email
@@ -641,7 +639,7 @@ export const UpdateClients = () => {
             id="comercial_phone"
             name="phone"
             height="4.8rem"
-            value={formValues.comercial.phone}
+            value={formValues?.comercial?.phone}
             onChange={handleInputChange("comercial")}
           >
             Telefone
@@ -650,7 +648,7 @@ export const UpdateClients = () => {
             id="comercial_cell_phone"
             name="cell_phone"
             height="4.8rem"
-            value={formValues.comercial.cell_phone}
+            value={formValues?.comercial?.cell_phone}
             onChange={handleInputChange("comercial")}
           >
             Celular
@@ -662,7 +660,7 @@ export const UpdateClients = () => {
             id="comercial_rg"
             name="rg"
             height="4.8rem"
-            value={formValues.comercial.rg}
+            value={formValues?.comercial?.rg}
             onChange={handleInputChange("comercial")}
           >
             RG
@@ -671,7 +669,7 @@ export const UpdateClients = () => {
             id="comercial_cpf"
             name="cpf"
             height="4.8rem"
-            value={formValues.comercial.cpf}
+            value={formValues?.comercial?.cpf}
             onChange={handleInputChange("comercial")}
           >
             CPF
@@ -686,7 +684,7 @@ export const UpdateClients = () => {
               id="financeiro_name"
               name="name"
               height="4.8rem"
-              value={formValues.financeiro.name}
+              value={formValues?.financeiro?.name}
               onChange={handleInputChange("financeiro")}
             >
               Nome
@@ -696,7 +694,7 @@ export const UpdateClients = () => {
               name="email"
               height="4.8rem"
               type="email"
-              value={formValues.financeiro.email}
+              value={formValues?.financeiro?.email}
               onChange={handleInputChange("financeiro")}
             >
               Email
@@ -717,7 +715,7 @@ export const UpdateClients = () => {
             id="financeiro_phone"
             name="phone"
             height="4.8rem"
-            value={formValues.financeiro.phone}
+            value={formValues?.financeiro?.phone}
             onChange={handleInputChange("financeiro")}
           >
             Telefone
@@ -726,7 +724,7 @@ export const UpdateClients = () => {
             id="financeiro_cell_phone"
             name="cell_phone"
             height="4.8rem"
-            value={formValues.financeiro.cell_phone}
+            value={formValues?.financeiro?.cell_phone}
             onChange={handleInputChange("financeiro")}
           >
             Celular
@@ -738,7 +736,7 @@ export const UpdateClients = () => {
             id="financeiro_rg"
             name="rg"
             height="4.8rem"
-            value={formValues.financeiro.rg}
+            value={formValues?.financeiro?.rg}
             onChange={handleInputChange("financeiro")}
           >
             RG
@@ -747,7 +745,7 @@ export const UpdateClients = () => {
             id="financeiro_cpf"
             name="cpf"
             height="4.8rem"
-            value={formValues.financeiro.cpf}
+            value={formValues?.financeiro?.cpf}
             onChange={handleInputChange("financeiro")}
           >
             CPF
@@ -762,7 +760,7 @@ export const UpdateClients = () => {
               id="contabil_name"
               name="name"
               height="4.8rem"
-              value={formValues.contabil.name}
+              value={formValues?.contabil?.name}
               onChange={handleInputChange("contabil")}
             >
               Nome
@@ -772,7 +770,7 @@ export const UpdateClients = () => {
               name="email"
               height="4.8rem"
               type="email"
-              value={formValues.contabil.email}
+              value={formValues?.contabil?.email}
               onChange={handleInputChange("contabil")}
             >
               Email
@@ -793,7 +791,7 @@ export const UpdateClients = () => {
             id="contabil_phone"
             name="phone"
             height="4.8rem"
-            value={formValues.contabil.phone}
+            value={formValues?.contabil?.phone}
             onChange={handleInputChange("contabil")}
           >
             Telefone
@@ -802,7 +800,7 @@ export const UpdateClients = () => {
             id="contabil_cell_phone"
             name="cell_phone"
             height="4.8rem"
-            value={formValues.contabil.cell_phone}
+            value={formValues?.contabil?.cell_phone}
             onChange={handleInputChange("contabil")}
           >
             Celular
@@ -814,7 +812,7 @@ export const UpdateClients = () => {
             id="contabil_rg"
             name="rg"
             height="4.8rem"
-            value={formValues.contabil.rg}
+            value={formValues?.contabil?.rg}
             onChange={handleInputChange("contabil")}
           >
             RG
@@ -823,7 +821,7 @@ export const UpdateClients = () => {
             id="contabil_cpf"
             name="cpf"
             height="4.8rem"
-            value={formValues.contabil.cpf}
+            value={formValues?.contabil?.cpf}
             onChange={handleInputChange("contabil")}
           >
             CPF

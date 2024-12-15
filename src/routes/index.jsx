@@ -10,7 +10,7 @@ import { SidebarContext } from "../contexts/SidebarContext";
 import { ClientDashboard } from "../screens/Dashboards/client";
 
 // Updates
-import { UpdateClients } from "../screens/UpdateClients";
+import { UpdateClients } from "../screens/Updates/client";
 
 // Registers
 import {

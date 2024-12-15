@@ -14,20 +14,23 @@ export const RegisterSupplierPF = () => {
 
   const [mask, onBlur, onChange, error] = useForm();
   const [formValues, setFormValues] = useState({
-    fotos: "",
-    supplier: {
+    supplier_name: "",
+    supplier_code: "",
+    email: "",
+    phone: "",
+    cell_phone: "",
+    rg: "",
+    cpf: "",
+    birth_date: "",
+
+    product: {
       name: "",
-      code: "",
-      email: "",
-      cell_phone: "",
-      rg: "",
-      cpf: "",
-      date_of_birth: "",
-      product: "",
       price: "",
-      tax: "",
       deadline: "",
+      stock: "",
+      tax: "",
     },
+
     address: {
       cep: "",
       street: "",
@@ -35,7 +38,10 @@ export const RegisterSupplierPF = () => {
       complement: "",
       city: "",
       neighborhood: "",
+      state: "",
     },
+
+    supplier_imagem: "",
   });
 
   const [title, setTitle] = useState("Cadastrar Fornecedor");
@@ -100,7 +106,7 @@ export const RegisterSupplierPF = () => {
               name="name"
               id="supplier_name"
               height="4.8rem"
-              value={formValues.supplier.name}
+              value={formValues.supplier_name}
               onChange={handleInputChange("supplier")}
               onBlur={onBlur}
             >
@@ -111,7 +117,7 @@ export const RegisterSupplierPF = () => {
             <Input
               id="code"
               name="code"
-              value={formValues.supplier.code}
+              value={formValues.supplier_code}
               onChange={handleInputChange("supplier")}
               onBlur={onBlur}
               height="4.8rem"
@@ -123,7 +129,7 @@ export const RegisterSupplierPF = () => {
           <FileInput
             id={"fotoProduto"}
             error={errorImage}
-            image={formValues.fotos}
+            image={formValues.supplier_imagem}
             handleRemove={handleRemove}
             onChange={handleImage}
             variant="secondary"
@@ -136,7 +142,7 @@ export const RegisterSupplierPF = () => {
           <Input
             id="email"
             name="email"
-            value={formValues.supplier.email}
+            value={formValues.email}
             onChange={handleInputChange("supplier")}
             onBlur={onBlur}
             height="4.8rem"
@@ -148,7 +154,7 @@ export const RegisterSupplierPF = () => {
           <Input
             id="cell_phone"
             name="cell_phone"
-            value={formValues.supplier.cell_phone}
+            value={formValues.cell_phone}
             onChange={handleInputChange("supplier")}
             onBlur={onBlur}
             height="4.8rem"
@@ -162,7 +168,7 @@ export const RegisterSupplierPF = () => {
           <Input
             id="rg"
             name="rg"
-            value={formValues.supplier.rg}
+            value={formValues.rg}
             onChange={handleInputChange("supplier")}
             onBlur={onBlur}
             height="4.8rem"
@@ -173,7 +179,7 @@ export const RegisterSupplierPF = () => {
           <Input
             id="cpf"
             name="cpf"
-            value={formValues.supplier.cpf}
+            value={formValues.cpf}
             onChange={handleInputChange("supplier")}
             onBlur={onBlur}
             height="4.8rem"
@@ -184,7 +190,7 @@ export const RegisterSupplierPF = () => {
           <Input
             id="date_of_birth"
             name="date_of_birth"
-            value={formValues.supplier.date_of_birth}
+            value={formValues.birth_date}
             onChange={handleInputChange("supplier")}
             height="4.8rem"
             type="date"
@@ -202,7 +208,7 @@ export const RegisterSupplierPF = () => {
             { value: "opcao2", label: "Produto 1" },
             { value: "opcao3", label: "Produto 2" },
           ]}
-          value={formValues.produto}
+          value={formValues.product.name}
         >
           Produto
         </Input>
@@ -211,8 +217,8 @@ export const RegisterSupplierPF = () => {
           <Input
             id="price"
             name="price"
-            value={formValues.supplier.price}
-            onChange={handleInputChange("supplier")}
+            value={formValues.product.price}
+            onChange={handleInputChange}
             onBlur={onBlur}
             height="4.8rem"
           >
@@ -222,8 +228,8 @@ export const RegisterSupplierPF = () => {
           <Input
             id="tax"
             name="tax"
-            value={formValues.supplier.tax}
-            onChange={handleInputChange("supplier")}
+            value={formValues.product.tax}
+            onChange={handleInputChange}
             onBlur={onBlur}
             height="4.8rem"
           >
@@ -235,7 +241,7 @@ export const RegisterSupplierPF = () => {
         <Input
           id="deadline"
           name="deadline"
-          value={formValues.supplier.deadline}
+          value={formValues.product.deadline}
           onChange={handleInputChange("supplier")}
           onBlur={onBlur}
           height="4.8rem"

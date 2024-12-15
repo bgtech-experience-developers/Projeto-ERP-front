@@ -18,10 +18,11 @@ export const PfSupplierTable = () => {
   const [isLoading, setIsLoading] = React.useState(false);
   const [fetchStatus, setFetchStatus] = React.useState(true);
 
-  // Estados de controile
+  // Estados de controle
   const [supplierPF, setSupplierPF] = React.useState([]);
-  const [page, setPage] = React.useState(3);
-  const { getSupplierPf, deleteSupplierPf } = useSupplierPf();
+  const [page, setPage] = React.useState(1);
+  const { getSupplierPf, deleteSupplierPf, getSupplierPfById } =
+    useSupplierPf();
   const navigate = useNavigate();
 
   // Função para buscar todos os fornecedores pessoa física
@@ -38,7 +39,6 @@ export const PfSupplierTable = () => {
 
         return [...prev, ...newData];
       });
-      console.log(supplierPF);
     } catch (error) {
       toast.error("Erro na busca de fornecedores.");
       console.error("Erro na busca de fornecedores: ", error);
@@ -51,7 +51,7 @@ export const PfSupplierTable = () => {
     fetchSupplierPF();
   }, [page]);
 
-  // Deletar (atualizado)
+  //? Ârea funcional
   const handleDelete = async (id) => {
     const confirmDelete = window.confirm(
       "Tem certeza que deseja excluir esse cadastro?"
@@ -68,10 +68,23 @@ export const PfSupplierTable = () => {
     }
   };
 
-  const handleEdit = (row) => {
-    navigate("/cadastrar/fornecedor/pessoa/fisica/editar", {
-      state: { clients: row.original },
-    });
+  const handleEdit = async (row) => {
+    try {
+      const data = await getSupplierPfById(row.original.id);
+      const supplierResponse = supplierFormMap(data);
+      // navigate("/cadastrar/fornecedor/pessoa/fisica/editar", {
+      //   state: { clients: row.original },
+      // });
+    } catch (error) {
+      console.error("Erro ao buscar fornecedor:", error.message);
+    }
+  };
+
+  // Lógica de enviar os dados para outros componentes
+  const supplierFormMap = (supplierResponse) => {
+    console.log(supplierResponse);
+
+    const supplierResponseMap = {};
   };
 
   const columns = React.useMemo(() => [

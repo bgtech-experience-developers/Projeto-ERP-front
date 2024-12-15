@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 function useClients() {
   const token = localStorage.getItem("accessToken");
+  const [isLoading, setIsLoading] = React.useState(false);
   const navigate = useNavigate();
 
   const postClient = async (json, formPhotos) => {
@@ -46,40 +47,79 @@ function useClients() {
   };
 
   const getClients = async (extraUrl) => {
+    const loadingTimer = setTimeout(() => {
+      setIsLoading(true);
+    }, 300);
     try {
-      // API original
-
-      const response = await api.get(`/clientes/${extraUrl}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await api.get(`/clientes/${extraUrl}`);
 
       if (response.status === 200) {
         return response.data;
+      } else if (response.status === 204) {
+        console.log("Nenhum Cleinte encontrado.");
+      } else {
+        console.log(`Status inesperado: ${response.status}`);
       }
-      return "Não foi possível trazes os dados do cliente";
     } catch (error) {
-      console.error(error);
-      return error;
+      if (error.response) {
+        console.error(
+          "Erro do servidor: ",
+          error.response.status,
+          error.response.data
+        );
+        if (error.response.status === 404) {
+          console.log("Endpoint não encontrado (404). Verifique a URL.");
+        } else if (error.response.status === 500) {
+          console.log(
+            "Erro interno do servidor (500). Tente novamente mais tarde."
+          );
+        } else {
+          console.log(`Erro inesperado: ${error.response.status}`);
+        }
+      } else if (error.request) {
+        console.error("Sem resposta do servidor:", error.request);
+      } else {
+        console.error("Erro desconhecido:", error.message);
+      }
+    } finally {
+      clearTimeout(loadingTimer);
+      setIsLoading(false);
     }
   };
 
   const getClientByID = async (id) => {
     try {
-      const { data } = await api.get(`clientes/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      //Colocando um endpoint genérico apenas para montar a estrutura
+      const response = await api.get(`/clientes/${id}`);
 
-      if (data) {
-        return data;
+      if (response.status === 200) {
+        return response.data;
+      } else if (response.status === 204) {
+        console.log(`Nenhum colaborador encontrado com o ID ${id}.`);
+      } else {
+        console.log(`Status inesperado: ${response.status}`);
       }
-      return "Não foi possível trazes os dados do cliente";
     } catch (error) {
-      console.error(error);
-      return error;
+      if (error.response) {
+        console.error("Erro ao buscar colaboradores: ", error);
+        if (error.response.status === 404) {
+          console.log(`Colaborador com o ID ${id} não foi encontrado (404).`);
+        } else if (error.response.status === 400) {
+          console.log(
+            "Requisição inválida. Verifique se o ID está correto (400)."
+          );
+        } else if (error.response.status === 500) {
+          console.log(
+            "Erro interno do servidor (500). Tente novamente mais tarde."
+          );
+        } else {
+          console.log(`Erro inesperado: ${error.response.status}`);
+        }
+      } else if (error.request) {
+        console.error("Sem resposta do servidor:", error.request);
+      } else {
+        console.error("Erro desconhecido:", error.message);
+      }
     }
   };
 
@@ -124,6 +164,8 @@ function useClients() {
     getClients,
     getClientByID,
     deleteClient,
+    setIsLoading,
+    isLoading,
     patchClient,
   };
 }

@@ -11,7 +11,7 @@ function useSupplierPf() {
 
       formData.append("json", JSON.stringify(json));
 
-      const response = await api.post("/supplierPf/cadastrar", formData);
+      const response = await api.post("/fornecedores/registro", formData);
 
       return response;
     } catch (error) {
@@ -58,7 +58,8 @@ function useSupplierPf() {
   const getSupplierPfById = async (id) => {
     try {
       //Colocando um endpoint genérico apenas para montar a estrutura
-      const response = await api.get(`/colabInterno/${id}`);
+      const response = await api.get(`/fornecedor/${id}`);
+      console.log(response);
 
       if (response.status === 200) {
         return response.data;
