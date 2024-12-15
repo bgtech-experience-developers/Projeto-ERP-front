@@ -10,35 +10,65 @@ import { HiEye, HiPencilAlt, HiTrash } from "react-icons/hi";
 import useClients from "../../../hooks/useClients";
 import { Title } from "../../../components/Texts/Title";
 import { Text } from "../../../components/Texts/Text";
+import { debounce } from "../../../utils/debounce";
 
 export const ClientTable = () => {
   // Estados de Interação
   const [fetchStatus, setFetchStatus] = React.useState(true);
   const [selectedItem, setSelectedItem] = React.useState("active");
-  const [isLoading, setIsLoading] = React.useState(false);
 
   // Estados de controle
-  const { getClients, deleteClient, getClientByID } = useClients();
+  const { getClients, deleteClient, getClientByID, isLoading } = useClients();
   const [clients, setClients] = React.useState([]);
+  const [searchClients, setSearchClients] = React.useState([]);
+  const [search, setSearch] = React.useState("");
+  const [page, setPage] = React.useState(1);
   const navigate = useNavigate();
 
-  // Função para buscar clientes
-  React.useEffect(() => {
-    const fetchClients = async () => {
-      setIsLoading(true);
-      try {
-        const data = await getClients(`?status=${fetchStatus}`);
+  // Funções para buscar clientes
+  const fetchClients = async () => {
+    try {
+      const data = await getClients(
+        `?status=${fetchStatus}&page=${page}&limit=10`
+      );
 
-        setClients(data);
+      setClients((prev) => {
+        const existingIds = prev.map((client) => client.id);
+        const newData = data.filter(
+          (client) => !existingIds.includes(client.id)
+        );
+        return [...prev, ...newData];
+      });
+    } catch (error) {
+      toast.error("Erro na busca de clientes.");
+      console.error("Erro na busca de clientes:", error);
+    }
+  };
+
+  const fetchClientsBySearch = React.useCallback(
+    debounce(async () => {
+      try {
+        const data = await getClients(
+          `filtragem/?status=${fetchStatus}&value=${search}`
+        );
+        setSearchClients(data);
       } catch (error) {
-        toast.error("Erro ao buscar clientes.");
-        console.error("Erro ao buscar clientes:", error);
-      } finally {
-        setIsLoading(false);
+        toast.error("Erro na busca filtrada de clientes.");
+        console.error("Erro na busca filtrada de clientes:", error);
       }
-    };
+    }, 500),
+    [search, fetchStatus]
+  );
+
+  React.useEffect(() => {
+    if (search) {
+      setPage(1);
+      fetchClientsBySearch();
+      return;
+    }
+    setSearchClients([]);
     fetchClients();
-  }, [fetchStatus]);
+  }, [search, page, fetchStatus]);
 
   // Alternar status entre "Ativo" e "Inativo"
   const toggleStatus = async (id) => {
@@ -76,6 +106,7 @@ export const ClientTable = () => {
   const handleEdit = async (row) => {
     try {
       const clientResponse = await getClientByID(row.original.id);
+      console.log(clientResponse);
 
       const clientResponseMap = clientFormMap(clientResponse);
 
@@ -88,7 +119,9 @@ export const ClientTable = () => {
     }
   };
 
-  const handleView = async (row) => {
+  const handleView = async (e, row) => {
+    console.log(e.currentTarget.dataset);
+
     try {
       const clientResponse = await getClientByID(row.original.id);
 
@@ -102,7 +135,7 @@ export const ClientTable = () => {
     }
   };
 
-  // Função responsável por envair os dados para o formulário de update
+  // Função responsável por enviar os dados para o formulário de update
   const clientFormMap = (clientResponse) => {
     const clientResponseMap = {
       imagens: [],
@@ -205,14 +238,18 @@ export const ClientTable = () => {
       { accessorKey: "branch_activity", header: "Ramo", size: 60 },
       { accessorKey: "name", header: "Contato" },
 
-      { accessorKey: "telefone", header: "Telefone" },
+      { accessorKey: "phone", header: "Telefone" },
 
       {
         header: "Opções",
         size: 30,
         cell: (props) => (
           <T.IconContainer>
-            <HiEye className="icon" onClick={() => handleView(props.row)} />
+            <HiEye
+              className="icon"
+              data-target="view"
+              onClick={(e) => handleView(e, props.row)}
+            />
 
             <HiTrash
               className="icon"
@@ -256,8 +293,12 @@ export const ClientTable = () => {
   return (
     <Table
       columns={columns}
-      data={clients}
+      data={searchClients.length > 0 ? searchClients : clients}
       isLoading={isLoading}
+      setPage={setPage}
+      page={page}
+      setSearch={setSearch}
+      search={search}
       filterModal={
         <Modal
           setSelectedItem={setSelectedItem}

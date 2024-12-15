@@ -11,6 +11,7 @@ export const Input = ({
   self,
   className,
   onChange,
+  onClick,
   height,
   value,
   width,
@@ -25,7 +26,9 @@ export const Input = ({
         <S._Input placeholder={placeholder} onChange={onChange} value={value} />
 
         <S.ControlContainer>
-          <S.SearchIconContainer>{children}</S.SearchIconContainer>
+          <S.SearchIconContainer onClick={onClick}>
+            {children}
+          </S.SearchIconContainer>
         </S.ControlContainer>
       </S.ExpandableInputContainer>
     );

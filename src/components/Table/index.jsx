@@ -33,13 +33,16 @@ export const Table = ({
   style,
   sort = true,
   header = true,
+  search,
+  setSearch,
+  setPage,
   isPagination = true,
   isLoading = false,
   filterModal,
   variant = "main-table",
 }) => {
   // Estados de interatividade
-  const [search, setSearch] = React.useState(false);
+  const [isSearch, setIsSearch] = React.useState(false);
   const { isActive } = React.useContext(SidebarContext);
 
   // Estados de funcionamento da tabela
@@ -47,6 +50,36 @@ export const Table = ({
     pageIndex: 0,
     pageSize: 5,
   });
+
+  const handleNextPage = () => {
+    if (!table.getCanNextPage()) return;
+
+    if (setPage) {
+      setPage((prev) => prev + 1);
+    }
+    table.nextPage();
+  };
+
+  const handlePreviousPage = () => {
+    if (!table.getCanPreviousPage()) return;
+    if (setPage) {
+      setPage((prev) => prev - 1);
+    }
+
+    table.previousPage();
+  };
+
+  const handleGlobalFilter = (e) => {
+    if (setSearch) {
+      setSearch(e.target.value);
+      setPagination((prev) => ({
+        ...prev,
+        pageIndex: 0,
+      }));
+      return;
+    }
+    table.setGlobalFilter(e.target.value);
+  };
 
   // Configuração dos dados da tabela
   const tableData = React.useMemo(() => (data?.length > 0 ? data : []), [data]);
@@ -94,7 +127,8 @@ export const Table = ({
   // Funções de interatividade
   function handleSearch(e) {
     e.stopPropagation();
-    setSearch(!search);
+
+    setIsSearch(!isSearch);
   }
 
   // Configurações da tabela, também demonstração
@@ -116,6 +150,7 @@ export const Table = ({
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     columnResizeMode: "onChange",
+    autoResetPageIndex: false,
     onPaginationChange: setPagination,
   });
 
@@ -132,10 +167,12 @@ export const Table = ({
             <Input
               variant="expandable-input"
               placeholder="Digite uma palavra chave..."
-              className={search ? "expand-input" : ""}
-              onChange={(e) => table.setGlobalFilter(e.target.value)}
+              value={search && search}
+              className={isSearch ? "expand-input" : ""}
+              onChange={handleGlobalFilter}
+              onClick={handleSearch}
             >
-              <IoSearch onClick={handleSearch} />
+              <IoSearch />
             </Input>
             {filterModal}
           </Header>
@@ -237,14 +274,14 @@ export const Table = ({
             {/* Páginação */}
             <Button
               variant="icon"
-              onClick={() => table.previousPage()}
+              onClick={handlePreviousPage}
               disabled={!table.getCanPreviousPage()}
             >
               <IoIosArrowBack />
             </Button>
             <Button
               variant="icon"
-              onClick={() => table.nextPage()}
+              onClick={handleNextPage}
               disabled={!table.getCanNextPage()}
             >
               <IoIosArrowForward />
