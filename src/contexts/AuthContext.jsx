@@ -9,6 +9,7 @@ export function AuthProvider({ children }) {
   const [userData, setUserData] = useState({});
   const navigate = useNavigate();
 
+
   const singIn = async (userData) => {
     try {
       const { cnpj, password } = userData;
@@ -31,12 +32,22 @@ export function AuthProvider({ children }) {
       console.log("refreshToken: ", refreshToken);
 
       console.log("Login realizado com sucesso!");
+      setAuth(true);
       navigate("/dashboard");
     } catch (error) {
       console.log("Erro ao realizar o login: ", error);
       window.alert("Não foi possível realizar o login");
     }
   };
+
+  React.useEffect(() => {
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      setAuth(true); // Certifique-se de que esta navegação seja feita na inicialização correta.
+    } else {
+      navigate("*");
+    }
+  }, [navigate]);  
 
   return (
     <AuthContext.Provider

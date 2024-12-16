@@ -1,4 +1,6 @@
-import  { useState, useEffect, useRef } from 'react';
+import Cookies from 'js-cookie';
+import { useState, useEffect, useRef } from 'react';
+import {jwtDecode} from 'jwt-decode';
 import { useAuth } from './useAuth';
 import { api } from '../services/instance';
 
@@ -7,47 +9,77 @@ export const useTokenRefresh = () => {
   const [refreshing, setRefreshing] = useState(false);
   const lastRefresh = useRef(0);
 
+  const isTokenExpired = (token) => {
+    try {
+      const decoded = jwtDecode(token);
+      const now = Date.now() / 1000; // Timestamp atual em segundos
+      const sevenDaysInSeconds = 7 * 24 * 60 * 60; 
+  
+      const expirationTime = decoded.iat + sevenDaysInSeconds;
+  
+      // Verifica se o token expirou
+      return now > expirationTime;
+    } catch (error) {
+      console.error('Erro ao decodificar o token:', error);
+      return true; // Se não for possível decodificar, vai ser expirado
+    }
+  };
+
   const refresh = async () => {
+    if (refreshing) {
+      console.log('Já está em andamento um refresh.');
+      return null;
+    }
+
+    const refreshToken = Cookies.get('refreshToken'); 
+    if (!refreshToken) {
+      console.error('Nenhum refresh token encontrado nos cookies.');
+      return null;
+    }
+
+    if (isTokenExpired(refreshToken)) {
+      console.error('Refresh token expirado. Usuário deve fazer login novamente.');
+      return null;
+    }
+
     const now = Date.now();
-    if (now - lastRefresh.current < 15000) { //Aqui vê se já passou 15seg
+    if (now - lastRefresh.current < 15000) {
       console.log('Refresh bloqueado: apenas 15 segundos de intervalo');
-      return;  // Se não passou de 15 não faz a requisição
+      return null;
     }
 
     try {
       setRefreshing(true);
-      const response = await api.get('/adm/refresh-token');
-      console.log('Resposta da api: ', response.data);
+      const response = await api.get('/adm/refresh-token', { refreshToken });
+      console.log('Resposta ao refresh:', response.data);
 
       const { accessToken, refreshToken: newRefreshToken } = response.data;
 
       // Atualiza o estado do token
-      setAuth(prev => ({
+      setAuth((prev) => ({
         ...prev,
         accessToken,
-        refreshToken: newRefreshToken
       }));
 
-      // Armazena token no localStorage
       localStorage.setItem('accessToken', accessToken);
+      Cookies.set('refreshToken', newRefreshToken, { path: '/', secure: true });
 
-      lastRefresh.current = now;  // Atualiza o tempo do ultimo refresh
+      lastRefresh.current = now; // Atualiza o tempo do último refresh
       setRefreshing(false);
       return accessToken;
-      
     } catch (error) {
-      console.error('Erro ao renovar token: ', error);
+      console.error('Erro ao renovar tokens:', error);
       setRefreshing(false);
       throw error;
     }
   };
 
-  // Executa o refresh a cada X minutos/horas/dias
   useEffect(() => {
-    const intervalId = setInterval(refresh, 100000);
-    return () => clearInterval(intervalId);  // Limpa o IntervalId quando o componente for desmontado
+    const intervalId = setInterval(refresh, 150000);
+    return () => clearInterval(intervalId);
   }, []);
 
-  return refresh;  
+  return refresh;
 };
+
 

@@ -18,7 +18,13 @@ export const Login = () => {
   const navigate = useNavigate();
   const { isAuth, singIn } = React.useContext(AuthContext);
 
-
+  React.useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    
+    if (token) {
+        navigate("/dashboard")
+    }
+  }, [navigate])
 
   function handleChanges( event ) {
     const { name, value } = event.target;
@@ -33,13 +39,6 @@ export const Login = () => {
     }
   }
 
-
-  React.useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-    if (token) {
-        navigate("/dashboard")
-    }
-  }, [navigate])
 
   return (
     <>

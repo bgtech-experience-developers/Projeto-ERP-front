@@ -9,7 +9,7 @@ export const PublicRoutes = () => {
     return (
         <Routes>
         <Route>
-            <Route path="/" element={<UserLogin/>}/>
+            <Route path="*" element={<UserLogin/>}/>
         </Route>
 
         </Routes>

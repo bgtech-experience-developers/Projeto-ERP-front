@@ -1,8 +1,9 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { Navigate } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 
-// import UserLogin from "../screens/Login";
+import UserLogin from "../screens/Login";
 
 // Estruturas
 import { Sidebar } from "../components/Sidebar";
@@ -29,10 +30,10 @@ import { PfSupplierTable, PjSupplierTable } from "../screens/Tables/supplier";
 // Outros
 // import { AuthProvider } from "../contexts/AuthContext";
 import { CreateSucess, UpdateSucess } from "../screens/RegisterSucess";
+import { Login } from "../components/Login";
 
 export const PrivateRoutes = () => {
     const { isAuth } = React.useContext(AuthContext);
-
      const { isActive, isHover } = React.useContext(SidebarContext);
 
     return ( 
@@ -48,7 +49,7 @@ export const PrivateRoutes = () => {
 
                                 <Content className={`${isHover && "open-hover"}`}>
                                     <InnerContent>
-                                        <Routes>
+                                    <Routes>
                                             {/* Falta criar o component de dashboard, deixei o h1 só para testar */}
                                             <Route
                                           path="/dashboard"
@@ -160,10 +161,10 @@ export const PrivateRoutes = () => {
                             </Layout>
                         }
                     />
-                        <Route path="/" element={<Navigate to="/home" />} />
+                        {/* <Route path="/home" element={<Navigate to="/home" />} /> */}
                 </>
             ) : (
-                <Navigate to="/login" />
+                <Route path="*" element={<UserLogin/>}/>
             )
             }
         </Routes>

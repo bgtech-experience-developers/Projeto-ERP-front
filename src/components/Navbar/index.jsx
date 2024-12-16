@@ -20,7 +20,7 @@ const navItems = [
     id: "Dashboard",
     img: Dashboard,
     span: "Dashboard",
-    route: "/home",
+    route: "/dashboard",
     options: [],
   },
   {

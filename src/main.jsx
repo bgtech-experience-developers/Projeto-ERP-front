@@ -12,7 +12,8 @@ createRoot(document.getElementById("root")).render(
     <SidebarProvider>
 
 
-    <App />
+           <App />
+           
     </SidebarProvider>
     </AuthProvider>
     </BrowserRouter>
