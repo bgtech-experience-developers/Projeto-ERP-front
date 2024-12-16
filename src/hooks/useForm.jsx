@@ -47,7 +47,6 @@ const types = {
 
 const useForm = () => {
   const [error, setError] = React.useState({});
-  const [allErrors, setAllErrors] = React.useState({});
 
   function validate(field, value) {
     if (value.length === 0) {
@@ -123,14 +122,14 @@ const useForm = () => {
     return Object.keys(newErrors).length > 0;
   }
 
-  return [
+  return {
     validateAllFields,
     mask,
     onBlur,
     removeErrorOnChange,
     error,
     setError,
-  ];
+  };
 };
 
 export default useForm;

@@ -1,51 +1,51 @@
 // Interno
 
-import { SpanError } from "../style";
-import useForm from "../../../hooks/useForm";
-import { Card } from "../../../components/Forms/Card";
-import { Form } from "../../../components/Forms/Form";
-import { Button } from "../../../components/Forms/Button";
-import { Input } from "../../../components/Forms/Inputs/Input";
-import { FileInput } from "../../../components/Forms/Inputs/File";
-import { FormsField } from "../../../components/Forms/FormsField";
+import { SpanError } from '../style';
+import useForm from '../../../hooks/useForm';
+import { Card } from '../../../components/Forms/Card';
+import { Form } from '../../../components/Forms/Form';
+import { Button } from '../../../components/Forms/Button';
+import { Input } from '../../../components/Forms/Inputs/Input';
+import { FileInput } from '../../../components/Forms/Inputs/File';
+import { FormsField } from '../../../components/Forms/FormsField';
 // Externo
 
-import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 export const RegisterSupplierPF = () => {
   const { state } = useLocation();
 
-  const [mask, onBlur, onChange, error] = useForm();
+  const { mask, onBlur, onChange, error } = useForm();
   const [formValues, setFormValues] = useState({
     supplier: {
-      name: "",
-      code: "",
-      email: "",
-      phone: "",
-      cell_phone: "",
-      rg: "",
-      cpf: "",
-      birth_date: "",
-      imagem: "",
+      name: '',
+      code: '',
+      email: '',
+      phone: '',
+      cell_phone: '',
+      rg: '',
+      cpf: '',
+      birth_date: '',
+      imagem: '',
       // Adicionar no futuro
-      state: "",
+      state: '',
     },
     product: {
-      name: "",
-      price: "",
-      deadline: "",
-      stock: "",
-      tax: "",
+      name: '',
+      price: '',
+      deadline: '',
+      stock: '',
+      tax: '',
     },
     address: {
-      cep: "",
-      street: "",
-      number: "",
-      complement: "",
-      city: "",
-      neighborhood: "",
-      state: "",
+      cep: '',
+      street: '',
+      number: '',
+      complement: '',
+      city: '',
+      neighborhood: '',
+      state: '',
     },
   });
 
@@ -54,7 +54,7 @@ export const RegisterSupplierPF = () => {
   const [errorImage, setErrorImage] = useState(false);
 
   function handleImage({ target }) {
-    const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
     const file = target.files[0];
     const id = target.id;
 
@@ -86,12 +86,12 @@ export const RegisterSupplierPF = () => {
   function handleRemove() {
     setFormValues({
       ...formValues,
-      fotos: "",
+      fotos: '',
     });
   }
 
   return (
-    <Form title={"Editar Fornecedor"}>
+    <Form title={'Editar Fornecedor'}>
       <Card>
         <FormsField variant="file" align="flex-end">
           <FormsField>
@@ -100,7 +100,7 @@ export const RegisterSupplierPF = () => {
               id="supplier_name"
               height="4.8rem"
               value={formValues.supplier_name}
-              onChange={handleInputChange("supplier")}
+              onChange={handleInputChange('supplier')}
               onBlur={onBlur}
             >
               Nome do fornecedor
@@ -111,7 +111,7 @@ export const RegisterSupplierPF = () => {
               id="code"
               name="code"
               value={formValues.supplier_code}
-              onChange={handleInputChange("supplier")}
+              onChange={handleInputChange('supplier')}
               onBlur={onBlur}
               height="4.8rem"
             >
@@ -120,7 +120,7 @@ export const RegisterSupplierPF = () => {
             </Input>
           </FormsField>
           <FileInput
-            id={"fotoProduto"}
+            id={'fotoProduto'}
             error={errorImage}
             image={formValues.supplier_imagem}
             handleRemove={handleRemove}
@@ -136,7 +136,7 @@ export const RegisterSupplierPF = () => {
             id="email"
             name="email"
             value={formValues.email}
-            onChange={handleInputChange("supplier")}
+            onChange={handleInputChange('supplier')}
             onBlur={onBlur}
             height="4.8rem"
             type="email"
@@ -148,7 +148,7 @@ export const RegisterSupplierPF = () => {
             id="cell_phone"
             name="cell_phone"
             value={formValues.cell_phone}
-            onChange={handleInputChange("supplier")}
+            onChange={handleInputChange('supplier')}
             onBlur={onBlur}
             height="4.8rem"
           >
@@ -162,7 +162,7 @@ export const RegisterSupplierPF = () => {
             id="rg"
             name="rg"
             value={formValues.rg}
-            onChange={handleInputChange("supplier")}
+            onChange={handleInputChange('supplier')}
             onBlur={onBlur}
             height="4.8rem"
           >
@@ -173,7 +173,7 @@ export const RegisterSupplierPF = () => {
             id="cpf"
             name="cpf"
             value={formValues.cpf}
-            onChange={handleInputChange("supplier")}
+            onChange={handleInputChange('supplier')}
             onBlur={onBlur}
             height="4.8rem"
           >
@@ -184,7 +184,7 @@ export const RegisterSupplierPF = () => {
             id="date_of_birth"
             name="date_of_birth"
             value={formValues.birth_date}
-            onChange={handleInputChange("supplier")}
+            onChange={handleInputChange('supplier')}
             height="4.8rem"
             type="date"
           >
@@ -196,10 +196,10 @@ export const RegisterSupplierPF = () => {
           type="select"
           id="produto"
           height="4.8rem"
-          onChange={handleInputChange("supplier")}
+          onChange={handleInputChange('supplier')}
           options={[
-            { value: "opcao2", label: "Produto 1" },
-            { value: "opcao3", label: "Produto 2" },
+            { value: 'opcao2', label: 'Produto 1' },
+            { value: 'opcao3', label: 'Produto 2' },
           ]}
           value={formValues.product.name}
         >
@@ -235,7 +235,7 @@ export const RegisterSupplierPF = () => {
           id="deadline"
           name="deadline"
           value={formValues.product.deadline}
-          onChange={handleInputChange("supplier")}
+          onChange={handleInputChange('supplier')}
           onBlur={onBlur}
           height="4.8rem"
         >
@@ -249,7 +249,7 @@ export const RegisterSupplierPF = () => {
             id="street"
             name="street"
             value={formValues.address.street}
-            onChange={handleInputChange("address")}
+            onChange={handleInputChange('address')}
             onBlur={onBlur}
             height="4.8rem"
           >
@@ -260,7 +260,7 @@ export const RegisterSupplierPF = () => {
             id="number"
             name="number"
             value={formValues.address.number}
-            onChange={handleInputChange("address")}
+            onChange={handleInputChange('address')}
             onBlur={onBlur}
             height="4.8rem"
           >
@@ -271,7 +271,7 @@ export const RegisterSupplierPF = () => {
             id="cep"
             name="cep"
             value={formValues.address.cep}
-            onChange={handleInputChange("address")}
+            onChange={handleInputChange('address')}
             onBlur={onBlur}
             height="4.8rem"
           >
@@ -284,7 +284,7 @@ export const RegisterSupplierPF = () => {
           id="complement"
           name="complement"
           value={formValues.address.complement}
-          onChange={handleInputChange("address")}
+          onChange={handleInputChange('address')}
           height="4.8rem"
         >
           Complemento
@@ -295,7 +295,7 @@ export const RegisterSupplierPF = () => {
             id="neighborhood"
             name="neighborhood"
             value={formValues.address.neighborhood}
-            onChange={handleInputChange("address")}
+            onChange={handleInputChange('address')}
             onBlur={onBlur}
             height="4.8rem"
           >
@@ -307,7 +307,7 @@ export const RegisterSupplierPF = () => {
             id="city"
             name="city"
             value={formValues.address.city}
-            onChange={handleInputChange("address")}
+            onChange={handleInputChange('address')}
             onBlur={onBlur}
             height="4.8rem"
           >
