@@ -12,11 +12,13 @@ import { FormsField } from '../../../components/Forms/FormsField';
 
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import Checkbox from '../../../components/Forms/Inputs/Checkbox';
 
-export const RegisterSupplierPF = () => {
+export const UpdateSupplier = () => {
   const { state } = useLocation();
+  console.log('olá');
 
-  const { mask, onBlur, onChange, error } = useForm();
+  const { mask, onBlur, removeErrorOnChange, error } = useForm();
   const [formValues, setFormValues] = useState({
     supplier: {
       name: '',
@@ -72,7 +74,7 @@ export const RegisterSupplierPF = () => {
 
   const handleInputChange = (field) => (event) => {
     const { name, value } = event.target;
-    onChange(name);
+    removeErrorOnChange(name);
 
     setFormValues({
       ...formValues,
@@ -108,15 +110,16 @@ export const RegisterSupplierPF = () => {
             </Input>
 
             <Input
-              id="code"
-              name="code"
-              value={formValues.supplier_code}
+              id="email"
+              name="email"
+              value={formValues.email}
               onChange={handleInputChange('supplier')}
               onBlur={onBlur}
               height="4.8rem"
+              type="email"
             >
-              Código do fornecedor
-              {error.code && <SpanError>{error.code}</SpanError>}
+              Email
+              {error.email && <SpanError>{error.email}</SpanError>}
             </Input>
           </FormsField>
           <FileInput
@@ -132,18 +135,6 @@ export const RegisterSupplierPF = () => {
         </FormsField>
 
         <FormsField variant="double">
-          <Input
-            id="email"
-            name="email"
-            value={formValues.email}
-            onChange={handleInputChange('supplier')}
-            onBlur={onBlur}
-            height="4.8rem"
-            type="email"
-          >
-            Email
-            {error.email && <SpanError>{error.email}</SpanError>}
-          </Input>
           <Input
             id="cell_phone"
             name="cell_phone"
@@ -191,56 +182,6 @@ export const RegisterSupplierPF = () => {
             Data de nascimento
           </Input>
         </FormsField>
-
-        <Input
-          type="select"
-          id="produto"
-          height="4.8rem"
-          onChange={handleInputChange('supplier')}
-          options={[
-            { value: 'opcao2', label: 'Produto 1' },
-            { value: 'opcao3', label: 'Produto 2' },
-          ]}
-          value={formValues.product.name}
-        >
-          Produto
-        </Input>
-
-        <FormsField variant="double">
-          <Input
-            id="price"
-            name="price"
-            value={formValues.product.price}
-            onChange={handleInputChange}
-            onBlur={onBlur}
-            height="4.8rem"
-          >
-            Preço
-            {error.price && <SpanError>{error.price}</SpanError>}
-          </Input>
-          <Input
-            id="tax"
-            name="tax"
-            value={formValues.product.tax}
-            onChange={handleInputChange}
-            onBlur={onBlur}
-            height="4.8rem"
-          >
-            Imposto sobre compra
-            {error.tax && <SpanError>{error.tax}</SpanError>}
-          </Input>
-        </FormsField>
-
-        <Input
-          id="deadline"
-          name="deadline"
-          value={formValues.product.deadline}
-          onChange={handleInputChange('supplier')}
-          onBlur={onBlur}
-          height="4.8rem"
-        >
-          Tempo de entrega
-        </Input>
       </Card>
 
       <Card title="Endereço do fornecedor">
@@ -314,6 +255,22 @@ export const RegisterSupplierPF = () => {
             Cidade
             {error.city && <SpanError>{error.city}</SpanError>}
           </Input>
+        </FormsField>
+
+        <Input
+          id="state"
+          name="state"
+          value={formValues.address.state}
+          onChange={handleInputChange('address')}
+          onBlur={onBlur}
+          height="4.8rem"
+        >
+          Estado
+          {error.city && <SpanError>{error.state}</SpanError>}
+        </Input>
+
+        <FormsField>
+          <Checkbox text={'Sim, desativar'} />
         </FormsField>
       </Card>
       <Card>

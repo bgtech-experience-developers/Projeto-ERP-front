@@ -1,20 +1,20 @@
-import React from "react";
+import React from 'react';
 // Internos
-import * as T from "../../../components/Table/style";
-import useSupplierPf from "../../../hooks/useSupplierPf";
-import useSupplierPj from "../../../hooks/useSupplierPj";
-import { Table } from "../../../components/Table";
-import { Modal } from "../../../components/Modal";
-import { Title } from "../../../components/Texts/Title";
-import { Text } from "../../../components/Texts/Text";
+import * as T from '../../../components/Table/style';
+import useSupplierPf from '../../../hooks/useSupplierPf';
+import useSupplierPj from '../../../hooks/useSupplierPj';
+import { Table } from '../../../components/Table';
+import { Modal } from '../../../components/Modal';
+import { Title } from '../../../components/Texts/Title';
+import { Text } from '../../../components/Texts/Text';
 //Externos
-import { NavLink, useNavigate } from "react-router-dom";
-import { HiEye, HiPencilAlt, HiTrash } from "react-icons/hi";
-import { MdOutlineFilterList, MdOutlineFilterListOff } from "react-icons/md";
+import { NavLink, useNavigate } from 'react-router-dom';
+import { HiEye, HiPencilAlt, HiTrash } from 'react-icons/hi';
+import { MdOutlineFilterList, MdOutlineFilterListOff } from 'react-icons/md';
 
 export const PfSupplierTable = () => {
   // Estados de interação
-  const [selectedItem, setSelectedItem] = React.useState("active");
+  const [selectedItem, setSelectedItem] = React.useState('active');
   const [isLoading, setIsLoading] = React.useState(false);
   const [fetchStatus, setFetchStatus] = React.useState(true);
 
@@ -34,14 +34,14 @@ export const PfSupplierTable = () => {
       setSupplierPF((prev) => {
         const existingIds = prev.map((supplier) => supplier.id);
         const newData = data.filter(
-          (supplier) => !existingIds.includes(supplier.id)
+          (supplier) => !existingIds.includes(supplier.id),
         );
 
         return [...prev, ...newData];
       });
     } catch (error) {
-      toast.error("Erro na busca de fornecedores.");
-      console.error("Erro na busca de fornecedores: ", error);
+      toast.error('Erro na busca de fornecedores.');
+      console.error('Erro na busca de fornecedores: ', error);
     } finally {
       setIsLoading(false);
     }
@@ -54,16 +54,16 @@ export const PfSupplierTable = () => {
   //? Ârea funcional
   const handleDelete = async (id) => {
     const confirmDelete = window.confirm(
-      "Tem certeza que deseja excluir esse cadastro?"
+      'Tem certeza que deseja excluir esse cadastro?',
     );
     if (confirmDelete) {
       try {
         await deleteSupplierPf(id);
         setSupplierPF((prev) => prev.filter((supplier) => supplier.id !== id));
-        toast.success("Fornecedor excluído com sucesso!");
+        toast.success('Fornecedor excluído com sucesso!');
       } catch (error) {
-        toast.error("Erro ao excluir o fornecedor.");
-        console.error("Erro ao deletar fornecedor:", error);
+        toast.error('Erro ao excluir o fornecedor.');
+        console.error('Erro ao deletar fornecedor:', error);
       }
     }
   };
@@ -72,11 +72,11 @@ export const PfSupplierTable = () => {
     try {
       const data = await getSupplierPfById(row.original.id);
       const supplierResponse = supplierFormMap(data);
-      // navigate("/cadastrar/fornecedor/pessoa/fisica/editar", {
-      //   state: { clients: row.original },
-      // });
+      navigate('/cadastrar/fornecedor/pessoa/fisica/editar', {
+        state: { clients: row.original },
+      });
     } catch (error) {
-      console.error("Erro ao buscar fornecedor:", error.message);
+      console.error('Erro ao buscar fornecedor:', error.message);
     }
   };
 
@@ -88,16 +88,16 @@ export const PfSupplierTable = () => {
   };
 
   const columns = React.useMemo(() => [
-    { accessorKey: "supplier_name", header: "Nome do fornecedor", size: 200 },
+    { accessorKey: 'supplier_name', header: 'Nome do fornecedor', size: 200 },
     // { header: "Produto", accessorKey: "product_supplier_pf", size: 50 },
-    { accessorKey: "email", header: "Email", size: 200 },
-    { accessorKey: "phone", header: "Telefone", size: 100 },
+    { accessorKey: 'email', header: 'Email', size: 200 },
+    { accessorKey: 'phone', header: 'Telefone', size: 100 },
     {
-      header: "Opções",
+      header: 'Opções',
       cell: (props) => (
         <T.IconContainer>
           {/* Trocar rota */}
-          <NavLink to={"/home"}>
+          <NavLink to={'/home'}>
             <HiEye className="icon" />
           </NavLink>
           <HiTrash
@@ -114,23 +114,23 @@ export const PfSupplierTable = () => {
     {
       id: 1,
       icon: <MdOutlineFilterListOff />,
-      text: "Limpar Filtros",
-      value: "clear",
-      query: "",
+      text: 'Limpar Filtros',
+      value: 'clear',
+      query: '',
     },
     {
       id: 2,
       icon: <MdOutlineFilterList />,
-      text: "Filtrar por ativos",
-      value: "active",
-      query: "true",
+      text: 'Filtrar por ativos',
+      value: 'active',
+      query: 'true',
     },
     {
       id: 3,
       icon: <MdOutlineFilterList />,
-      text: "Filtrar por Inativos",
-      value: "inactive",
-      query: "false",
+      text: 'Filtrar por Inativos',
+      value: 'inactive',
+      query: 'false',
     },
   ];
 
@@ -168,7 +168,7 @@ export const PfSupplierTable = () => {
 
 export const PjSupplierTable = () => {
   // Estados de interação
-  const [selectedItem, setSelectedItem] = React.useState("active");
+  const [selectedItem, setSelectedItem] = React.useState('active');
   const [isLoading, setIsLoading] = React.useState(false);
   const [fetchStatus, setFetchStatus] = React.useState(true);
 
@@ -184,8 +184,8 @@ export const PjSupplierTable = () => {
 
       setSupplierPj(data);
     } catch (error) {
-      toast.error("Erro ao buscar fornecedores.");
-      console.error("Erro na busca de fornecedores: ", error);
+      toast.error('Erro ao buscar fornecedores.');
+      console.error('Erro na busca de fornecedores: ', error);
     } finally {
       setIsLoading(false);
     }
@@ -198,22 +198,22 @@ export const PjSupplierTable = () => {
 
   const handleDelete = async (id) => {
     const confirmDelete = window.confirm(
-      "Tem certeza que deseja excluir esse cadastro?"
+      'Tem certeza que deseja excluir esse cadastro?',
     );
     if (confirmDelete) {
       try {
         await deleteSupplierPj(id);
         setClients((prev) => prev.filter((client) => client.id !== id));
-        toast.success("Cliente excluído com sucesso!");
+        toast.success('Cliente excluído com sucesso!');
       } catch (error) {
-        toast.error("Erro ao excluir o fornecedor.");
-        console.error("Erro ao deletar fornecedor:", error);
+        toast.error('Erro ao excluir o fornecedor.');
+        console.error('Erro ao deletar fornecedor:', error);
       }
     }
   };
 
   const handleEdit = (row) => {
-    navigate("/cadastrar/fornecedor/pessoa/juridica/editar", {
+    navigate('cadastrar/fornecedor/pessoa/juridica/editar', {
       state: { clients: row.original },
     });
   };
@@ -221,26 +221,26 @@ export const PjSupplierTable = () => {
   // Atualizar accessorKey de acordo com os dados do backend
   const columns = React.useMemo(
     () => [
-      { header: "Nome", accessorKey: "nome" },
-      { header: "Email", accessorKey: "email" },
-      { header: "RG", accessorKey: "rg" },
-      { header: "CPF", accessorKey: "cpf" },
-      { header: "Nascimento", accessorKey: "nascimento" },
-      { header: "Tipo", accessorKey: "tipo" },
-      { header: "Situação", accessorKey: "situacao" },
-      { header: "CEP", accessorKey: "cep" },
-      { header: "Logradouro", accessorKey: "logradouro" },
-      { header: "Número", accessorKey: "numero" },
-      { header: "Bairro", accessorKey: "bairro" },
-      { header: "Cidade", accessorKey: "cidade" },
-      { header: "Telefone", accessorKey: "telefone" },
-      { header: "Celular", accessorKey: "celular" },
+      { header: 'Nome', accessorKey: 'nome' },
+      { header: 'Email', accessorKey: 'email' },
+      { header: 'RG', accessorKey: 'rg' },
+      { header: 'CPF', accessorKey: 'cpf' },
+      { header: 'Nascimento', accessorKey: 'nascimento' },
+      { header: 'Tipo', accessorKey: 'tipo' },
+      { header: 'Situação', accessorKey: 'situacao' },
+      { header: 'CEP', accessorKey: 'cep' },
+      { header: 'Logradouro', accessorKey: 'logradouro' },
+      { header: 'Número', accessorKey: 'numero' },
+      { header: 'Bairro', accessorKey: 'bairro' },
+      { header: 'Cidade', accessorKey: 'cidade' },
+      { header: 'Telefone', accessorKey: 'telefone' },
+      { header: 'Celular', accessorKey: 'celular' },
       {
-        header: "Opções",
+        header: 'Opções',
         cell: (props) => (
           <T.IconContainer>
             {/* Trocar rota */}
-            <NavLink to={"/home"}>
+            <NavLink to={'/home'}>
               <HiEye className="icon" />
             </NavLink>
             <HiTrash
@@ -255,30 +255,30 @@ export const PjSupplierTable = () => {
         ),
       },
     ],
-    []
+    [],
   );
 
   const filterModalItens = [
     {
       id: 1,
       icon: <MdOutlineFilterListOff />,
-      text: "Limpar Filtros",
-      value: "clear",
-      query: "",
+      text: 'Limpar Filtros',
+      value: 'clear',
+      query: '',
     },
     {
       id: 2,
       icon: <MdOutlineFilterList />,
-      text: "Filtrar por ativos",
-      value: "active",
-      query: "true",
+      text: 'Filtrar por ativos',
+      value: 'active',
+      query: 'true',
     },
     {
       id: 3,
       icon: <MdOutlineFilterList />,
-      text: "Filtrar por Inativos",
-      value: "inactive",
-      query: "false",
+      text: 'Filtrar por Inativos',
+      value: 'inactive',
+      query: 'false',
     },
   ];
 
