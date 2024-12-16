@@ -16,11 +16,19 @@ function App() {
   const { isAuth } = React.useContext(AuthContext)
   return (
     <>
+<<<<<<< HEAD
 
         <ThemeProvider theme={theme}>
             {isAuth ? <PrivateRoutes/> : <PublicRoutes/>}
         </ThemeProvider>
 
+=======
+      <ThemeProvider theme={theme}>
+        <SidebarProvider>
+          <AppRoutes />
+        </SidebarProvider>
+      </ThemeProvider>
+>>>>>>> a19dcdd3a6bb57f85bb0f000c5e4b4b61af440ff
     </>
   );
 }

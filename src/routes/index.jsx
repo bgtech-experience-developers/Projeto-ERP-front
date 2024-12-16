@@ -9,8 +9,13 @@
 // // Dashboards
 // import { ClientDashboard } from "../screens/Dashboards/client";
 
+<<<<<<< HEAD
 // // Updates
 // import { UpdateClients } from "../screens/UpdateClients";
+=======
+// Updates
+import { UpdateClients } from "../screens/Updates/client";
+>>>>>>> a19dcdd3a6bb57f85bb0f000c5e4b4b61af440ff
 
 // // Registers
 // import {

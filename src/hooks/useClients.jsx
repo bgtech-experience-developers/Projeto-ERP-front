@@ -1,71 +1,135 @@
 import React from "react";
-import { client } from "../services/instance";
-import axios from "axios";
+import { api } from "../services/instance";
 import { useNavigate } from "react-router-dom";
 
 function useClients() {
+  const token = localStorage.getItem("accessToken");
+  const [isLoading, setIsLoading] = React.useState(false);
   const navigate = useNavigate();
 
   const postClient = async (json, formPhotos) => {
     try {
-      // Lógica de guardar a imagem
+      // Verifique se as fotos e o JSON estão definidos
+      if (!json || !formPhotos || formPhotos.length === 0) {
+        throw new Error("Dados inválidos: JSON ou fotos não fornecidos.");
+      }
+
+      // Criação do FormData
       const formData = new FormData();
 
-      formPhotos?.forEach((photo) => {
+      // Adicionando as fotos ao FormData
+      formPhotos.forEach((photo) => {
         formData.append("photos", photo);
       });
 
-      // Lógica de guardar o JSON
+      // Adicionando o JSON ao FormData
       formData.append("json", JSON.stringify(json));
 
-      const response = await client.post("/clientes/registro", formData);
+      console.log("photos: ", formData.getAll("photos"));
+      console.log("json: ", formData.get("json"));
 
+      // Enviando a requisição
+      const response = await api.post("/clientes/registro", formData);
+
+      // Redirecionamento após sucesso
       navigate("/cadastrar/cliente/novo/sucesso");
 
-      console.log(response);
+      return response;
     } catch (error) {
-      console.error(error);
-      return error;
+      // Em caso de erro, loga uma mensagem mais clara
+      console.error("Erro ao enviar os dados do cliente:", error);
+
+      // Pode retornar o erro com uma mensagem mais amigável
+      return {
+        error: error.message || "Erro desconhecido ao registrar o cliente",
+      };
     }
   };
 
   const getClients = async (extraUrl) => {
+    const loadingTimer = setTimeout(() => {
+      setIsLoading(true);
+    }, 300);
     try {
-      // API original
-
-      const response = await client.get(`/clientes/${extraUrl}`);
+      const response = await api.get(`/clientes/${extraUrl}`);
 
       if (response.status === 200) {
         return response.data;
+      } else if (response.status === 204) {
+        console.log("Nenhum Cleinte encontrado.");
+      } else {
+        console.log(`Status inesperado: ${response.status}`);
       }
-      return "Não foi possível trazes os dados do cliente";
     } catch (error) {
-      console.error(error);
-      return error;
+      if (error.response) {
+        console.error(
+          "Erro do servidor: ",
+          error.response.status,
+          error.response.data
+        );
+        if (error.response.status === 404) {
+          console.log("Endpoint não encontrado (404). Verifique a URL.");
+        } else if (error.response.status === 500) {
+          console.log(
+            "Erro interno do servidor (500). Tente novamente mais tarde."
+          );
+        } else {
+          console.log(`Erro inesperado: ${error.response.status}`);
+        }
+      } else if (error.request) {
+        console.error("Sem resposta do servidor:", error.request);
+      } else {
+        console.error("Erro desconhecido:", error.message);
+      }
+    } finally {
+      clearTimeout(loadingTimer);
+      setIsLoading(false);
     }
   };
 
   const getClientByID = async (id) => {
     try {
-      // API original
-      const { data } = await client.get(`clientes/${id}`);
+      //Colocando um endpoint genérico apenas para montar a estrutura
+      const response = await api.get(`/clientes/${id}`);
 
-      // Teste na minha mock (Carlos)
-      // const { data } = await client.get(`/api/cliente/${id}`);
-
-      if (data) {
-        return data;
+      if (response.status === 200) {
+        return response.data;
+      } else if (response.status === 204) {
+        console.log(`Nenhum colaborador encontrado com o ID ${id}.`);
+      } else {
+        console.log(`Status inesperado: ${response.status}`);
       }
-      return "Não foi possível trazes os dados do cliente";
     } catch (error) {
-      console.error(error);
-      return error;
+      if (error.response) {
+        console.error("Erro ao buscar colaboradores: ", error);
+        if (error.response.status === 404) {
+          console.log(`Colaborador com o ID ${id} não foi encontrado (404).`);
+        } else if (error.response.status === 400) {
+          console.log(
+            "Requisição inválida. Verifique se o ID está correto (400)."
+          );
+        } else if (error.response.status === 500) {
+          console.log(
+            "Erro interno do servidor (500). Tente novamente mais tarde."
+          );
+        } else {
+          console.log(`Erro inesperado: ${error.response.status}`);
+        }
+      } else if (error.request) {
+        console.error("Sem resposta do servidor:", error.request);
+      } else {
+        console.error("Erro desconhecido:", error.message);
+      }
     }
   };
 
   const deleteClient = async (id) => {
     try {
-      const data = await client.delete(`/clientes/remover/${id}`);
+      const data = await api.delete(`/clientes/remover/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       return data;
     } catch (error) {
@@ -75,6 +139,9 @@ function useClients() {
   };
 
   const patchClient = async (id, updatedInfo, updatePhoto) => {
+    console.log("info: ", updatedInfo);
+    console.log("photos: ", updatePhoto);
+
     try {
       const formData = new FormData();
       formData.append("json", JSON.stringify(updatedInfo));
@@ -84,7 +151,7 @@ function useClients() {
       });
 
       const endpoint = `/clientes/atualizar/${id}`;
-      const { data } = await client.patch(endpoint, formData);
+      const { data } = await api.patch(endpoint, formData);
 
       navigate("/cadastrar/cliente/editar/sucesso");
     } catch (error) {
@@ -97,6 +164,8 @@ function useClients() {
     getClients,
     getClientByID,
     deleteClient,
+    setIsLoading,
+    isLoading,
     patchClient,
   };
 }

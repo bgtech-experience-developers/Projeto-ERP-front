@@ -1,7 +1,7 @@
 import React from "react";
 // Internos
 import * as T from "../../../components/Table/style";
-import useSupplierPf from "../../../hooks/useSupplier";
+import useSupplierPf from "../../../hooks/useSupplierPf";
 import useSupplierPj from "../../../hooks/useSupplierPj";
 import { Table } from "../../../components/Table";
 import { Modal } from "../../../components/Modal";
@@ -18,19 +18,27 @@ export const PfSupplierTable = () => {
   const [isLoading, setIsLoading] = React.useState(false);
   const [fetchStatus, setFetchStatus] = React.useState(true);
 
-  // Estados de controile
+  // Estados de controle
   const [supplierPF, setSupplierPF] = React.useState([]);
-  const { getSupplierPf, deleteSupplierPf } = useSupplierPf();
+  const [page, setPage] = React.useState(1);
+  const { getSupplierPf, deleteSupplierPf, getSupplierPfById } =
+    useSupplierPf();
   const navigate = useNavigate();
 
   // Função para buscar todos os fornecedores pessoa física
   const fetchSupplierPF = async () => {
+    setIsLoading(true);
     try {
-      setIsLoading(true);
+      const data = await getSupplierPf(`?page=${page}`);
 
-      const data = await getSupplierPf(`?status=${fetchStatus}`);
+      setSupplierPF((prev) => {
+        const existingIds = prev.map((supplier) => supplier.id);
+        const newData = data.filter(
+          (supplier) => !existingIds.includes(supplier.id)
+        );
 
-      setSupplierPF(data);
+        return [...prev, ...newData];
+      });
     } catch (error) {
       toast.error("Erro na busca de fornecedores.");
       console.error("Erro na busca de fornecedores: ", error);
@@ -41,9 +49,9 @@ export const PfSupplierTable = () => {
 
   React.useEffect(() => {
     fetchSupplierPF();
-  }, []);
+  }, [page]);
 
-  // Deletar (atualizado)
+  //? Ârea funcional
   const handleDelete = async (id) => {
     const confirmDelete = window.confirm(
       "Tem certeza que deseja excluir esse cadastro?"
@@ -60,17 +68,30 @@ export const PfSupplierTable = () => {
     }
   };
 
-  const handleEdit = (row) => {
-    navigate("/cadastrar/fornecedor/pessoa/fisica/editar", {
-      state: { clients: row.original },
-    });
+  const handleEdit = async (row) => {
+    try {
+      const data = await getSupplierPfById(row.original.id);
+      const supplierResponse = supplierFormMap(data);
+      // navigate("/cadastrar/fornecedor/pessoa/fisica/editar", {
+      //   state: { clients: row.original },
+      // });
+    } catch (error) {
+      console.error("Erro ao buscar fornecedor:", error.message);
+    }
+  };
+
+  // Lógica de enviar os dados para outros componentes
+  const supplierFormMap = (supplierResponse) => {
+    console.log(supplierResponse);
+
+    const supplierResponseMap = {};
   };
 
   const columns = React.useMemo(() => [
-    { header: "Nome do fornecedor", accessorKey: "nomeFornecedor", size: 200 },
-    { header: "Produto", accessorKey: "produto", size: 50 },
-    { header: "Email", accessorKey: "emailFornecedor", size: 200 },
-    { header: "Telefone", accessorKey: "telefoneFornecedor", size: 100 },
+    { accessorKey: "supplier_name", header: "Nome do fornecedor", size: 200 },
+    // { header: "Produto", accessorKey: "product_supplier_pf", size: 50 },
+    { accessorKey: "email", header: "Email", size: 200 },
+    { accessorKey: "phone", header: "Telefone", size: 100 },
     {
       header: "Opções",
       cell: (props) => (
@@ -117,6 +138,8 @@ export const PfSupplierTable = () => {
     <Table
       columns={columns}
       data={supplierPF}
+      setPage={setPage}
+      page={page}
       isLoading={isLoading}
       filterModal={
         <Modal
@@ -195,7 +218,6 @@ export const PjSupplierTable = () => {
     });
   };
 
-  // Atualizar accessorKey de acordo com os dados do backend
   // Atualizar accessorKey de acordo com os dados do backend
   const columns = React.useMemo(
     () => [

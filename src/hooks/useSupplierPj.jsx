@@ -1,4 +1,4 @@
-import { supplierPj } from "../services/instance";
+import { api } from "../services/instance";
 
 function useSupplierPj() {
   const postSupplierPj = async (json, formPhotos) => {
@@ -11,7 +11,7 @@ function useSupplierPj() {
 
       formData.append("json", JSON.stringify(json));
 
-      const response = await supplierPj.post("/supplierPj/cadastrar", formData);
+      const response = await api.post("/supplierPj/cadastrar", formData);
 
       return response;
     } catch (error) {
@@ -22,7 +22,7 @@ function useSupplierPj() {
 
   const getSupplierPj = async (extraURL) => {
     try {
-      const { data } = await supplierPj.get(`/supplierPj/${extraURL}`);
+      const { data } = await api.get(`/supplierPj/${extraURL}`);
       return data;
     } catch (error) {
       console.error(error);
@@ -32,7 +32,7 @@ function useSupplierPj() {
 
   const getSupplierPjById = async (id) => {
     try {
-      const { data } = await supplierPj.get(`/supplierPj/${id}`);
+      const { data } = await api.get(`/supplierPj/${id}`);
       return data;
     } catch (error) {
       console.error(error);
@@ -42,7 +42,7 @@ function useSupplierPj() {
 
   const deleteSupplierPj = async (id) => {
     try {
-      const data = await supplierPj.delete(`/supplierPj/${id}`);
+      const data = await api.delete(`/supplierPj/${id}`);
       return data;
     } catch (error) {
       console.error(error);

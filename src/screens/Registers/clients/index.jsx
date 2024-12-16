@@ -13,7 +13,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export const RegisterClients = () => {
-  const [validateAllFields, mask, onBlur, removeErrorOnChange, error] =
+  const { validateAllFields, mask, onBlur, removeErrorOnChange, error } =
     useForm();
   const notify = (message, type) => {
     toast[type](message, {
