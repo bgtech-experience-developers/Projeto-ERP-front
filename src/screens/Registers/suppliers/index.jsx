@@ -335,7 +335,7 @@ export const RegisterSupplierPF = () => {
 
 export const RegisterSupplierPJ = () => {
   const { state } = useLocation();
-  const [mask, onBlur, onChange, error] = useForm();
+  const { mask, onBlur, onChange, error } = useForm();
   const [formValues, setFormValues] = useState({
     fotos: '',
     supplier: {
