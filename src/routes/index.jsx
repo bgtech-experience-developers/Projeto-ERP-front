@@ -27,6 +27,7 @@ import { PfSupplierTable, PjSupplierTable } from "../screens/Tables/supplier";
 import UserLogin from "../screens/Login";
 import { AuthProvider } from "../contexts/AuthContext";
 import { CreateSucess, UpdateSucess } from "../screens/RegisterSucess";
+import { PasswordReset } from "../screens/PasswordReset";
 
 export const AppRoutes = () => {
   const { isActive, isHover } = React.useContext(SidebarContext);
@@ -37,6 +38,8 @@ export const AppRoutes = () => {
       <AuthProvider>
         <Routes>
           <Route path="/" element={<UserLogin />} />
+          <Route path="/resetar-senha" element={<PasswordReset />} />
+          
 
           <Route
             path="/*"
