@@ -16,7 +16,6 @@ import Checkbox from '../../../components/Forms/Inputs/Checkbox';
 
 export const UpdateSupplier = () => {
   const { state } = useLocation();
-  console.log('olá');
 
   const { mask, onBlur, removeErrorOnChange, error } = useForm();
   const [formValues, setFormValues] = useState({
@@ -51,7 +50,25 @@ export const UpdateSupplier = () => {
     },
   });
 
-  useEffect(() => {}, [state]);
+  useEffect(() => {
+    console.log(state);
+
+    if (state?.clients) {
+      setFormValues({
+        ...formValues,
+        supplier: {
+          name: state.clients.supplier_name,
+          email: state.clients.email,
+          phone: state.clients.phone,
+          cell_phone: mask('phone', state.clients.phone),
+          rg: state.clients.rg,
+          cpf: mask('cpf', state.clients.cpf),
+          birth_date: '',
+          imagem: state.clients.image,
+        },
+      });
+    }
+  }, [state]);
 
   const [errorImage, setErrorImage] = useState(false);
 
@@ -101,7 +118,7 @@ export const UpdateSupplier = () => {
               name="name"
               id="supplier_name"
               height="4.8rem"
-              value={formValues.supplier_name}
+              value={formValues.supplier.name}
               onChange={handleInputChange('supplier')}
               onBlur={onBlur}
             >
@@ -112,7 +129,7 @@ export const UpdateSupplier = () => {
             <Input
               id="email"
               name="email"
-              value={formValues.email}
+              value={formValues.supplier.email}
               onChange={handleInputChange('supplier')}
               onBlur={onBlur}
               height="4.8rem"
@@ -138,7 +155,7 @@ export const UpdateSupplier = () => {
           <Input
             id="cell_phone"
             name="cell_phone"
-            value={formValues.cell_phone}
+            value={formValues.supplier.cell_phone}
             onChange={handleInputChange('supplier')}
             onBlur={onBlur}
             height="4.8rem"
@@ -152,7 +169,7 @@ export const UpdateSupplier = () => {
           <Input
             id="rg"
             name="rg"
-            value={formValues.rg}
+            value={formValues.supplier.rg}
             onChange={handleInputChange('supplier')}
             onBlur={onBlur}
             height="4.8rem"
@@ -163,7 +180,7 @@ export const UpdateSupplier = () => {
           <Input
             id="cpf"
             name="cpf"
-            value={formValues.cpf}
+            value={formValues.supplier.cpf}
             onChange={handleInputChange('supplier')}
             onBlur={onBlur}
             height="4.8rem"
@@ -174,7 +191,7 @@ export const UpdateSupplier = () => {
           <Input
             id="date_of_birth"
             name="date_of_birth"
-            value={formValues.birth_date}
+            value={formValues.supplier.birth_date}
             onChange={handleInputChange('supplier')}
             height="4.8rem"
             type="date"
